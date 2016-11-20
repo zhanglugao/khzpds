@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.khzpds.dao.UserInfoDao">
+
+	 <resultMap id="userInfoResultMap" type="com.khzpds.vo.UserInfoInfo">
+        <id property="id" column="id" />
+        <result property="userName" column="user_name" />    
+        <result property="mail" column="mail" />    
+        <result property="password" column="password" />    
+    </resultMap>
+    
+    <!--根据主键查询-->
+	<select id="findById" resultMap="userInfoResultMap">
+		select id,user_name,mail,password from user_info where id=#{id}
+	</select>
+    
+    <!--插入-->
+	 <insert id="insert" parameterType="com.khzpds.vo.UserInfoInfo" >
+    	INSERT INTO user_info
+        (id,user_name,mail,password) 
+		values(#{id},#{userName},#{mail},#{password})
+    </insert>
+  
+	<!--CustomBegin***-->
+	<!--CustomEnd*****-->
+</mapper>

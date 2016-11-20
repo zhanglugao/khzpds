@@ -1,0 +1,38 @@
+/*@font-face {
+  font-family: 'ZAO ZI';  
+  src:url('../fonts/zzgf.OTF');     
+}*/
+.main{width:100%;height: auto;overflow: hidden;background: url(../images/login-main.png) no-repeat; }
+.main .main-i{height:auto;overflow: hidden;}
+.form{width: 820px;height: 635px; margin-top: 169px; }
+.form form{width: 720px;height: 570px; float: right;;margin-left:100px;margin-top: 10px;}
+.form form h2{color: #fff;margin-bottom:20px;font-weight: bold;font-size: 24px;}
+.form form .input{height:44px; width: auto; overflow: hidden; margin-top:25px;}
+.form form .input label{height: 36px;font-size: 18px;line-height:36px; text-align: left;color:#fff; width: 120px;line-height: 36px;float:left;}
+.form form .input label em{color:red;}
+.form form .input input[type="text"],.form form .input input[type="password"]{height: 44px;margin-left:60px;line-height: 44px;text-align: left; font-size:14px; width: 300px;padding-left: 5px;color:#666; float: left;}
+.yzm{background: #f9671e;width: 136px;display:inline-block;margin-left: 10px;color:#fff;height: 44px;line-height: 44px;text-align: center;}
+.shengm{padding-left: 180px; margin-top: 16px;width: 450px;}
+.shengm span{height:32px;line-height: 32px;font-size: 16px;color: #faab12;text-align:center;display: inline-block;}
+.form form .input input[type="button"]{height: 44px;line-height: 44px;background:#f9671e;border:none;*+border:0;color:#fff;text-align:center; font-size:14px; width: 309px;padding-left: 5px;font-weight:bold; float: left;}
+.destimg{margin-top: 277px;margin-right:96px; }
+.destimg img{display: inline-block;}
+.shengming span.zh{color:#fff;margin-top: -10px}
+.shengming span.zh a{color: #fff;}
+/*登录*/
+.login-banner{margin-left:200px;margin-top: 237px;height:auto;overflow: hidden;}
+.lg-banner{height:980px; background:#a8db4e;}
+
+.login{width: 384px;height: 409px;background: url(../images/lg-bg.png) no-repeat;padding: 40px 22px;}
+.login form{width: 340px;height: 340px;border: 1px solid #a0b1c4;}
+.login ul{height:49px;border: 1px solid #a0b1c4;width: 340px; border-bottom:none; }
+.login ul li{float: left;margin:0 30px;}
+.login ul li a{font-size:16px;height: 48px;line-height:48px;text-align: center; padding:0 10px;display: inline-block;color: #999999;}
+.login ul li .curr{border-bottom:1px solid #465767; color: #000;}
+.user,.password{height:40px;width:340px; float: left}
+.user input,.password input{height:38px;width: 282px; border: 1px solid #96a5b4;float: left;margin:0 25px; padding-left: 5px;color:#959ba0;line-height: 40px;}
+.auto{height:40px;width:340px; float: left;padding: 0 25px;}
+.auto input{margin-top: 16px;display: inline-block;float: left}
+.auto span{display: inline-block; line-height: 24px;height: 24px;text-align: left;font-size: 12px; margin:10px;*+margin-top:16px}
+.btn input{height:38px;width: 287px; background:#5a98de;color: #fff; cursor: pointer; border:none;*+border:0;float: left;margin:0 25px; padding-left: 5px;font-size: 20px;}
+.forget a{ display: inline-block; height:24px;line-height: 24px;text-align: center; padding: 0 4px;font-size: 12px; }

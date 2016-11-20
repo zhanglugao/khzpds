@@ -7,7 +7,7 @@
 	<packaging>war</packaging>
 	<properties>
 		<!-- spring版本号 -->
-		<spring.version>3.2.8.RELEASE</spring.version>
+		<spring.version>4.1.6.RELEASE</spring.version>
 		<!-- log4j日志文件管理包版本 -->
 		<slf4j.version>1.6.6</slf4j.version>
 		<log4j.version>1.2.12</log4j.version>
@@ -136,8 +136,47 @@
 			<version>7.0</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- fastjson -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.5</version>
+		</dependency>
+		
+		<!-- commons -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
+		<resources>
+			<!-- 先指�?src/main/resources下所有文件及文件夹为资源文件 -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+			<!-- 设置对config.properties进行过虑，即这些文件中的${key}会被替换掉为真正的�? -->
+			<!-- <resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>log4j.properties</include>
+					<include>config.properties</include>
+					<include>chinahrt-activity.xml</include>
+					<include>chinahrt-dao.xml</include>
+					<include>chinahrt-job.xml</include>
+					<include>chinahrt-redis.xml</include>
+					<include>chinahrt-log.xml</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource> -->
+		</resources> 
+		
 		<plugins>
 			<plugin>  
 		        <groupId>org.apache.maven.plugins</groupId>  
