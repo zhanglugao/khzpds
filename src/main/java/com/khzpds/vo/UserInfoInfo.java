@@ -11,7 +11,7 @@ public class UserInfoInfo implements Serializable
 	
 	private String id;   
 	private String userName;   
-	private Integer mail;   
+	private String mail;   
 	private String password;   
     
     public UserInfoInfo(){}
@@ -32,11 +32,11 @@ public class UserInfoInfo implements Serializable
 		this.userName = userName;
 	}
 
-	public Integer getMail() {
+	public String getMail() {
 		return mail;
 	}
 
-	public void setMail(Integer mail) {
+	public void setMail(String mail) {
 		this.mail = mail;
 	}
 

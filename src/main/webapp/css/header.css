@@ -2,10 +2,11 @@
 .head-i{ height: 70px;}
 .logo{display:inline-block;}
 /*导航*/
-.nav{width:auto;overflow: hidden; height: 40px;}
+.nav{width:auto;overflow: hidden; height: 70px;}
 .nav-text{height: auto;overflow: hidden;}
-.nav-text li{float: left; height: 40px;margin: 0 12px;}
-.nav-text li a{display: inline-block; height: 40px; color:#fff; padding: 0 6px;font-size: 20px; line-height: 40px; text-align:center;}
+.nav-text li{float: left; height: 70px;margin: 0 12px;}
+.nav-text li a{display: inline-block; height: 70px; color:#fff; padding: 0 6px;font-size: 20px; line-height: 70px; text-align:center;}
+.nav-text li .cur{background:#016bff; height: 70px;}
 .head-login{height: 40px;}
 .head-login a{height: 28px;line-height:28px;width:76px;margin:6px 0px; background:url(../images/head-login.png) no-repeat;font-size: 14px;text-align:center; color: #fff;display: inline-block; float:left; margin-left:30px;} 
 /*底部*/

@@ -6,8 +6,11 @@
 <link rel="stylesheet" href="/css/style.css"/>
 <link rel="stylesheet" href="/css/login.css"/>
 <link rel="stylesheet" href="/css/header.css"/>
+<link rel="stylesheet" href="/js/layer/skin/layer.css"/>
 <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/js/jquery.placeholder.min.js"></script>
+<script type="text/javascript" src="/js/layer/layer.js"></script>
+<script type="text/javascript" src='/js/common.js'></script>
 <script type="text/javascript">
 $(function(){ $('input, textarea').placeholder(); });
 </script>
@@ -41,38 +44,38 @@ $(function(){ $('input, textarea').placeholder(); });
      	 <div class="main-i w1348 m0">
                <div class="form fl">
                   
-                   <form>
+                   <form id='form'>
                        <h2>▎新用户注册</h2>
                        <div class="input">
                            <label><em>*</em> 会员名称</label>
-                           <input type="text" placeholder="会员名称" >
+                           <input id='userName' name='userName' type="text" placeholder="会员名称" >
                        </div>
                        <div class="input">
                            <label><em>*</em> 创建密码</label>
-                           <input type="password" placeholder="创建密码" >
+                           <input id='password' name='password' type="password" placeholder="创建密码" >
                        </div>
                        <div class="input">
                            <label><em>*</em> 确认密码</label>
-                           <input type="password" placeholder="确认密码" >
+                           <input id='password2' name='password2' type="password" placeholder="确认密码" >
                        </div>
                        <div class="input">
                            <label><em>*</em> 电子邮箱</label>
-                           <input type="text" placeholder="电子邮箱" >
+                           <input id='mail' name='mail' type="text" placeholder="电子邮箱" >
                        </div>
                        <div class="input">
                            <label><em>*</em> 邮箱验证码</label>
-                           <input type="text" placeholder="邮箱验证码" style="width: 155px;">
-                           <a   class="yzm" href="javascript:;"  style="">获取验证码</a>
+                           <input name='verifyCode' id='verifyCode' type="text" placeholder="邮箱验证码" style="width: 155px;">
+                           <a onclick='sendVerifyCode()' id='getCode' class="yzm" href="javascript:;" style="">获取验证码</a>
                        </div>
                        <div class="input shengm">
-                           <input type="checkbox">
-                           <span>参赛作品的著作权保护问题的声明</span>
+                           <input id='checkbox' type="checkbox">
+                           <span id='sm'>参赛作品的著作权保护问题的声明</span>
                        </div>
                        <div class="input shengm">
-                           <input class="fr" type="button" value="注  册">
+                           <input style='cursor:pointer' onclick='register()' class="fr" type="button" value="注  册">
                        </div>
                         <div class="shengm">
-                           <span class="ml50 zh">已经有账号？点击这里<a href="javascript:;">登录</a></span>
+                           <span class="ml50 zh">已经有账号？点击这里<a href="login.html">登录</a></span>
                        </div>
                    </form>
                </div>
@@ -88,12 +91,127 @@ $(function(){ $('input, textarea').placeholder(); });
               Copyright © 2016-2017 Science  contest
         </div>
      </div>
-
-
-
-
-
-	
-	
+     <div id='successDiv' style='display:none'>
+     	注册成功!<span id='jumpTime'>2</span>秒后跳转到首页。
+     </div>
 </body>
-	</html>
+<script type="text/javascript">
+	//发送验证码  首先校验 邮箱填写是否合法
+	var t=120;
+	var t1;
+	var x=2;
+	var x1;
+	function sendVerifyCode(){
+		var mail=$("#mail").val();
+		if(!isEmail(mail)){
+			layer.tips('邮箱格式非法', '#mail',{tips:[2,tipsColor]});return;
+		}
+		layer.load(1);
+		$.ajax({
+			url:'/user/sendVerifyCode',
+			data:"mail="+mail,
+			success:function(data){
+				layer.closeAll();
+				if(data=='fail'){
+					layer.alert("发送失败，请重试或更换邮箱");
+				}else if(data=='success'){
+					layer.msg("发送成功,120秒后可重新发送",{icon:1});
+					$("#getCode").text("120秒可重新发送");
+					$("#getCode").removeAttr("onclick");
+					$("#getCode").css("background","#888888");
+					t=120;
+					t1 = window.setInterval(codeButtonChange,1000); 
+				}
+			},error:function(){
+				layer.closeAll();
+				layer.alert("系统错误，请重试或联系管理员");
+			}
+		});
+	}
+	function codeButtonChange(){
+		if(t<=0){
+			$("#getCode").text("获取验证码");
+			$("#getCode").css("background","#f9671e");
+			$("#getCode").attr("onclick","sendVerifyCode()");
+			window.clearInterval(t1);
+		}else{
+			t=t-1;
+			$("#getCode").text(t+"秒可重新发送");
+		}
+	}
+	var tipsColor="#ff0000";
+	function register(){
+		var userName=$("#userName").val();
+		if(trim(userName)==''){
+			layer.tips('请填写会员名称', '#userName',{tips:[2,tipsColor]});return;
+		}
+		if(userName.length<3||userName.length>10){
+			layer.tips('会员名称长度必须介于3~10位之间', '#userName',{tips:[2,tipsColor]});return;
+		}
+		var password=$("#password").val();
+		if(trim(password)==''){
+			layer.tips('请填写密码', '#password',{tips:[2,tipsColor]});return;
+		}
+		if(password.length<6||password.length>20){
+			layer.tips('密码长度必须介于6~20位之间', '#password',{tips:[2,tipsColor]});return;
+		}
+		var password2=$("#password2").val();
+		if(password2!=password){
+			layer.tips('两次填写密码必须一致', '#password2',{tips:[2,tipsColor]});return;
+		}
+		var mail=$("#mail").val();
+		if(trim(mail)==''){
+			layer.tips('请填写邮箱', '#mail',{tips:[2,tipsColor]});return;
+		}
+		if(!isEmail(mail)){
+			layer.tips('邮箱格式非法', '#mail',{tips:[2,tipsColor]});return;
+		}
+		//校验是否选中 证书
+		
+		var code=$("#verifyCode").val();
+		if(trim(code)==''||trim(code).length!=6){
+			layer.tips('验证码格式错误', '#verifyCode',{tips:[2,tipsColor]});return;
+		}
+		var f=$("input[id='checkbox']").is(':checked');
+		if(!f){
+			layer.tips('请勾选参赛作品的著作权保护问题的声明', '#sm',{tips:[2,tipsColor]});return;
+		}
+		$.ajax({
+			url:"/user/register",
+			data:$("#form").serialize(),
+			dataType:"json",
+			success:function(data){
+				if(data.status=='0'){
+					//成功
+					layer.open({
+						type: 1,
+						content:$("#successDiv"),
+						closeBtn:false,
+						title:false,
+						area: ['120px', '120px']
+					});
+					x=2;
+					x1=window.setInterval(changeSuccess,1000); 
+				}else if(data.status=='1'){
+					layer.alert(data.error_desc);
+				}
+			},error:function(){
+				layer.alert("系统错误，请重试或联系管理员");
+			}
+		});
+	}
+	function changeSuccess(){
+		console.log(x);
+		if(x<=0){
+			window.location.href="index.html";
+		}else{
+			x=x-1;
+			$("#jumpTime").text(x);
+		}
+	}
+	function isEmail(str){ 
+		var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
+		return reg.test(str); 
+	} 
+</script>
+</html>

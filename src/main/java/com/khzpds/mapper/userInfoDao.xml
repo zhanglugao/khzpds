@@ -25,5 +25,8 @@
     </insert>
   
 	<!--CustomBegin***-->
+	<select id="findByUserName" resultMap="userInfoResultMap">
+		select id,user_name,mail,password from user_info where user_name=#{userName}
+	</select>
 	<!--CustomEnd*****-->
 </mapper>

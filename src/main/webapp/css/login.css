@@ -2,7 +2,7 @@
   font-family: 'ZAO ZI';  
   src:url('../fonts/zzgf.OTF');     
 }*/
-.main{width:100%;height: auto;overflow: hidden;background: url(../images/login-main.png) no-repeat; }
+.main{width:100%;height: auto;overflow: hidden;background: url(/images/login-main.png) no-repeat;background-size: cover; }
 .main .main-i{height:auto;overflow: hidden;}
 .form{width: 820px;height: 635px; margin-top: 169px; }
 .form form{width: 720px;height: 570px; float: right;;margin-left:100px;margin-top: 10px;}
@@ -23,7 +23,7 @@
 .login-banner{margin-left:200px;margin-top: 237px;height:auto;overflow: hidden;}
 .lg-banner{height:980px; background:#a8db4e;}
 
-.login{width: 384px;height: 409px;background: url(../images/lg-bg.png) no-repeat;padding: 40px 22px;}
+.login{width: 384px;height: 409px;background: url(/images/lg-bg.png) no-repeat;padding: 40px 22px;}
 .login form{width: 340px;height: 340px;border: 1px solid #a0b1c4;}
 .login ul{height:49px;border: 1px solid #a0b1c4;width: 340px; border-bottom:none; }
 .login ul li{float: left;margin:0 30px;}

@@ -108,23 +108,6 @@ public class BaseController {
 	protected SessionInfo getCurrentSessionInfo(HttpServletRequest request) {
 	  //TODO:获取session 中的 key �?currentUser，并转换�?SessionInfo
 		SessionInfo sessionInfo=(SessionInfo)request.getSession().getAttribute(BusinessConfig.USER_SESSION_KEY);
-		if(sessionInfo==null){
-			
-			sessionInfo=new SessionInfo();
-			sessionInfo.setPlatFormId("1");
-//			sessionInfo.setLoginDomain("www.chinahrt.com");
-//			sessionInfo.setOrgId("111");
-//			sessionInfo.setOrgName("�?���?);
-//			sessionInfo.setPlatFormId("1");
-//			sessionInfo.setPlatFormName("国培网运营方");
-//			sessionInfo.setUserId("0001");
-//			sessionInfo.setUserName("admin");
-//			sessionInfo.setRealName("超级管理�?);
-//			sessionInfo.setRoleType(DictionaryConst.JIAO_SE_MO_BAN_LEI_XING_PEI_XUN_ZU_ZHI_FANG);
-//			sessionInfo.setDepartment("第一中学");
-//			sessionInfo.setUserIdCard("13240419859113780");
-//			sessionInfo.setRoleType(DictionaryConst.JIAO_SE_MO_BAN_LEI_XING_YUN_YING_FANG);
-		}
 	    return sessionInfo; 
     }
 	
@@ -133,16 +116,6 @@ public class BaseController {
     }
 	
 	protected String getRootPath(HttpServletRequest request) {
-//	    StringBuffer url = request.getRequestURL();  
-//	    String domain = url.delete(url.length() - request.getRequestURI().length(), url.length()).append("/").toString();  
-	   /* String domain=getCurrentSessionInfo(request).getLoginDomain();
-	    if(domain==null){
-	    	return "/default";
-	    }
-	    domain=domain.replace("http://", "");
-	    if(ScanPlatformTemplateFolder.templateFolders.containsKey(domain)) 
-	        return "/"+domain;
-	    else*/
 		request.setAttribute("userName", this.getCurrentSessionInfo(request).getUserName());
 	    return "/default";
 	}

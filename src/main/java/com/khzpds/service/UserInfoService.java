@@ -15,9 +15,15 @@ public class UserInfoService extends IBaseService<UserInfoInfo> {
     public void setUserInfoRepository(UserInfoDao repository) {  
         setRepository(repository);  
         userInfoDao=repository;
-    }  
+    }
+
+	
     
     //--CustomBegin***///
+    public UserInfoInfo findByUserName(String userName) {
+		// TODO Auto-generated method stub
+		return userInfoDao.findByUserName(userName);
+	}  
 //--CustomEnd*****///
 }
 
