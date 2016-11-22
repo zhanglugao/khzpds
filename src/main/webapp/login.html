@@ -6,9 +6,12 @@
 <link rel="stylesheet" href="/css/style.css"/>
 <link rel="stylesheet" href="/css/login.css"/>
 <link rel="stylesheet" href="/css/header.css"/>
-
 <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/js/jquery.placeholder.min.js"></script>
+<script type="text/javascript" src="/js/layer/layer.js"></script>
+<script type="text/javascript" src='/js/common.js'></script>
+<script type="text/javascript" src='/js/cookieOperate.js'></script>
+<script type="text/javascript" src='/js/autoLogin.js'></script>
 <script type="text/javascript">
 $(function(){ $('input, textarea').placeholder(); });
 </script>
@@ -22,13 +25,13 @@ $(function(){ $('input, textarea').placeholder(); });
 	               </i>
 	              <div class="nav fr mt15">
 	                  <ul class="nav-text fl">
-	                        <li><a href="javascript:;">首页</a></li>
-	                        <li><a href="javascript:;">科幻小说报名</a></li>
-	                        <li><a href="javascript:;">科幻画报报名</a></li>
-	                        <li><a href="javascript:;">科幻微视频报名</a></li>
+	                        <li><a href="index.html">首页</a></li>
+	                        <li><a href="novel.html">科幻小说报名</a></li>
+	                        <li><a href="draw.html">科幻画报报名</a></li>
+	                        <li><a href="video.html">科幻微视频报名</a></li>
 	                  </ul>
 	                  <p class="head-login fl">
-	                       <a href="javascript:;">首  页</a>
+	                       <a href="index.html">首  页</a>
 	                       <a href="register.html">注  册</a>
 	
 	                  </p>
@@ -49,20 +52,20 @@ $(function(){ $('input, textarea').placeholder(); });
 	                         </ul>
 	                      <form>
 	                         <div class="user mt40">
-	                               <input type="text"  placeholder="用户名">
+	                             <input id='userName' type="text"  placeholder="用户名">
 	                         </div>
 	                          <div class="password mt10">
-	                                 <input type="password"  placeholder="密码">
+	                          	<input id='password' type="password"  placeholder="密码">
 	                         </div>
 	                         <div class="auto mt10">
-	                               <input type="checkbox" ><span>下次自动登录</span>
+	                               <input id="checkbox" type="checkbox" ><span>下次自动登录</span>
 	                         </div>
 	                          <div class="btn fl mt20">
-	                               <input type="button" value="登   录">
+	                               <input onclick='login()' type="button" value="登   录">
 	                         </div>
 	                          <div class="mt20 forget fl mt50 ml100">
 	                               <a href="javascript:;">忘记密码? |</a>
-	                               <a href="javascript:;">注册新账号 |</a>
+	                               <a href="register.html">注册新账号 |</a>
 	                                <a href="javascript:;">意见反馈</a>
 	                         </div>
 	
@@ -79,4 +82,48 @@ $(function(){ $('input, textarea').placeholder(); });
 	        </div>
 	     </div>
 	</body>
+	<script type="text/javascript">
+		var tipsColor="#ff0000";
+		function login(){
+			var userName=$("#userName").val();
+			var password=$("#password").val();
+			if(trim(userName)==''){
+				layer.tips('请输入用户名', '#userName',{tips:[2,tipsColor]});return;
+			}
+			if(trim(password)==''){
+				layer.tips('请输入密码', '#password',{tips:[2,tipsColor]});return;
+			}
+			if(password.length<6){
+				layer.msg("用户名或密码错误",{icon:2});
+			}
+			var f=$("input[id='checkbox']").is(':checked');
+			$.ajax({
+				url:"/user/login",
+				data:"userName="+userName+"&password="+password,
+				dataType:"json",
+				type:"post",
+				success:function(data){
+					if(data.status=='1'){
+						layer.msg(data.error_desc,{icon:2});
+					}else if(data.status=='0'){
+						if(f){
+							//往cookie中写 用户名密码 用来下次登陆
+							setUserInfo2Cookie(userName,password);
+						}else{
+							//不选自动登录后 是否删除之前的记录
+							/* delCookie("userName");
+							delCookie("password"); */
+						}
+						window.location.href=data.jump_url;
+					}
+				},error:function(){
+					layer.alert("系统错误，请重试或联系管理员");
+				}
+			});
+		}
+		function setUserInfo2Cookie(userName,password){
+			setCookie("userName", userName, "d30");
+			setCookie("password", password, "d30");
+		}
+	</script>
 </html>

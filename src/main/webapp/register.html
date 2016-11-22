@@ -10,7 +10,10 @@
 <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/js/jquery.placeholder.min.js"></script>
 <script type="text/javascript" src="/js/layer/layer.js"></script>
+
 <script type="text/javascript" src='/js/common.js'></script>
+<script type="text/javascript" src='/js/cookieOperate.js'></script>
+<script type="text/javascript" src='/js/autoLogin.js'></script>
 <script type="text/javascript">
 $(function(){ $('input, textarea').placeholder(); });
 </script>
@@ -24,13 +27,13 @@ $(function(){ $('input, textarea').placeholder(); });
                </i>
               <div class="nav fr mt15">
                   <ul class="nav-text fl">
-                        <li><a href="javascript:;">首页</a></li>
-                        <li><a href="javascript:;">科幻小说报名</a></li>
-                        <li><a href="javascript:;">科幻画报报名</a></li>
-                        <li><a href="javascript:;">科幻微视频报名</a></li>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="novel.html">科幻小说报名</a></li>
+                        <li><a href="draw.html">科幻画报报名</a></li>
+                        <li><a href="video.html">科幻微视频报名</a></li>
                   </ul>
                   <p class="head-login fl">
-                       <a href="javascript:;">首  页</a>
+                       <a href="index.html">首  页</a>
                        <a href="login.html">登  录</a>
 
                   </p>
@@ -146,7 +149,7 @@ $(function(){ $('input, textarea').placeholder(); });
 			layer.tips('请填写会员名称', '#userName',{tips:[2,tipsColor]});return;
 		}
 		if(userName.length<3||userName.length>10){
-			layer.tips('会员名称长度必须介于3~10位之间', '#userName',{tips:[2,tipsColor]});return;
+			layer.tips('会员名称长度必须介于3~15位之间', '#userName',{tips:[2,tipsColor]});return;
 		}
 		var password=$("#password").val();
 		if(trim(password)==''){
@@ -179,17 +182,20 @@ $(function(){ $('input, textarea').placeholder(); });
 		$.ajax({
 			url:"/user/register",
 			data:$("#form").serialize(),
+			type:"post",
 			dataType:"json",
 			success:function(data){
 				if(data.status=='0'){
 					//成功
-					layer.open({
+					/* layer.open({
 						type: 1,
 						content:$("#successDiv"),
 						closeBtn:false,
 						title:false,
 						area: ['120px', '120px']
-					});
+					}); */
+					jump_url=data.jump_url;
+					layer.msg("注册成功，2秒后自动跳转至首页",{icon:1})
 					x=2;
 					x1=window.setInterval(changeSuccess,1000); 
 				}else if(data.status=='1'){
@@ -200,13 +206,14 @@ $(function(){ $('input, textarea').placeholder(); });
 			}
 		});
 	}
+	var jump_url;
 	function changeSuccess(){
 		console.log(x);
 		if(x<=0){
-			window.location.href="index.html";
+			window.location.href=jump_url;
 		}else{
 			x=x-1;
-			$("#jumpTime").text(x);
+			//$("#jumpTime").text(x);
 		}
 	}
 	function isEmail(str){ 

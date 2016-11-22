@@ -12,6 +12,14 @@ public class SessionInfo implements Serializable{
     private String password;
     private String verifyCode;//注册时发送的验证码
     private Date sendVerifyCodeTime;
+    private Boolean ifLogin;//是否登录
+    
+	public Boolean getIfLogin() {
+		return ifLogin;
+	}
+	public void setIfLogin(Boolean ifLogin) {
+		this.ifLogin = ifLogin;
+	}
 	public String getUserId() {
 		return userId;
 	}

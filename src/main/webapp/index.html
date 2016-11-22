@@ -3,12 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <title>科幻作品大赛--引导页</title>
-<link rel="stylesheet" href="css/style.css"/>
-<link rel="stylesheet" href="css/header.css"/>
-<link href="css/guide.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="js/jquery.SuperSlide.2.1.1.js"></script>
-</style>
+<link rel="stylesheet" href="/css/style.css"/>
+<link rel="stylesheet" href="/css/header.css"/>
+<link href="/css/guide.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/js/jquery.SuperSlide.2.1.1.js"></script>
+
+<script type="text/javascript" src='/js/common.js'></script>
+<script type="text/javascript" src='/js/cookieOperate.js'></script>
+<script type="text/javascript" src='/js/autoLogin.js'></script>
 </head>
 <body>
      <!-- 头部 -->
@@ -64,15 +67,15 @@
                           <span><img src="images/g1-1.png" width="120" height="28" alt="大赛通知"></span>
                       </dd>
                       <dd>
-                          <a href="javascript:;" class="novel" onclick="enter();"></a>
+                          <a href="novel.html" class="novel" ></a>
                           <span><img src="images/g2.png" width="120" height="30" alt="科幻小说报名"></span>
                       </dd>
                       <dd>
-                          <a href="javascript:;" class="draw" onclick="enter();"></a>
+                          <a href="draw.html" class="draw" ></a>
                           <span><img src="images/g3.png" width="120" height="30" alt="科幻画报名"></span>
                       </dd>
                       <dd>
-                          <a href="javascript:;" class="video" onclick="enter();"></a>
+                          <a href="video.html" class="video" ></a>
                           <span><img src="images/g4.png" width="120" height="30" alt="科幻视频报名"></span>
                       </dd>
 
@@ -114,11 +117,6 @@ $(document).ready(function(){
   });
 
 });
-</script>
-<script type="text/javascript">
-      function enter(){
-        alert("网站正在建设中！")
-      }
 </script>
 </body>
 	</html>

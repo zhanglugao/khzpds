@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -60,7 +61,10 @@ public class UserController extends BaseController{
 				System.out.println(user);
 				user.setId(UUIDUtil.getUUID());
 				userInfoService.add(user);
+				session=setSession(user);
+				request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, session);
 				result.put("status", "0");
+				result.put("jump_url", "index.html");
 			}
 		}
 		this.writeJson(response, result);
@@ -84,15 +88,68 @@ public class UserController extends BaseController{
 			sessionInfo.setVerifyCode(verifyCode);
 			request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, sessionInfo);
 		}
-		/*//发送邮件
-		 boolean res= EmailTool.SendEmail(mail, "科幻创意大赛", "验证码是:"+verifyCode);
+		//发送邮件
+		 boolean res= EmailTool.SendEmail(mail, "科幻创意大赛", "您的注册验证码是:"+verifyCode+"，请在30分钟内输入完成注册。");
 	     if(res){
 	    	 this.writeString(response, "success");
 	     }else{
 	    	 this.writeString(response, "fail");
-	     }*/
-		this.writeString(response, "success");
+	     }
+		//this.writeString(response, "success");
 	}
 	
+	/***
+	 * 登录
+	 * @param userName
+	 * @param password
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/login")
+	public void login(String userName,String password,HttpServletRequest request,HttpServletResponse response){
+		Map<String,Object> result=new HashMap<String, Object>();
+		if(StringUtils.isEmpty(userName)||StringUtils.isEmpty(password)){
+			result.put("status", "1");
+			result.put("error_desc", "用户名或密码为空");
+		}else{
+			UserInfoInfo user=userInfoService.findByUserName(userName);
+			if(user==null||!password.equals(user.getPassword())){
+				result.put("status", "1");
+				result.put("error_desc", "用户名或密码错误");
+			}else{
+				//校验成功
+				SessionInfo session=setSession(user);
+				request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, session);
+				result.put("status", "0");
+				result.put("jump_url", "index.html");
+			}
+		}
+		this.writeJson(response, result);
+	}
+	
+	private SessionInfo setSession(UserInfoInfo user){
+		SessionInfo session=new SessionInfo();
+		session.setIfLogin(true);
+		session.setMail(user.getMail());
+		session.setPassword(user.getPassword());
+		session.setUserId(user.getId());
+		session.setUserName(user.getUserName());
+		return session;
+	}
+	
+	/***
+	 * 获取登录状态 0 未登录  1已登录
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/loginStatus")
+	public void getLoginStatus(HttpServletRequest request,HttpServletResponse response){
+		SessionInfo session=getCurrentSessionInfo(request);
+		if(session==null||session.getIfLogin()==null||!session.getIfLogin()){
+			this.writeString(response, "0");
+		}else{
+			this.writeString(response, "1");
+		}
+	}
 
 }
