@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.khzpds.dao.UserRoleDao">
+
+	 <resultMap id="UserRoleResultMap" type="com.khzpds.vo.UserRoleInfo">
+        <id property="userId" column="user_id" />
+        <id property="roleId" column="role_id" />
+    </resultMap>
+    
+    <!--根据联合主键查询-->
+    <select id="findById" parameterType="java.util.HashMap" resultMap="UserRoleResultMap">
+		select user_id,role_id from user_role where user_id=#{userId} and role_id=#{roleId}
+	</select>
+    
+    <!--插入-->
+	 <insert id="insert" parameterType="com.khzpds.vo.UserRoleInfo" >
+    	INSERT INTO user_role
+        (user_id,role_id) 
+		values(#{userId},#{roleId})
+    </insert>
+
+    
+    <!--根据传入的map参数查询 并分页-->
+    <select id="findByParamForPage" resultMap="UserRoleResultMap" >
+		select user_id,role_id from user_role
+		where 1=1
+           <if test="obj.search.userId!=null"> AND user_id = #{obj.search.userId}</if>
+           <if test="obj.search.roleId!=null"> AND role_id = #{obj.search.roleId}</if>
+
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+        <if test="obj.orderField!=null and obj.orderType!=null"> order by ${obj.orderField} ${obj.orderType}</if>
+	</select>
+    
+     <!--根据传入的实体参数查询-->
+    <select id="findByParam" resultMap="UserRoleResultMap" >
+		select user_id,role_id from user_role
+		where 1=1
+           <if test="obj.userId!=null"> AND user_id = #{obj.userId}</if>
+           <if test="obj.roleId!=null"> AND role_id = #{obj.roleId}</if>
+
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+	</select>
+    
+     <!--根据联合主键进行删除-->
+	<delete id="deleteById" parameterType="java.util.HashMap">
+    	delete from user_role where user_id=#{userId} and role_id=#{roleId}
+    </delete>
+    
+    <!--根据实体进行更新-->
+	<update id="update" >
+    	update user_role 
+        <trim prefix="SET" suffixOverrides=",">
+           <if test="obj.userId!=null">user_id=#{obj.userId},</if>
+           <if test="obj.roleId!=null">role_id=#{obj.roleId},</if>  
+        </trim>
+		where user_id=#{obj.userId}  and role_id=#{obj.roleId} 
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+    </update> 
+	<!--CustomBegin***--><!--CustomEnd*****-->
+</mapper>

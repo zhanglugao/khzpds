@@ -9,7 +9,9 @@
 <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/js/jquery.placeholder.min.js"></script>
 <script type="text/javascript" src="/js/layer/layer.js"></script>
+
 <script type="text/javascript" src='/js/common.js'></script>
+<script type="text/javascript" src='/js/jbase64.js'></script>
 <script type="text/javascript" src='/js/cookieOperate.js'></script>
 <script type="text/javascript" src='/js/autoLogin.js'></script>
 <script type="text/javascript">
@@ -61,7 +63,7 @@ $(function(){ $('input, textarea').placeholder(); });
 	                               <input id="checkbox" type="checkbox" ><span>下次自动登录</span>
 	                         </div>
 	                          <div class="btn fl mt20">
-	                               <input onclick='login()' type="button" value="登   录">
+	                               <input id='loginbtn' onclick='login()' type="button" value="登   录">
 	                         </div>
 	                          <div class="mt20 forget fl mt50 ml100">
 	                               <a href="javascript:;">忘记密码? |</a>
@@ -122,8 +124,27 @@ $(function(){ $('input, textarea').placeholder(); });
 			});
 		}
 		function setUserInfo2Cookie(userName,password){
-			setCookie("userName", userName, "d30");
-			setCookie("password", password, "d30");
+			setCookie("userName", BASE64.encoder(userName), "d30");
+			setCookie("password", BASE64.encoder(password), "d30");
 		}
+		
+		
+		if (document.addEventListener) {// 如果是Firefox
+			document.addEventListener("keypress", fireFoxHandler, true);
+		} else {
+			document.attachEvent("onkeypress", ieHandler);
+		}
+
+		function fireFoxHandler(evt) {
+			if (evt.keyCode == 13) {
+				$("#loginbtn").click();
+			}
+		}
+		function ieHandler(evt) {
+			if (evt.keyCode == 13) {
+				$("#loginbtn").click();
+			}
+		}
+		document.getElementById("userName").focus();
 	</script>
 </html>

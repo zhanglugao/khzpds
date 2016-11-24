@@ -9,7 +9,7 @@ public interface IBaseDao<T> {
     /**
      * 根据id查询对象
      */
-    public T findById(@Param("id")Serializable id);
+    public T findById(@Param("id")Serializable id,@Param("platformId")String platformId);
     
     /**
      * 根据联合主键查询对象
@@ -19,12 +19,12 @@ public interface IBaseDao<T> {
     /**
      * 根据实体查询对象
      */
-    public List<T> findByParam(@Param("obj")T param);
+    public List<T> findByParam(@Param("obj")T param,@Param("platformId")String platformId);
     
      /**
      * 根据map查询对象并分�?
      */
-    public List<T> findByParamForPage(@Param("obj")PageParameter param);
+    public List<T> findByParamForPage(@Param("obj")PageParameter param,@Param("platformId")String platformId);
     
     
     /**
@@ -39,14 +39,14 @@ public interface IBaseDao<T> {
      * @param 对象
      * @return 影响条数
      */
-    public Integer update(@Param("obj")T param);
+    public Integer update(@Param("obj")T param,@Param("platformId")String platformId);
     
     /**
      * 根据主键删除对象
      * @param 主键
      * @return 影响条数
      */
-    public Integer deleteById(@Param("id")Serializable id);
+    public Integer deleteById(@Param("id")Serializable id,@Param("platformId")String platformId);
     
     /**
      * 根据主键删除对象

@@ -2,6 +2,7 @@ package com.khzpds.controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,30 +17,31 @@ import org.springframework.web.servlet.ModelAndView;
 import com.khzpds.base.BaseController;
 import com.khzpds.base.BusinessConfig;
 import com.khzpds.base.SessionInfo;
+import com.khzpds.service.MenuService;
 import com.khzpds.service.UserInfoService;
-import com.khzpds.service.UserService;
 import com.khzpds.util.EmailTool;
 import com.khzpds.util.UUIDUtil;
 import com.khzpds.util.VerifyCodeUtil;
-import com.khzpds.vo.User;
+import com.khzpds.vo.MenuInfo;
 import com.khzpds.vo.UserInfoInfo;
+import com.khzpds.vo.UserRoleInfo;
 
 @Controller
 @RequestMapping("/user")
 public class UserController extends BaseController{
 	@Autowired
-	private UserService userService;
-	@Autowired
 	private UserInfoService userInfoService;
+	@Autowired
+	private MenuService menuService;
 	
+	/***
+	 * 后台用户管理主界面
+	 * @return
+	 */
 	@RequestMapping("/index")  
-    public ModelAndView getIndex(){    
-		ModelAndView mav = new ModelAndView("index"); 
-		User user = userService.selectUserById(1);
-	    mav.addObject("user", user); 
-        return mav;  
+    public ModelAndView getIndex(HttpServletRequest request){ 
+		return new ModelAndView(getRootPath(request)+"/manage/user/user_list");
     }
-	
 	/***
 	 * 注册页
 	 * @return
@@ -53,8 +55,11 @@ public class UserController extends BaseController{
 			result.put("status", "1");
 			result.put("error_desc", "验证码错误或已失效");
 		}else{
-			UserInfoInfo info=userInfoService.findByUserName(user.getUserName());
-			if(info!=null){
+			
+			UserInfoInfo findInfo=new UserInfoInfo();
+			findInfo.setUserName(user.getUserName());
+			List<UserInfoInfo>users=userInfoService.findByParam(findInfo);
+			if(users!=null&&users.size()>0){
 				result.put("status", "1");
 				result.put("error_desc", "用户已存在，请更换用户名");
 			}else{
@@ -89,7 +94,7 @@ public class UserController extends BaseController{
 			request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, sessionInfo);
 		}
 		//发送邮件
-		 boolean res= EmailTool.SendEmail(mail, "科幻创意大赛", "您的注册验证码是:"+verifyCode+"，请在30分钟内输入完成注册。");
+		 boolean res= EmailTool.SendEmail(mail, "科幻创意大赛", "您的注册验证码是:"+verifyCode+"，请在30分钟内输入完成注册。\\r\\n（这是一封自动发送的邮件，请不要直接回复）");
 	     if(res){
 	    	 this.writeString(response, "success");
 	     }else{
@@ -112,16 +117,23 @@ public class UserController extends BaseController{
 			result.put("status", "1");
 			result.put("error_desc", "用户名或密码为空");
 		}else{
-			UserInfoInfo user=userInfoService.findByUserName(userName);
-			if(user==null||!password.equals(user.getPassword())){
+			UserInfoInfo findInfo=new UserInfoInfo();
+			findInfo.setUserName(userName);
+			findInfo.setPassword(password);
+			List<UserInfoInfo>users=userInfoService.findByParam(findInfo);
+			if(users==null||users.size()==0){
 				result.put("status", "1");
 				result.put("error_desc", "用户名或密码错误");
 			}else{
 				//校验成功
-				SessionInfo session=setSession(user);
+				SessionInfo session=setSession(users.get(0));
 				request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, session);
 				result.put("status", "0");
-				result.put("jump_url", "index.html");
+				if(session.getMenus()!=null&&session.getMenus().size()>0){
+					result.put("jump_url", session.getMenus().get(0).getUrl());
+				}else{
+					result.put("jump_url", "index.html");
+				}
 			}
 		}
 		this.writeJson(response, result);
@@ -134,6 +146,14 @@ public class UserController extends BaseController{
 		session.setPassword(user.getPassword());
 		session.setUserId(user.getId());
 		session.setUserName(user.getUserName());
+		session.setRealName(user.getRealName());
+		if("admin".equals(user.getUserName())){
+			List<MenuInfo> menus=menuService.findByParam(new MenuInfo());
+			session.setMenus(menus);
+		}else{
+			List<MenuInfo> menus=menuService.findMenusByUserId(user.getId());
+			session.setMenus(menus);
+		}
 		return session;
 	}
 	

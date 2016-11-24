@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.khzpds.dao.UserInfoDao">
+
+	 <resultMap id="UserInfoResultMap" type="com.khzpds.vo.UserInfoInfo">
+        <id property="id" column="id" />
+        <result property="userName" column="user_name" />    
+        <result property="mail" column="mail" />    
+        <result property="password" column="password" />    
+        <result property="createTime" column="create_time" />    
+        <result property="realName" column="real_name" />    
+        <result property="status" column="status" />    
+        <result property="sex" column="sex" />    
+    </resultMap>
+    
+    <!--根据主键查询-->
+	<select id="findById" resultMap="UserInfoResultMap">
+		select id,user_name,mail,password,create_time,real_name,status,sex from user_info where id=#{id}
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+	</select>
+    
+    <!--插入-->
+	 <insert id="insert" parameterType="com.khzpds.vo.UserInfoInfo" >
+    	INSERT INTO user_info
+        (id,user_name,mail,password,create_time,real_name,status,sex) 
+		values(#{id},#{userName},#{mail},#{password},#{createTime},#{realName},#{status},#{sex})
+    </insert>
+
+    
+    <!--根据传入的map参数查询 并分页-->
+    <select id="findByParamForPage" resultMap="UserInfoResultMap" >
+		select id,user_name,mail,password,create_time,real_name,status,sex from user_info
+		where 1=1
+           <if test="obj.search.id!=null"> AND id = #{obj.search.id}</if>
+           <if test="obj.search.userName!=null"> AND user_name = #{obj.search.userName}</if>
+           <if test="obj.search.mail!=null"> AND mail = #{obj.search.mail}</if>
+           <if test="obj.search.password!=null"> AND password = #{obj.search.password}</if>
+           <if test="obj.search.createTime!=null"> AND create_time = #{obj.search.createTime}</if>
+           <if test="obj.search.realName!=null"> AND real_name = #{obj.search.realName}</if>
+           <if test="obj.search.status!=null"> AND status = #{obj.search.status}</if>
+           <if test="obj.search.sex!=null"> AND sex = #{obj.search.sex}</if>
+
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+        <if test="obj.orderField!=null and obj.orderType!=null"> order by ${obj.orderField} ${obj.orderType}</if>
+	</select>
+    
+     <!--根据传入的实体参数查询-->
+    <select id="findByParam" resultMap="UserInfoResultMap" >
+		select id,user_name,mail,password,create_time,real_name,status,sex from user_info
+		where 1=1
+           <if test="obj.id!=null"> AND id = #{obj.id}</if>
+           <if test="obj.userName!=null"> AND user_name = #{obj.userName}</if>
+           <if test="obj.mail!=null"> AND mail = #{obj.mail}</if>
+           <if test="obj.password!=null"> AND password = #{obj.password}</if>
+           <if test="obj.createTime!=null"> AND create_time = #{obj.createTime}</if>
+           <if test="obj.realName!=null"> AND real_name = #{obj.realName}</if>
+           <if test="obj.status!=null"> AND status = #{obj.status}</if>
+           <if test="obj.sex!=null"> AND sex = #{obj.sex}</if>
+
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+	</select>
+    
+    <!--根据主键进行删除-->
+	<delete id="deleteById"  >
+    	delete from user_info where id=#{id}
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+    </delete>
+    
+    <!--根据实体进行更新-->
+	<update id="update" >
+    	update user_info 
+        <trim prefix="SET" suffixOverrides=",">
+           <if test="obj.id!=null">id=#{obj.id},</if>
+           <if test="obj.userName!=null">user_name=#{obj.userName},</if>
+           <if test="obj.mail!=null">mail=#{obj.mail},</if>
+           <if test="obj.password!=null">password=#{obj.password},</if>
+           <if test="obj.createTime!=null">create_time=#{obj.createTime},</if>
+           <if test="obj.realName!=null">real_name=#{obj.realName},</if>
+           <if test="obj.status!=null">status=#{obj.status},</if>
+           <if test="obj.sex!=null">sex=#{obj.sex},</if>  
+        </trim>
+		where id=#{obj.id} 
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+    </update> 
+	<!--CustomBegin***--><!--CustomEnd*****-->
+</mapper>

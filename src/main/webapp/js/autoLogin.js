@@ -7,7 +7,8 @@ $(document).ready(function(){
 				var userName=getCookie("userName");
 				if(typeof(userName)=='undefined'||userName==null||userName==''){
 				}else{
-					var password=getCookie("password");
+					userName=BASE64.decoder(userName);
+					var password=BASE64.decoder(getCookie("password"));
 					$.ajax({
 						url:"/user/login",
 						type:"post",

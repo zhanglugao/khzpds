@@ -21,7 +21,7 @@ public abstract  class IBaseService<M extends Serializable> {
   * @return List<DictionaryInfo> 出参,符合条件的结果集
   */
  public List<M> findByParam(M findInfo) {
-     return idao.findByParam(findInfo);
+     return idao.findByParam(findInfo,null);
  }
    
    /**
@@ -30,7 +30,7 @@ public abstract  class IBaseService<M extends Serializable> {
   * @return List<DictionaryInfo> 出参,符合条件的结果集
   */
  public List<M> findByParamForPage(PageParameter findInfo) {
-     return idao.findByParamForPage(findInfo);
+     return idao.findByParamForPage(findInfo,null);
  }
  
  /**
@@ -48,7 +48,7 @@ public abstract  class IBaseService<M extends Serializable> {
   * @return 影响条数
   */
  public Integer update(M info) {
-     int result= idao.update(info);
+     int result= idao.update(info,null);
        if(result!=0){
            handleRedis(info,redisUpdateFlag);
        }
@@ -60,7 +60,7 @@ public abstract  class IBaseService<M extends Serializable> {
   * @return 对象id
   */
  public Integer delete(Serializable id) {
-     int result= idao.deleteById(id);
+     int result= idao.deleteById(id,null);
        if(result!=0){
            handleRedis(id,redisDeleteFlag);
        }
@@ -85,7 +85,7 @@ public abstract  class IBaseService<M extends Serializable> {
      M result= null;
        Object redisResult=handleRedis(id,redisSelectFlag);
        if(redisResult==null){
-           result=idao.findById(id);
+           result=idao.findById(id,null);
        }
        else{
            result=(M)redisResult;
