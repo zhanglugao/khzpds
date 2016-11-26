@@ -34,4 +34,16 @@
 	//layer.tips颜色公共提取
 	var tipsColor="#ff0000";
 	var errorText="系统错误，请重试或联系管理员";
+	/**
+	* 加载字典表数据到select中
+	*/
+	function loadDictionarySelect(name,obj){
+		if(obj!=''){
+			var data=eval(obj);
+			for(var o in data){
+				console.log(o);
+				$("#"+name).append("<option value='"+o+"'>"+data[o]+"</option>");
+			}
+		}
+	}
 </script>

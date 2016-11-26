@@ -39,7 +39,7 @@
 		if(total_page<=5){
 			//总页数小于等于5   有多少展示多少
 			for(var p=0;p<total_page;p++){
-				if((p+1)==page){html='<li class="pclass"><a style="background-color:red;" onclick="'+methodName+'('+(p+1)+')" href="javascript:;">'+(p+1)+'</a></li>';}
+				if((p+1)==page){html='<li class="pclass"><a style="background-color:#3585ec;" onclick="'+methodName+'('+(p+1)+')" href="javascript:;">'+(p+1)+'</a></li>';}
 				else{html='<li class="pclass"><a onclick="'+methodName+'('+(p+1)+')" href="javascript:;">'+(p+1)+'</a></li>';}
 				$("#"+phtmlId).before(html);
 			}
@@ -55,7 +55,7 @@
 				html='<li class="pclass"><a href="javascript:;">...</a></li>';$("#next").before(html);
 			}
 			for(var p=0;p<number;p++){
-				if(result[p]==page){html='<li class="pclass"><a style="background-color:red;" onclick="'+methodName+'('+result[p]+')" href="javascript:;">'+result[p]+'</a></li>';}
+				if(result[p]==page){html='<li class="pclass"><a style="background-color:#3585ec;" onclick="'+methodName+'('+result[p]+')" href="javascript:;">'+result[p]+'</a></li>';}
 				else{html='<li class="pclass"><a onclick="'+methodName+'('+result[p]+')" href="javascript:;">'+result[p]+'</a></li>';}
 				$("#"+phtmlId).before(html);
 			}

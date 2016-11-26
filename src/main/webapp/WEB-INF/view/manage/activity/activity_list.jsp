@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>科幻作品大赛管理后台</title>
 <jsp:include page="../common/manage_inc.jsp"></jsp:include>
+<script src="/js/pageset.js" type="text/javascript"></script>
 <meta content='width=device-width,initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 <style>
 .jumpPageInput{
@@ -29,15 +30,27 @@
 			data:"current_page="+currentPage+"&page_size="+pageSize+"&year="+year+"&name="+name+"&status="+status,
 			dataType:"json",
 			success:function(data){
-				console.log(data);
+				$(".datatr").remove();
+				for(var i=0;i<data.rows.length;i++){
+					var obj=data.rows[i];
+					var html="<tr class='datatr'><th>"+obj.name+"</th><th>"+obj.year+"</th><th>"+obj.startTime+"</th><th>"+obj.endTime+"</th>"+
+						"<th>"+obj.status+"</th><th>"+obj.createTime+"</th><th>操作</th></tr>";
+					$("#dataTable").append(html);
+				}
+				setPageHtml(data.total_page, "next", "getData", currentPage);
 			},error:function(){
 				layer.alert(errorText);
 			}
 		});
 	}
 	$(document).ready(function(){
+		loadDictionarySelect("status",${status});
 		getData(1);
 	});
+	
+	function toAdd(){
+		window.location.href="/activity/toAdd";
+	}
 </script>
 </head>
 <body class="skin-blue">
@@ -68,7 +81,7 @@
 				</div>
 				<div class="box-body">
 					<div id='createUserDiv' class="col-lg-2 col-xs-5" style="width:13%">
-						<input name='year' id='createUser' type="text" class="form-control" placeholder="活动年份">
+						<input id='year' name='year' id='createUser' type="text" class="form-control" placeholder="活动年份">
 					</div>
 					<div class="col-lg-2 col-xs-5" style="width:13%">
 						<input id='name' type="text" class="form-control" placeholder="活动名称">
@@ -77,9 +90,9 @@
 						<input id='name' type="text" class="form-control" placeholder="课程名称">
 					</div> -->
 					<div class="box-footer col-lg-2 col-xs-3">
-						<button onclick='getData(1,true)' type="button" class="btn btn-primary">搜索</button>
+						<button onclick='getData(1)' type="button" class="btn btn-primary">搜索</button>
 						&nbsp;&nbsp;
-						<button onclick='addChoose()' type='button' class='btn btn-primary'>创建活动</button>
+						<button onclick='toAdd()' type='button' class='btn btn-primary'>创建活动</button>
 					</div>
 				</div>
 				
@@ -103,10 +116,9 @@
 					</div>
 				</div>
 				<div class="box-footer clearfix">
-					<ul class="pagination pagination-sm no-margin pull-right">
+					<ul class="pagination pagination-sm no-margin pull-left">
 						<li id='previous'><a href="##" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 						<li id='next'><a href="##" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-						<li>&nbsp;&nbsp;&nbsp;<input onchange="jumpPageMethod()" id='jumpPageInput' class='jumpPageInput'/></li>
 					</ul>
 				</div>
 			</section>

@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.khzpds.dao.UserCompletionItemApplyDao">
+
+	 <resultMap id="UserCompletionItemApplyResultMap" type="com.khzpds.vo.UserCompletionItemApplyInfo">
+        <id property="id" column="id" />
+        <result property="userId" column="user_id" />    
+        <result property="userName" column="user_name" />    
+        <result property="activityId" column="activity_id" />    
+        <result property="competitionItemId" column="competition_item_id" />    
+        <result property="competitionType" column="competition_type" />    
+        <result property="createTime" column="create_time" />    
+        <result property="applyStatus" column="apply_status" />    
+        <result property="productionName" column="production_name" />    
+        <result property="applyGroup" column="apply_group" />    
+        <result property="applyYearGroup" column="apply_year_group" />    
+        <result property="realName" column="real_name" />    
+        <result property="birthday" column="birthday" />    
+        <result property="sex" column="sex" />    
+        <result property="schoolName" column="school_name" />    
+        <result property="classCompany" column="class_company" />    
+        <result property="recommenedCompany" column="recommened_company" />    
+        <result property="cardType" column="card_type" />    
+        <result property="cardNumber" column="card_number" />    
+        <result property="telephone" column="telephone" />    
+        <result property="mobilePhone" column="mobile_phone" />    
+        <result property="email" column="email" />    
+        <result property="postcode" column="postcode" />    
+        <result property="address" column="address" />    
+        <result property="ideaDesc" column="idea_desc" />    
+        <result property="filePath" column="file_path" />    
+        <result property="scriptwriter" column="scriptwriter" />    
+        <result property="director" column="director" />    
+        <result property="camerist" column="camerist" />    
+        <result property="editor" column="editor" />    
+        <result property="musician" column="musician" />    
+        <result property="artist" column="artist" />    
+        <result property="mainStuff" column="main_stuff" />    
+        <result property="teamDesc" column="team_desc" />    
+    </resultMap>
+    
+    <!--根据主键查询-->
+	<select id="findById" resultMap="UserCompletionItemApplyResultMap">
+		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc from user_completion_item_apply where id=#{id}
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+	</select>
+    
+    <!--插入-->
+	 <insert id="insert" parameterType="com.khzpds.vo.UserCompletionItemApplyInfo" >
+    	INSERT INTO user_completion_item_apply
+        (id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc) 
+		values(#{id},#{userId},#{userName},#{activityId},#{competitionItemId},#{competitionType},#{createTime},#{applyStatus},#{productionName},#{applyGroup},#{applyYearGroup},#{realName},#{birthday},#{sex},#{schoolName},#{classCompany},#{recommenedCompany},#{cardType},#{cardNumber},#{telephone},#{mobilePhone},#{email},#{postcode},#{address},#{ideaDesc},#{filePath},#{scriptwriter},#{director},#{camerist},#{editor},#{musician},#{artist},#{mainStuff},#{teamDesc})
+    </insert>
+
+    
+    <!--根据传入的map参数查询 并分页-->
+    <select id="findByParamForPage" resultMap="UserCompletionItemApplyResultMap" >
+		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc from user_completion_item_apply
+		where 1=1
+           <if test="obj.search.id!=null"> AND id = #{obj.search.id}</if>
+           <if test="obj.search.userId!=null"> AND user_id = #{obj.search.userId}</if>
+           <if test="obj.search.userName!=null"> AND user_name = #{obj.search.userName}</if>
+           <if test="obj.search.activityId!=null"> AND activity_id = #{obj.search.activityId}</if>
+           <if test="obj.search.competitionItemId!=null"> AND competition_item_id = #{obj.search.competitionItemId}</if>
+           <if test="obj.search.competitionType!=null"> AND competition_type = #{obj.search.competitionType}</if>
+           <if test="obj.search.createTime!=null"> AND create_time = #{obj.search.createTime}</if>
+           <if test="obj.search.applyStatus!=null"> AND apply_status = #{obj.search.applyStatus}</if>
+           <if test="obj.search.productionName!=null"> AND production_name = #{obj.search.productionName}</if>
+           <if test="obj.search.applyGroup!=null"> AND apply_group = #{obj.search.applyGroup}</if>
+           <if test="obj.search.applyYearGroup!=null"> AND apply_year_group = #{obj.search.applyYearGroup}</if>
+           <if test="obj.search.realName!=null"> AND real_name = #{obj.search.realName}</if>
+           <if test="obj.search.birthday!=null"> AND birthday = #{obj.search.birthday}</if>
+           <if test="obj.search.sex!=null"> AND sex = #{obj.search.sex}</if>
+           <if test="obj.search.schoolName!=null"> AND school_name = #{obj.search.schoolName}</if>
+           <if test="obj.search.classCompany!=null"> AND class_company = #{obj.search.classCompany}</if>
+           <if test="obj.search.recommenedCompany!=null"> AND recommened_company = #{obj.search.recommenedCompany}</if>
+           <if test="obj.search.cardType!=null"> AND card_type = #{obj.search.cardType}</if>
+           <if test="obj.search.cardNumber!=null"> AND card_number = #{obj.search.cardNumber}</if>
+           <if test="obj.search.telephone!=null"> AND telephone = #{obj.search.telephone}</if>
+           <if test="obj.search.mobilePhone!=null"> AND mobile_phone = #{obj.search.mobilePhone}</if>
+           <if test="obj.search.email!=null"> AND email = #{obj.search.email}</if>
+           <if test="obj.search.postcode!=null"> AND postcode = #{obj.search.postcode}</if>
+           <if test="obj.search.address!=null"> AND address = #{obj.search.address}</if>
+           <if test="obj.search.ideaDesc!=null"> AND idea_desc = #{obj.search.ideaDesc}</if>
+           <if test="obj.search.filePath!=null"> AND file_path = #{obj.search.filePath}</if>
+           <if test="obj.search.scriptwriter!=null"> AND scriptwriter = #{obj.search.scriptwriter}</if>
+           <if test="obj.search.director!=null"> AND director = #{obj.search.director}</if>
+           <if test="obj.search.camerist!=null"> AND camerist = #{obj.search.camerist}</if>
+           <if test="obj.search.editor!=null"> AND editor = #{obj.search.editor}</if>
+           <if test="obj.search.musician!=null"> AND musician = #{obj.search.musician}</if>
+           <if test="obj.search.artist!=null"> AND artist = #{obj.search.artist}</if>
+           <if test="obj.search.mainStuff!=null"> AND main_stuff = #{obj.search.mainStuff}</if>
+           <if test="obj.search.teamDesc!=null"> AND team_desc = #{obj.search.teamDesc}</if>
+
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+        <if test="obj.orderField!=null and obj.orderType!=null"> order by ${obj.orderField} ${obj.orderType}</if>
+	</select>
+    
+     <!--根据传入的实体参数查询-->
+    <select id="findByParam" resultMap="UserCompletionItemApplyResultMap" >
+		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc from user_completion_item_apply
+		where 1=1
+           <if test="obj.id!=null"> AND id = #{obj.id}</if>
+           <if test="obj.userId!=null"> AND user_id = #{obj.userId}</if>
+           <if test="obj.userName!=null"> AND user_name = #{obj.userName}</if>
+           <if test="obj.activityId!=null"> AND activity_id = #{obj.activityId}</if>
+           <if test="obj.competitionItemId!=null"> AND competition_item_id = #{obj.competitionItemId}</if>
+           <if test="obj.competitionType!=null"> AND competition_type = #{obj.competitionType}</if>
+           <if test="obj.createTime!=null"> AND create_time = #{obj.createTime}</if>
+           <if test="obj.applyStatus!=null"> AND apply_status = #{obj.applyStatus}</if>
+           <if test="obj.productionName!=null"> AND production_name = #{obj.productionName}</if>
+           <if test="obj.applyGroup!=null"> AND apply_group = #{obj.applyGroup}</if>
+           <if test="obj.applyYearGroup!=null"> AND apply_year_group = #{obj.applyYearGroup}</if>
+           <if test="obj.realName!=null"> AND real_name = #{obj.realName}</if>
+           <if test="obj.birthday!=null"> AND birthday = #{obj.birthday}</if>
+           <if test="obj.sex!=null"> AND sex = #{obj.sex}</if>
+           <if test="obj.schoolName!=null"> AND school_name = #{obj.schoolName}</if>
+           <if test="obj.classCompany!=null"> AND class_company = #{obj.classCompany}</if>
+           <if test="obj.recommenedCompany!=null"> AND recommened_company = #{obj.recommenedCompany}</if>
+           <if test="obj.cardType!=null"> AND card_type = #{obj.cardType}</if>
+           <if test="obj.cardNumber!=null"> AND card_number = #{obj.cardNumber}</if>
+           <if test="obj.telephone!=null"> AND telephone = #{obj.telephone}</if>
+           <if test="obj.mobilePhone!=null"> AND mobile_phone = #{obj.mobilePhone}</if>
+           <if test="obj.email!=null"> AND email = #{obj.email}</if>
+           <if test="obj.postcode!=null"> AND postcode = #{obj.postcode}</if>
+           <if test="obj.address!=null"> AND address = #{obj.address}</if>
+           <if test="obj.ideaDesc!=null"> AND idea_desc = #{obj.ideaDesc}</if>
+           <if test="obj.filePath!=null"> AND file_path = #{obj.filePath}</if>
+           <if test="obj.scriptwriter!=null"> AND scriptwriter = #{obj.scriptwriter}</if>
+           <if test="obj.director!=null"> AND director = #{obj.director}</if>
+           <if test="obj.camerist!=null"> AND camerist = #{obj.camerist}</if>
+           <if test="obj.editor!=null"> AND editor = #{obj.editor}</if>
+           <if test="obj.musician!=null"> AND musician = #{obj.musician}</if>
+           <if test="obj.artist!=null"> AND artist = #{obj.artist}</if>
+           <if test="obj.mainStuff!=null"> AND main_stuff = #{obj.mainStuff}</if>
+           <if test="obj.teamDesc!=null"> AND team_desc = #{obj.teamDesc}</if>
+
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+	</select>
+    
+    <!--根据主键进行删除-->
+	<delete id="deleteById"  >
+    	delete from user_completion_item_apply where id=#{id}
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+    </delete>
+    
+    <!--根据实体进行更新-->
+	<update id="update" >
+    	update user_completion_item_apply 
+        <trim prefix="SET" suffixOverrides=",">
+           <if test="obj.id!=null">id=#{obj.id},</if>
+           <if test="obj.userId!=null">user_id=#{obj.userId},</if>
+           <if test="obj.userName!=null">user_name=#{obj.userName},</if>
+           <if test="obj.activityId!=null">activity_id=#{obj.activityId},</if>
+           <if test="obj.competitionItemId!=null">competition_item_id=#{obj.competitionItemId},</if>
+           <if test="obj.competitionType!=null">competition_type=#{obj.competitionType},</if>
+           <if test="obj.createTime!=null">create_time=#{obj.createTime},</if>
+           <if test="obj.applyStatus!=null">apply_status=#{obj.applyStatus},</if>
+           <if test="obj.productionName!=null">production_name=#{obj.productionName},</if>
+           <if test="obj.applyGroup!=null">apply_group=#{obj.applyGroup},</if>
+           <if test="obj.applyYearGroup!=null">apply_year_group=#{obj.applyYearGroup},</if>
+           <if test="obj.realName!=null">real_name=#{obj.realName},</if>
+           <if test="obj.birthday!=null">birthday=#{obj.birthday},</if>
+           <if test="obj.sex!=null">sex=#{obj.sex},</if>
+           <if test="obj.schoolName!=null">school_name=#{obj.schoolName},</if>
+           <if test="obj.classCompany!=null">class_company=#{obj.classCompany},</if>
+           <if test="obj.recommenedCompany!=null">recommened_company=#{obj.recommenedCompany},</if>
+           <if test="obj.cardType!=null">card_type=#{obj.cardType},</if>
+           <if test="obj.cardNumber!=null">card_number=#{obj.cardNumber},</if>
+           <if test="obj.telephone!=null">telephone=#{obj.telephone},</if>
+           <if test="obj.mobilePhone!=null">mobile_phone=#{obj.mobilePhone},</if>
+           <if test="obj.email!=null">email=#{obj.email},</if>
+           <if test="obj.postcode!=null">postcode=#{obj.postcode},</if>
+           <if test="obj.address!=null">address=#{obj.address},</if>
+           <if test="obj.ideaDesc!=null">idea_desc=#{obj.ideaDesc},</if>
+           <if test="obj.filePath!=null">file_path=#{obj.filePath},</if>
+           <if test="obj.scriptwriter!=null">scriptwriter=#{obj.scriptwriter},</if>
+           <if test="obj.director!=null">director=#{obj.director},</if>
+           <if test="obj.camerist!=null">camerist=#{obj.camerist},</if>
+           <if test="obj.editor!=null">editor=#{obj.editor},</if>
+           <if test="obj.musician!=null">musician=#{obj.musician},</if>
+           <if test="obj.artist!=null">artist=#{obj.artist},</if>
+           <if test="obj.mainStuff!=null">main_stuff=#{obj.mainStuff},</if>
+           <if test="obj.teamDesc!=null">team_desc=#{obj.teamDesc},</if>  
+        </trim>
+		where id=#{obj.id} 
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+    </update> 
+	<!--CustomBegin***--><!--CustomEnd*****-->
+</mapper>
