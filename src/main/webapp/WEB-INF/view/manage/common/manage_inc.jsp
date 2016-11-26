@@ -30,6 +30,7 @@
 <script src="/js/laydate/laydate.js"></script>
 <!-- 工具类js common.js 提供对js字符串的操作startWith endWith trim等js方法  -->
 <script type="text/javascript" src='/js/common.js'></script>
+<script type="text/javascript" src='/js/base64.js'></script>
 <script>
 	//layer.tips颜色公共提取
 	var tipsColor="#ff0000";

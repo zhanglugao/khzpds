@@ -11,6 +11,7 @@ h1,h2,h3,h4,h5,h6 {font-size:100%;font-weight:normal}
 q:before,q:after {content:''} 
 abbr,acronym { border:0}
 body{min-width: 1348px;}
+.cb{clear:both;}
 /*文字排版、颜色*/
 .f12{font-size:12px}
 .f13{font-size:13px}

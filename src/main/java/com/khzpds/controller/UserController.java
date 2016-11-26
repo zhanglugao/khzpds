@@ -24,8 +24,11 @@ import com.khzpds.util.UUIDUtil;
 import com.khzpds.util.VerifyCodeUtil;
 import com.khzpds.vo.MenuInfo;
 import com.khzpds.vo.UserInfoInfo;
-import com.khzpds.vo.UserRoleInfo;
-
+/**
+ * 
+ * @author zhanglugao
+ *
+ */
 @Controller
 @RequestMapping("/user")
 public class UserController extends BaseController{
@@ -34,6 +37,15 @@ public class UserController extends BaseController{
 	@Autowired
 	private MenuService menuService;
 	
+	/***
+	 * 学员登陆主界面
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/openIndex")
+	public ModelAndView openIndex(HttpServletRequest request){
+		return new ModelAndView(getRootPath(request)+"/open/user/user-index");
+	}
 	/***
 	 * 后台用户管理主界面
 	 * @return
@@ -69,7 +81,7 @@ public class UserController extends BaseController{
 				session=setSession(user);
 				request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, session);
 				result.put("status", "0");
-				result.put("jump_url", "index.html");
+				result.put("jump_url", "/user/openIndex");
 			}
 		}
 		this.writeJson(response, result);
@@ -83,6 +95,14 @@ public class UserController extends BaseController{
 	 */
 	@RequestMapping("/sendVerifyCode")
 	public void sendVerifyCode(String mail,HttpServletRequest request,HttpServletResponse response) throws Exception{
+		//校验邮箱被注册没
+		UserInfoInfo findInfo=new UserInfoInfo();
+		findInfo.setMail(mail);
+		List<UserInfoInfo>users=userInfoService.findByParam(findInfo);
+		if(users!=null&&users.size()>0){
+			this.writeString(response, "mailRepeat");
+			return;
+		}
 		request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, null);
 		SessionInfo sessionInfo=getCurrentSessionInfo(request);
 		String verifyCode=VerifyCodeUtil.createRandom(true, 6);
@@ -132,7 +152,7 @@ public class UserController extends BaseController{
 				if(session.getMenus()!=null&&session.getMenus().size()>0){
 					result.put("jump_url", session.getMenus().get(0).getUrl());
 				}else{
-					result.put("jump_url", "index.html");
+					result.put("jump_url", "/user/openIndex");
 				}
 			}
 		}
@@ -171,5 +191,16 @@ public class UserController extends BaseController{
 			this.writeString(response, "1");
 		}
 	}
-
+	
+	/***
+	 * 退出
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/logout")
+	public String logout(HttpServletRequest request,HttpServletResponse response){
+		request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, null);
+		return "redirect:/login.html";
+	}
 }

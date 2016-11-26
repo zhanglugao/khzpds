@@ -48,8 +48,19 @@
 	    <mvc:interceptor>
 	        <mvc:mapping path="/**"/>
 	        <mvc:exclude-mapping path="/"/>
+	        <!-- 登陆页面 -->
 	        <mvc:exclude-mapping path="/login.html"/>
+	        <!-- 登陆url -->
 	        <mvc:exclude-mapping path="/user/login"/>
+	        <!-- 获取登陆状态url -->
+	        <mvc:exclude-mapping path="/user/loginStatus"/>
+	        <!-- 退出 -->
+	        <mvc:exclude-mapping path="/user/logout"/>
+	        <!-- 注册url -->
+	        <mvc:exclude-mapping path="/user/register"/>
+	        <!-- 注册发送邮件url -->
+	        <mvc:exclude-mapping path="/user/sendVerifyCode"/>
+	        
 	        <bean class="com.khzpds.secure.LoginInterceptor" />
 	    </mvc:interceptor>
     </mvc:interceptors>

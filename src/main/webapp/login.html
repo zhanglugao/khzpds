@@ -11,7 +11,7 @@
 <script type="text/javascript" src="/js/layer/layer.js"></script>
 
 <script type="text/javascript" src='/js/common.js'></script>
-<script type="text/javascript" src='/js/jbase64.js'></script>
+<script type="text/javascript" src='/js/base64.js'></script>
 <script type="text/javascript" src='/js/cookieOperate.js'></script>
 <script type="text/javascript" src='/js/autoLogin.js'></script>
 <script type="text/javascript">
@@ -32,7 +32,7 @@ $(function(){ $('input, textarea').placeholder(); });
 	                        <li><a href="draw.html">科幻画报报名</a></li>
 	                        <li><a href="video.html">科幻微视频报名</a></li>
 	                  </ul>
-	                  <p class="head-login fl">
+	                  <p  id='loginDiv' class="head-login fl" style="visibility:hidden">
 	                       <a href="index.html">首  页</a>
 	                       <a href="register.html">注  册</a>
 	
@@ -124,8 +124,9 @@ $(function(){ $('input, textarea').placeholder(); });
 			});
 		}
 		function setUserInfo2Cookie(userName,password){
-			setCookie("userName", BASE64.encoder(userName), "d30");
-			setCookie("password", BASE64.encoder(password), "d30");
+			console.log("存入cookie的userName为:"+ Base64.encode(userName));
+			setCookie("userName", Base64.encode(userName), "d30");
+			setCookie("password", Base64.encode(password), "d30");
 		}
 		
 		
@@ -145,6 +146,5 @@ $(function(){ $('input, textarea').placeholder(); });
 				$("#loginbtn").click();
 			}
 		}
-		document.getElementById("userName").focus();
 	</script>
 </html>

@@ -28,7 +28,7 @@ import com.khzpds.vo.DictionaryInfo;
 
 /***
  * 活动管理controller
- * @author zlg
+ * @author zhanglugao 
  *
  */
 @Controller

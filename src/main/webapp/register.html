@@ -12,7 +12,7 @@
 <script type="text/javascript" src="/js/layer/layer.js"></script>
 
 <script type="text/javascript" src='/js/common.js'></script>
-<script type="text/javascript" src='/js/jbase64.js'></script>
+<script type="text/javascript" src='/js/base64.js'></script>
 <script type="text/javascript" src='/js/cookieOperate.js'></script>
 <script type="text/javascript" src='/js/autoLogin.js'></script>
 <script type="text/javascript">
@@ -33,7 +33,7 @@ $(function(){ $('input, textarea').placeholder(); });
                         <li><a href="draw.html">科幻画报报名</a></li>
                         <li><a href="video.html">科幻微视频报名</a></li>
                   </ul>
-                  <p class="head-login fl">
+                  <p id='loginDiv' class="head-login fl" style="visibility:hidden">
                        <a href="index.html">首  页</a>
                        <a href="login.html">登  录</a>
 
@@ -61,6 +61,10 @@ $(function(){ $('input, textarea').placeholder(); });
                        <div class="input">
                            <label><em>*</em> 确认密码</label>
                            <input id='password2' name='password2' type="password" placeholder="确认密码" >
+                       </div>
+                       <div class="input">
+                           <label><em>*</em> 真实姓名</label>
+                           <input id='realName' name='realName' type="text" placeholder="真实姓名" >
                        </div>
                        <div class="input">
                            <label><em>*</em> 电子邮箱</label>
@@ -125,6 +129,8 @@ $(function(){ $('input, textarea').placeholder(); });
 					$("#getCode").css("background","#888888");
 					t=120;
 					t1 = window.setInterval(codeButtonChange,1000); 
+				}else if(data=='mailRepeat'){
+					layer.msg("邮箱已被注册，请更换邮箱后重新尝试。",{icon:4});
 				}
 			},error:function(){
 				layer.closeAll();
@@ -162,6 +168,10 @@ $(function(){ $('input, textarea').placeholder(); });
 		var password2=$("#password2").val();
 		if(password2!=password){
 			layer.tips('两次填写密码必须一致', '#password2',{tips:[2,tipsColor]});return;
+		}
+		var realName=$("#realName").val();
+		if(password2!=password){
+			layer.tips('请填写真实姓名', '#realName',{tips:[2,tipsColor]});return;
 		}
 		var mail=$("#mail").val();
 		if(trim(mail)==''){

@@ -1,0 +1,34 @@
+.headbanner{height:auto;overflow: hidden; background: url(/images/sign-banner.png) no-repeat;}
+.headbanner-i{height: 119px;position: relative;}
+.headbanner-i img{position: absolute; left:279px; top: 50px;}
+.head{position: relative;}
+.sj-top{position: absolute; left: 20px;top: 14px;}
+/*报名表单部分*/
+.main{height:auto;overflow: hidden;position:relative;}
+.main-i{height:auto;overflow:hidden;padding-bottom:50px;position: relative;}
+input[type="text"]{ outline:none;}
+/*报名表左侧*/
+.form-left{width: auto;overflow: hidden;}
+.form-left ul{height:auto;overflow:hidden;}
+.left-form{float: left}
+
+/*.left-form1 li img{display:inline-block;float: left}*/
+.right-form{float:left; width: 400px;}
+.form-left ul.right-form li{ float: left;overflow: hidden; margin: 6px 0;height: auto; width: auto;}
+.right-form li span{height:32px;line-height: 32px;font-size: 16px;text-align:left; width:400px;display: inline-block; letter-spacing: 3px; float: left}
+.right-form li textarea{float: left; clear: left;font-size: 14px; text-indent: 2em;}
+.form-left ul.left-form{width: 800px; *+width:800px;}
+.form-left ul.left-form li{ float: left; width: 800px; margin: 6px 0}
+.form-left ul.left-form li{line-height: 32px;font-size: 16px;text-align:left; float: left; display: inline-block; }
+.form-left ul.left-form li span{height:32px;line-height: 32px;font-size: 16px;text-align:center; width:120px;display: inline-block; letter-spacing: 3px; float: left}
+.form-left ul.left-form li span.name{letter-spacing: 8px;}
+.form-left ul.left-form li span.dw{width: 200px}
+.form-left ul.left-form li select{width: 90px;float: left;line-height: 32px;font-size: 16px;height: 32px;}
+.form-left ul.left-form li label{height:32px;line-height: 32px;font-size: 16px;text-align:left;}
+.form-left ul.left-form li input[type="text"]{height:28px;line-height: 32px;font-size: 14px;padding-left: 5px; text-align: left;display:inline-block; float: left}
+/*报名*/
+.tj{margin-right: 15px;}
+.left-form1{float: left;margin-left: 553px;margin-top: 70px;}
+.left-form1 p{float: left;width:300px;height: 40px;}
+.left-form1 p a{float:left;display:inline-block;width: 120px;height: 40px;outline: none;}
+.left-form1 p a img{display:block;}
