@@ -75,10 +75,17 @@ public class UserController extends BaseController{
 				result.put("status", "1");
 				result.put("error_desc", "用户已存在，请更换用户名");
 			}else{
+				findInfo.setMail(user.getMail());
+				findInfo.setUserName(null);
+				users=userInfoService.findByParam(findInfo);
+				if(users!=null&&users.size()>0){
+					result.put("status", "1");
+					result.put("error_desc", "邮箱已被注册，请更换");
+				}
 				System.out.println(user);
 				user.setId(UUIDUtil.getUUID());
 				userInfoService.add(user);
-				session=setSession(user);
+				session=userInfoService.setSession(user);
 				request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, session);
 				result.put("status", "0");
 				result.put("jump_url", "/user/openIndex");
@@ -146,7 +153,7 @@ public class UserController extends BaseController{
 				result.put("error_desc", "用户名或密码错误");
 			}else{
 				//校验成功
-				SessionInfo session=setSession(users.get(0));
+				SessionInfo session=userInfoService.setSession(users.get(0));
 				request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, session);
 				result.put("status", "0");
 				if(session.getMenus()!=null&&session.getMenus().size()>0){
@@ -159,23 +166,6 @@ public class UserController extends BaseController{
 		this.writeJson(response, result);
 	}
 	
-	private SessionInfo setSession(UserInfoInfo user){
-		SessionInfo session=new SessionInfo();
-		session.setIfLogin(true);
-		session.setMail(user.getMail());
-		session.setPassword(user.getPassword());
-		session.setUserId(user.getId());
-		session.setUserName(user.getUserName());
-		session.setRealName(user.getRealName());
-		if("admin".equals(user.getUserName())){
-			List<MenuInfo> menus=menuService.findByParam(new MenuInfo());
-			session.setMenus(menus);
-		}else{
-			List<MenuInfo> menus=menuService.findMenusByUserId(user.getId());
-			session.setMenus(menus);
-		}
-		return session;
-	}
 	
 	/***
 	 * 获取登录状态 0 未登录  1已登录
@@ -202,5 +192,37 @@ public class UserController extends BaseController{
 	public String logout(HttpServletRequest request,HttpServletResponse response){
 		request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, null);
 		return "redirect:/login.html";
+	}
+	
+	/***
+	 * 更改会员名称
+	 * @param userName
+	 * @param password
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/changeUserName")
+	public void changeUserName(String userName,String password,HttpServletRequest request,HttpServletResponse response){
+		Map<String,Object> result=new HashMap<String, Object>();
+		if(!password.equals(getCurrentSessionInfo(request).getPassword())){
+			result.put("status", "1");
+			result.put("error_desc", "密码错误");
+			this.writeJson(response, result);
+			return;
+		}
+		UserInfoInfo findInfo=new UserInfoInfo();
+		findInfo.setUserName(userName);
+		List<UserInfoInfo> users=userInfoService.findByParam(findInfo);
+		if(users!=null&&users.size()>0){
+			result.put("status", "1");
+			result.put("error_desc", "会员名称已被使用请更换");
+			this.writeJson(response, result);
+			return;
+		}
+		UserInfoInfo oldUserInfo=userInfoService.findById(getCurrentSessionInfo(request).getUserId());
+		oldUserInfo.setUserName(userName);
+		userInfoService.update(oldUserInfo);
+		result.put("status", "0");
+		this.writeJson(response, result);
 	}
 }

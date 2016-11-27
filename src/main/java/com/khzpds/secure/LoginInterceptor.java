@@ -1,26 +1,54 @@
 package com.khzpds.secure;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.khzpds.base.BusinessConfig;
 import com.khzpds.base.SessionInfo;
+import com.khzpds.service.UserInfoService;
+import com.khzpds.vo.UserInfoInfo;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
+	@Autowired
+	private UserInfoService userInfoService;
 	private static final Log log = LogFactory.getLog(LoginInterceptor.class);
 	
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
 		if (request.getSession().getAttribute(BusinessConfig.USER_SESSION_KEY) == null ) {
+			//从cookie中取数据
+			String userName=getCookie("userName", request);
+			if(StringUtils.isNotBlank(userName)){
+				//userName=new String(Base64.decodeBase64(userName),"utf-8");
+				//String password=new String(Base64.decodeBase64(getCookie("password", request)),"utf-8");
+				String password=getCookie("password", request);
+				UserInfoInfo findInfo=new UserInfoInfo();
+				findInfo.setUserName(userName);
+				findInfo.setPassword(password);
+				List<UserInfoInfo> users=userInfoService.findByParam(findInfo);
+				if(users!=null&&users.size()>0){
+					//登录
+					SessionInfo session=userInfoService.setSession(users.get(0));
+					request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, session);
+					return true;
+				}
+			}
 			return doFalse(ifAjax(request), response,request);
 		}else{
 			SessionInfo session=(SessionInfo) request.getSession().getAttribute(BusinessConfig.USER_SESSION_KEY);
@@ -30,6 +58,18 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		}
 		return true;
 
+	}
+	private String getCookie(String name,HttpServletRequest request) throws UnsupportedEncodingException{
+		Cookie[] cookies = request.getCookies();//这样便可以获取一个cookie数组
+		for(Cookie cookie : cookies){
+		    String key=cookie.getName();// get the cookie name
+		    if(name.equals(key)){
+		    	String value=URLDecoder.decode(URLDecoder.decode(cookie.getValue(), "utf-8"), "utf-8");
+		    	return value;
+		    }
+		}
+		return null;
+		
 	}
 	private boolean doFalse(boolean ifAjax, HttpServletResponse response,HttpServletRequest request) throws IOException {
 		if (ifAjax) {

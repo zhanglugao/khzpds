@@ -124,9 +124,11 @@ $(function(){ $('input, textarea').placeholder(); });
 			});
 		}
 		function setUserInfo2Cookie(userName,password){
-			console.log("存入cookie的userName为:"+ Base64.encode(userName));
-			setCookie("userName", Base64.encode(userName), "d30");
-			setCookie("password", Base64.encode(password), "d30");
+			console.log("存入cookie的userName为:"+ encodeURI(userName));
+			//setCookie("userName", Base64.encode(userName), "d30");
+			setCookie("userName", encodeURI(userName), "d30");
+			setCookie("password", encodeURI(password), "d30");
+			//setCookie("password", Base64.encode(password), "d30");
 		}
 		
 		

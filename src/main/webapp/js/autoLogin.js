@@ -11,9 +11,8 @@ $(document).ready(function(){
 					$("#loginDiv").css("visibility","visible");
 				}else{
 					console.log("cookie取出的userName 未解码:"+userName);
-					userName=Base64.decode(userName);
-					console.log("解码后:"+userName);
-					var password=Base64.decode(getCookie("password"));
+					userName=decodeURI(userName);
+					var password=decodeURI(getCookie("password"));
 					$.ajax({
 						url:"/user/login",
 						type:"post",
@@ -23,6 +22,7 @@ $(document).ready(function(){
 							if(data.status=='0'){
 								//登陆后的处理
 								console.log("通过cookie登陆成功了");
+								window.location.href=data.jump_url;
 							}else if(data.status=='1'){
 								//删了cookie 反正都是错的数据
 								delCookie("userName");

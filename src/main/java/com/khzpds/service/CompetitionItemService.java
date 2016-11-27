@@ -1,4 +1,6 @@
 package com.khzpds.service;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,16 @@ public class CompetitionItemService extends IBaseService<CompetitionItemInfo> {
     public void setCompetitionItemRepository(CompetitionItemDao repository) {  
         setRepository(repository);  
         competitionItemDao=repository;
-    }  
+    }
+
+	
     
     //--CustomBegin***///
+    
+    public List<CompetitionItemInfo> findPublishedCompetitionItem(String type) {
+		// TODO Auto-generated method stub
+		return competitionItemDao.findPublishedCompetitionItem(type);
+	}  
 //--CustomEnd*****///
 }
 

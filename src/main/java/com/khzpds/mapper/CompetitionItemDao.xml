@@ -101,5 +101,17 @@
 		where id=#{obj.id} 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
     </update> 
-	<!--CustomBegin***--><!--CustomEnd*****-->
+	<!--CustomBegin***-->
+	<select id="findPublishedCompetitionItem" resultMap="CompetitionItemResultMap" >
+		SELECT
+			*
+		FROM
+			competition_item ci
+		JOIN activity_info ai ON ci.activity_id = ai.id
+		WHERE
+			ci.type = #{type}
+		AND ci. STATUS = '309002'
+		AND ai. STATUS = '300002'
+	</select>
+	<!--CustomEnd*****-->
 </mapper>

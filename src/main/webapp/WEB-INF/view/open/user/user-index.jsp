@@ -42,7 +42,6 @@
                        <li class="bm cur"><a   href="javascript:;" >更换会员信息</a></li>
                         <li class="cur11" ><a  href="javascript:;" class="color" >报名情况</a></li>
                         <li class="cur22"><a  href="/user/logout" class="color">退出</a></li>
-
                     </ul>
                </div>
                <div class="content fl">
@@ -52,20 +51,20 @@
                                <!-- 作品名称 -->
                                 <li>
                                     <span>更改会员名</span>
-                                    <input type="text" style="width:260px;" />
+                                    <input id='userName' type="text" style="width:260px;" />
                                 </li>
                                 <li>
                                     <span>输入密码</span>
-                                    <input type="text" style="width:260px;" />
+                                    <input id='password' type="text" style="width:260px;" />
                                 </li>
                                  <li>
                                     <span>再次输入密码</span>
-                                    <input type="text" style="width:260px;" />
+                                    <input id='password2' type="text" style="width:260px;" />
                                 </li>
                                  <li class="gg">
                                    <p >
-                                       <a href="javascript:;" >确认更改</a>
-                                       <a href="javascript:;">放弃更改</a>
+                                       <a onclick="changeUserName()" href="javascript:;" >确认更改</a>
+                                       <a onclick='cancelInput()' href="javascript:;">放弃更改</a>
                                   </p>
                                 </li>
                               
