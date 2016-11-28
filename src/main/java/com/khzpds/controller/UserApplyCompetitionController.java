@@ -1,10 +1,16 @@
 package com.khzpds.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +20,8 @@ import com.khzpds.base.BaseController;
 import com.khzpds.base.DictionaryConst;
 import com.khzpds.service.CompetitionItemService;
 import com.khzpds.service.UserCompletionItemApplyService;
+import com.khzpds.util.DateUtil;
+import com.khzpds.util.UUIDUtil;
 import com.khzpds.vo.CompetitionItemInfo;
 import com.khzpds.vo.UserCompletionItemApplyInfo;
 
@@ -38,12 +46,24 @@ public class UserApplyCompetitionController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("toApply")
-	public ModelAndView toApply(String type,HttpServletRequest request,HttpServletResponse response){
+	public ModelAndView toApply(String type,String id,HttpServletRequest request,HttpServletResponse response){
 		String dest=null;
 		//查询已发布状态的活动下的对应type的比赛项目
-		List<CompetitionItemInfo> items=competitionItemService.findPublishedCompetitionItem(type);
-		if(items!=null&&items.size()>0){
-			request.setAttribute("item", items.get(0));
+		if(StringUtils.isBlank(id)){
+			List<CompetitionItemInfo> items=competitionItemService.findPublishedCompetitionItem(type);
+			if(items!=null&&items.size()>0){
+				request.setAttribute("item", items.get(0));
+			}
+		}else{
+			UserCompletionItemApplyInfo applyInfo=userCompetitionItemApplyService.findById(id);
+			if(applyInfo!=null){
+				Date birthday=applyInfo.getBirthday();
+				if(birthday!=null){
+					request.setAttribute("birthday", DateUtil.formatDate2String(birthday, "yyyyMM"));
+				}
+				type=applyInfo.getCompetitionType();
+				request.setAttribute("applyInfo", applyInfo);
+			}
 		}
 		if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_XIAO_SHUO.equals(type)){
 			dest="novel-sign";
@@ -61,9 +81,31 @@ public class UserApplyCompetitionController extends BaseController{
 	 * @param applyInfo
 	 * @param request
 	 * @param response
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("/userApplyCompetitionItem")
-	public void userApplyCompetitionItem(UserCompletionItemApplyInfo applyInfo,HttpServletRequest request,HttpServletResponse response){
-		System.out.println(applyInfo);
+	public void userApplyCompetitionItem(UserCompletionItemApplyInfo applyInfo,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+		Map<String,Object> result=new HashMap<String, Object>();
+		applyInfo.setApplyStatus(DictionaryConst.BI_SAI_BAO_MING_ZHUANG_TAI_YI_BAO_MING);
+		applyInfo.setUserName(getCurrentSessionInfo(request).getUserName());
+		applyInfo.setUserId(getCurrentSessionInfo(request).getUserId());
+		String birthday1=request.getParameter("birthday1");
+		Date date=DateUtil.getDate(birthday1, "yyyyMM");
+		
+		String filePathHidden=request.getParameter("filePathHidden");
+		String fileNameHidden=request.getParameter("fileNameHidden");
+		applyInfo.setFilePath(URLDecoder.decode(filePathHidden, "utf-8"));
+		applyInfo.setFileName(fileNameHidden);
+		
+		applyInfo.setBirthday(date);
+		if(applyInfo.getId()==null){
+			applyInfo.setId(UUIDUtil.getUUID());
+			applyInfo.setCreateTime(new Date());
+			userCompetitionItemApplyService.add(applyInfo);
+		}else{
+			userCompetitionItemApplyService.update(applyInfo);
+		}
+		result.put("status", "0");
+		this.writeJson(response, result);
 	}
 }

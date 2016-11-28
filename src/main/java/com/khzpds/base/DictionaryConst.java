@@ -127,6 +127,11 @@ public interface DictionaryConst {
     
     /**比赛项目状态_已废弃**/
 	public static final String BI_SAI_XIANG_MU_ZHUANG_TAI_YI_FEI_QI="309006";
+	
+	/**比赛项目状态_报名结束**/
+	public static final String BI_SAI_XIANG_MU_ZHUANG_TAI_BAO_MING_JIE_SHU="309007";
  
+	/**比赛项目状态_议论评审中**/
+	public static final String BI_SAI_XIANG_MU_ZHUANG_TAI_YI_LUN_PING_SHEN_ZHONG="309008";
 }
 

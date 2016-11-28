@@ -106,4 +106,18 @@
 	<!-- 自动扫描注解的bean -->
 	<context:component-scan base-package="com.khzpds.service" />
 
+	<!-- 配置多文件上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding">
+			<value>UTF-8</value>
+		</property>
+		<property name="maxUploadSize">
+			<!-- 上传文件大小限制为200M，2*1024*1024*100 -->
+			<value>209715200</value>
+		</property>
+		<property name="maxInMemorySize">
+			<value>209715200</value>
+		</property>
+	</bean>
 </beans>

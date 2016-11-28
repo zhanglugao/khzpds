@@ -6,14 +6,28 @@
 <head>
 <meta charset="UTF-8">
 <title>科幻画-报名表</title>
+<link href="/webuploader/webuploader.css" rel="stylesheet" type="text/css">
 <jsp:include page="../common/open_inc.jsp"></jsp:include>
 <!-- <script type="text/javascript" src="js/Validform.js"></script> -->
+<script type="text/javascript" src="/webuploader/webuploader.nolog.min.js"></script>
 <style type="text/css">  
 div#roll{width:100px;height:100px; background-color:red; color:#fff; position:absolute;}  
 </style>
 <script type="text/javascript">
+	var regBox = {
+        regEmail : /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,//邮箱
+        regName : /^[a-z0-9_-]{3,16}$/,//用户名
+        regMobile : /^0?1[3|4|5|7|8][0-9]\d{8}$/,//手机
+        regTel : /^0[\d]{2,3}-[\d]{7,8}$/,
+        regPostCode:/^[1-9][0-9]{5}$/
+    }
+ 
+    var mobile = '18758089867';
+    var tel = '0575-7678899';
+    var mflag = regBox.regMobile.test(mobile);
+    var tflag = regBox.regTel.test(tel);
 	$(document).ready(function(){
-		<c:if test="${empty item }">
+		<c:if test="${empty item && empty applyInfo}">
 			layer.alert("没有可供报名的本类型比赛项目");
 			$("form").css("display","none");
 		</c:if>
@@ -25,67 +39,133 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
 			$("input[name=applyYearGroup]:checked").prop("checked",false);
 			$(this).prop("checked",true);
 		});
+		if($("#activityId").val()==''){
+			$("#activityId").val("${item.activityId }");
+		}
+		if($("#competitionItemId").val()==''){
+			$("#competitionItemId").val("${item.id }");
+		}
+		if($("#competitionType").val()==''){
+			$("#competitionType").val("${item.type }");
+		}
+		
+		if("${applyInfo.applyGroup}"!=''){
+			$("input[name=applyGroup][value=${applyInfo.applyGroup}]").prop("checked",true);
+		}
+		if("${applyInfo.applyYearGroup}"!=''){
+			$("input[name=applyYearGroup][value=${applyInfo.applyYearGroup}]").prop("checked",true);
+		}
+		if("${applyInfo.sex}"!=''){
+			$("input[name=sex][value=${applyInfo.sex}]").prop("chceked",true);
+		}
+		
+		if("${applyInfo.filePath}"!=''){
+			$("#filePathHidden").val("${applyInfo.filePath}");
+			$("#FileNameHidden").val("${applyInfo.fileName}");
+			$("#fileNameDiv").html("${applyInfo.fileName}");
+			$("#uploadStateDiv").html("${applyInfo.fileName}上传成功");
+		}
 	});
 	function apply(){
 		var productionName=$("#productionName").val();
 		if($.trim(productionName)==''){
+			$("#productionName").focus();
 			layer.tips('请填写作品名称', '#productionName',{tips:[2,tipsColor]});return;
 		}
 		if($("input[name=applyGroup]:checked").length==0){
+			$("#applyGroupTips").focus();
 			layer.tips('请选择参赛组别', '#applyGroupTips',{tips:[2,tipsColor]});return;
 		}
 		if($("input[name=applyYearGroup]:checked").length==0){
+			$("#applyYearGroupTips").focus();
 			layer.tips('请选择参赛年龄组', '#applyYearGroupTips',{tips:[2,tipsColor]});return;
 		}
 		if($("input[name=applyGroup]:checked").val()=='303002'&&$("input[name=applyYearGroup]:checked").val()=='304001'){
+			$("#applyYearGroupTips").focus();
 			layer.tips('电脑绘图组限中学、大学两个年龄段', '#applyYearGroupTips',{tips:[2,tipsColor]});return;
 		}
 		var realName=$("#realName").val();
 		if($.trim(realName)==''){
+			$("#realName").focus();
 			layer.tips('请填写姓名', '#realName',{tips:[2,tipsColor]});return;
 		}
 		var birthday=$("#birthday").val();
 		if($.trim(birthday)==''){
+			$("#birthday").focus();
 			layer.tips('请选择出生年月', '#birthday',{tips:[2,tipsColor]});return;
 		}
 		var schoolName=$("#schoolName").val();
 		if($.trim(schoolName)==''){
+			$("#schoolName").focus();
 			layer.tips('请填写所在学校', '#schoolName',{tips:[2,tipsColor]});return;
 		}
 		var recommenedCompany=$("#recommenedCompany").val();
 		if($.trim(recommenedCompany)==''){
+			$("#recommenedCompany").focus();
 			layer.tips('请填写推荐单位，没有写无', '#recommenedCompany',{tips:[2,tipsColor]});return;
 		}
 		var cardNumber=$("#cardNumber").val();
 		if($.trim(cardNumber)==''){
+			$("#cardNumber").focus();
 			layer.tips('请填写证件号码', '#cardNumber',{tips:[2,tipsColor]});return;
 		}
 		if($("#cardType").val()=='308001'&&!IdentityCodeValid(cardNumber)){
+			$("#cardNumber").focus();
 			layer.tips('请填写真实的身份证号,最后一位是X的必须大写', '#cardNumber',{tips:[2,tipsColor]});return;
 		}
 		var telephone=$("#telephone").val();
 		if($.trim(telephone)==''){
-			layer.tips('请填写联系电话,没有填无', '#telephone',{tips:[2,tipsColor]});return;
+			$("#telephone").focus();
+			layer.tips('请填写联系电话', '#telephone',{tips:[2,tipsColor]});return;
 		}
-		var mobilePhone=$("#mobliePhone").val();
+		var mflag = regBox.regMobile.test(telephone);
+	    var tflag = regBox.regTel.test(telephone);
+	    if (!mflag&&!tflag) {
+	    	$("#telephone").focus();
+	    	layer.tips('联系电话格式填写有误 例010-88888888', '#telephone',{tips:[2,tipsColor]});return;
+	    }
+		var mobilePhone=$("#mobilePhone").val();
 		if($.trim(mobilePhone)==''){
-			layer.tips('请填写手机号码,没有填无', '#mobilePhone',{tips:[2,tipsColor]});return;
+			$("#mobilePhone").focus();
+			layer.tips('请填写手机号码 ', '#mobilePhone',{tips:[2,tipsColor]});return;
+		}
+		mflag = regBox.regMobile.test(mobilePhone);
+		if(!mflag){
+			$("#mobilePhone").focus();
+			layer.tips('手机号码格式填写有误', '#mobilePhone',{tips:[2,tipsColor]});return;
 		}
 		var email=$("#email").val();
 		if($.trim(email)==''){
+			$("#email").focus();
 			layer.tips('请填写邮箱', '#email',{tips:[2,tipsColor]});return;
+		}
+		var emailFlag=regBox.regEmail.test(email);
+		if(!emailFlag){
+			$("#email").focus();
+			layer.tips('邮箱格式填写有误', '#email',{tips:[2,tipsColor]});return;
 		}
 		var postcode=$("#postcode").val();
 		if($.trim(postcode)==''){
+			$("#postcode").focus();
 			layer.tips('请填写邮编', '#postcode',{tips:[2,tipsColor]});return;
+		}
+		var postcodeFlag=regBox.regPostCode.test(postcode);
+		if(!postcodeFlag){
+			$("#postcode").focus();
+			layer.tips('邮编格式填写有误', '#postcode',{tips:[2,tipsColor]});return;
 		}
 		var address=$("#address").val();
 		if($.trim(address)==''){
+			$("#address").focus();
 			layer.tips('请填写通讯地址', '#address',{tips:[2,tipsColor]});return;
 		}
 		var ideaDesc=$("#ideaDesc").val();
 		if($.trim(ideaDesc)==''){
-			layer.tips('请填写创意说ing', '#ideaDesc',{tips:[2,tipsColor]});return;
+			$("#ideaDesc").focus();
+			layer.tips('请填写创意说明', '#ideaDesc',{tips:[2,tipsColor]});return;
+		}
+		if($("#fileNameHidden").val()==''){
+			layer.tips('请选择作品', '#chooseProduct',{tips:[1,tipsColor]});return;
 		}
 		$.ajax({
 			url:"/userApply/userApplyCompetitionItem",
@@ -93,9 +173,13 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
 			dataType:"json",
 			data:$("#form").serialize(),
 			success:function(data){
-				console.log(data);
+				if(data.status=='0'){
+					layer.msg("操作成功",{icon:1});
+				}else{
+					layer.alert(data.error_desc);
+				}
 			},error:function(){
-				
+				layer.alert(errorText);
 			}
 		});
 	}
@@ -143,6 +227,98 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
         //if(!pass) alert(tip);
         return pass;
     }
+	
+	var uploader=null;
+	function openChoose(){
+		if(uploader==null){
+			initUploader();
+		}
+		layer.open({
+			type: 1,
+			content:$("#uploadDiv"),
+			shadeClose: true,//开启遮罩关闭
+			title:false,
+			area: ['400px', '300px']
+		});
+	}
+	var fileId=null;
+	function initUploader(){
+		uploader=WebUploader.create({
+		   swf: '/webuploader/Uploader.swf',
+		   server: '/productUpload/fileUpload',
+		   threads:"1",
+		   pick: {
+		       id: '#picker',
+		       multiple:false
+		   },
+		   formData:{uploadType:"draw"},
+		   resize: false,
+		   chunked:false,
+		   accept: {
+		       title: 'Images',
+		       extensions: 'jpg,jpeg',
+		       mimeTypes: 'image/jpg,image/jpeg'
+		   },
+		   duplicate:true,
+		   auto:false
+		});
+		uploader.on("error",function(type){
+			if(type=='Q_TYPE_DENIED'){
+				layer.alert("文件类型错误");
+			}
+			if(type=='Q_EXCEED_NUM_LIMIT'){
+				layer.alert("文件数量超出限制");
+			}
+			if(type=='Q_EXCEED_SIZE_LIMIT'){
+				layer.alert("文件大小超出限制");
+			}
+		});
+		uploader.on( 'fileQueued', function( file ) {
+			if(fileId!=null){
+				uploader.removeFile(fileId);
+			}
+			fileId=file.id;
+			$("#fileNameDiv").html(file.name);
+			$("#uploadStateDiv").html("");
+			$("#uploadButton").removeAttr("disabled");
+		});
+		uploader.on("uploadBeforeSend",function(object,data,headers){
+			var guid=WebUploader.Base.guid();
+			data.guid=guid;
+			object.file.guid=guid;
+		});
+		uploader.on("uploadAccept",function(object,ret){
+			/* if(ret._raw=='fail'){
+				return false;
+			} */
+			var data=eval("("+ret._raw+")");
+			if(data.status=='0'){
+				$("#filePathHidden").val(data.filePath);
+			}else{return false;}
+		});
+		uploader.on( 'uploadProgress', function( file, percentage ) {
+		    var $li = $( '#fileProgressDiv' ),
+		    $percent = $li.find('.progress .progress-bar');
+		    // 避免重复创建
+		    if ( !$percent.length ) {
+		        $percent = $('<div class="progress progress-striped active">' +
+		          '<div class="progress-bar" role="progressbar" style="width: 0%">' +
+		          '</div>' +
+		        '</div>').appendTo( $li ).find('.progress-bar');
+		    }
+		    $percent.css( 'width', percentage * 100 + '%' );
+		});
+		uploader.on("uploadError",function(file,reason){
+			$("#uploadStateDiv").html(file.name+'上传失败，请重试或联系管理员');
+		});
+		uploader.on("uploadSuccess",function(file,response){
+			$("#uploadStateDiv").html(file.name+'上传成功');
+			//$("#filePathHidden").val(file.guid);
+			$("#fileNameHidden").val(file.name);
+			layer.closeAll();
+			layer.msg("作品上传成功，请点击确认报名完成报名",{icon:1});
+		});
+	}
 </script>
 </head>
 <body>
@@ -175,7 +351,7 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
                            <!-- 作品名称 -->
                             <li>
                                 <span>作品名称</span>
-                                <input id="productionName" name="productionName" type="text" style="width:560px;" />
+                                <input value="${applyInfo.productionName }" id="productionName" name="productionName" type="text" style="width:560px;" />
                             </li>
                             <!-- 参照组别 -->
                              <li>
@@ -201,9 +377,9 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
                              <!--  姓名  出生年月 -->
                              <li>
                                 <span class="name">姓名</span>
-                                <input id="realName" name="realName" type="text"  style="width:150px" />
+                                <input value="${applyInfo.realName }" id="realName" name="realName" type="text"  style="width:150px" />
                                  <span>出生年月</span>
-                                 <input readonly="readonly" onclick='laydate({istime: true, format: "YYYY-MM-DD"})' type="text" name='birthday' id='birthday' style="width:150px" />
+                                 <input value="${birthday }" readonly="readonly" onclick='laydate({istime: true, format: "YYYYMM"})' type="text" name='birthday1' id='birthday' style="width:150px" />
                             </li>
                             <li>  
                                 <span class="name">性别</span>
@@ -213,12 +389,12 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
                             <!-- 所在学校 -->
                             <li>
                                 <span>所在学校</span>
-                                <input name='schoolName' id='schoolName' type="text"  style="width:590px" />
+                                <input value="${applyInfo.schoolName }"  name='schoolName' id='schoolName' type="text"  style="width:590px" />
                              </li>
                              <!-- 推荐单位 -->
                              <li>
                                 <span class="dw">推荐单位（没有写无）</span>
-                                <input name="recommenedCompany" id="recommenedCompany" type="text"  style="width:510px" />
+                                <input value="${applyInfo.recommenedCompany }"  name="recommenedCompany" id="recommenedCompany" type="text"  style="width:510px" />
                              </li>
                              <!-- 证件类型 -->
                               <li>
@@ -228,27 +404,27 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
                    		              <option value='308002'>护照</option>
                                   </select>
                                   <span>证件号码</span>
-                                  <input type="text" name="cardNumber" id='cardNumber' style="width:380px" />
+                                  <input  value="${applyInfo.cardNumber }"  type="text" name="cardNumber" id='cardNumber' style="width:380px" />
 
                              </li>
                               <!-- 联系方式 -->
                               <li>
                                 <span>联系电话</span>
-                                <input name="telephone" id="telephone" type="text"  style="width:150px" />
+                                <input value="${applyInfo.telephone }"  name="telephone" id="telephone" type="text"  style="width:150px" />
                                  <span>手机号码</span>
-                                 <input name='mobilePhone' id='mobilePhone' type="text"  style="width:150px" />
+                                 <input value="${applyInfo.mobilePhone }" name='mobilePhone' id='mobilePhone' type="text"  style="width:150px" />
                              </li>
                               <!-- 邮箱   邮编 -->
                               <li>
                                 <span>邮箱</span>
-                                <input name='email' id='email' type="text"  style="width:150px" />
+                                <input value="${applyInfo.email }" name='email' id='email' type="text"  style="width:150px" />
                                  <span>邮编</span>
-                                 <input name="postcode" id='postcode' type="text"  style="width:150px" />
+                                 <input value="${applyInfo.postcode }"  name="postcode" id='postcode' type="text"  style="width:150px" />
                              </li>
                              <!-- 通讯地址 -->
                               <li>
                                 <span>通讯地址</span>
-                                <input name='address' id='address' type="text" style="width:560px;" />
+                                <input value="${applyInfo.address }"  name='address' id='address' type="text" style="width:560px;" />
                             </li>
                          </ul>   
                         <ul class="right-form">
@@ -256,17 +432,23 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
                                 <span>创意说明（不超过300字）</span>
                             </li>
                             <li>
-                               <textarea id='idea_desc' name="idea_desc" cols="50" rows="28"></textarea>
+                               <textarea id='ideaDesc' name="ideaDesc" cols="50" rows="28">${applyInfo.ideaDesc}</textarea>
                             </li>
                         </ul>
                         <div class="cb left-form1">
                            <p>
-                             <a href="javascript:;" class="tj"><img src="/images/tj-bm.png"></a>
+                             <a onclick='openChoose()' id='chooseProduct' href="javascript:;" class="tj"><img src="/images/tj-bm.png"></a>
                              <a onclick="apply()" href="javascript:;"><img src="/images/qr.png"></a></p>
                         </div>
-                        <input type='hidden' name="activityId" id="activityId" value="${item.activityId }"/>
+                        <input type='hidden' name="activityId" id="activityId" value="${applyInfo.activityId }"/>
+                        <input type='hidden' name="competitionItemId" id="competitionItemId" value="${applyInfo.competitionItemId}"/>
+                        <input type='hidden' name="competitionType" id="competitionType" value="${applyInfo.competitionType }"/>
+                        <input type='hidden' name="fileNameHidden" id="fileNameHidden" />
+                        <input type='hidden' name="filePathHidden" id="filePathHidden" />
+                        <input type='hidden' name="id" id="id" value="${applyInfo.id }"/>
+                       <%--  <input type='hidden' name="activityId" id="activityId" value="${item.activityId }"/>
                         <input type='hidden' name="competitionItemId" id="competitionItemId" value="${item.id }"/>
-                        <input type='hidden' name="competitionType" id="competitionType" value="${item.type }"/>
+                        <input type='hidden' name="competitionType" id="competitionType" value="${item.type }"/> --%>
                     </form>
                </div>
           </div>
@@ -276,6 +458,15 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
         <div class="footer-i w1348 m0">
               Copyright © 2016-2017 Science  contest
         </div>
+     </div>
+     <div id='uploadDiv' style="display:none">
+     	<div id='picker' style="margin-left:30px;margin-top:30px;">添加作品</div>
+     	<div id="fileNameDiv" style="margin-left:30px;margin-top:20px;"></div>
+     	<div id="fileProgressDiv" style="margin-left:30px;margin-top:20px;"></div>
+     	<div id='uploadStateDiv' style="margin-left:30px;margin-top:20px;"></div>
+     	<div style="margin-left:30px;margin-top:20px;" > 
+     		<input id='uploadButton' disabled="disabled" style="width:100px;height:40px;background-color:#00b6ed;" onclick="uploader.upload()" type="button" value="确认上传"/>
+     	</div>
      </div>
 	</body>
 </html>

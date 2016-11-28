@@ -14,7 +14,7 @@
 <link href="/css/AdminLTE.css" rel="stylesheet" type="text/css" />
 
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="/js/jquery-1.9.1.min.js"></script>
 <!-- AdminLTE -->
 <script src="/js/AdminLTE/app.js" type="text/javascript"></script>
 <!-- bootstrap -->

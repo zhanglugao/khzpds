@@ -109,7 +109,7 @@ public class ActivityController extends BaseController{
 	 * @param response
 	 */
 	@RequestMapping("/addActivity")
-	public void addActivity(ActivityInfoInfo activity,Date firstReviewEndtime,Date secondReviewEndtime,HttpServletRequest request,HttpServletResponse response){
+	public void addActivity(ActivityInfoInfo activity,Date firstReviewEndtime,Date secondReviewEndtime,Date firstReviewStarttime,Date userApplyEndtime,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
 		activity.setCreateTime(new Date());
 		activity.setCreateUser(getCurrentSessionInfo(request).getUserName());
@@ -153,6 +153,8 @@ public class ActivityController extends BaseController{
 				item.setStatus(DictionaryConst.BI_SAI_XIANG_MU_ZHUANG_TAI_YI_FA_BU);
 			}
 			item.setSecondReviewEndtime(secondReviewEndtime);
+			item.setUserApplyEndtime(userApplyEndtime);
+			item.setFirstReviewStarttime(firstReviewStarttime);
 			ciList.add(item);
 		}
 		activityInfoService.addActivityAndCompetitionItem(activity,ciList);

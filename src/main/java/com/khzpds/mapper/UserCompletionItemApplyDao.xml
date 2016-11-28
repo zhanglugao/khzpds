@@ -31,6 +31,7 @@
         <result property="postcode" column="postcode" />    
         <result property="address" column="address" />    
         <result property="ideaDesc" column="idea_desc" />    
+        <result property="fileName" column="file_name" />    
         <result property="filePath" column="file_path" />    
         <result property="scriptwriter" column="scriptwriter" />    
         <result property="director" column="director" />    
@@ -44,21 +45,21 @@
     
     <!--根据主键查询-->
 	<select id="findById" resultMap="UserCompletionItemApplyResultMap">
-		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc from user_completion_item_apply where id=#{id}
+		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc from user_completion_item_apply where id=#{id}
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
 	</select>
     
     <!--插入-->
 	 <insert id="insert" parameterType="com.khzpds.vo.UserCompletionItemApplyInfo" >
     	INSERT INTO user_completion_item_apply
-        (id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc) 
-		values(#{id},#{userId},#{userName},#{activityId},#{competitionItemId},#{competitionType},#{createTime},#{applyStatus},#{productionName},#{applyGroup},#{applyYearGroup},#{realName},#{birthday},#{sex},#{schoolName},#{classCompany},#{recommenedCompany},#{cardType},#{cardNumber},#{telephone},#{mobilePhone},#{email},#{postcode},#{address},#{ideaDesc},#{filePath},#{scriptwriter},#{director},#{camerist},#{editor},#{musician},#{artist},#{mainStuff},#{teamDesc})
+        (id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc) 
+		values(#{id},#{userId},#{userName},#{activityId},#{competitionItemId},#{competitionType},#{createTime},#{applyStatus},#{productionName},#{applyGroup},#{applyYearGroup},#{realName},#{birthday},#{sex},#{schoolName},#{classCompany},#{recommenedCompany},#{cardType},#{cardNumber},#{telephone},#{mobilePhone},#{email},#{postcode},#{address},#{ideaDesc},#{fileName},#{filePath},#{scriptwriter},#{director},#{camerist},#{editor},#{musician},#{artist},#{mainStuff},#{teamDesc})
     </insert>
 
     
     <!--根据传入的map参数查询 并分页-->
     <select id="findByParamForPage" resultMap="UserCompletionItemApplyResultMap" >
-		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc from user_completion_item_apply
+		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc from user_completion_item_apply
 		where 1=1
            <if test="obj.search.id!=null"> AND id = #{obj.search.id}</if>
            <if test="obj.search.userId!=null"> AND user_id = #{obj.search.userId}</if>
@@ -85,6 +86,7 @@
            <if test="obj.search.postcode!=null"> AND postcode = #{obj.search.postcode}</if>
            <if test="obj.search.address!=null"> AND address = #{obj.search.address}</if>
            <if test="obj.search.ideaDesc!=null"> AND idea_desc = #{obj.search.ideaDesc}</if>
+           <if test="obj.search.fileName!=null"> AND file_name = #{obj.search.fileName}</if>
            <if test="obj.search.filePath!=null"> AND file_path = #{obj.search.filePath}</if>
            <if test="obj.search.scriptwriter!=null"> AND scriptwriter = #{obj.search.scriptwriter}</if>
            <if test="obj.search.director!=null"> AND director = #{obj.search.director}</if>
@@ -101,7 +103,7 @@
     
      <!--根据传入的实体参数查询-->
     <select id="findByParam" resultMap="UserCompletionItemApplyResultMap" >
-		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc from user_completion_item_apply
+		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc from user_completion_item_apply
 		where 1=1
            <if test="obj.id!=null"> AND id = #{obj.id}</if>
            <if test="obj.userId!=null"> AND user_id = #{obj.userId}</if>
@@ -128,6 +130,7 @@
            <if test="obj.postcode!=null"> AND postcode = #{obj.postcode}</if>
            <if test="obj.address!=null"> AND address = #{obj.address}</if>
            <if test="obj.ideaDesc!=null"> AND idea_desc = #{obj.ideaDesc}</if>
+           <if test="obj.fileName!=null"> AND file_name = #{obj.fileName}</if>
            <if test="obj.filePath!=null"> AND file_path = #{obj.filePath}</if>
            <if test="obj.scriptwriter!=null"> AND scriptwriter = #{obj.scriptwriter}</if>
            <if test="obj.director!=null"> AND director = #{obj.director}</if>
@@ -176,6 +179,7 @@
            <if test="obj.postcode!=null">postcode=#{obj.postcode},</if>
            <if test="obj.address!=null">address=#{obj.address},</if>
            <if test="obj.ideaDesc!=null">idea_desc=#{obj.ideaDesc},</if>
+           <if test="obj.fileName!=null">file_name=#{obj.fileName},</if>
            <if test="obj.filePath!=null">file_path=#{obj.filePath},</if>
            <if test="obj.scriptwriter!=null">scriptwriter=#{obj.scriptwriter},</if>
            <if test="obj.director!=null">director=#{obj.director},</if>

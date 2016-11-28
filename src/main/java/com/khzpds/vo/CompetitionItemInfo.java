@@ -1,10 +1,12 @@
 
+
 package com.khzpds.vo;
 import java.io.Serializable;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+
 @SuppressWarnings("serial")
 public class CompetitionItemInfo implements Serializable
 {
@@ -19,6 +21,8 @@ public class CompetitionItemInfo implements Serializable
 	private String updateUser;   
 	private java.util.Date updateTime;   
 	private java.util.Date publishTime;   
+	private java.util.Date userApplyEndtime;   
+	private java.util.Date firstReviewStarttime;   
 	private java.util.Date firstReviewEndtime;   
 	private java.util.Date secondReviewEndtime;   
     
@@ -166,28 +170,56 @@ public class CompetitionItemInfo implements Serializable
     }
     
     /**
-     * 
+     * 用户报名截止时间
+     */ 	
+	public java.util.Date getUserApplyEndtime(){
+        return userApplyEndtime;
+    }
+    
+     /**
+     * 用户报名截止时间
+     */ 	
+    public void setUserApplyEndtime(java.util.Date userApplyEndtime){
+        this.userApplyEndtime=userApplyEndtime;
+    }
+    
+    /**
+     * 一轮评审开始时间
+     */ 	
+	public java.util.Date getFirstReviewStarttime(){
+        return firstReviewStarttime;
+    }
+    
+     /**
+     * 一轮评审开始时间
+     */ 	
+    public void setFirstReviewStarttime(java.util.Date firstReviewStarttime){
+        this.firstReviewStarttime=firstReviewStarttime;
+    }
+    
+    /**
+     * 一轮评审结束时间
      */ 	
 	public java.util.Date getFirstReviewEndtime(){
         return firstReviewEndtime;
     }
     
      /**
-     * 
+     * 一轮评审结束时间
      */ 	
     public void setFirstReviewEndtime(java.util.Date firstReviewEndtime){
         this.firstReviewEndtime=firstReviewEndtime;
     }
     
     /**
-     * 
+     * 二轮评审结束时间
      */ 	
 	public java.util.Date getSecondReviewEndtime(){
         return secondReviewEndtime;
     }
     
      /**
-     * 
+     * 二轮评审结束时间
      */ 	
     public void setSecondReviewEndtime(java.util.Date secondReviewEndtime){
         this.secondReviewEndtime=secondReviewEndtime;
@@ -205,6 +237,8 @@ public class CompetitionItemInfo implements Serializable
            .append("UpdateUser",getUpdateUser())
            .append("UpdateTime",getUpdateTime())
            .append("PublishTime",getPublishTime())
+           .append("UserApplyEndtime",getUserApplyEndtime())
+           .append("FirstReviewStarttime",getFirstReviewStarttime())
            .append("FirstReviewEndtime",getFirstReviewEndtime())
            .append("SecondReviewEndtime",getSecondReviewEndtime())
 

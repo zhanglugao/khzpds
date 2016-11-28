@@ -15,7 +15,7 @@ public class UserCompletionItemApplyInfo implements Serializable
 	private String activityId;   
 	private String competitionItemId;   
 	private String competitionType;   
-	private String createTime;   
+	private java.util.Date createTime;   
 	private String applyStatus;   
 	private String productionName;   
 	private String applyGroup;   
@@ -34,6 +34,7 @@ public class UserCompletionItemApplyInfo implements Serializable
 	private String postcode;   
 	private String address;   
 	private String ideaDesc;   
+	private String fileName;   
 	private String filePath;   
 	private String scriptwriter;   
 	private String director;   
@@ -134,14 +135,14 @@ public class UserCompletionItemApplyInfo implements Serializable
     /**
      * 提交时间
      */ 	
-	public String getCreateTime(){
+	public java.util.Date getCreateTime(){
         return createTime;
     }
     
      /**
      * 提交时间
      */ 	
-    public void setCreateTime(String createTime){
+    public void setCreateTime(java.util.Date createTime){
         this.createTime=createTime;
     }
     
@@ -398,6 +399,20 @@ public class UserCompletionItemApplyInfo implements Serializable
     }
     
     /**
+     * 
+     */ 	
+	public String getFileName(){
+        return fileName;
+    }
+    
+     /**
+     * 
+     */ 	
+    public void setFileName(String fileName){
+        this.fileName=fileName;
+    }
+    
+    /**
      * 上传文件位置
      */ 	
 	public String getFilePath(){
@@ -550,6 +565,7 @@ public class UserCompletionItemApplyInfo implements Serializable
            .append("Postcode",getPostcode())
            .append("Address",getAddress())
            .append("IdeaDesc",getIdeaDesc())
+           .append("FileName",getFileName())
            .append("FilePath",getFilePath())
            .append("Scriptwriter",getScriptwriter())
            .append("Director",getDirector())

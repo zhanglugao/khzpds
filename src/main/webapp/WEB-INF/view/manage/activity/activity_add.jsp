@@ -35,6 +35,14 @@ function save(){
 	if(endTime==''){
 		layer.tips("请选择活动结束时间","#endTime",{tips:[2,'#E3170D']});return;
 	}
+	var userApplyEndtime=$("#userApplyEndtime").val();
+	if(userApplyEndtime==''){
+		layer.tips("请选择报名截止时间","#userApplyEndtime",{tips:[2,'#E3170D']});return;
+	}
+	var firstReviewStarttime=$("#firstReviewStarttime").val();
+	if(firstReviewStarttime==''){
+		layer.tips("请选择一轮评审开始时间","#firstReviewStarttime",{tips:[2,'#E3170D']});return;
+	}
 	var firstEndTime=$("#firstEndTime").val();
 	if(firstEndTime==''){
 		layer.tips("请选择一轮评审完毕时间","#firstEndTime",{tips:[2,'#E3170D']});return;
@@ -46,11 +54,17 @@ function save(){
 	if(secondEndTime>endTime){
 		layer.tips("活动结束时间不能小于二轮评审时间","#endTime",{tips:[2,'#E3170D']});return;
 	}
-	if(startTime>firstEndTime){
-		layer.tips("一轮评审时间不能小于活动开始时间","#firstEndTime",{tips:[2,'#E3170D']});return;
+	if(startTime>userApplyEndtime){
+		layer.tips("报名截至时间不能小于活动开始时间","#userApplyEndtime",{tips:[2,'#E3170D']});return;
+	}
+	if(userApplyEndtime>firstReviewStarttime){
+		layer.tips("一轮评审开始时间不能小于报名截止时间","#firstReviewStarttime",{tips:[2,'#E3170D']});return;
+	}
+	if(firstReviewStarttime>firstEndTime){
+		layer.tips("一轮评审完毕时间不能小于议论评审开始时间","#firstEndTime",{tips:[2,'#E3170D']});return;
 	}
 	if(firstEndTime>secondEndTime){
-		layer.tips("二轮评审时间不能小于一轮评审时间","#secondEndTime",{tips:[2,'#E3170D']});return;
+		layer.tips("二轮评审完毕时间不能小于一轮评审完毕时间","#secondEndTime",{tips:[2,'#E3170D']});return;
 	}
 	$.ajax({
 		url:"/activity/addActivity",
@@ -156,15 +170,27 @@ function jumpList(){
 									</div> -->
 								</div>
 								<div class="form-group mt10">
+									<label class="control-label col-xs-3">报名截止时间：</label>
+									<div class="col-xs-9">
+									<input id='userApplyEndtime' readonly="readonly" onclick='laydate({istime: true, format: "YYYY-MM-DD"})' type="text" class="form-control" name="userApplyEndtime" value="">
+									</div>
+								</div>
+								<div class="form-group mt10">
+									<label class="control-label col-xs-3">一轮评审开始时间：</label>
+									<div class="col-xs-9">
+									<input id='firstReviewStarttime' readonly="readonly" onclick='laydate({istime: true, format: "YYYY-MM-DD"})' type="text" class="form-control" name="firstReviewStarttime" value="">
+									</div>
+								</div>
+								<div class="form-group mt10">
 									<label class="control-label col-xs-3">一轮评审完毕时间：</label>
 									<div class="col-xs-9">
-									<input id='firstEndTime' readonly="readonly" onclick='laydate({istime: true, format: "YYYY-MM-DD"})' type="text" class="form-control" name="startTime" value="">
+									<input id='firstEndTime' readonly="readonly" onclick='laydate({istime: true, format: "YYYY-MM-DD"})' type="text" class="form-control" name="firstEndTime" value="">
 									</div>
 								</div>
 								<div class="form-group mt10">
 									<label class="control-label col-xs-3">二轮评审完毕时间：</label>
 									<div class="col-xs-9">
-									<input id='secondEndTime' readonly="readonly" onclick='laydate({istime: true, format: "YYYY-MM-DD"})' type="text" class="form-control" name="endTime" value="">
+									<input id='secondEndTime' readonly="readonly" onclick='laydate({istime: true, format: "YYYY-MM-DD"})' type="text" class="form-control" name="secondEndTime" value="">
 									</div>
 								</div>
 							</div>
