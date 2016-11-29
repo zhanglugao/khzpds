@@ -1,4 +1,6 @@
 package com.khzpds.service;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,14 @@ public class UserCompletionItemApplyService extends IBaseService<UserCompletionI
     public void setUserCompletionItemApplyRepository(UserCompletionItemApplyDao repository) {  
         setRepository(repository);  
         userCompletionItemApplyDao=repository;
-    }  
+    }
+
     
     //--CustomBegin***///
+    public List<UserCompletionItemApplyInfo> findByParamSort(
+			UserCompletionItemApplyInfo applyfind, String sort) {
+		return userCompletionItemApplyDao.findByParamSort(applyfind,sort);
+	} 
 //--CustomEnd*****///
 }
 

@@ -31,6 +31,7 @@ public class DictionaryService extends IBaseService<DictionaryInfo> {
 		}
 		return map;
 	} 
+	
 //--CustomEnd*****///
 }
 

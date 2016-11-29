@@ -193,5 +193,46 @@
 		where id=#{obj.id} 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
     </update> 
-	<!--CustomBegin***--><!--CustomEnd*****-->
+	<!--CustomBegin***-->
+	<select id='findByParamSort' resultMap="UserCompletionItemApplyResultMap" >
+		select * from user_completion_item_apply
+		where 1=1
+           <if test="obj.id!=null"> AND id = #{obj.id}</if>
+           <if test="obj.userId!=null"> AND user_id = #{obj.userId}</if>
+           <if test="obj.userName!=null"> AND user_name = #{obj.userName}</if>
+           <if test="obj.activityId!=null"> AND activity_id = #{obj.activityId}</if>
+           <if test="obj.competitionItemId!=null"> AND competition_item_id = #{obj.competitionItemId}</if>
+           <if test="obj.competitionType!=null"> AND competition_type = #{obj.competitionType}</if>
+           <if test="obj.createTime!=null"> AND create_time = #{obj.createTime}</if>
+           <if test="obj.applyStatus!=null"> AND apply_status = #{obj.applyStatus}</if>
+           <if test="obj.productionName!=null"> AND production_name = #{obj.productionName}</if>
+           <if test="obj.applyGroup!=null"> AND apply_group = #{obj.applyGroup}</if>
+           <if test="obj.applyYearGroup!=null"> AND apply_year_group = #{obj.applyYearGroup}</if>
+           <if test="obj.realName!=null"> AND real_name = #{obj.realName}</if>
+           <if test="obj.birthday!=null"> AND birthday = #{obj.birthday}</if>
+           <if test="obj.sex!=null"> AND sex = #{obj.sex}</if>
+           <if test="obj.schoolName!=null"> AND school_name = #{obj.schoolName}</if>
+           <if test="obj.classCompany!=null"> AND class_company = #{obj.classCompany}</if>
+           <if test="obj.recommenedCompany!=null"> AND recommened_company = #{obj.recommenedCompany}</if>
+           <if test="obj.cardType!=null"> AND card_type = #{obj.cardType}</if>
+           <if test="obj.cardNumber!=null"> AND card_number = #{obj.cardNumber}</if>
+           <if test="obj.telephone!=null"> AND telephone = #{obj.telephone}</if>
+           <if test="obj.mobilePhone!=null"> AND mobile_phone = #{obj.mobilePhone}</if>
+           <if test="obj.email!=null"> AND email = #{obj.email}</if>
+           <if test="obj.postcode!=null"> AND postcode = #{obj.postcode}</if>
+           <if test="obj.address!=null"> AND address = #{obj.address}</if>
+           <if test="obj.ideaDesc!=null"> AND idea_desc = #{obj.ideaDesc}</if>
+           <if test="obj.fileName!=null"> AND file_name = #{obj.fileName}</if>
+           <if test="obj.filePath!=null"> AND file_path = #{obj.filePath}</if>
+           <if test="obj.scriptwriter!=null"> AND scriptwriter = #{obj.scriptwriter}</if>
+           <if test="obj.director!=null"> AND director = #{obj.director}</if>
+           <if test="obj.camerist!=null"> AND camerist = #{obj.camerist}</if>
+           <if test="obj.editor!=null"> AND editor = #{obj.editor}</if>
+           <if test="obj.musician!=null"> AND musician = #{obj.musician}</if>
+           <if test="obj.artist!=null"> AND artist = #{obj.artist}</if>
+           <if test="obj.mainStuff!=null"> AND main_stuff = #{obj.mainStuff}</if>
+           <if test="obj.teamDesc!=null"> AND team_desc = #{obj.teamDesc}</if>
+        order by ${sort}
+	</select>
+	<!--CustomEnd*****-->
 </mapper>

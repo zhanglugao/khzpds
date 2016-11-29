@@ -61,7 +61,7 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
 		
 		if("${applyInfo.filePath}"!=''){
 			$("#filePathHidden").val("${applyInfo.filePath}");
-			$("#FileNameHidden").val("${applyInfo.fileName}");
+			$("#fileNameHidden").val("${applyInfo.fileName}");
 			$("#fileNameDiv").html("${applyInfo.fileName}");
 			$("#uploadStateDiv").html("${applyInfo.fileName}上传成功");
 		}
@@ -73,11 +73,11 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
 			layer.tips('请填写作品名称', '#productionName',{tips:[2,tipsColor]});return;
 		}
 		if($("input[name=applyGroup]:checked").length==0){
-			$("#applyGroupTips").focus();
+			document.getElementById("applyGroupTips").scrollIntoView();
 			layer.tips('请选择参赛组别', '#applyGroupTips',{tips:[2,tipsColor]});return;
 		}
 		if($("input[name=applyYearGroup]:checked").length==0){
-			$("#applyYearGroupTips").focus();
+			document.getElementById("applyYearGroupTips").scrollIntoView();
 			layer.tips('请选择参赛年龄组', '#applyYearGroupTips',{tips:[2,tipsColor]});return;
 		}
 		if($("input[name=applyGroup]:checked").val()=='303002'&&$("input[name=applyYearGroup]:checked").val()=='304001'){
@@ -174,7 +174,8 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
 			data:$("#form").serialize(),
 			success:function(data){
 				if(data.status=='0'){
-					layer.msg("操作成功",{icon:1});
+					layer.msg("报名成功",{icon:1});
+					$("#applya").css("display","none");
 				}else{
 					layer.alert(data.error_desc);
 				}
@@ -351,7 +352,7 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
                            <!-- 作品名称 -->
                             <li>
                                 <span>作品名称</span>
-                                <input value="${applyInfo.productionName }" id="productionName" name="productionName" type="text" style="width:560px;" />
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.productionName }" id="productionName" name="productionName" type="text" style="width:560px;" />
                             </li>
                             <!-- 参照组别 -->
                              <li>
@@ -359,8 +360,8 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
                              </li>
                              <li>
                                 <label class="ml50">（请在相应的类别中打√）</label>
-                                    <input name="applyGroup"   type="checkbox"  value="303001"   /><label >手绘组</label>
-                                    <input name="applyGroup"   type="checkbox"  value="303002" />  <label id="applyGroupTips">电脑绘图组（限中学、大学两个年龄段）</label>
+                                    <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="applyGroup"   type="checkbox"  value="303001"   /><label >手绘组</label>
+                                    <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="applyGroup"   type="checkbox"  value="303002" />  <label id="applyGroupTips">电脑绘图组（限中学、大学两个年龄段）</label>
                                     <!-- <span id="applyGroupTips"></span> -->
                              </li>
                              <!-- 参照年龄组 -->
@@ -369,62 +370,62 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
                              </li>
                               <li>
                                 <label  class="ml50">（请在相应的类别中打√）</label>
-                                    <input name="applyYearGroup"   type="checkbox"  value="304001"   /><label >小学</label>
-                                    <input name="applyYearGroup"   type="checkbox"  value="304002" />  <label >中学</label>
-                                    <input name="applyYearGroup"   type="checkbox"  value="304003" />  <label id="applyYearGroupTips">大学</label>
+                                    <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="applyYearGroup"   type="checkbox"  value="304001"   /><label >小学</label>
+                                    <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="applyYearGroup"   type="checkbox"  value="304002" />  <label >中学</label>
+                                    <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="applyYearGroup"   type="checkbox"  value="304003" />  <label id="applyYearGroupTips">大学</label>
                                      <!-- <span id="applyYearGroupTips"></span> -->
                              </li>
                              <!--  姓名  出生年月 -->
                              <li>
                                 <span class="name">姓名</span>
-                                <input value="${applyInfo.realName }" id="realName" name="realName" type="text"  style="width:150px" />
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.realName }" id="realName" name="realName" type="text"  style="width:150px" />
                                  <span>出生年月</span>
-                                 <input value="${birthday }" readonly="readonly" onclick='laydate({istime: true, format: "YYYYMM"})' type="text" name='birthday1' id='birthday' style="width:150px" />
+                                 <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> value="${birthday }" readonly="readonly" onclick='laydate({istime: true, format: "YYYYMM"})' type="text" name='birthday1' id='birthday' style="width:150px" />
                             </li>
                             <li>  
                                 <span class="name">性别</span>
-                               <input value="男" name="sex" type="radio" checked="checked"/>男
-                               <input value="女" name="sex" type="radio" />女
+                               <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> value="男" name="sex" type="radio" checked="checked"/>男
+                               <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> value="女" name="sex" type="radio" />女
                             </li>
                             <!-- 所在学校 -->
                             <li>
                                 <span>所在学校</span>
-                                <input value="${applyInfo.schoolName }"  name='schoolName' id='schoolName' type="text"  style="width:590px" />
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.schoolName }"  name='schoolName' id='schoolName' type="text"  style="width:590px" />
                              </li>
                              <!-- 推荐单位 -->
                              <li>
                                 <span class="dw">推荐单位（没有写无）</span>
-                                <input value="${applyInfo.recommenedCompany }"  name="recommenedCompany" id="recommenedCompany" type="text"  style="width:510px" />
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.recommenedCompany }"  name="recommenedCompany" id="recommenedCompany" type="text"  style="width:510px" />
                              </li>
                              <!-- 证件类型 -->
                               <li>
                                  <span>证件类型</span>
-                                  <select name="cardType" id='cardType'>
+                                  <select <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="cardType" id='cardType'>
            		                      <option value='308001'>身份证</option>
                    		              <option value='308002'>护照</option>
                                   </select>
                                   <span>证件号码</span>
-                                  <input  value="${applyInfo.cardNumber }"  type="text" name="cardNumber" id='cardNumber' style="width:380px" />
+                                  <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if>  value="${applyInfo.cardNumber }"  type="text" name="cardNumber" id='cardNumber' style="width:380px" />
 
                              </li>
                               <!-- 联系方式 -->
                               <li>
                                 <span>联系电话</span>
-                                <input value="${applyInfo.telephone }"  name="telephone" id="telephone" type="text"  style="width:150px" />
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.telephone }"  name="telephone" id="telephone" type="text"  style="width:150px" />
                                  <span>手机号码</span>
-                                 <input value="${applyInfo.mobilePhone }" name='mobilePhone' id='mobilePhone' type="text"  style="width:150px" />
+                                 <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.mobilePhone }" name='mobilePhone' id='mobilePhone' type="text"  style="width:150px" />
                              </li>
                               <!-- 邮箱   邮编 -->
                               <li>
                                 <span>邮箱</span>
-                                <input value="${applyInfo.email }" name='email' id='email' type="text"  style="width:150px" />
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.email }" name='email' id='email' type="text"  style="width:150px" />
                                  <span>邮编</span>
-                                 <input value="${applyInfo.postcode }"  name="postcode" id='postcode' type="text"  style="width:150px" />
+                                 <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.postcode }"  name="postcode" id='postcode' type="text"  style="width:150px" />
                              </li>
                              <!-- 通讯地址 -->
                               <li>
                                 <span>通讯地址</span>
-                                <input value="${applyInfo.address }"  name='address' id='address' type="text" style="width:560px;" />
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.address }"  name='address' id='address' type="text" style="width:560px;" />
                             </li>
                          </ul>   
                         <ul class="right-form">
@@ -432,13 +433,13 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
                                 <span>创意说明（不超过300字）</span>
                             </li>
                             <li>
-                               <textarea id='ideaDesc' name="ideaDesc" cols="50" rows="28">${applyInfo.ideaDesc}</textarea>
+                               <textarea <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> id='ideaDesc' name="ideaDesc" cols="50" rows="28">${applyInfo.ideaDesc}</textarea>
                             </li>
                         </ul>
                         <div class="cb left-form1">
                            <p>
                              <a onclick='openChoose()' id='chooseProduct' href="javascript:;" class="tj"><img src="/images/tj-bm.png"></a>
-                             <a onclick="apply()" href="javascript:;"><img src="/images/qr.png"></a></p>
+                             <a id="applya"  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> onclick="apply()" href="javascript:;"><img src="/images/qr.png"></a></p>
                         </div>
                         <input type='hidden' name="activityId" id="activityId" value="${applyInfo.activityId }"/>
                         <input type='hidden' name="competitionItemId" id="competitionItemId" value="${applyInfo.competitionItemId}"/>
@@ -461,6 +462,9 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
      </div>
      <div id='uploadDiv' style="display:none">
      	<div id='picker' style="margin-left:30px;margin-top:30px;">添加作品</div>
+     	<div style="margin-left:30px;margin-top:10px;">
+     		请选择jpeg格式文件
+     	</div>
      	<div id="fileNameDiv" style="margin-left:30px;margin-top:20px;"></div>
      	<div id="fileProgressDiv" style="margin-left:30px;margin-top:20px;"></div>
      	<div id='uploadStateDiv' style="margin-left:30px;margin-top:20px;"></div>

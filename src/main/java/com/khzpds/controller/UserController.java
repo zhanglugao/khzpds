@@ -22,7 +22,6 @@ import com.khzpds.service.UserInfoService;
 import com.khzpds.util.EmailTool;
 import com.khzpds.util.UUIDUtil;
 import com.khzpds.util.VerifyCodeUtil;
-import com.khzpds.vo.MenuInfo;
 import com.khzpds.vo.UserInfoInfo;
 /**
  * 
@@ -73,7 +72,7 @@ public class UserController extends BaseController{
 			List<UserInfoInfo>users=userInfoService.findByParam(findInfo);
 			if(users!=null&&users.size()>0){
 				result.put("status", "1");
-				result.put("error_desc", "用户已存在，请更换用户名");
+				result.put("error_desc", "用户已存在，请更换会员名称");
 			}else{
 				findInfo.setMail(user.getMail());
 				findInfo.setUserName(null);
@@ -201,27 +200,27 @@ public class UserController extends BaseController{
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping("/changeUserName")
-	public void changeUserName(String userName,String password,HttpServletRequest request,HttpServletResponse response){
+	@RequestMapping("/changeUserInfo")
+	public void changeUserInfo(String userName,String password,String realName,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
-		if(!password.equals(getCurrentSessionInfo(request).getPassword())){
-			result.put("status", "1");
-			result.put("error_desc", "密码错误");
-			this.writeJson(response, result);
-			return;
-		}
+		
+		//判断userName的合法性
 		UserInfoInfo findInfo=new UserInfoInfo();
 		findInfo.setUserName(userName);
 		List<UserInfoInfo> users=userInfoService.findByParam(findInfo);
-		if(users!=null&&users.size()>0){
+		if(users!=null&&users.size()>0&&!users.get(0).getId().equals(getCurrentSessionInfo(request).getUserId())){
 			result.put("status", "1");
-			result.put("error_desc", "会员名称已被使用请更换");
+			result.put("error_desc", "用户已存在，请更换会员名称");
 			this.writeJson(response, result);
 			return;
 		}
-		UserInfoInfo oldUserInfo=userInfoService.findById(getCurrentSessionInfo(request).getUserId());
-		oldUserInfo.setUserName(userName);
-		userInfoService.update(oldUserInfo);
+		UserInfoInfo user=userInfoService.findById(getCurrentSessionInfo(request).getUserId());
+		user.setUserName(userName);
+		user.setPassword(password);
+		user.setRealName(realName);
+		userInfoService.update(user);
+		SessionInfo session=userInfoService.setSession(user);
+		request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, session);
 		result.put("status", "0");
 		this.writeJson(response, result);
 	}
