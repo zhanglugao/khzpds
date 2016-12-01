@@ -119,6 +119,7 @@ public class ProductUploadController extends BaseController{
 	        bufis.close();  
             return true;
 		} catch (IOException e) {
+			e.printStackTrace();
             return false;
 		}
 	}

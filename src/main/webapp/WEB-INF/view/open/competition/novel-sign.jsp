@@ -11,7 +11,30 @@
 <!-- <script type="text/javascript" src="js/Validform.js"></script> -->
 <script type="text/javascript" src="/webuploader/webuploader.nolog.min.js"></script>
 <style type="text/css">  
-div#roll{width:100px;height:100px; background-color:red; color:#fff; position:absolute;}  
+<style type="text/css">
+.graph{
+position:relative;
+background-color:#F0EFEF;
+border:1px solid #cccccc;
+padding:2px;
+font-size:13px;
+font-weight:700;
+}
+.graph .orange, .green, .blue, .red, .black{
+position:relative;
+text-align:left;
+color:#ffffff;
+height:18px;
+line-height:18px;
+font-family:Arial;
+display:block;
+}
+.graph .orange{background-color:#ff6600;}
+.graph .green{background-color:#66CC33;}
+.graph .blue{background-color:#3399CC;}
+.graph .red{background-color:red;}
+.graph .black{background-color:#555;}
+</style> 
 </style>
 <script type="text/javascript">
 	var regBox = {
@@ -264,7 +287,7 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
 		       id: '#picker',
 		       multiple:false
 		   },
-		   formData:{uploadType:"draw"},
+		   formData:{uploadType:"novel"},
 		   resize: false,
 		   chunked:false,
 		   accept: {
@@ -310,16 +333,18 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
 			}else{return false;}
 		});
 		uploader.on( 'uploadProgress', function( file, percentage ) {
-		    var $li = $( '#fileProgressDiv' ),
-		    $percent = $li.find('.progress .progress-bar');
-		    // 避免重复创建
-		    if ( !$percent.length ) {
-		        $percent = $('<div class="progress progress-striped active">' +
-		          '<div class="progress-bar" role="progressbar" style="width: 0%">' +
-		          '</div>' +
-		        '</div>').appendTo( $li ).find('.progress-bar');
-		    }
-		    $percent.css( 'width', percentage * 100 + '%' );
+			 var $li = $( '#fileProgressDiv' ),
+			    $percent = $li.find('#percentbar');
+			    // 避免重复创建
+			    if ( !$percent.length ) {
+			        $percent = $('<div class="graph"><span id="percentbar" class="orange" style="width:0%;">0%</span></div>').appendTo( $li ).find('#percentbar');
+	/* 		        $percent = $('<div class="progress progress-striped active">' +
+			          '<div class="progress-bar" role="progressbar" style="width: 0%">' +
+			          '</div>' +
+			        '</div>').appendTo( $li ).find('.progress-bar'); */
+			    }
+			    $percent.css( 'width', percentage * 100 + '%' );
+			    $percent.html( (percentage * 100 +"").substring(0,5)+ '%' );
 		});
 		uploader.on("uploadError",function(file,reason){
 			$("#uploadStateDiv").html(file.name+'上传失败，请重试或联系管理员');

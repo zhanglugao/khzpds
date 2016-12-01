@@ -10,6 +10,30 @@
 <jsp:include page="../common/open_inc.jsp"></jsp:include>
 <!-- <script type="text/javascript" src="js/Validform.js"></script> -->
 <script type="text/javascript" src="/webuploader/webuploader.nolog.min.js"></script>
+<style type="text/css">
+.graph{
+position:relative;
+background-color:#F0EFEF;
+border:1px solid #cccccc;
+padding:2px;
+font-size:13px;
+font-weight:700;
+}
+.graph .orange, .green, .blue, .red, .black{
+position:relative;
+text-align:left;
+color:#ffffff;
+height:18px;
+line-height:18px;
+font-family:Arial;
+display:block;
+}
+.graph .orange{background-color:#ff6600;}
+.graph .green{background-color:#66CC33;}
+.graph .blue{background-color:#3399CC;}
+.graph .red{background-color:red;}
+.graph .black{background-color:#555;}
+</style>
 <script type="text/javascript">
 	var regBox = {
         regEmail : /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,//邮箱
@@ -257,7 +281,7 @@
 		       id: '#picker',
 		       multiple:false
 		   },
-		   formData:{uploadType:"draw"},
+		   formData:{uploadType:"video"},
 		   resize: false,
 		   chunked:false,
 		   accept: {
@@ -305,15 +329,17 @@
 		});
 		uploader.on( 'uploadProgress', function( file, percentage ) {
 		    var $li = $( '#fileProgressDiv' ),
-		    $percent = $li.find('.progress .progress-bar');
+		    $percent = $li.find('#percentbar');
 		    // 避免重复创建
 		    if ( !$percent.length ) {
-		        $percent = $('<div class="progress progress-striped active">' +
+		        $percent = $('<div class="graph"><span id="percentbar" class="orange" style="width:0%;">0%</span></div>').appendTo( $li ).find('#percentbar');
+/* 		        $percent = $('<div class="progress progress-striped active">' +
 		          '<div class="progress-bar" role="progressbar" style="width: 0%">' +
 		          '</div>' +
-		        '</div>').appendTo( $li ).find('.progress-bar');
+		        '</div>').appendTo( $li ).find('.progress-bar'); */
 		    }
 		    $percent.css( 'width', percentage * 100 + '%' );
+		    $percent.html( (percentage * 100 +"").substring(0,5)+ '%' );
 		});
 		uploader.on("uploadError",function(file,reason){
 			$("#uploadStateDiv").html(file.name+'上传失败，请重试或联系管理员');

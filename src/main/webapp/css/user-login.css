@@ -45,4 +45,5 @@
 .btn-bm{position: absolute;bottom:0;}
 .maintain.on{display:inline-block;}
 .maintain{display: none;}
-
+.form-left table thead th.cz{background:#fa8564; width:150px;}
+.form-left table tr td.cz1{background:#fa8564; width:150px;}

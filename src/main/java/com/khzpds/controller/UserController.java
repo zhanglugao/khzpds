@@ -100,33 +100,39 @@ public class UserController extends BaseController{
 	 * @throws Exception 
 	 */
 	@RequestMapping("/sendVerifyCode")
-	public void sendVerifyCode(String mail,HttpServletRequest request,HttpServletResponse response) throws Exception{
+	public void sendVerifyCode(String mail,HttpServletRequest request,HttpServletResponse response) {
 		//校验邮箱被注册没
-		UserInfoInfo findInfo=new UserInfoInfo();
-		findInfo.setMail(mail);
-		List<UserInfoInfo>users=userInfoService.findByParam(findInfo);
-		if(users!=null&&users.size()>0){
-			this.writeString(response, "mailRepeat");
-			return;
+		try{
+			UserInfoInfo findInfo=new UserInfoInfo();
+			findInfo.setMail(mail);
+			List<UserInfoInfo>users=userInfoService.findByParam(findInfo);
+			if(users!=null&&users.size()>0){
+				this.writeString(response, "mailRepeat");
+				return;
+			}
+			request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, null);
+			SessionInfo sessionInfo=getCurrentSessionInfo(request);
+			String verifyCode=VerifyCodeUtil.createRandom(true, 6);
+			if(sessionInfo==null){
+				sessionInfo=new SessionInfo();
+				sessionInfo.setSendMail(mail);
+				sessionInfo.setSendVerifyCodeTime(new Date());
+				sessionInfo.setVerifyCode(verifyCode);
+				request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, sessionInfo);
+			}
+			//发送邮件
+			 boolean res= EmailTool.SendEmail(mail, "科幻创意大赛", "您的注册验证码是:"+verifyCode+"，请在30分钟内输入完成注册。\\r\\n（这是一封自动发送的邮件，请不要直接回复）");
+		     if(res){
+		    	 this.writeString(response, "success");
+		     }else{
+		    	 this.writeString(response, "fail");
+		     }
+			//this.writeString(response, "success");
+		}catch(Exception e){
+			e.printStackTrace();
+			this.writeString(response, "fail");		
 		}
-		request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, null);
-		SessionInfo sessionInfo=getCurrentSessionInfo(request);
-		String verifyCode=VerifyCodeUtil.createRandom(true, 6);
-		if(sessionInfo==null){
-			sessionInfo=new SessionInfo();
-			sessionInfo.setSendMail(mail);
-			sessionInfo.setSendVerifyCodeTime(new Date());
-			sessionInfo.setVerifyCode(verifyCode);
-			request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, sessionInfo);
-		}
-		//发送邮件
-		 boolean res= EmailTool.SendEmail(mail, "科幻创意大赛", "您的注册验证码是:"+verifyCode+"，请在30分钟内输入完成注册。\\r\\n（这是一封自动发送的邮件，请不要直接回复）");
-	     if(res){
-	    	 this.writeString(response, "success");
-	     }else{
-	    	 this.writeString(response, "fail");
-	     }
-		//this.writeString(response, "success");
+		
 	}
 	
 	/***

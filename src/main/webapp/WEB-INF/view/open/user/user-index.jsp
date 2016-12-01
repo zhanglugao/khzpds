@@ -197,7 +197,7 @@
                          
                     <dl class="m0 btn-bm">
                       <dd class="margin-left:0">
-                          <a href="javascript:;" class="enter"></a>
+                          <a href="http://khds.sxl.cn" target="_blank" class="enter"></a>
                           <span><img src="/images/g1.png" width="120" height="28" alt="进入大赛"></span>
                       </dd>
                       <dd>

@@ -32,7 +32,7 @@ $(function(){ $('input, textarea').placeholder(); });
                         <li><a href="draw.html">科幻画报报名</a></li>
                         <li><a href="video.html">科幻微视频报名</a></li>
                   </ul>
-                  <p id='loginDiv' class="head-login fl" style="visibility:hidden">
+                  <p id='loginDiv' class="head-login fl" >
                        <a href="index.html">首  页</a>
                        <a href="login.html">登  录</a>
 
@@ -76,7 +76,7 @@ $(function(){ $('input, textarea').placeholder(); });
                        </div>
                        <div class="input shengm">
                            <input id='checkbox' type="checkbox">
-                           <span id='sm'>参赛作品的著作权保护问题的声明</span>
+                           <span id='sm'>我同意并自愿遵守《参赛作品的著作权保护问题的声明 》<a target="_blank" href='declaration.html'>查看</a></span>
                        </div>
                        <div class="input shengm">
                            <input style='cursor:pointer' onclick='register()' class="fr" type="button" value="注  册">
@@ -115,7 +115,7 @@ $(function(){ $('input, textarea').placeholder(); });
 		}
 		layer.load(1);
 		$.ajax({
-			url:'/user/sendVerifyCode',
+			url:'/user/sendVerifyCode?time='+new Date().getTime(),
 			data:"mail="+mail,
 			success:function(data){
 				layer.closeAll();
