@@ -61,6 +61,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	}
 	private String getCookie(String name,HttpServletRequest request) throws UnsupportedEncodingException{
 		Cookie[] cookies = request.getCookies();//这样便可以获取一个cookie数组
+		if(cookies==null||cookies.length==0){
+			return null;
+		}
 		for(Cookie cookie : cookies){
 		    String key=cookie.getName();// get the cookie name
 		    if(name.equals(key)){

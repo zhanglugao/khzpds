@@ -33,8 +33,26 @@
 				$(".datatr").remove();
 				for(var i=0;i<data.rows.length;i++){
 					var obj=data.rows[i];
-					var html="<tr class='datatr'><th>"+obj.name+"</th><th>"+obj.year+"</th><th>"+obj.startTime+"</th><th>"+obj.endTime+"</th>"+
-						"<th>"+obj.status+"</th><th>"+obj.createTime+"</th><th>操作</th></tr>";
+					var html="<tr class='datatr'><td>"+obj.name+"</td><td>"+obj.year+"</td><td>"+obj.startTime+"</td><td>"+obj.endTime+"</td>"+
+						"<td>"+obj.status+"</td><td>"+obj.createTime+"</td><td>";
+					if(obj.status=='未发布'){
+						html+="&nbsp;<button onclick='toEdit(\""+obj.id+"\")' type='button' class='btn btn-primary'>编辑</button>";
+						html+="&nbsp;<button onclick='publish(\""+obj.id+"\")' type='button' class='btn btn-primary'>发布</button>";
+						html+="&nbsp;<button onclick='publish(\""+obj.id+"\")' type='button' class='btn btn-primary'>删除</button>";
+						html+="&nbsp;<button onclick='publish(\""+obj.id+"\")' type='button' class='btn btn-primary'>废弃</button>";
+					}
+					if(obj.status=='已发布'){
+						html+="&nbsp;<button onclick='toEdit(\""+obj.id+"\")' type='button' class='btn btn-primary'>编辑</button>";
+						html+="&nbsp;<button onclick='terminate(\""+obj.id+"\")' type='button' class='btn btn-primary'>中止</button>";
+					}
+					if(obj.status=='已结束'){
+						html+="&nbsp;<button onclick='reopen(\""+obj.id+"\")' type='button' class='btn btn-primary'>重新打开</button>";
+					}
+					if(obj.status=='已废弃'){
+						html+="&nbsp;<button onclick='toEdit(\""+obj.id+"\")' type='button' class='btn btn-primary'>编辑</button>";
+						html+="&nbsp;<button onclick='publish(\""+obj.id+"\")' type='button' class='btn btn-primary'>发布</button>";
+					}
+					html+="</td></tr>";
 					$("#dataTable").append(html);
 				}
 				setPageHtml(data.total_page, "next", "getData", currentPage);

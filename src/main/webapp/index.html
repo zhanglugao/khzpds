@@ -14,6 +14,9 @@
 <script type="text/javascript" src='/js/cookieOperate.js'></script>
 <script type="text/javascript" src='/js/autoLogin.js'></script>
 </head>
+<style type="text/css">  
+div#roll{width:100px;height:100px; background-color:red; color:#fff; position:absolute;}  
+</style>
 <body>
      <!-- 头部 -->
      <div class="head">
@@ -25,9 +28,7 @@
                        <a href="register.html">注  册</a>
 
                   </p>
-
               </div>
-              
           </div>
      </div>
      <!--内容-->
@@ -83,19 +84,20 @@
                   </dl> 
                   <p> 全国青少年优秀原创科幻作品大赛活动组委会 </p> 
                   <p> 联系电话：010-62003328，68511864，68598019  </p> 
-
-
- 
               </div>
         </div>
 
      <!-- 底部 -->
-     <div class="footer">
+    <!--  <div class="footer">
         <div class="footer-i w1348 m0">
               Copyright © 2016-2017 Science  contest
         </div>
-     </div>
-
+     </div> -->
+     
+    <div id="roll">
+        <a href="http://www.baidu.com" target="_blank"><img src="/images/index.png" alt="大赛通知"></a>
+        <a href="javascript:;" id="close_float_ad" style="position: absolute;right: 0;top:0;"><img src="/images/close.png" alt="" width="20" height="20"></a>
+    </div>
 	
 	<script type="text/javascript">
 $(document).ready(function(){
@@ -118,6 +120,35 @@ $(document).ready(function(){
   });
 
 });
+var ggRoll = {  
+	    roll : document.getElementById("roll"),  
+	    speed : 14,  
+	    statusX : 1,  
+	    statusY : 1,  
+	    x : 0,  
+	    y : 0,  
+	    winW : document.documentElement.clientWidth - document.getElementById("roll").offsetWidth,  
+	    winH : document.documentElement.clientHeight - document.getElementById("roll").offsetHeight,  
+	    Go : function(){  
+	        this.roll.style.left=this.x+'px';  
+	        this.roll.style.top=this.y+'px';  
+	           
+	        this.x = this.x + (this.statusX? -1: 1)  
+	        if(this.x < 0) {this.statusX = 0}  
+	        if(this.x > this.winW) {this.statusX = 1}  
+	           
+	        this.y = this.y + (this.statusY? -1: 1)  
+	        if(this.y < 0) {this.statusY = 0}  
+	        if(this.y > this.winH) {this.statusY = 1}  
+	    }  
+	}  
+var interval = setInterval("ggRoll.Go()", ggRoll.speed);  
+ggRoll.roll.onmouseover = function(){clearInterval(interval)};  
+ggRoll.roll.onmouseout = function(){interval = setInterval("ggRoll.Go()", ggRoll.speed)};  
+// 点击关闭
+  $('#close_float_ad').on('click',function(){
+      $('#roll').hide();
+  });
 </script>
 </body>
 	</html>

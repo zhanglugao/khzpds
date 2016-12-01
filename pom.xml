@@ -190,22 +190,29 @@
 				</includes>
 			</resource>
 			<!-- 设置对config.properties进行过虑，即这些文件中的${key}会被替换掉为真正的�? -->
-			<!-- <resource>
+			<resource>
 				<directory>src/main/resources</directory>
 				<includes>
 					<include>log4j.properties</include>
 					<include>config.properties</include>
-					<include>chinahrt-activity.xml</include>
-					<include>chinahrt-dao.xml</include>
-					<include>chinahrt-job.xml</include>
-					<include>chinahrt-redis.xml</include>
-					<include>chinahrt-log.xml</include>
+					<include>application.xml</include>
+					<include>springmvc/spring-mvc.xml</include>
+					<!-- <include>properties/jdbc.properties</include> -->
+					<include>mybatis/mybatis-config.xml</include>
 				</includes>
 				<filtering>true</filtering>
-			</resource> -->
+			</resource>
 		</resources> 
 		
 		<plugins>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
 			<plugin>  
 		        <groupId>org.apache.maven.plugins</groupId>  
 		        <artifactId>maven-surefire-plugin</artifactId>  
@@ -217,4 +224,35 @@
 		</plugins>
 		<finalName>khzpds</finalName>
 	</build>
+	
+	<profiles>
+		<profile>
+			<id>dev-env</id>
+			<properties>
+				<basedir.upload>\\</basedir.upload>
+				<basedir.look>\\</basedir.look>
+				<jdbc.url>jdbc:mysql://localhost:3306/khzpds?useUnicode=true&amp;amp;characterEncoding=utf8</jdbc.url>
+				<jdbc.username>root</jdbc.username>
+				<jdbc.password>000000</jdbc.password>
+				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+				<log4j.filepath>D://work/logs/logs.log</log4j.filepath>
+				<log4j.level>DEBUG</log4j.level>
+				<log4j.rootLogger>DEBUG,Console,Stdout</log4j.rootLogger>
+			</properties>
+		</profile>
+		<profile>
+			<id>product-env</id>
+			<properties>
+				<basedir.upload>E:\khzpds</basedir.upload>
+				<basedir.look>E:\khzpds</basedir.look>
+				<jdbc.url>jdbc:mysql://localhost/khzpds?useUnicode=true&amp;amp;characterEncoding=utf8</jdbc.url>
+				<jdbc.username>root</jdbc.username>
+				<jdbc.password>root123456</jdbc.password>
+				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>	
+				<log4j.filepath>E:\khzpds\log.log</log4j.filepath>
+				<log4j.level>DEBUG</log4j.level>
+				<log4j.rootLogger>info,Console</log4j.rootLogger>
+			</properties>	
+		</profile>
+	</profiles>
 </project>

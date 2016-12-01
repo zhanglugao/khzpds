@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.khzpds.base.BaseController;
+import com.khzpds.base.SystemConfig;
 import com.khzpds.util.UUIDUtil;
 
 @Controller
@@ -50,7 +51,7 @@ public class ProductUploadController extends BaseController{
 		}
 		//上传就行了
 		Calendar c=Calendar.getInstance();
-		String basePath=File.separator+uploadType+File.separator+c.get(Calendar.YEAR)+(c.get(Calendar.MONTH)+1)+File.separator;
+		String basePath=SystemConfig.getUploadDir()+File.separator+uploadType+File.separator+c.get(Calendar.YEAR)+(c.get(Calendar.MONTH)+1)+File.separator;
 		boolean res=mkdir(basePath);
 		if(!res){
 			result.put("status", "1");

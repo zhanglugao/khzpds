@@ -34,7 +34,7 @@
 	}
 	
 	function toedit(id){
-		window.open("/userApply/toApply?id="+id,"_target");
+		window.location.href="/userApply/toApply?id="+id;
 	}
 	
 	function cancelApply(id){
@@ -219,11 +219,11 @@
        <!-- 导航部分 -->
       
      <!-- 底部 -->
-     <div class="footer">
+    <!--  <div class="footer">
         <div class="footer-i w1348 m0">
               Copyright © 2016-2017 Science  contest
         </div>
-     </div>
+     </div> -->
   
 	  <script type="text/javascript" src="/js/index.js"></script>
     <script type="text/javascript">

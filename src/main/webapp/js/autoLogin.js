@@ -18,7 +18,7 @@ $(document).ready(function(){
 						success:function(data){
 							if(data.status=='0'){
 								//登陆后的处理
-								window.location.href=data.jump_url;
+								//window.location.href=data.jump_url;
 							}else if(data.status=='1'){
 								//删了cookie 反正都是错的数据
 								delCookie("userName");
@@ -34,6 +34,7 @@ $(document).ready(function(){
 				}
 			}else {
 				//登陆后的处理
+				$("#indexa").attr("href","/user/openIndex");
 			}
 		},error:function(){
 			$("#loginDiv").css("visibility","visible");

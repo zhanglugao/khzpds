@@ -19,6 +19,8 @@ public abstract class SystemConfig {
 	static String mailAccount = null;
 	static String mailName = null;
 	static String mailPassword = null;
+	static String dir_base_look=null;
+	static String dir_base_upload=null;
 	// configuration file location
 	private static String DEFAULT_CONFIG_FILE = "config.properties";
 
@@ -61,4 +63,32 @@ public abstract class SystemConfig {
 			mailPassword = config.getString("mail.password");
 		return mailPassword;
 	}
+	
+	/**
+	* @Title:获取上传文件存放基本路径 
+	* @Description:  
+	* @param @return  参数说明 
+	* @return String    返回类型 
+	* @throws
+	 */
+	public static String getUploadDir() {
+        if(dir_base_upload==null){
+            dir_base_upload=config.getString("basedir.upload");
+        }
+        return dir_base_upload;
+    }
+	
+	/**
+    * @Title:获取上传文件查看基本路径 
+    * @Description:  
+    * @param @return  参数说明 
+    * @return String    返回类型 
+    * @throws
+     */
+    public static String getLookDir() {
+        if(dir_base_look==null){
+            dir_base_look=config.getString("basedir.look");
+        }
+        return dir_base_look;
+    }
 }

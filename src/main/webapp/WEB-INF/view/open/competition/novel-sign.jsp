@@ -175,8 +175,10 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
 			data:$("#form").serialize(),
 			success:function(data){
 				if(data.status=='0'){
-					layer.msg("报名成功",{icon:1});
+					layer.msg("报名成功,2秒后回到首页",{icon:1});
 					$("#applya").css("display","none");
+					x=2;
+					x1=window.setInterval(changeSuccess,1000); 
 				}else{
 					layer.alert(data.error_desc);
 				}
@@ -186,6 +188,15 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
 		});
 	}
 	
+	var x=2;
+	var x1;
+	function changeSuccess(){
+		if(x<=0){
+			window.location.href='/user/openIndex';
+		}else{
+			x=x-1;
+		}
+	}
 	
 	function IdentityCodeValid(code) {
         var city={11:"北京",12:"天津",13:"河北",14:"山西",15:"内蒙古",21:"辽宁",22:"吉林",23:"黑龙江 ",31:"上海",32:"江苏",33:"浙江",34:"安徽",35:"福建",36:"江西",37:"山东",41:"河南",42:"湖北 ",43:"湖南",44:"广东",45:"广西",46:"海南",50:"重庆",51:"四川",52:"贵州",53:"云南",54:"西藏 ",61:"陕西",62:"甘肃",63:"青海",64:"宁夏",65:"新疆",71:"台湾",81:"香港",82:"澳门",91:"国外 "};
@@ -463,11 +474,11 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
           </div>
       </div>
      <!-- 底部 -->
-     <div class="footer">
+    <!--  <div class="footer">
         <div class="footer-i w1348 m0">
               Copyright © 2016-2017 Science  contest
         </div>
-     </div>
+     </div> -->
   <div id='uploadDiv' style="display:none">
      	<div id='picker' style="margin-left:30px;margin-top:30px;">添加作品</div>
      	<div style="margin-left:30px;margin-top:10px;">
