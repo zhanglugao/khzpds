@@ -12,6 +12,7 @@ q:before,q:after {content:''}
 abbr,acronym { border:0}
 body{min-width: 1348px;}
 .cb{clear:both;}
+input[type="text"]{outline:none;}
 /*文字排版、颜色*/
 .f12{font-size:12px}
 .f13{font-size:13px}

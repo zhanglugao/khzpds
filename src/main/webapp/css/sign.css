@@ -1,4 +1,4 @@
-.headbanner{height:auto;overflow: hidden; background: url(/images/sign-banner.png) no-repeat;}
+.headbanner{height:auto;overflow: hidden; background: url(../images/sign-banner.png) no-repeat;}
 .headbanner-i{height: 119px;position: relative;}
 .headbanner-i img{position: absolute; left:279px; top: 50px;}
 .head{position: relative;}

@@ -149,7 +149,7 @@
                                 <th class="cz">操作</th>
                                 </tr>
                           </thead>
-                      <tbody style="height: 690px;overflow-y: auto;" id='dataDiv'>
+                      <tbody id='dataDiv'>
                            <!-- <tr>
                                 <td class="zp1">作品名称</td>
                               <td class="ss1">所属类别</td>

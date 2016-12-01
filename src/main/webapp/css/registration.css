@@ -23,7 +23,8 @@
 .process-i ul.zp li{float: left; margin-right: 50px;width: 294px;height: 335px;}
 /*奖项设置*/
 .award{width:100%;height: auto;overflow: hidden; background: #dfdfdf;}
-.award .award-i{height:auto;padding-top:44px;}
+
+.award .award-i{padding-top:44px; padding-bottom: 70px;}
 .award .award-i dl{width:1185px;height:auto;overflow: hidden;margin-left: 163px;}
 .award .award-i dl dt{font-weight: bolder;font-size: 24px;height:48px;line-height: 48px;color:#595757;text-align: left;}
 .award .award-i dl dd{font-size: 24px;height:48px;line-height: 48px;text-align: left;color:#595757;text-indent: 2em;}
