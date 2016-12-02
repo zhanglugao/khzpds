@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	$.ajax({
-		url:"/user/loginStatus",
+		url:"/user/loginStatus?time="+new Date().getTime(),
 		success:function(data){
 			if(data=='0'){
 				//处理

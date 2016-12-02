@@ -241,6 +241,20 @@
 			</properties>
 		</profile>
 		<profile>
+			<id>company-env</id>
+			<properties>
+				<basedir.upload>E:\khzpds</basedir.upload>
+				<basedir.look>E:\khzpds</basedir.look>
+				<jdbc.url>jdbc:mysql://172.27.1.101:3306/test?useUnicode=true&amp;amp;characterEncoding=utf8</jdbc.url>
+				<jdbc.username>root</jdbc.username>
+				<jdbc.password>MyNewPass4!</jdbc.password>
+				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>	
+				<log4j.filepath>E:\khzpds\log.log</log4j.filepath>
+				<log4j.level>DEBUG</log4j.level>
+				<log4j.rootLogger>info,Console</log4j.rootLogger>
+			</properties>	
+		</profile>
+		<profile>
 			<id>product-env</id>
 			<properties>
 				<basedir.upload>E:\khzpds</basedir.upload>
