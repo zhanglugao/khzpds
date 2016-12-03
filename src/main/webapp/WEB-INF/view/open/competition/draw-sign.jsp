@@ -196,7 +196,7 @@ display:block;
 			success:function(data){
 				if(data.status=='0'){
 					layer.msg("报名成功,2秒后回到首页",{icon:1});
-					$("#applya").css("display","none");
+					$("#applyDIv").css("display","none");
 					x=2;
 					x1=window.setInterval(changeSuccess,1000); 
 				}else{
@@ -354,6 +354,29 @@ display:block;
 			layer.msg("作品上传成功，请点击确认报名完成报名",{icon:1});
 		});
 	}
+	function onlySave(){
+		$.ajax({
+			url:"/userApply/userApplyCompetitionItem?onlySave=1",
+			type:"post",
+			dataType:"json",
+			data:$("#form").serialize(),
+			success:function(data){
+				if(data.status=='0'){
+					layer.msg("保存成功",{icon:1});
+					if($("#id").val()==''){
+						$("#id").val(data.id);
+					}
+					//$("#applya").css("display","none");
+					//x=2;
+					//x1=window.setInterval(changeSuccess,1000); 
+				}else{
+					layer.alert(data.error_desc);
+				}
+			},error:function(){
+				layer.alert(errorText);
+			}
+		});
+	}
 </script>
 </head>
 <body>
@@ -470,8 +493,9 @@ display:block;
                                <textarea <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> id='ideaDesc' name="ideaDesc" cols="50" rows="28">${applyInfo.ideaDesc}</textarea>
                             </li>
                         </ul>
-                        <div class="cb left-form1">
+                        <div class="cb left-form1" id='applyDIv'>
                            <p>
+                           	 <a id='onlysavea' onclick="onlySave()" href="javascript:;" class="bc"><img src="/images/bc-btn.png" alt="保存报名表"></a>
                              <a onclick='openChoose()' id='chooseProduct' href="javascript:;" class="tj"><img src="/images/tj-bm.png"></a>
                              <a id="applya"  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> onclick="apply()" href="javascript:;"><img src="/images/qr.png"></a></p>
                         </div>

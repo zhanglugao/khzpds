@@ -1,5 +1,7 @@
 package com.khzpds.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Date;
@@ -10,8 +12,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -83,8 +90,8 @@ public class UserApplyCompetitionController extends BaseController{
 		Map<String,String> typeMap=dictionaryService.getDicMapByParentId(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING);
 		Map<String,String> statusMap=dictionaryService.getDicMapByParentId(DictionaryConst.BI_SAI_BAO_MING_ZHUANG_TAI);
 		for(UserCompletionItemApplyInfo apply:applys){
-			apply.setCompetitionType(typeMap.get(apply.getCompetitionType()));
 			apply.setApplyStatus(statusMap.get(apply.getApplyStatus()));
+			apply.setArtist(typeMap.get(apply.getCompetitionType()));
 		}
 		result.put("applyList", applys);
 		this.writeJson(response, result);
@@ -158,7 +165,19 @@ public class UserApplyCompetitionController extends BaseController{
 	@RequestMapping("/userApplyCompetitionItem")
 	public void userApplyCompetitionItem(UserCompletionItemApplyInfo applyInfo,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		Map<String,Object> result=new HashMap<String, Object>();
-		applyInfo.setApplyStatus(DictionaryConst.BI_SAI_BAO_MING_ZHUANG_TAI_YI_BAO_MING);
+		String onlySave=request.getParameter("onlySave");
+		if(StringUtils.isNotBlank(onlySave)){
+			//仅仅保存
+			if(StringUtils.isBlank(applyInfo.getId())){
+				//添加
+				applyInfo.setApplyStatus(DictionaryConst.BI_SAI_BAO_MING_ZHUANG_TAI_XIN_JIAN);
+			}
+			else{
+				//编辑 状态不变
+			}
+		}else{
+			applyInfo.setApplyStatus(DictionaryConst.BI_SAI_BAO_MING_ZHUANG_TAI_YI_BAO_MING);
+		}
 		applyInfo.setUserName(getCurrentSessionInfo(request).getUserName());
 		applyInfo.setUserId(getCurrentSessionInfo(request).getUserId());
 		String birthday1=request.getParameter("birthday1");
@@ -178,6 +197,25 @@ public class UserApplyCompetitionController extends BaseController{
 			userCompetitionItemApplyService.update(applyInfo);
 		}
 		result.put("status", "0");
+		result.put("id", applyInfo.getId());
 		this.writeJson(response, result);
 	}
+	
+	 @RequestMapping("download")    
+    public ResponseEntity<byte[]> download(HttpServletRequest request,String type) throws IOException {    
+    	String name="novel-sign-up.docx";
+    	if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_HUA.equals(type)){
+    		name="paint-sign-up.docx";
+    	}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(type)){
+    		name="video-sign-up.docx";
+    	}
+    	String path=request.getSession().getServletContext().getRealPath("")+File.separator+"/file/"+name;
+        File file=new File(path);  
+        HttpHeaders headers = new HttpHeaders();    
+        String fileName=new String(name.getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
+        headers.setContentDispositionFormData("attachment", fileName);   
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
+                                          headers, HttpStatus.CREATED);    
+    } 
 }

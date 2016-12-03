@@ -28,7 +28,8 @@ input[type="text"]{ outline:none;}
 .form-left ul.left-form li input[type="text"]{height:28px;line-height: 32px;font-size: 14px;padding-left: 5px; text-align: left;display:inline-block; float: left}
 /*报名*/
 .tj{margin-right: 15px;}
-.left-form1{float: left;margin-left: 553px;margin-top: 70px;}
-.left-form1 p{float: left;width:300px;height: 40px;}
+.bc{margin-right: 15px;}
+.left-form1{float: left;margin-left: 513px;margin-top: 70px;}
+.left-form1 p{float: left;height: 40px;}
 .left-form1 p a{float:left;display:inline-block;width: 120px;height: 40px;outline: none;}
 .left-form1 p a img{display:block;}

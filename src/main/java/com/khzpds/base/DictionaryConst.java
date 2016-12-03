@@ -43,6 +43,9 @@ public interface DictionaryConst {
     
     /**比赛报名状态_已取消**/
 	public static final String BI_SAI_BAO_MING_ZHUANG_TAI_YI_QU_XIAO="302002";
+	
+	/**比赛报名状态_新建**/
+	public static final String BI_SAI_BAO_MING_ZHUANG_TAI_XIN_JIAN="302003";
     
     /**_科幻画参赛组**/
 	public static final String KE_HUAN_HUA_CAN_SAI_ZU="303";
