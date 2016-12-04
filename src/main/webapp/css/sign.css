@@ -3,6 +3,12 @@
 .headbanner-i img{position: absolute; left:279px; top: 50px;}
 .head{position: relative;}
 .sj-top{position: absolute; left: 20px;top: 14px;}
+/*报名表注意事项*/
+.notice{padding-top:20px;}
+.notice dl{height: auto;overflow: hidden; width: 100%;}
+.notice dl dt,.notice dl dd{height:32px;line-height:32px;text-align: left;font-size: 16px; float: left; width: 98%;padding-left: 20px;}
+.notice dl dd{letter-spacing: 2px;}
+.notice dl dt{font-weight:bold;}
 /*报名表单部分*/
 .main{height:auto;overflow: hidden;position:relative;}
 .main-i{height:auto;overflow:hidden;padding-bottom:50px;position: relative;}
@@ -23,13 +29,12 @@ input[type="text"]{ outline:none;}
 .form-left ul.left-form li span{height:32px;line-height: 32px;font-size: 16px;text-align:center; width:120px;display: inline-block; letter-spacing: 3px; float: left}
 .form-left ul.left-form li span.name{letter-spacing: 8px;}
 .form-left ul.left-form li span.dw{width: 200px}
-.form-left ul.left-form li select{width: 90px;float: left;line-height: 32px;font-size: 16px;height: 32px;}
+.form-left ul.left-form li select{width: 90px;float: left;line-height: 32px;font-size: 16px;height: 32px; text-align: center;}
 .form-left ul.left-form li label{height:32px;line-height: 32px;font-size: 16px;text-align:left;}
 .form-left ul.left-form li input[type="text"]{height:28px;line-height: 32px;font-size: 14px;padding-left: 5px; text-align: left;display:inline-block; float: left}
 /*报名*/
-.tj{margin-right: 15px;}
-.bc{margin-right: 15px;}
-.left-form1{float: left;margin-left: 513px;margin-top: 70px;}
-.left-form1 p{float: left;height: 40px;}
-.left-form1 p a{float:left;display:inline-block;width: 120px;height: 40px;outline: none;}
+
+.left-form1{float: left;margin-left: 463px;margin-top: 70px;}
+.left-form1 p{float: left;display:inline-block;height: 40px; width: 600px;}
+.left-form1 p a{float:left;display:inline-block;width: 120px;height: 40px;outline: none;margin-right: 15px;}
 .left-form1 p a img{display:block;}

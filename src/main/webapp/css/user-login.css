@@ -21,12 +21,12 @@
 .form-left ul.left-form li{ float: left;margin: 6px 0}
 .form-left table{width:auto;margin-top:60px;margin-left:360px;border: none;  background: red;}
 .form-left table thead th{height: 46px;line-height: 46px;text-align: center;color: #fff;font-weight: bold;border:2px solid #fff;}
-.form-left table thead th.zp{background:#fa8564; width: 350px;}
-.form-left table thead th.ss{background:#aec785; width: 200px;}
+.form-left table thead th.zp{background:#fa8564; width: 400px;}
+.form-left table thead th.ss{background:#aec785; width: 300px;}
 .form-left table thead th.ts{background:#22beef; width: 300px;}
 .form-left table thead th.zt{background:#ffc100; width:300px;}
-.form-left table tr td.zp1{background:#fdb896; width: 350px;}
-.form-left table tr td.ss1{background:#c6d8a2; width: 200px;}
+.form-left table tr td.zp1{background:#fdb896; width: 400px;}
+.form-left table tr td.ss1{background:#c6d8a2; width: 300px;}
 .form-left table tr td.ts1{background:#bef7fd; width: 300px;}
 .form-left table tr td.zt1{background:#ffe900; width:300px;}
 .form-left table tr{border:2px solid #fff;}
@@ -38,12 +38,11 @@
 .form-left dd{width: 120px; margin-left:50px; float: left;}
 .form-left dd a{display: inline-block; margin:0 16px;width: 87px;height:86px;}
 .form-left dd span{display:inline-block;width: 120px;height:30px; clear: both;}
-.enter{background: url(/images/enter.png) no-repeat;}
-.novel{background: url(/images/novel.png) no-repeat;}
-.draw{background: url(/images/draw.png) no-repeat;}
-.video{background: url(/images/video.png) no-repeat;}
+.enter{background: url(../images/enter.png) no-repeat;}
+.novel{background: url(../images/novel.png) no-repeat;}
+.draw{background: url(../images/draw.png) no-repeat;}
+.video{background: url(../images/video.png) no-repeat;}
 .btn-bm{position: absolute;bottom:0;}
 .maintain.on{display:inline-block;}
 .maintain{display: none;}
-.form-left table thead th.cz{background:#fa8564; width:250px;}
-.form-left table tr td.cz1{background:#fa8564; width:250px;}
+

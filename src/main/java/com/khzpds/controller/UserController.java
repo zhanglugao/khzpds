@@ -121,7 +121,7 @@ public class UserController extends BaseController{
 				request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, sessionInfo);
 			}
 			//发送邮件
-			 boolean res= EmailTool.SendEmail(mail, "科幻创意大赛", "您的注册验证码是:"+verifyCode+"，请在30分钟内输入完成注册。\\r\\n（这是一封自动发送的邮件，请不要直接回复）");
+			 boolean res= EmailTool.SendEmail(mail, "科幻创意大赛-注册", "您的注册验证码是:"+verifyCode+"，请在30分钟内输入完成注册。\r\n（这是一封自动发送的邮件，请不要直接回复）");
 		     if(res){
 		    	 this.writeString(response, "success");
 		     }else{
@@ -229,5 +229,49 @@ public class UserController extends BaseController{
 		request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, session);
 		result.put("status", "0");
 		this.writeJson(response, result);
+	}
+	
+	/***
+	 * 找回密码
+	 * @param userName
+	 * @param email
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/findPassword")
+	public void findPassword(String userName,String email,HttpServletRequest request,HttpServletResponse response){
+		Map<String,Object> result=new HashMap<String, Object>();
+		if(StringUtils.isEmpty(userName)||StringUtils.isEmpty(email)){
+			result.put("status", "1");
+			result.put("error_desc","用户名或邮箱为空");
+			this.writeJson(response, result);return;
+		}
+		UserInfoInfo findInfo=new UserInfoInfo();
+		findInfo.setUserName(userName);
+		findInfo.setMail(email);
+		List<UserInfoInfo> users=userInfoService.findByParam(findInfo);
+		if(users==null||users.size()==0){
+			result.put("status", "1");
+			result.put("error_desc","用户名或邮箱错误");
+			this.writeJson(response, result);return;
+		}
+		
+		try{
+			//发送邮件
+			 boolean res= EmailTool.SendEmail(email, "科幻创意大赛-密码找回", "您要找回的用户名:"+userName+"，您的密码是:"+users.get(0).getPassword()+"  \r\n（这是一封自动发送的邮件，请不要直接回复）");
+		     if(res){
+		    	result.put("status", "0");
+		    	this.writeJson(response, result);
+		     }else{
+		    	result.put("status", "1");
+				result.put("error_desc","发送邮件失败，请重试或联系管理员");
+				this.writeJson(response, result);
+		     }
+		}catch(Exception e){
+			e.printStackTrace();
+			result.put("status", "1");
+			result.put("error_desc","发送邮件失败，请重试或联系管理员");
+			this.writeJson(response, result);
+		}
 	}
 }

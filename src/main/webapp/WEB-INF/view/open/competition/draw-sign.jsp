@@ -33,6 +33,9 @@ display:block;
 .graph .blue{background-color:#3399CC;}
 .graph .red{background-color:red;}
 .graph .black{background-color:#555;}
+
+.form-left table thead th.cz{background:#fa8564; width:250px;}
+.form-left table tr td.cz1{background:#fa8564; width:250px;}
 </style>
 <script type="text/javascript">
 	var regBox = {
@@ -377,6 +380,10 @@ display:block;
 			}
 		});
 	}
+	
+	function downloadApplyTable(type){
+		window.location.href="/userApply/download?type="+type;
+	}
 </script>
 </head>
 <body>
@@ -402,6 +409,17 @@ display:block;
        <!-- 中间内容 -->
       <div class="main">
           <div class="main-i w1348 m0">
+          		<!-- 注意事项 -->
+               <div class="notice w1348 fl">
+                  <dl>
+                   <dt>注意事项:</dt>
+                   <dd>1.参赛者须如实填写报名信息，按照报名表各项内容认真填写；</dd>
+                   <dd>2.参赛编号由大赛组委会统一填写；</dd>
+                   <dd>3.每个作品只可选择一个参赛类别，不可重复报名，系列作品按一幅计算；</dd>
+                   <dd>4.报名表需提交纸质版、电子版各一份，电子版报名表与作品及作品说明统一在khds.actc.com.cn网站注册并按要求提交作品；</dd>
+                   <dd>5.请将报名表下载打印并签字，邮寄至：北京市西城区三里河路54号601室 邮编：100045   电话：010—68511864;</dd>
+                 </dl>
+               </div>
                <!-- 报名表左侧 -->
                <div class="form-left fl mt50">
                     <form id='form'>
@@ -495,7 +513,8 @@ display:block;
                         </ul>
                         <div class="cb left-form1" id='applyDIv'>
                            <p>
-                           	 <a id='onlysavea' onclick="onlySave()" href="javascript:;" class="bc"><img src="/images/bc-btn.png" alt="保存报名表"></a>
+                           	 <a id='onlysavea'  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if>  onclick="onlySave()" href="javascript:;" class="bc"><img src="/images/bc-btn.png" alt="保存报名表"></a>
+                           	 <a onclick="downloadApplyTable(301002)" href="javascript:;" class="dl"><img src="/images/dl-btn.png" alt="下载报名表"></a>
                              <a onclick='openChoose()' id='chooseProduct' href="javascript:;" class="tj"><img src="/images/tj-bm.png"></a>
                              <a id="applya"  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> onclick="apply()" href="javascript:;"><img src="/images/qr.png"></a></p>
                         </div>

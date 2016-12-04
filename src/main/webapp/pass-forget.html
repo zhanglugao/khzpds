@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>忘记密码</title>
+<link rel="stylesheet" href="/css/style.css"/>
+<link rel="stylesheet" href="/css/header.css"/>
+<link href="/css/user-login.css" rel="stylesheet" type="text/css">
+<link href="/css/password.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/js/layer/layer.js"></script>
+<script type="text/javascript" src='/js/common.js'></script>
+<script type="text/javascript" src='/js/base64.js'></script>
+<script type="text/javascript" src='/js/cookieOperate.js'></script>
+
+<script type="text/javascript">
+	var tipsColor="#ff0000";
+	//找回密码
+	function findPassword(){
+		var userName=$("#userName").val();
+		if($.trim(userName)==''){
+			layer.tips('请填写用户名', '#userName',{tips:[2,tipsColor]});
+			return;
+		}
+		var email=$("#email").val();
+		if($.trim(email)==''){
+			layer.tips('请填写邮箱', '#email',{tips:[2,tipsColor]});
+			return;
+		}
+		if(!isEmail(email)){
+			layer.tips('邮箱格式非法', '#email',{tips:[2,tipsColor]});return;
+		}
+		var loadIndex=layer.load(1);
+		$.ajax({
+			url:"/user/findPassword",
+			type:"post",
+			data:{userName:userName,email:email},
+			dataType:"json",
+			success:function(data){
+				layer.close(loadIndex);
+				if(data.status=='0'){
+					layer.alert("已经将密码发送到您的邮箱，请注意查看，如若收不到邮件，请尝试检查您的垃圾箱");
+					$("#saveButton").css("display","none");
+				}else{
+					layer.alert(data.error_desc);
+				}
+			},error:function(){
+				layer.close(loadIndex);
+				layer.alert("系统错误，请重试或联系管理员");
+			}
+		});
+	}
+	function isEmail(str){ 
+		var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
+		return reg.test(str); 
+	} 
+</script>
+</head>
+<body>
+     <!-- 头部 -->
+     <div class="head">
+          <img src="images/sj-top1.png" class="sj-top">
+          <div class="head-i w1348 m0">
+              
+              <div id='loginDiv' class="nav fr mt15">
+                  <p class="head-login fl">
+                       <a href="login.html">登   录</a>
+                       <a href="register.html">注  册</a>
+                  </p>
+              </div>
+          </div>
+     </div>
+       <!-- 忘记密码 中间内容 -->
+      <div class="forget">
+          <div class="forget-i w1348 m0">
+             <div class="search fl ml200 mt100" >
+              <img src="images/search.png" class="fd"  alt="放大镜">
+               <img src="images/find-pass.png" class="fd1" alt="找回密码">
+
+              <p class="cb pass-tip fl">如果您在登录本系统的时候提示密码错误而无法登录时，请填写我们的密码找回申请，进行找回您的登录密码。</p>
+              <p class="cb pass-line fl"></p>
+              <div class="pass-form fl ml200 ">
+                 
+                  <form>
+                       <div class="pass-user fl">
+                          <label>您的账号是:</label>
+                          <input id='userName' type="text" placeholder="请填写您的账号"  />
+                       </div>
+                       <div class="cb pass-user fl mt20">
+                          <label>您注册时的邮箱是:</label>
+                          <input id='email' type="text" placeholder="请填写您注册时的邮箱" />
+                       </div>
+                      
+                       <!-- 官网验证码 -->
+                       <!-- 
+                       <div class="identifying-code mt15 cb  fl">
+                            <span class="gw-yzm fl">验证码:</span>
+                            <a ><input name="Captcha" type="text" class="yzm" style="color: rgb(160, 160, 160);" id="Captcha"></a>
+                            <a href="javascript:reloadVerifyCode();"  >
+                            <img id="safecode" src="http://yun.chinahrt.com/servlet/Image.Servlet?d=1480666363588" alt="二维码" style="width:80px;height:30px; margin:0 4px;"/>
+                            </a><a class="footsize ml10" href="javascript:reloadVerifyCode();" id="huanyizhang">换一张</a>
+                      </div> -->
+                      <div class="cb fl mt40">
+                            <input id='saveButton' onclick='findPassword()' type="button" class="pass-qr" value="确认" style="" />
+                      </div>
+                  </form>
+              </div>
+              </div>
+          </div>
+      </div>
+       <!-- 导航部分 -->
+</body>
+</html>

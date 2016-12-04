@@ -122,7 +122,7 @@ $(function(){ $('input, textarea').placeholder(); });
 				if(data=='fail'){
 					layer.alert("发送失败，请重试或更换邮箱");
 				}else if(data=='success'){
-					layer.msg("发送成功,120秒后可重新发送",{icon:1});
+					layer.alert("发送成功，请注意查看您的邮箱，如若收不到邮件，请尝试检查您的垃圾箱");
 					$("#getCode").text("120秒可重新发送");
 					$("#getCode").removeAttr("onclick");
 					$("#getCode").css("background","#888888");
