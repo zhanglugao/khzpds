@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>标签管理</title>
+    <link type="text/css" href="../../../css/base.css" rel="stylesheet"/>
+    <link type="text/css" href="../../../css/add.css" rel="stylesheet"/>
+    <link type="text/css" href="../../../css/system.css"rel="stylesheet"/>
+    <link href="../../themes/default/easyui.css" rel="stylesheet"/>
+    <link type="text/css" href="../../themes/icon.css" rel="stylesheet"/>	
+    <script type="text/javascript" src="../../jquery.min.js"></script>
+    <script type="text/javascript" src="../../jquery.easyui.min.js"rel="stylesheet"></script>
+</head>
+<body style="overflow-y:hidden;">
+	<div style="border-right:#545454;margin:25px 10px 0 25px;">
+          <div class="easyr-from">
+             <form action="" method="get" class="from" style="margin-top:15px;">
+               <span>标签名</span> <input name="" type="text">&nbsp;
+               <input name="" type="button" value=" " class="btn">
+             </form>
+          </div>
+          <div class="esybtn cb">
+             <p class="cz fl"><a id="zk"><img src="../../../images/zk_03.jpg" alt="zk"/></a><a id="zd"><img src="../../../images/zd.jpg" alt="zd"/></a> <a id="add"><img src="../../../images/add_05.jpg" alt="add"/></a></p>
+          </div>
+	  <table class="easyui-treegrid" style="width:auto;height:auto"
+			data-options="
+				url: 'treegrid_data1.json',
+				method: 'get',
+				rownumbers: true,
+				idField: 'id',
+				treeField: 'name'
+                ,rowStyler:function(index,row){if(index % 2 === 0){return 'background-color:#f2f2f2;'; }}
+			">
+		<thead>
+			<tr>
+				<th data-options="field:'name'" width="220">标签名称</th>
+				<th data-options="field:'size'" width="220">标签描述</th>
+				<th data-options="field:'date'" width="1000"align="right">操作</th>
+			</tr>
+		</thead>
+	</table>
+    </div> 
+</body>
+</html>

@@ -26,7 +26,7 @@
 			
 			<!-- 分类管理 -->
 			<li>
-				<a href="javascript:;" > <i class="fa fa-align-justify"></i> <span>分类管理</span></a>
+				<a href="/contentCategory/list" > <i class="fa fa-align-justify"></i> <span>机构管理</span></a>
 			</li>
 			
 			<!-- 报表统计 -->

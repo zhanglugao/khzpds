@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.khzpds.dao.ContentCategoryDao">
+
+	 <resultMap id="ContentCategoryResultMap" type="com.khzpds.vo.ContentCategoryInfo">
+        <id property="id" column="id" />
+        <result property="name" column="name" />    
+        <result property="parentId" column="parent_id" />    
+        <result property="description" column="description" />    
+        <result property="sort" column="sort" />    
+        <result property="path" column="path" />    
+        <result property="ifLeaf" column="if_leaf" />    
+        <result property="platformId" column="platform_id" />    
+        <result property="code" column="code" />    
+        <result property="createUser" column="create_user" />    
+    </resultMap>
+    
+    <!--根据主键查询-->
+	<select id="findById" resultMap="ContentCategoryResultMap">
+		select id,name,parent_id,description,sort,path,if_leaf,platform_id,code,create_user from content_category where id=#{id}
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+	</select>
+    
+    <!--插入-->
+	 <insert id="insert" parameterType="com.khzpds.vo.ContentCategoryInfo" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    	INSERT INTO content_category
+        (name,parent_id,description,sort,path,if_leaf,platform_id,code,create_user) 
+		values(#{name},#{parentId},#{description},#{sort},#{path},#{ifLeaf},#{platformId},#{code},#{createUser})
+    </insert>
+
+    
+    <!--根据传入的map参数查询 并分页-->
+    <select id="findByParamForPage" resultMap="ContentCategoryResultMap" >
+		select id,name,parent_id,description,sort,path,if_leaf,platform_id,code,create_user from content_category
+		where 1=1
+           <if test="obj.search.name!=null"> AND name = #{obj.search.name}</if>
+           <if test="obj.search.parentId!=null"> AND parent_id = #{obj.search.parentId}</if>
+           <if test="obj.search.description!=null"> AND description = #{obj.search.description}</if>
+           <if test="obj.search.sort!=null"> AND sort = #{obj.search.sort}</if>
+           <if test="obj.search.path!=null"> AND path = #{obj.search.path}</if>
+           <if test="obj.search.ifLeaf!=null"> AND if_leaf = #{obj.search.ifLeaf}</if>
+           <if test="obj.search.platformId!=null"> AND platform_id = #{obj.search.platformId}</if>
+           <if test="obj.search.code!=null"> AND code = #{obj.search.code}</if>
+           <if test="obj.search.createUser!=null"> AND create_user = #{obj.search.createUser}</if>
+
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+        <if test="obj.orderField!=null and obj.orderType!=null"> order by ${obj.orderField} ${obj.orderType}</if>
+	</select>
+    
+     <!--根据传入的实体参数查询-->
+    <select id="findByParam" resultMap="ContentCategoryResultMap" >
+		select id,name,parent_id,description,sort,path,if_leaf,platform_id,code,create_user from content_category
+		where 1=1
+           <if test="obj.name!=null"> AND name = #{obj.name}</if>
+           <if test="obj.parentId!=null"> AND parent_id = #{obj.parentId}</if>
+           <if test="obj.description!=null"> AND description = #{obj.description}</if>
+           <if test="obj.sort!=null"> AND sort = #{obj.sort}</if>
+           <if test="obj.path!=null"> AND path = #{obj.path}</if>
+           <if test="obj.ifLeaf!=null"> AND if_leaf = #{obj.ifLeaf}</if>
+           <if test="obj.platformId!=null"> AND platform_id = #{obj.platformId}</if>
+           <if test="obj.code!=null"> AND code = #{obj.code}</if>
+           <if test="obj.createUser!=null"> AND create_user = #{obj.createUser}</if>
+
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+	</select>
+    
+    <!--根据主键进行删除-->
+	<delete id="deleteById"  >
+    	delete from content_category where id=#{id}
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+    </delete>
+    
+    <!--根据实体进行更新-->
+	<update id="update" >
+    	update content_category 
+        <trim prefix="SET" suffixOverrides=",">
+           <if test="obj.name!=null">name=#{obj.name},</if>
+           <if test="obj.parentId!=null">parent_id=#{obj.parentId},</if>
+           <if test="obj.description!=null">description=#{obj.description},</if>
+           <if test="obj.sort!=null">sort=#{obj.sort},</if>
+           <if test="obj.path!=null">path=#{obj.path},</if>
+           <if test="obj.ifLeaf!=null">if_leaf=#{obj.ifLeaf},</if>
+           <if test="obj.platformId!=null">platform_id=#{obj.platformId},</if>
+           <if test="obj.code!=null">code=#{obj.code},</if>
+           <if test="obj.createUser!=null">create_user=#{obj.createUser},</if>  
+        </trim>
+		where id=#{obj.id} 
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+    </update> 
+	<!--CustomBegin***-->
+	<select id="findbyIds" resultMap="ContentCategoryResultMap" >
+		select * from content_category where 1=1 
+		<if test="idArray!=null">
+			AND id in(
+			<foreach collection="idArray" item="item" separator=",">
+				'${item}'
+			</foreach>
+			)
+		</if>
+		<if test="platformId!=null"> AND platform_id = #{platformId}</if>
+	</select>
+	<select id="selectIdByName" resultType="String"  parameterType="map">
+		select  id  from content_category where name=#{name} 
+		<if test='platformId!=null'>
+			and platform_id=#{platformId}
+		</if>
+		<if test="rootId!=null"> AND path like (SELECT CONCAT(path,'%') AS path from content_category where id=#{rootId}) </if>
+		<if test="userName!=null"> AND create_user = #{userName}</if>
+	 	LIMIT 0,1
+    </select>
+    <select id="findByParentIdReturnOne" resultMap="ContentCategoryResultMap" parameterType="com.khzpds.vo.ContentCategoryInfo">
+		select * from content_category
+		where 1=1
+           <if test="name!=null"> AND name = #{name}</if>
+           <if test="parentId!=null"> AND parent_id = #{parentId}</if>
+           <if test="description!=null"> AND description = #{description}</if>
+           <if test="sort!=null"> AND sort = #{sort}</if>
+           <if test="path!=null"> AND path = #{path}</if>
+           <if test="ifLeaf!=null"> AND if_leaf = #{ifLeaf}</if>
+           <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+           <if test="code!=null"> AND code = #{code}</if>
+           limit 0,1
+	</select>
+		<select id="findByName" resultMap="ContentCategoryResultMap" >
+		select id,name,parent_id,description,sort,path,if_leaf,platform_id,code from content_category
+		where 1=1
+         <if test="obj.name!=null">AND name like CONCAT('%',#{obj.name},'%') </if>
+          <if test="obj.parentId!=null"> AND parent_id = #{obj.parentId}</if>
+          <if test="obj.description!=null"> AND description = #{obj.description}</if>
+           <if test="obj.sort!=null"> AND sort = #{obj.sort}</if>
+          <if test="obj.path!=null">AND path like CONCAT('%',#{obj.path},'%') </if>
+           <if test="obj.ifLeaf!=null"> AND if_leaf = #{obj.ifLeaf}</if>
+           <if test="obj.code!=null"> AND code = #{obj.code}</if>
+           <if test="platformId!=null">AND platform_id=#{platformId}</if>
+           order by sort
+	</select>
+	<select id="selectLabelByName" resultType="Map"  parameterType="map">
+		select id,name from content_category where name like CONCAT('%',#{name},'%') and platform_id=#{platformId} 
+		and create_user=#{userName}
+		order by sort
+    </select> 
+    <select id="findAllByCode"  resultMap="ContentCategoryResultMap">
+		SELECT * from content_category where path like  CONCAT('%-',(SELECT id from content_category where code='${code}'),'-%')
+	</select>
+	<select id="findByParentIdPath" resultMap="ContentCategoryResultMap">
+		SELECT * from content_category where path like CONCAT('%-',#{parentId},'-%')
+	</select>
+	<select id="findByParamSort" resultMap="ContentCategoryResultMap">
+		SELECT * from content_category
+		where 1=1
+           <if test="obj.name!=null"> AND name = #{obj.name}</if>
+           <if test="obj.parentId!=null"> AND parent_id = #{obj.parentId}</if>
+           <if test="obj.description!=null"> AND description = #{obj.description}</if>
+           <if test="obj.sort!=null"> AND sort = #{obj.sort}</if>
+           <if test="obj.path!=null"> AND path = #{obj.path}</if>
+           <if test="obj.ifLeaf!=null"> AND if_leaf = #{obj.ifLeaf}</if>
+           <if test="obj.platformId!=null"> AND platform_id = #{obj.platformId}</if>
+           <if test="obj.code!=null"> AND code = #{obj.code}</if>
+           <if test="obj.createUser!=null"> AND create_user = #{obj.createUser}</if>
+
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+        order by sort
+	</select>
+	<select id="getMaxSortByParentId" resultType="java.lang.Integer">
+		select max(sort) from content_category 
+		where platform_id=#{platformId} and parent_id=#{parentId}
+	</select>
+	<select id="findLastByParentId" resultType="com.khzpds.vo.ContentCategoryInfo">
+		select * from content_category where sort&lt;#{sort} and parent_id=#{parentId} and platform_id=#{platformId} order by sort desc limit 0,1
+	</select>
+	<select id="findNextByParentId" resultType="com.khzpds.vo.ContentCategoryInfo">
+		select * from content_category where sort&gt;#{sort} and parent_id=#{parentId} and platform_id=#{platformId} order by sort limit 0,1
+	</select>
+	<!--CustomEnd*****-->
+</mapper>

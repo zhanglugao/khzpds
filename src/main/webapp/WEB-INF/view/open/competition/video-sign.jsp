@@ -550,7 +550,7 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
                            <p>
                            	<a id='onlysavea'   <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> onclick="onlySave()" href="javascript:;" class="bc"><img src="/images/bc-btn.png" alt="保存报名表"></a>
                            	<a onclick="downloadApplyTable(301003)" href="javascript:;" class="dl"><img src="/images/dl-btn.png" alt="下载报名表"></a>
-                             <a onclick='openChoose()' id='chooseProduct' href="javascript:;" class="tj"><img src="/images/tj-bm.png"></a>
+                             <a onclick='openChoose()'  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> id='chooseProduct' href="javascript:;" class="tj"><img src="/images/tj-bm.png"></a>
                              <a id="applya"  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> onclick="apply()" href="javascript:;"><img src="/images/qr.png"></a></p>
                         </div>
                      <input type='hidden' name="activityId" id="activityId" value="${applyInfo.activityId }"/>
