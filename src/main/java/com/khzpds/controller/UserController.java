@@ -43,7 +43,11 @@ public class UserController extends BaseController{
 	 */
 	@RequestMapping("/openIndex")
 	public ModelAndView openIndex(HttpServletRequest request){
-		return new ModelAndView(getRootPath(request)+"/open/user/user-index");
+		if(this.getCurrentSessionInfo(request)==null||this.getCurrentSessionInfo(request).getUserId()==null){
+			return new ModelAndView("redirect:/index.html");
+		}else{
+			return new ModelAndView(getRootPath(request)+"/open/user/user-index");
+		}
 	}
 	/***
 	 * 后台用户管理主界面

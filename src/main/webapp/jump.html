@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>科幻作品大赛--引导页</title>
+<link rel="stylesheet" href="/css/style.css"/>
+<link rel="stylesheet" href="/css/header.css"/>
+<link href="/css/guide.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript">
+	window.location.href="/user/openIndex";
+</script>
+<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/js/jquery.SuperSlide.2.1.1.js"></script>
+<script type="text/javascript" src='/js/common.js'></script>
+<script type="text/javascript" src='/js/base64.js'></script>
+<script type="text/javascript" src='/js/cookieOperate.js'></script>
+<script type="text/javascript" src='/js/autoLogin.js'></script>
+</head>
+<style type="text/css">  
+div#roll{width:100px;height:100px; background-color:red; color:#fff; position:absolute;}  
+</style>
+<body>
+     <!-- 头部 -->
+     <div class="head">
+          <div class="head-i w1348 m0">
+              
+              <div class="nav fr mt15">
+                  <p id='loginDiv' class="head-login fl" style="visibility:hidden">
+                       <a href="login.html">登   录</a>
+                       <a href="register.html">注  册</a>
+
+                  </p>
+              </div>
+          </div>
+     </div>
+     <!--内容-->
+    <div class="banner-box">
+  <div class="bd">
+        <ul>                
+            <li style="background:url(images/banner1.png) no-repeat;">
+                <div class="m-width">
+                <a href="javascript:void(0);"><img src="images/banner-1.png" class="m0" style="margin-left: 276px;margin-top: 183px" /></a>
+                </div>
+            </li>
+            <li style="background:#eb85f6">
+                <div class="m-width">
+                <a href="javascript:void(0);"><img src="images/banner-2.png" style="margin-top: 48px" /></a>
+                </div>
+            </li>
+            <!--  <li style="background:url(images/banner1.png) no-repeat;">
+                <div class="m-width">
+                <a href="javascript:void(0);"><img src="images/banner-1.png" class="m0" style="margin-left: 400px;margin-top: 180px" /></a>
+                </div>
+            </li> -->
+            
+         
+        </ul>
+    </div>
+    <div class="banner-btn">
+        <a class="prev" href="javascript:void(0);"></a>
+        <a class="next" href="javascript:void(0);"></a>
+        <div class="hd"><ul></ul></div>
+    </div>
+</div>
+    <!-- 导航部分 -->
+        <div class="guide">
+              <div class="guide-i w1348 m0">
+                  <dl class="fl m0">
+                      <dd class="margin-left:0">
+                          <a href="http://khds.sxl.cn" target="_blank" class="enter"></a>
+                          <span><img src="/images/g1.png" width="120" height="28" alt="进入大赛"></span>
+                      </dd>
+                      <dd>
+                          <a href="novel.html" class="novel" ></a>
+                          <span><img src="/images/g2.png" width="120" height="30" alt="科幻小说报名"></span>
+                      </dd>
+                      <dd>
+                          <a href="draw.html" class="draw" ></a>
+                          <span><img src="/images/g3.png" width="120" height="30" alt="科幻画报名"></span>
+                      </dd>
+                      <dd>
+                          <a href="video.html" class="video" ></a>
+                          <span><img src="/images/g4.png" width="120" height="30" alt="科幻视频报名"></span>
+                      </dd>
+
+                  </dl> 
+                  <p> 全国青少年优秀原创科幻作品大赛活动组委会 </p> 
+                  <p> 联系电话：010-62003328，68511864，68598019  </p> 
+              </div>
+        </div>
+
+     <!-- 底部 -->
+    <!--  <div class="footer">
+        <div class="footer-i w1348 m0">
+              Copyright © 2016-2017 Science  contest
+        </div>
+     </div> -->
+     
+    <div id="roll">
+        <a href="/file/notice.pdf" target="_blank"><img src="/images/index.png" alt="大赛通知"></a>
+        <a href="javascript:;" id="close_float_ad" style="position: absolute;right: 0;top:0;"><img src="/images/close.png" alt="" width="20" height="20"></a>
+    </div>
+	
+	<script type="text/javascript">
+$(document).ready(function(){
+
+  $(".prev,.next").hover(function(){
+    $(this).stop(true,false).fadeTo("show",0.9);
+  },function(){
+    $(this).stop(true,false).fadeTo("show",0.4);
+  });
+  
+  $(".banner-box").slide({
+    titCell:".hd ul",
+    mainCell:".bd ul",
+    effect:"fold",
+    interTime:3500,
+    delayTime:500,
+    autoPlay:true,
+    autoPage:true, 
+    trigger:"click" 
+  });
+
+});
+var ggRoll = {  
+	    roll : document.getElementById("roll"),  
+	    speed : 14,  
+	    statusX : 1,  
+	    statusY : 1,  
+	    x : 0,  
+	    y : 0,  
+	    winW : document.documentElement.clientWidth - document.getElementById("roll").offsetWidth,  
+	    winH : document.documentElement.clientHeight - document.getElementById("roll").offsetHeight,  
+	    Go : function(){  
+	        this.roll.style.left=this.x+'px';  
+	        this.roll.style.top=this.y+'px';  
+	           
+	        this.x = this.x + (this.statusX? -1: 1)  
+	        if(this.x < 0) {this.statusX = 0}  
+	        if(this.x > this.winW) {this.statusX = 1}  
+	           
+	        this.y = this.y + (this.statusY? -1: 1)  
+	        if(this.y < 0) {this.statusY = 0}  
+	        if(this.y > this.winH) {this.statusY = 1}  
+	    }  
+	}  
+var interval = setInterval("ggRoll.Go()", ggRoll.speed);  
+ggRoll.roll.onmouseover = function(){clearInterval(interval)};  
+ggRoll.roll.onmouseout = function(){interval = setInterval("ggRoll.Go()", ggRoll.speed)};  
+// 点击关闭
+  $('#close_float_ad').on('click',function(){
+      $('#roll').hide();
+  });
+</script>
+</body>
+	</html>
