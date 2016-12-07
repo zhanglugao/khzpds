@@ -138,8 +138,7 @@
            order by sort
 	</select>
 	<select id="selectLabelByName" resultType="Map"  parameterType="map">
-		select id,name from content_category where name like CONCAT('%',#{name},'%') and platform_id=#{platformId} 
-		and create_user=#{userName}
+		select id,name from content_category where name like CONCAT('%',#{name},'%') 
 		order by sort
     </select> 
     <select id="findAllByCode"  resultMap="ContentCategoryResultMap">
@@ -166,13 +165,13 @@
 	</select>
 	<select id="getMaxSortByParentId" resultType="java.lang.Integer">
 		select max(sort) from content_category 
-		where platform_id=#{platformId} and parent_id=#{parentId}
+		where parent_id=#{parentId}
 	</select>
 	<select id="findLastByParentId" resultType="com.khzpds.vo.ContentCategoryInfo">
-		select * from content_category where sort&lt;#{sort} and parent_id=#{parentId} and platform_id=#{platformId} order by sort desc limit 0,1
+		select * from content_category where sort&lt;#{sort} and parent_id=#{parentId}  order by sort desc limit 0,1
 	</select>
 	<select id="findNextByParentId" resultType="com.khzpds.vo.ContentCategoryInfo">
-		select * from content_category where sort&gt;#{sort} and parent_id=#{parentId} and platform_id=#{platformId} order by sort limit 0,1
+		select * from content_category where sort&gt;#{sort} and parent_id=#{parentId}  order by sort limit 0,1
 	</select>
 	<!--CustomEnd*****-->
 </mapper>

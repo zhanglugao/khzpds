@@ -244,6 +244,8 @@ public class ContentCategoryService extends IBaseService<ContentCategoryInfo> {
 			info.setPlatformId(platformId);
 			this.add(info);
 			infos=this.findByParam(findInfo);
+			info.setPath("-"+infos.get(0).getId()+"-");
+			this.update(info);
 		}
 		return infos.get(0);
 	}
