@@ -43,11 +43,7 @@ public class UserController extends BaseController{
 	 */
 	@RequestMapping("/openIndex")
 	public ModelAndView openIndex(HttpServletRequest request){
-		if(this.getCurrentSessionInfo(request)==null||this.getCurrentSessionInfo(request).getUserId()==null){
-			return new ModelAndView("redirect:/index.html");
-		}else{
-			return new ModelAndView(getRootPath(request)+"/open/user/user-index");
-		}
+		return new ModelAndView(getRootPath(request)+"/open/user/user-index");
 	}
 	/***
 	 * 后台用户管理主界面
@@ -183,12 +179,15 @@ public class UserController extends BaseController{
 	 */
 	@RequestMapping("/loginStatus")
 	public void getLoginStatus(HttpServletRequest request,HttpServletResponse response){
+		Map<String,Object> result=new HashMap<String, Object>();
 		SessionInfo session=getCurrentSessionInfo(request);
 		if(session==null||session.getIfLogin()==null||!session.getIfLogin()){
-			this.writeString(response, "0");
+			result.put("result", "0");
 		}else{
-			this.writeString(response, "1");
+			result.put("result", "1");
+			result.put("userName", session.getUserName());
 		}
+		writeJson(response, result);
 	}
 	
 	/***

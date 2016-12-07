@@ -20,6 +20,7 @@ $(function(){ $('input, textarea').placeholder(); });
 </head>
 <body>
      <!-- 头部 -->
+     <div id="loginDiv2" style="display:none;position:absolute;right:50px;top:25px;"><span id='loginName'></span>|<a href="/user/logout">退出</a>|<a href="/user/openIndex">个人中心</a></div>
     <div class="head">
           <div class="head-i w1348 m0">
                <i class="logo mt15 fl">
@@ -32,7 +33,7 @@ $(function(){ $('input, textarea').placeholder(); });
                         <li><a href="draw.html">科幻画报报名</a></li>
                         <li><a href="video.html">科幻微视频报名</a></li>
                   </ul>
-                  <p id='loginDiv'  class="head-login fl mt15">
+                  <p id='loginDiv'  class="head-login fl mt15" >
                        <a href="index.html">首  页</a>
                        <a href="login.html">登  录</a>
 
@@ -76,7 +77,7 @@ $(function(){ $('input, textarea').placeholder(); });
                        </div>
                        <div class="input shengm">
                            <input id='checkbox' type="checkbox">
-                           <span id='sm'>我同意并自愿遵守《参赛作品的著作权保护问题的声明 》<a target="_blank" href='declaration.html'>查看</a></span>
+                           <span id='sm' >我同意并自愿遵守《<a href="declaration.html" target="_blank">参赛作品的著作权保护问题的声明 </a>》</span>
                        </div>
                        <div class="input shengm">
                            <input style='cursor:pointer' onclick='register()' class="fr" type="button" value="注  册">
@@ -103,6 +104,9 @@ $(function(){ $('input, textarea').placeholder(); });
      </div>
 </body>
 <script type="text/javascript">
+	function viewNotice(){
+		window.open("declaration.html","_target");
+	}
 	//发送验证码  首先校验 邮箱填写是否合法
 	var t=120;
 	var t1;

@@ -233,7 +233,6 @@ public class ContentCategoryService extends IBaseService<ContentCategoryInfo> {
 		ContentCategoryInfo findInfo=new ContentCategoryInfo();
 		findInfo.setParentId(0l);
 		findInfo.setPlatformId(platformId);
-		findInfo.setCreateUser(userName);
 		List<ContentCategoryInfo> infos=this.findByParam(findInfo);
 		if(infos.size()==0){
 			ContentCategoryInfo info=new ContentCategoryInfo();

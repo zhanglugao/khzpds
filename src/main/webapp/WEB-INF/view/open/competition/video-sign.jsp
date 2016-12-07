@@ -10,6 +10,11 @@
 <jsp:include page="../common/open_inc.jsp"></jsp:include>
 <!-- <script type="text/javascript" src="js/Validform.js"></script> -->
 <script type="text/javascript" src="/webuploader/webuploader.nolog.min.js"></script>
+
+<!-- ztree -->
+<link type="text/css" rel="stylesheet" href="/js/ztree/css/zTreeStyle/zTreeStyle.css"/>
+<script src="/js/ztree/js/jquery.ztree.core-3.4.js"></script>
+<script src="/js/ztree/js/jquery.ztree.excheck-3.4.js"></script>
 <style type="text/css">
 .graph{
 position:relative;
@@ -113,13 +118,13 @@ display:block;
 		var schoolName=$("#schoolName").val();
 		if($.trim(schoolName)==''){
 			$("#schoolName").focus();
-			layer.tips('请填写所在学校', '#schoolName',{tips:[2,tipsColor]});return;
+			layer.tips('请填写所在学校/工作单位', '#schoolName',{tips:[2,tipsColor]});return;
 		}
-		var classCompany=$("#classCompany").val();
+/* 		var classCompany=$("#classCompany").val();
 		if($.trim(classCompany)==''){
 			$("#classCompany").focus();
 			layer.tips('请填写年级(单位)', '#classCompany',{tips:[2,tipsColor]});return;
-		}
+		} */
 		var recommenedCompany=$("#recommenedCompany").val();
 		if($.trim(recommenedCompany)==''){
 			$("#recommenedCompany").focus();
@@ -383,26 +388,76 @@ display:block;
 	function downloadApplyTable(type){
 		window.location.href="/userApply/download?type="+type;
 	}
+	
+	function loadCategoryTree(){
+		createTree();
+		layer.open({
+			type: 1,
+			content:$("#treeDiv"),
+			shadeClose: true,//开启遮罩关闭
+			title:false,
+			/* offset: [ //为了演示，随机坐标
+						75,$(window).width()*0.65
+					], */
+			area: ['400px', '300px']
+		}); 
+	}
+	
+	function getParentsName(array,treeNode){
+		if (treeNode.getParentNode()==null) {
+			return;
+		}else{
+			array.push(treeNode.getParentNode().name);
+			getParentsName(array,treeNode.getParentNode());
+		}
+	}
+	
+    function zTreeOnClick(event, treeId, treeNode) {
+    	var treeObj = $.fn.zTree.getZTreeObj("tree");
+    	var nodes = treeObj.getSelectedNodes();
+    	var NameArray=new Array();
+    	var str = "";	
+    	//getParentsName(NameArray,treeNode);
+    	for(var i=NameArray.length-1;i>=0;i--){
+    		//str+=NameArray[i]+"-";
+    		str+=NameArray[i];
+    	}
+    	var array = new Array();
+    	str+=treeNode.name;
+    	var n = "";			//id
+    	for (var i = 0, l = nodes.length; i < l; i++) {
+            n += nodes[i].id + ",";  
+        }  
+        if (n.length > 0) {
+        	n = n.substring(0, n.length - 1);  
+        }
+        $("#recommenedCompany").val(n);
+        $("#recommenedCompanyName").val(str);
+        layer.closeAll();
+    }
+    function clearClass(){
+    	$("#recommenedCompany").val("");
+    	$("#recommenedCompanyName").val("");
+    }
 </script>
+<script src="/js/categoryTree.js"></script>
 <style type="text/css">  
 div#roll{width:100px;height:100px; background-color:red; color:#fff; position:absolute;}  
 </style>
 </head>
 <body>
      <!-- 头部 -->
+     <div id="loginDiv2" style="position:absolute;right:50px;top:25px;z-index:2;"><span>${sessionScope.User_session_key.userName }</span>|<a href="/user/logout">退出</a>|<a href="/user/openIndex">个人中心</a></div>
      <div class="head">
           <img src="/images/sj-top.png" class="sj-top">
           <div class="head-i w1348 m0">
-              
               <div class="nav fr mt15">
                   <p id='loginDiv' class="head-login fl" style="visibility:hidden">
                        <a href="login.html">登   录</a>
                        <a href="register.html">注  册</a>
 
                   </p>
-
               </div>
-              
           </div>
      </div>
      <!--头部banner-->
@@ -423,6 +478,7 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
                    <dd>3.每个作品只可选择一个参赛类别，不可重复报名，系列作品按一幅计算；</dd>
                    <dd>4.报名表需提交纸质版、电子版各一份，电子版报名表与作品及作品说明统一在khds.actc.com.cn网站注册并按要求提交作品；</dd>
                    <dd>5.请将报名表下载打印并签字，邮寄至：北京市西城区三里河路54号601室 邮编：100045   电话：010—68511864;</dd>
+                   <dd>6.上传微视频请选择mp4格式文件，文件大小小于100M，视频尺寸1280×720，时间不超过5分钟</dd>
                  </dl>
                </div>
                <!-- 报名表左侧 -->
@@ -458,19 +514,20 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
                                <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> value="女" name="sex" type="radio" />女
                             </li>
                             <!-- 所在学校  -->
-                            <li>
-                                <span>所在学校</span>
-                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.schoolName }"  name='schoolName' id='schoolName' type="text"  style="width:590px" />
+                             <li>
+                                <span class="dw">所在学校/工作单位</span>
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.schoolName }"  name='schoolName' id='schoolName' type="text"  style="width:510px" />
                              </li>
                              <!-- 年级  -->
-                            <li>
+                            <%-- <li>
                                 <span>年级(单位)</span>
                                 <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.schoolName }"  name='classCompany' id='classCompany' type="text"  style="width:590px" />
-                             </li>
+                             </li> --%>
                              <!-- 推荐单位 -->
                              <li>
                                 <span class="dw">推荐单位（没有写无）</span>
-                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.recommenedCompany }"  name="recommenedCompany" id="recommenedCompany" type="text"  style="width:510px" />
+                                <input onclick="loadCategoryTree()" <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> readonly="readonly" value="${applyInfo.recommenedCompanyName }"  name="recommenedCompanyName" id="recommenedCompanyName" type="text"  style="width:510px" />
+                                <input type='hidden' id='recommenedCompany' name='recommenedCompany' value="${applyInfo.recommenedCompany }" />
                              </li>
                              <!-- 证件类型 -->
                               <li>
@@ -572,8 +629,8 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
        <div id='uploadDiv' style="display:none">
      	<div id='picker' style="margin-left:30px;margin-top:30px;">添加作品</div>
      	<div style="margin-left:30px;margin-top:10px;">
-     		请选择mp4格式文件，文件大小小于100M<br/>
-     		视频尺寸1280×720，时间不超过5分钟，
+     		<!-- 请选择mp4格式文件，文件大小小于100M<br/>
+     		视频尺寸1280×720，时间不超过5分钟， -->
      	</div>
      	<div id="fileNameDiv" style="margin-left:30px;margin-top:20px;"></div>
      	<div id="fileProgressDiv" style="margin-left:30px;margin-top:20px;"></div>
@@ -582,5 +639,9 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
      		<input id='uploadButton' disabled="disabled" style="width:100px;height:40px;background-color:#00b6ed;" onclick="uploader.upload()" type="button" value="确认上传"/>
      	</div>
      </div>
+     
+     <div id='treeDiv' style='display:none'>
+		<ul id="tree" class="ztree"></ul>
+	</div>
 </body>
 	</html>

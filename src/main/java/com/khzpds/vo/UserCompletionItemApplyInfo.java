@@ -595,6 +595,18 @@ public class UserCompletionItemApplyInfo implements Serializable
 			.isEquals();
 	}
     
-    //--CustomBegin***/////--CustomEnd*****///
+    //--CustomBegin***///
+	private String recommenedCompanyName;
+
+	public String getRecommenedCompanyName() {
+		return recommenedCompanyName;
+	}
+
+
+	public void setRecommenedCompanyName(String recommenedCompanyName) {
+		this.recommenedCompanyName = recommenedCompanyName;
+	}
+	
+	//--CustomEnd*****///
 }
 

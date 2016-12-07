@@ -9,6 +9,10 @@
 <link href="/css/user-login.css" rel="stylesheet" type="text/css">
 <link href="/css/guide.css" rel="stylesheet" type="text/css">
 <!-- <script type="text/javascript" src="js/Validform.js"></script> -->
+<style type="text/css">
+.form-left table thead th.cz{background:#fa8564; width:250px;}
+.form-left table tr td.cz1{background:#fa8564; width:250px;}
+</style>
 <script type="text/javascript">
 	function getData(){
 		$.ajax({
@@ -112,6 +116,7 @@
 </head>
 <body>
      <!-- 头部 -->
+     <div style="position:absolute;right:50px;top:25px;z-index:2;"><span>${sessionScope.User_session_key.userName }</span>|<a href="/user/logout">退出</a>|<a href="/user/openIndex">个人中心</a></div>
      <div class="head">
           <img src="/images/sj-top1.png" class="sj-top">
           <div class="head-i w1348 m0">

@@ -26,11 +26,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.khzpds.base.BaseController;
 import com.khzpds.base.DictionaryConst;
 import com.khzpds.service.CompetitionItemService;
+import com.khzpds.service.ContentCategoryService;
 import com.khzpds.service.DictionaryService;
 import com.khzpds.service.UserCompletionItemApplyService;
 import com.khzpds.util.DateUtil;
 import com.khzpds.util.UUIDUtil;
 import com.khzpds.vo.CompetitionItemInfo;
+import com.khzpds.vo.ContentCategoryInfo;
 import com.khzpds.vo.UserCompletionItemApplyInfo;
 
 /***
@@ -47,6 +49,8 @@ public class UserApplyCompetitionController extends BaseController{
 	private CompetitionItemService competitionItemService;
 	@Autowired
 	private DictionaryService dictionaryService;
+	@Autowired
+	private ContentCategoryService contentCategoryService;
 	
 	/***
 	 * 撤销报名
@@ -131,6 +135,12 @@ public class UserApplyCompetitionController extends BaseController{
 		}
 		if(applyInfo!=null){
 			Date birthday=applyInfo.getBirthday();
+			if(StringUtils.isNotBlank(applyInfo.getRecommenedCompany())){
+				ContentCategoryInfo category=contentCategoryService.findById(applyInfo.getRecommenedCompany());
+				if(category!=null){
+					applyInfo.setRecommenedCompanyName(category.getName());
+				}
+			}
 			if(birthday!=null){
 				request.setAttribute("birthday", DateUtil.formatDate2String(birthday, "yyyyMM"));
 			}

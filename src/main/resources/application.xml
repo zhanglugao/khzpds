@@ -60,7 +60,6 @@
 	        <mvc:exclude-mapping path="/user/sendVerifyCode"/>
 	        <!-- 找回密码 -->
 	        <mvc:exclude-mapping path="/user/findPassword"/>
-	        <mvc:exclude-mapping path="/user/openIndex"/>
 	        
 	        <bean class="com.khzpds.secure.LoginInterceptor" />
 	    </mvc:interceptor>
