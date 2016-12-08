@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.docx4j.openpackaging.exceptions.Docx4JException;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.khzpds.base.BaseController;
 import com.khzpds.base.DictionaryConst;
+import com.khzpds.base.Docx4jUtil;
 import com.khzpds.service.CompetitionItemService;
 import com.khzpds.service.ContentCategoryService;
 import com.khzpds.service.DictionaryService;
@@ -114,10 +117,12 @@ public class UserApplyCompetitionController extends BaseController{
 		//查询已发布状态的活动下的对应type的比赛项目
 		UserCompletionItemApplyInfo applyInfo=null;
 		CompetitionItemInfo item=null;
+		String itemId=null;
 		if(StringUtils.isBlank(id)){
 			List<CompetitionItemInfo> items=competitionItemService.findPublishedCompetitionItem(type);
 			if(items!=null&&items.size()>0){
 				item=items.get(0);
+				itemId=item.getId();
 				//判断用户是否已经报名
 				UserCompletionItemApplyInfo applyFind=new UserCompletionItemApplyInfo();
 				applyFind.setUserId(getCurrentSessionInfo(request).getUserId());
@@ -132,6 +137,7 @@ public class UserApplyCompetitionController extends BaseController{
 		}else{
 			applyInfo=userCompetitionItemApplyService.findById(id);
 			type=applyInfo.getCompetitionType();
+			itemId=applyInfo.getCompetitionItemId();
 		}
 		if(applyInfo!=null){
 			Date birthday=applyInfo.getBirthday();
@@ -162,6 +168,7 @@ public class UserApplyCompetitionController extends BaseController{
 			dest="video-sign";
 		}
 		request.setAttribute("type", type);
+		request.setAttribute("itemId", itemId);
 		return new ModelAndView(getRootPath(request)+"/open/competition/"+dest);
 	}
 	
@@ -210,22 +217,164 @@ public class UserApplyCompetitionController extends BaseController{
 		result.put("id", applyInfo.getId());
 		this.writeJson(response, result);
 	}
-	
+	private String[] cardArr=new String[]{
+		"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r"
+	};
 	 @RequestMapping("download")    
-    public ResponseEntity<byte[]> download(HttpServletRequest request,String type) throws IOException {    
+    public ResponseEntity<byte[]> download(HttpServletRequest request,String type,String itemId) throws IOException, Docx4JException { 
+    	UserCompletionItemApplyInfo findInfo=new UserCompletionItemApplyInfo();
+    	findInfo.setUserId(getCurrentSessionInfo(request).getUserId());
+    	findInfo.setCompetitionItemId(itemId);
+    	List<UserCompletionItemApplyInfo> list=userCompetitionItemApplyService.findByParam(findInfo);
+    	File file=null;
     	String name="novel-sign-up.docx";
-    	if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_HUA.equals(type)){
-    		name="paint-sign-up.docx";
-    	}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(type)){
-    		name="video-sign-up.docx";
+    	if(list.size()>0){
+    		UserCompletionItemApplyInfo applyInfo=list.get(0);
+    		if(StringUtils.isNotBlank(applyInfo.getRecommenedCompany())){
+    			ContentCategoryInfo category=contentCategoryService.findById(applyInfo.getRecommenedCompany());
+				if(category!=null){
+					applyInfo.setRecommenedCompanyName(category.getName());
+				}else{
+					applyInfo.setRecommenedCompanyName("");
+				}
+    		}
+    		if(StringUtils.isNotBlank(applyInfo.getCardType())){
+    			applyInfo.setCardType(dictionaryService.findById(applyInfo.getCardType()).getName());
+    		}
+    		String suffix="novel-template.docx";
+    		if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_HUA.equals(type)){
+    			suffix="paint-template.docx";
+    			name="paint-sign-up.docx";
+	    	}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(type)){
+	    		suffix="video-template.docx";
+	    		name="video-sign-up.docx";
+	    	}
+    		WordprocessingMLPackage word=Docx4jUtil.getTemplate(request.getSession().getServletContext().getRealPath("")+File.separator+"/file/"+suffix);
+    		HashMap<String,String> map=new HashMap<String, String>();
+    		//一般属性
+    		map.put("$productName", applyInfo.getProductionName()==null?"":applyInfo.getProductionName());
+    		map.put("$realName", applyInfo.getRealName()==null?"":applyInfo.getRealName());
+    		map.put("$sex", applyInfo.getSex()==null?"":applyInfo.getSex());
+    		map.put("$birthday", applyInfo.getBirthday()==null?"":DateUtil.date2String(applyInfo.getBirthday(), "yyyyMM"));
+    		map.put("$schoolName", applyInfo.getSchoolName()==null?"":applyInfo.getSchoolName());
+    		map.put("$recommenedCompanyName", applyInfo.getRecommenedCompany()==null?"":applyInfo.getRecommenedCompanyName());
+    		map.put("$cardType", applyInfo.getCardType()==null?"":applyInfo.getCardType());
+    		map.put("$telephone", applyInfo.getTelephone()==null?"":applyInfo.getTelephone());
+    		map.put("$mobilePhone", applyInfo.getMobilePhone()==null?"":applyInfo.getMobilePhone());
+    		map.put("$email", applyInfo.getEmail()==null?"":applyInfo.getEmail());
+    		map.put("$postcode", applyInfo.getPostcode()==null?"":applyInfo.getPostcode());
+    		map.put("$address", applyInfo.getAddress()==null?"":applyInfo.getAddress());
+    		map.put("$ideaDesc", applyInfo.getIdeaDesc()==null?"":applyInfo.getIdeaDesc());
+    		
+    		//微视频附加属性
+    		if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(type)){
+    			map.put("$scriptwriter", applyInfo.getScriptwriter()==null?"":applyInfo.getScriptwriter());
+    			map.put("$director", applyInfo.getDirector()==null?"":applyInfo.getDirector());
+    			map.put("$camerist", applyInfo.getCamerist()==null?"":applyInfo.getCamerist());
+    			map.put("$editor", applyInfo.getEditor()==null?"":applyInfo.getEditor());
+    			map.put("$musician", applyInfo.getMusician()==null?"":applyInfo.getMusician());
+    			map.put("$artist", applyInfo.getArtist()==null?"":applyInfo.getArtist());
+    			map.put("$mainStuff", applyInfo.getMainStuff()==null?"":applyInfo.getMainStuff());
+    			map.put("$teamDesc", applyInfo.getTeamDesc()==null?"":applyInfo.getTeamDesc());
+    		}
+    		
+    		//证件号码的处理
+    		if(StringUtils.isBlank(applyInfo.getCardNumber())){
+    			for(int i=0;i<cardArr.length;i++){
+    				map.put(cardArr[i], "");
+    			}
+    		}else{
+    			//得到证件号码长度 
+    			int cardLength=applyInfo.getCardNumber().length();
+    			for(int i=0;i<cardArr.length;i++){
+    				if(i<cardLength){
+    					map.put(cardArr[i],applyInfo.getCardNumber().substring(i, i+1));
+    				}else{
+    					map.put(cardArr[i], "");
+    				}
+    			}
+    		}
+    		//组别打勾的处理
+    		String gouStr="☑";
+    		if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_XIAO_SHUO.equals(type)){
+    			if(StringUtils.isNotBlank(applyInfo.getApplyGroup())){
+    				if(DictionaryConst.KE_HUAN_XIAO_SHUO_CAN_SAI_ZU_WEI_XING_XIAO_SHUO.equals(applyInfo.getApplyGroup())){
+    					map.put("□微型", gouStr+"微型");
+    				}else if(DictionaryConst.KE_HUAN_XIAO_SHUO_CAN_SAI_ZU_ZHONG_PIAN_XIAO_SHUO.equals(applyInfo.getApplyGroup())){
+    					map.put("        □中篇","        "+gouStr+"中篇");
+    				}
+    			}
+    			if(StringUtils.isNotBlank(applyInfo.getApplyYearGroup())){
+    				if(DictionaryConst.KE_HUAN_XIAO_SHUO_NIAN_LING_ZU_DA_XUE.equals(applyInfo.getApplyYearGroup())){
+    					map.put("□小学    □中学     □大学    □社会人士（35岁以下）", "□小学    □中学     "+gouStr+"大学    □社会人士（35岁以下）");
+    				}
+    				else if(DictionaryConst.KE_HUAN_XIAO_SHUO_NIAN_LING_ZU_SHE_HUI_REN_SHI.equals(applyInfo.getApplyYearGroup())){
+    					map.put("□小学    □中学     □大学    □社会人士（35岁以下）", "□小学    □中学     □大学   "+gouStr+" 社会人士（35岁以下）");
+    				}
+    				else if(DictionaryConst.KE_HUAN_XIAO_SHUO_NIAN_LING_ZU_XIAO_XUE.equals(applyInfo.getApplyYearGroup())){
+    					map.put("□小学    □中学     □大学    □社会人士（35岁以下）", gouStr+"小学    □中学     □大学    □社会人士（35岁以下）");
+    				}
+    				else if(DictionaryConst.KE_HUAN_XIAO_SHUO_NIAN_LING_ZU_ZHONG_XUE.equals(applyInfo.getApplyYearGroup())){
+    					map.put("□小学    □中学     □大学    □社会人士（35岁以下）", "□小学   "+gouStr+"中学    □大学    □社会人士（35岁以下）");
+    				}
+    			}
+    		}
+    		else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_HUA.equals(type)){
+    			if(StringUtils.isNotBlank(applyInfo.getApplyGroup())){
+    				if(DictionaryConst.KE_HUAN_HUA_CAN_SAI_ZU_SHOU_HUI_ZU.equals(applyInfo.getApplyGroup())){
+    					map.put("□", gouStr);
+    				}else if(DictionaryConst.KE_HUAN_HUA_CAN_SAI_ZU_DIAN_NAO_HUI_TU_ZU.equals(applyInfo.getApplyGroup())){
+    					map.put("        □电脑","        "+gouStr+"电脑");
+    				}
+    			}
+    			if(StringUtils.isNotBlank(applyInfo.getApplyYearGroup())){
+    				if(DictionaryConst.KE_HUAN_HUA_NIAN_LING_ZU_DA_XUE.equals(applyInfo.getApplyYearGroup())){
+    					map.put("□小学   □中学    □大学", "□小学   □中学    "+gouStr+"大学");
+    				}
+    				else if(DictionaryConst.KE_HUAN_HUA_NIAN_LING_ZU_XIAO_XUE.equals(applyInfo.getApplyYearGroup())){
+    					map.put("□小学   □中学    □大学", gouStr+"小学   □中学    □大学");
+    				}
+    				else if(DictionaryConst.KE_HUAN_HUA_NIAN_LING_ZU_ZHONG_XUE.equals(applyInfo.getApplyYearGroup())){
+    					map.put("□小学   □中学    □大学", "□小学   "+gouStr+"中学    □大学");
+    				}
+    			}
+    		}
+    		else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(type)){
+    			if(StringUtils.isNotBlank(applyInfo.getApplyYearGroup())){
+    				if(DictionaryConst.KE_HUAN_WEI_SHI_PIN_NIAN_LING_ZU_DA_XUE.equals(applyInfo.getApplyYearGroup())){
+    					map.put("□大学段    □社会人士",gouStr+"大学段    □社会人士");
+    				}
+    				else if(DictionaryConst.KE_HUAN_WEI_SHI_PIN_NIAN_LING_ZU_SHE_HUI_REN_SHI.equals(applyInfo.getApplyYearGroup())){
+    					map.put("□大学段    □社会人士"," □大学段    "+gouStr+"社会人士");
+    				}
+    			}
+    		}
+    		System.out.println(map);
+    		Docx4jUtil.replacePlaceholder(word, map);
+    		String uuid=UUIDUtil.getUUID();
+    		String path=request.getSession().getServletContext().getRealPath("")+File.separator+"/file/downloadTemp/"+uuid+".docx";
+    		Docx4jUtil.writeDocxToStream(word, path);
+    		file=new File(path);
+    	}else{
+	    	if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_HUA.equals(type)){
+	    		name="paint-sign-up.docx";
+	    	}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(type)){
+	    		name="video-sign-up.docx";
+	    	}
+	    	String path=request.getSession().getServletContext().getRealPath("")+File.separator+"/file/"+name;
+	        file=new File(path);  
     	}
-    	String path=request.getSession().getServletContext().getRealPath("")+File.separator+"/file/"+name;
-        File file=new File(path);  
-        HttpHeaders headers = new HttpHeaders();    
+    	HttpHeaders headers = new HttpHeaders();    
         String fileName=new String(name.getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
         headers.setContentDispositionFormData("attachment", fileName);   
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
-                                          headers, HttpStatus.CREATED);    
+                                          headers, HttpStatus.CREATED);
     } 
+    
+    public static void main(String[] args) {
+		String number="12121";
+		System.out.println(number.substring(0,1));
+		System.out.println(number.substring(4,5));
+	}
 }

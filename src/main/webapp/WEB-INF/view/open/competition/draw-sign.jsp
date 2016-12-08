@@ -388,7 +388,7 @@ display:block;
 	}
 	
 	function downloadApplyTable(type){
-		window.location.href="/userApply/download?type="+type;
+		window.open("/userApply/download?type="+type+"&itemId=${itemId}","_blank");
 	}
 	
 	function loadCategoryTree(){
