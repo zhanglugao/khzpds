@@ -8,6 +8,7 @@
 <link href="/css/guide.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/js/jquery.SuperSlide.2.1.1.js"></script>
+<script type="text/javascript" src="/js/gotop.js"></script>
 
 <script type="text/javascript" src='/js/common.js'></script>
 <script type="text/javascript" src='/js/base64.js'></script>
@@ -16,6 +17,16 @@
 </head>
 <style type="text/css">  
 div#roll{width:100px;height:100px; background-color:red; color:#fff; position:absolute;}  
+/*右侧悬浮*/
+/*gotop*/
+#code,#code_hover,#gotop{ width:57px; height:58px; background:url("images/code1.png") no-repeat; position:fixed; right:50px; cursor:pointer;
+_position:absolute;_bottom:auto;_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)));
+}
+#code{background-position:-273px -246px; bottom:200px; _margin-bottom:130px;z-index:998;}
+#code_hover{background-position:-273px -246px; bottom:200px; _margin-bottom:130px;z-index:998;opacity:0.8;}
+#gotop{ background-position:-273px -306px;bottom:132px; _margin-bottom:172px;} 
+#code_img{ width:270px; height:355px; background:url("images/code1.png") -0px -0px no-repeat; position:fixed; right:108px; bottom:135px; cursor:pointer; display:none;z-index:999;
+_position:absolute;_bottom:auto;_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0))); _margin-bottom:135px;}
 </style>
 <body>
      <!-- 头部 -->
@@ -38,7 +49,7 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
         <ul>                
             <li style="background:url(images/banner1.png) no-repeat;">
                 <div class="m-width">
-                <a href="javascript:void(0);"><img src="images/banner-1.png" class="m0" style="margin-left: 276px;margin-top: 183px" /></a>
+                <a href="javascript:void(0);"><img src="images/banner1-1.png" class="m0" style="margin-left: 276px;margin-top: 0px" /></a>
                 </div>
             </li>
             <li style="background:#eb85f6">
@@ -99,6 +110,11 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
         <a href="/file/notice.pdf" target="_blank"><img src="/images/index.png" alt="大赛通知"></a>
         <a href="javascript:;" id="close_float_ad" style="position: absolute;right: 0;top:0;"><img src="/images/close.png" alt="" width="20" height="20"></a>
     </div>
+	
+	    <!-- 二维码悬浮 -->
+    <div id="code"></div>
+	<div id="code_img"></div>
+	<a id="gotop" href="javascript:void(0)"></a>
 	
 	<script type="text/javascript">
 $(document).ready(function(){

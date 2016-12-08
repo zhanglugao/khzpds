@@ -7,7 +7,7 @@ $(document).ready(function(){
 				//处理
 				var userName=getCookie("userName");
 				if(typeof(userName)=='undefined'||userName==null||userName==''){
-					$("#loginDiv").css("visibility","visible");
+					$("#loginDiv").css("display","block");
 				}else{
 					userName=decodeURI(userName);
 					var password=decodeURI(getCookie("password"));

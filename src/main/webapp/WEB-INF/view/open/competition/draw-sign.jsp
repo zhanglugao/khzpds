@@ -204,7 +204,7 @@ display:block;
 			data:$("#form").serialize(),
 			success:function(data){
 				if(data.status=='0'){
-					layer.msg("报名成功,2秒后回到首页",{icon:1});
+					layer.msg("报名成功,2秒后回到个人中心",{icon:1});
 					$("#applyDIv").css("display","none");
 					x=2;
 					x1=window.setInterval(changeSuccess,1000); 
