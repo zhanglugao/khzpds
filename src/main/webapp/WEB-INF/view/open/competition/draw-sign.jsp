@@ -95,6 +95,9 @@ display:block;
 			$("#fileNameDiv").html("${applyInfo.fileName}");
 			$("#uploadStateDiv").html("${applyInfo.fileName}上传成功");
 		}
+		if("${applyInfo.cardType}"!=''){
+			$("#cardType").val("${applyInfo.cardType}");
+		}
 	});
 	function apply(){
 		var productionName=$("#productionName").val();
@@ -538,6 +541,7 @@ display:block;
                                   <select <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="cardType" id='cardType'>
            		                      <option value='308001'>身份证</option>
                    		              <option value='308002'>护照</option>
+                   		              <option value='308003'>军人证</option>
                                   </select>
                                   <span>证件号码</span>
                                   <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if>  value="${applyInfo.cardNumber }"  type="text" name="cardNumber" id='cardNumber' style="width:380px" />

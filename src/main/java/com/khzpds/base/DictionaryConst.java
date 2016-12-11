@@ -110,6 +110,9 @@ public interface DictionaryConst {
     /**证件类型_护照**/
 	public static final String ZHENG_JIAN_LEI_XING_HU_ZHAO="308002";
     
+	/**证件类型_军人证**/
+	public static final String ZHENG_JIAN_LEI_XING_JUN_REN_ZHENG="308003";
+	
     /**_比赛项目状态**/
 	public static final String BI_SAI_XIANG_MU_ZHUANG_TAI="309";
     
