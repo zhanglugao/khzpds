@@ -27,7 +27,11 @@ function save(){
 		layer.tips("请选择活动开始时间","#startTime",{tips:[2,'#E3170D']});return;
 	}
 	var date=new Date();
-	var nowDate=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+	var day=date.getDate();
+	if(day.length==1){
+		day="0"+day;
+	}
+	var nowDate=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+day;
 	if(startTime<nowDate){
 		layer.tips("活动开始时间必须大于当前时间","#startTime",{tips:[2,'#E3170D']});return;
 	}
