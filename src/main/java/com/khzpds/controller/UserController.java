@@ -65,6 +65,8 @@ public class UserController extends BaseController{
 		if(session==null||!verifyCode.equals(session.getVerifyCode())){
 			result.put("status", "1");
 			result.put("error_desc", "验证码错误或已失效");
+			this.writeJson(response, result);
+			return;
 		}else{
 			
 			UserInfoInfo findInfo=new UserInfoInfo();
@@ -73,6 +75,8 @@ public class UserController extends BaseController{
 			if(users!=null&&users.size()>0){
 				result.put("status", "1");
 				result.put("error_desc", "用户已存在，请更换会员名称");
+				this.writeJson(response, result);
+				return;
 			}else{
 				findInfo.setMail(user.getMail());
 				findInfo.setUserName(null);
@@ -80,6 +84,8 @@ public class UserController extends BaseController{
 				if(users!=null&&users.size()>0){
 					result.put("status", "1");
 					result.put("error_desc", "邮箱已被注册，请更换");
+					this.writeJson(response, result);
+					return;
 				}
 				System.out.println(user);
 				user.setId(UUIDUtil.getUUID());
@@ -148,6 +154,8 @@ public class UserController extends BaseController{
 		if(StringUtils.isEmpty(userName)||StringUtils.isEmpty(password)){
 			result.put("status", "1");
 			result.put("error_desc", "用户名或密码为空");
+			this.writeJson(response, result);
+			return;
 		}else{
 			UserInfoInfo findInfo=new UserInfoInfo();
 			findInfo.setUserName(userName);
@@ -156,6 +164,8 @@ public class UserController extends BaseController{
 			if(users==null||users.size()==0){
 				result.put("status", "1");
 				result.put("error_desc", "用户名或密码错误");
+				this.writeJson(response, result);
+				return;
 			}else{
 				//校验成功
 				SessionInfo session=userInfoService.setSession(users.get(0));

@@ -1,6 +1,7 @@
 package com.khzpds.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -9,18 +10,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -201,9 +198,11 @@ public class UserApplyCompetitionController extends BaseController{
 		Date date=DateUtil.getDate(birthday1, "yyyyMM");
 		
 		String filePathHidden=request.getParameter("filePathHidden");
-		String fileNameHidden=request.getParameter("fileNameHidden");
-		applyInfo.setFilePath(URLDecoder.decode(filePathHidden, "utf-8"));
-		applyInfo.setFileName(fileNameHidden);
+		if(StringUtils.isNotBlank(filePathHidden)){
+			String fileNameHidden=request.getParameter("fileNameHidden");
+			applyInfo.setFilePath(URLDecoder.decode(filePathHidden, "utf-8"));
+			applyInfo.setFileName(fileNameHidden);
+		}
 		
 		applyInfo.setBirthday(date);
 		if(StringUtils.isBlank(applyInfo.getId())){
@@ -221,7 +220,7 @@ public class UserApplyCompetitionController extends BaseController{
 		"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r"
 	};
 	 @RequestMapping("download")    
-    public ResponseEntity<byte[]> download(HttpServletRequest request,String type,String itemId) throws IOException, Docx4JException { 
+    public void download(HttpServletRequest request,String type,String itemId,HttpServletResponse response) throws IOException, Docx4JException { 
     	UserCompletionItemApplyInfo findInfo=new UserCompletionItemApplyInfo();
     	findInfo.setUserId(getCurrentSessionInfo(request).getUserId());
     	findInfo.setCompetitionItemId(itemId);
@@ -364,12 +363,30 @@ public class UserApplyCompetitionController extends BaseController{
 	    	String path=request.getSession().getServletContext().getRealPath("")+File.separator+"/file/"+name;
 	        file=new File(path);  
     	}
-    	HttpHeaders headers = new HttpHeaders();    
-        String fileName=new String(name.getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
-        headers.setContentDispositionFormData("attachment", fileName);   
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
-        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
-                                          headers, HttpStatus.CREATED);
+    	 //获取网站部署路径(通过ServletContext对象)，用于确定下载文件位置，从而实现下载  
+        //1.设置文件ContentType类型，这样设置，会自动判断下载文件类型  
+        response.setContentType("multipart/form-data");  
+        //2.设置文件头：最后一个参数是设置下载文件名(假如我们叫a.pdf)  
+        response.setHeader("Content-Disposition", "attachment;fileName="+name);  
+        ServletOutputStream out;  
+        //通过文件路径获得File对象(假如此路径中有一个download.pdf文件)  
+        try {  
+            FileInputStream inputStream = new FileInputStream(file);  
+  
+            //3.通过response获取ServletOutputStream对象(out)  
+            out = response.getOutputStream();  
+  
+            byte[] b = new byte[512];
+            int len;
+            while ((len = inputStream.read(b)) > 0)
+            out.write(b, 0, len);
+            inputStream.close();  
+            out.close();  
+            out.flush();  
+  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
     } 
     
     public static void main(String[] args) {

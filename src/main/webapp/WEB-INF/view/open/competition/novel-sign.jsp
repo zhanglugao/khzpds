@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -90,7 +90,7 @@ display:block;
 		}
 		
 		if("${applyInfo.filePath}"!=''){
-			$("#filePathHidden").val("${applyInfo.filePath}");
+			//$("#filePathHidden").val("${applyInfo.filePath}");
 			$("#fileNameHidden").val("${applyInfo.fileName}");
 			$("#fileNameDiv").html("${applyInfo.fileName}");
 			$("#uploadStateDiv").html("${applyInfo.fileName}上传成功");
@@ -100,6 +100,7 @@ display:block;
 		}
 	});
 	function apply(){
+		layer.alert("目前为创作阶段请于2017年2月16日之后提交");return;
 		var productionName=$("#productionName").val();
 		if($.trim(productionName)==''){
 			$("#productionName").focus();
@@ -276,6 +277,7 @@ display:block;
 	
 	var uploader=null;
 	function openChoose(){
+		layer.alert("目前为创作阶段请于2017年2月16日之后提交");return;
 		if(uploader==null){
 			initUploader();
 		}
@@ -482,9 +484,9 @@ display:block;
                    <dt>注意事项:</dt>
                    <dd>1.参赛者须如实填写报名信息，按照报名表各项内容认真填写；</dd>
                    <dd>2.参赛编号由大赛组委会统一填写；</dd>
-                   <dd>3.每个作品只可选择一个参赛类别，不可重复报名，系列作品按一幅计算；</dd>
+                   <dd>3.每个作品只可选择一个参赛类别，不可重复报名，若提交多个参赛作品，应分别提交报名材料，每张报名表仅限一个参赛作品；</dd>
                    <dd>4.报名表需提交纸质版、电子版各一份，电子版报名表与作品及作品说明统一在khds.actc.com.cn网站注册并按要求提交作品；</dd>
-                   <dd>5.请将报名表下载打印并签字，邮寄至：北京市西城区三里河路54号601室 邮编：100045   电话：010—68511864;</dd>
+                   <dd>5.请将报名表下载打印并签字，邮寄至：北京市西城区三里河路54号601室 邮编：100045   电话：010—68511864；</dd>
                  </dl>
                </div>
                <!-- 报名表左侧 -->

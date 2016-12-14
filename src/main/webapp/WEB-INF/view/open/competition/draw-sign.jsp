@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -90,7 +90,7 @@ display:block;
 		}
 		
 		if("${applyInfo.filePath}"!=''){
-			$("#filePathHidden").val("${applyInfo.filePath}");
+			//$("#filePathHidden").val("${applyInfo.filePath}");
 			$("#fileNameHidden").val("${applyInfo.fileName}");
 			$("#fileNameDiv").html("${applyInfo.fileName}");
 			$("#uploadStateDiv").html("${applyInfo.fileName}上传成功");
@@ -100,6 +100,7 @@ display:block;
 		}
 	});
 	function apply(){
+		layer.alert("目前为创作阶段请于2017年2月16日之后提交");return;
 		var productionName=$("#productionName").val();
 		if($.trim(productionName)==''){
 			$("#productionName").focus();
@@ -275,6 +276,7 @@ display:block;
 	
 	var uploader=null;
 	function openChoose(){
+		layer.alert("目前为创作阶段请于2017年2月16日之后提交");return;
 		if(uploader==null){
 			initUploader();
 		}
