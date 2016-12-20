@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.khzpds.dao.ItemOrgLimitDao">
+
+	 <resultMap id="ItemOrgLimitResultMap" type="com.khzpds.vo.ItemOrgLimitInfo">
+        <id property="id" column="id" />
+        <result property="orgId" column="org_id" />    
+        <result property="itemId" column="item_id" />    
+        <result property="limitNum" column="limit_num" />    
+        <result property="createTime" column="create_time" />    
+        <result property="createUser" column="create_user" />    
+        <result property="updateTime" column="update_time" />    
+        <result property="updateUser" column="update_user" />    
+        <result property="spare1" column="spare1" />    
+        <result property="spare2" column="spare2" />    
+        <result property="spare3" column="spare3" />    
+    </resultMap>
+    
+    <!--根据主键查询-->
+	<select id="findById" resultMap="ItemOrgLimitResultMap">
+		select id,org_id,item_id,limit_num,create_time,create_user,update_time,update_user,spare1,spare2,spare3 from item_org_limit where id=#{id}
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+	</select>
+    
+    <!--插入-->
+	 <insert id="insert" parameterType="com.khzpds.vo.ItemOrgLimitInfo" >
+    	INSERT INTO item_org_limit
+        (id,org_id,item_id,limit_num,create_time,create_user,update_time,update_user,spare1,spare2,spare3) 
+		values(#{id},#{orgId},#{itemId},#{limitNum},#{createTime},#{createUser},#{updateTime},#{updateUser},#{spare1},#{spare2},#{spare3})
+    </insert>
+
+    
+    <!--根据传入的map参数查询 并分页-->
+    <select id="findByParamForPage" resultMap="ItemOrgLimitResultMap" >
+		select id,org_id,item_id,limit_num,create_time,create_user,update_time,update_user,spare1,spare2,spare3 from item_org_limit
+		where 1=1
+           <if test="obj.search.id!=null"> AND id = #{obj.search.id}</if>
+           <if test="obj.search.orgId!=null"> AND org_id = #{obj.search.orgId}</if>
+           <if test="obj.search.itemId!=null"> AND item_id = #{obj.search.itemId}</if>
+           <if test="obj.search.limitNum!=null"> AND limit_num = #{obj.search.limitNum}</if>
+           <if test="obj.search.createTime!=null"> AND create_time = #{obj.search.createTime}</if>
+           <if test="obj.search.createUser!=null"> AND create_user = #{obj.search.createUser}</if>
+           <if test="obj.search.updateTime!=null"> AND update_time = #{obj.search.updateTime}</if>
+           <if test="obj.search.updateUser!=null"> AND update_user = #{obj.search.updateUser}</if>
+           <if test="obj.search.spare1!=null"> AND spare1 = #{obj.search.spare1}</if>
+           <if test="obj.search.spare2!=null"> AND spare2 = #{obj.search.spare2}</if>
+           <if test="obj.search.spare3!=null"> AND spare3 = #{obj.search.spare3}</if>
+
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+        <if test="obj.orderField!=null and obj.orderType!=null"> order by ${obj.orderField} ${obj.orderType}</if>
+	</select>
+    
+     <!--根据传入的实体参数查询-->
+    <select id="findByParam" resultMap="ItemOrgLimitResultMap" >
+		select id,org_id,item_id,limit_num,create_time,create_user,update_time,update_user,spare1,spare2,spare3 from item_org_limit
+		where 1=1
+           <if test="obj.id!=null"> AND id = #{obj.id}</if>
+           <if test="obj.orgId!=null"> AND org_id = #{obj.orgId}</if>
+           <if test="obj.itemId!=null"> AND item_id = #{obj.itemId}</if>
+           <if test="obj.limitNum!=null"> AND limit_num = #{obj.limitNum}</if>
+           <if test="obj.createTime!=null"> AND create_time = #{obj.createTime}</if>
+           <if test="obj.createUser!=null"> AND create_user = #{obj.createUser}</if>
+           <if test="obj.updateTime!=null"> AND update_time = #{obj.updateTime}</if>
+           <if test="obj.updateUser!=null"> AND update_user = #{obj.updateUser}</if>
+           <if test="obj.spare1!=null"> AND spare1 = #{obj.spare1}</if>
+           <if test="obj.spare2!=null"> AND spare2 = #{obj.spare2}</if>
+           <if test="obj.spare3!=null"> AND spare3 = #{obj.spare3}</if>
+
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+	</select>
+    
+    <!--根据主键进行删除-->
+	<delete id="deleteById"  >
+    	delete from item_org_limit where id=#{id}
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+    </delete>
+    
+    <!--根据实体进行更新-->
+	<update id="update" >
+    	update item_org_limit 
+        <trim prefix="SET" suffixOverrides=",">
+           <if test="obj.id!=null">id=#{obj.id},</if>
+           <if test="obj.orgId!=null">org_id=#{obj.orgId},</if>
+           <if test="obj.itemId!=null">item_id=#{obj.itemId},</if>
+           <if test="obj.limitNum!=null">limit_num=#{obj.limitNum},</if>
+           <if test="obj.createTime!=null">create_time=#{obj.createTime},</if>
+           <if test="obj.createUser!=null">create_user=#{obj.createUser},</if>
+           <if test="obj.updateTime!=null">update_time=#{obj.updateTime},</if>
+           <if test="obj.updateUser!=null">update_user=#{obj.updateUser},</if>
+           <if test="obj.spare1!=null">spare1=#{obj.spare1},</if>
+           <if test="obj.spare2!=null">spare2=#{obj.spare2},</if>
+           <if test="obj.spare3!=null">spare3=#{obj.spare3},</if>  
+        </trim>
+		where id=#{obj.id} 
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+    </update> 
+	<!--CustomBegin***--><!--CustomEnd*****-->
+</mapper>
