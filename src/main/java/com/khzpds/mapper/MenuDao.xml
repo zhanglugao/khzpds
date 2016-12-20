@@ -88,5 +88,21 @@
 					)
 	)
 	</select>
+	<select id="findByIndexPage" parameterType="com.khzpds.base.PageParameter"  resultMap="MenuResultMap">
+		select * from menu 
+		where 1=1 
+		<if test="search.name!=null">
+			AND name like CONCAT("%",#{search.name},"%")
+		</if>
+		<if test="search.url!=null">
+			AND url like CONCAT("%",#{search.url},"%")
+		</if>
+	</select>
+	<select id="findMenusByRoleId" resultType="map" >
+		select m.*,rm.role_id as roleId from menu m
+		left join role_menu rm on
+		m.id=rm.menu_id
+		where rm.role_id=#{roleId} 
+	</select>
 	<!--CustomEnd*****-->
 </mapper>

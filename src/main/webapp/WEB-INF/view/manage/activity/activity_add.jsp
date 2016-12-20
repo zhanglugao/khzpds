@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>科幻作品大赛管理后台</title>
+<title>科幻作品大赛</title>
 <jsp:include page="../common/manage_inc.jsp"></jsp:include>
 <meta content='width=device-width,initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 <script type="text/javascript">

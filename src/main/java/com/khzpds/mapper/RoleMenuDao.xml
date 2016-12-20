@@ -59,5 +59,10 @@
 		where role_id=#{obj.roleId}  and menu_id=#{obj.menuId} 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
     </update> 
-	<!--CustomBegin***--><!--CustomEnd*****-->
+	<!--CustomBegin***-->
+	<delete id='deleteByRoleId'>
+		delete from role_menu 
+		where role_id=#{roleId}
+	</delete>
+	<!--CustomEnd*****-->
 </mapper>

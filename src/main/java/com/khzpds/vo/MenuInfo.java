@@ -83,6 +83,18 @@ public class MenuInfo implements Serializable
 			.isEquals();
 	}
     
-    //--CustomBegin***/////--CustomEnd*****///
+    //--CustomBegin***///
+	private String roleId;
+
+	public String getRoleId() {
+		return roleId;
+	}
+
+
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
+	
+	//--CustomEnd*****///
 }
 

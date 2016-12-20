@@ -116,7 +116,6 @@ public class BaseController {
     }
 	
 	protected String getRootPath(HttpServletRequest request) {
-		request.setAttribute("userName", this.getCurrentSessionInfo(request).getUserName());
 	    return "";
 	}
 

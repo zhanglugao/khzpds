@@ -1,18 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<aside class="left-side sidebar-offcanvas">
+<aside class="left-side sidebar-offcanvas" style='margin-top:70px;'>
 	<section class="sidebar">
 		<ul class="sidebar-menu">
-			<!-- 课程管理 -->
 			<li class="active">
 				<a href="/user/index" > 
 					<i class="fa fa-dashboard"></i> <span>用户管理</span> 
 				</a>
 			</li>
 			
+			<li>
+				<a href="/menu/index" > 
+					<i class="fa fa-th-list"></i> <span>菜单管理</span> 
+				</a>
+			</li>
 			
-			<!-- 视频列表管理 -->
+			<li>
+				<a href="/role/index" > 
+					<i class="fa fa-th-list"></i> <span>角色管理</span> 
+				</a>
+			</li>
+			
 			<li>
 				<a href="/activity/index" > 
 					<i class="fa fa-th-list"></i> <span>活动管理</span> 

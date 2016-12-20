@@ -61,5 +61,13 @@
 		where id=#{obj.id} 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
     </update> 
-	<!--CustomBegin***--><!--CustomEnd*****-->
+	<!--CustomBegin***-->
+	<select id="findByIndexPage" parameterType="com.khzpds.base.PageParameter"  resultMap="RoleResultMap">
+		select * from role 
+		where 1=1 
+		<if test="search.name!=null">
+			AND name like CONCAT("%",#{search.name},"%")
+		</if>
+	</select>
+	<!--CustomEnd*****-->
 </mapper>

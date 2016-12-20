@@ -5,8 +5,14 @@
 <head>
 <meta charset="utf-8">
 <title>Insert title here</title>
+<style type="text/css">
+.head{width: 100%;height: 70px;overflow: hidden;background: #15a7ff;}
+</style>
 </head>
 <body class='body-blue'>
+	<div class="head">
+          <img src="/images/sj-top1.png" class="sj-top">
+     </div>
 	<!-- 头部 -->
 	<header class="header">
 		<a href="javascript:;" class="logo">科幻作品大赛管理后台</a>
@@ -31,7 +37,7 @@
 							<li class="user-header bg-light-blue">
 								<img src="/images/find3-ac.png" class="img-circle" alt="User Image" />
 								<p>${User_session_key.userName}</p>
-								<p><a href="/loginSys/exit"> 退出登录 <i class="glyphicon glyphicon-off"></i></a></p>
+								<p><a href="/user/logout"> 退出登录 <i class="glyphicon glyphicon-off"></i></a></p>
 							</li>
 						</ul>
 					</li>
