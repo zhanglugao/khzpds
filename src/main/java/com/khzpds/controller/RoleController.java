@@ -124,7 +124,6 @@ public class RoleController extends BaseController{
 			id=UUIDUtil.getUUID();
 			role=new RoleInfo();
 			role.setId(id);
-			role.setName(name);
 		}else{
 			role=roleService.findById(id);
 		}
@@ -134,6 +133,7 @@ public class RoleController extends BaseController{
 			this.writeJson(response, result);
 			return;
 		}
+		role.setName(name);
 		String[] menuIdArr=menuIds.split(",");
 		List<RoleMenuInfo> roleMenus=new ArrayList<RoleMenuInfo>();
 		for(String menuId:menuIdArr){
