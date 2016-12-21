@@ -6,32 +6,38 @@
 		<ul class="sidebar-menu">
 			<li class="active">
 				<a href="/user/index" > 
-					<i class="fa fa-dashboard"></i> <span>用户管理</span> 
+					<i class="fa fa-align-justify"></i> <span>用户管理</span> 
 				</a>
 			</li>
 			
 			<li>
 				<a href="/menu/index" > 
-					<i class="fa fa-th-list"></i> <span>菜单管理</span> 
+					<i class="fa fa-align-justify"></i>  <span>菜单管理</span> 
 				</a>
 			</li>
 			
 			<li>
 				<a href="/role/index" > 
-					<i class="fa fa-th-list"></i> <span>角色管理</span> 
+					<i class="fa fa-align-justify"></i> <span>角色管理</span> 
+				</a>
+			</li>
+			
+			<li>
+				<a href="/user/manageIndex" > 
+					<i class="fa fa-align-justify"></i> <span>管理员管理</span> 
 				</a>
 			</li>
 			
 			<li>
 				<a href="/activity/index" > 
-					<i class="fa fa-th-list"></i> <span>活动管理</span> 
+					<i class="fa fa-align-justify"></i> <span>活动管理</span> 
 				</a>
 			</li>
 			
 			<!-- 分类管理 -->
 			<li>
 				<a href="/contentCategory/list" > 
-				<i class="fa fa-align-justify"></i> <span>机构管理</span></a>
+				<i class="fa fa-align-justify"></i> <span>组织机构管理</span></a>
 			</li>
 			
 			<!-- 系统管理 -->

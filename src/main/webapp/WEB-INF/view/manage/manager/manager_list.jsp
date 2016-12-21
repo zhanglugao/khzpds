@@ -27,7 +27,7 @@
 		$.ajax({
 			url:"/user/getData",
 			type:"post",
-			data:"current_page="+currentPage+"&page_size="+pageSize+"&name="+name+"&mail="+mail+"&realName="+realName,
+			data:"current_page="+currentPage+"&page_size="+pageSize+"&name="+name+"&mail="+mail+"&realName="+realName+"&type=1",
 			dataType:"json",
 			success:function(data){
 				$(".datatr").remove();
@@ -39,8 +39,8 @@
 					if(typeof(obj.realName)=='undefined'){
 						obj.realName='';
 					}
-					var html="<tr class='datatr'><td>"+(i+1)+"</td><td>"+obj.userName+"</td><td>"+obj.mail+"</td><td>"+obj.realName+"</td><td>"
-						+"<button class='btn btn-primary' type='button' onclick='addUser(\""+obj.id+"\",\""+obj.userName+"\",\""+obj.mail+"\",\""+obj.realName+"\")'>编辑</button>&nbsp;<button class='btn btn-primary' onclick='resetpwd(\""+obj.id+"\")' type='button'>重置密码</button></td></tr>";
+					var html="<tr class='datatr'><td>"+(i+1)+"</td><td>"+obj.userName+"</td><td>"+obj.mail+"</td><td>"+obj.realName+"</td><td>"+obj.roleNames+"</td><td>"
+						+"<button class='btn btn-primary' type='button' onclick='addUser(\""+obj.id+"\",\""+obj.userName+"\",\""+obj.mail+"\",\""+obj.realName+"\",\""+obj.roleIds+"\")'>编辑</button>&nbsp;<button class='btn btn-primary' onclick='resetpwd(\""+obj.id+"\")' type='button'>重置密码</button></td></tr>";
 					$("#dataTable").append(html);
 				}
 				setPageHtml(data.total_page, "next", "getData", currentPage);
@@ -51,8 +51,19 @@
 	}
 	$(document).ready(function(){
 		getData(1);
+		var roles=${roles};
+		for(var i=0;i<roles.length;i++){
+			var obj=roles[i];
+			if(i==0){
+				var html="&nbsp;<input name='roleChecks' type='checkbox' value='"+obj.id+"' />"+obj.name+"<br/>";
+				$("#roleDiv").append(html);
+			}else{
+				var html="&nbsp;<input name='roleChecks' style='margin-left:30px;' type='checkbox' value='"+obj.id+"' />"+obj.name+"<br/>";
+				$("#roleDiv").append(html);
+			}
+		}
 	});
-	function addUser(id,userName,mail,realName){
+	function addUser(id,userName,mail,realName,roleIds){
 		if(typeof(id)!='undefined'){
 			$("#userId").val(id);
 		}else{
@@ -73,24 +84,44 @@
 		}else{
 			$("#userRealName").val("");
 		}
+		if(typeof(roleIds)!='undefined'){
+			var roles=roleIds.split(",");
+			$("input[type=checkbox][name=roleChecks]").each(function(){
+				var f=false;
+				for(var i=0;i<roles.length;i++){
+					if($(this).val()==roles[i]){
+						f=true;
+						$(this).attr("checked",true);
+						break;
+					}
+				}
+				if(!f){
+					$(this).attr("checked",false);
+				}
+			});
+		}else{
+			$("input[type=checkbox][name=roleChecks]:checked").each(function(){
+				$(this).attr("checked",false);
+			});
+		}
 		layer.open({
 			type: 1,
 			content:$("#userDiv"),
 			shadeClose: true,//开启遮罩关闭
 			title:false,
-			area: ['400px', '300px']
+			area: ['500px', '500px']
 		});
 	}
 	
 	function resetpwd(id){
-		layer.confirm('确定要重置密码为000000么', {
+		layer.confirm('确定要重置密码为111111么', {
 		    btn: ['确定','取消'], //按钮
 		    shade: false //不显示遮罩
 		}, function(index){
 		    layer.close(index);
 			$.ajax({
 				url:"/user/resetpwd",
-				data:{id:id},
+				data:{id:id,type:"1"},
 				type:"post",
 				dataType:"json",
 				success:function(data){
@@ -115,16 +146,27 @@
 		if($.trim(userName)==''){
 			layer.tips("请填写用户名","#userName",{tips:[2,tipsColor]});return;
 		}
-		if($.trim(mail)==''){
+		/* if($.trim(mail)==''){
 			layer.tips("请填写邮箱","#userMail",{tips:[2,tipsColor]});return;
 		}
 		if($.trim(realName)==''){
 			layer.tips("请填写真实姓名","#userRealName",{tips:[2,tipsColor]});return;
+		} */
+		var roleIds="";
+		$("input[name=roleChecks][type=checkbox]:checked").each(function(){
+			if(roleIds==''){
+				roleIds=$(this).val();
+			}else{
+				roleIds+=","+$(this).val();
+			}
+		});
+		if(roleIds==''){
+			layer.msg("请选择角色",{icon:4});return;
 		}
 		var id=$("#userId").val();
 		$.ajax({
 			url:"/user/add",
-			data:{userName:userName,mail:mail,realName:realName,id:id},
+			data:{userName:userName,mail:mail,realName:realName,id:id,roleIds:roleIds,type:"1"},
 			type:"post",
 			dataType:"json",
 			success:function(data){
@@ -186,7 +228,7 @@
 					<div class="box-footer col-lg-2 col-xs-3">
 						<button onclick='getData(1)' type="button" class="btn btn-primary">搜索</button>
 						&nbsp;&nbsp;
-						<button onclick='addUser()' type='button' class='btn btn-primary'>添加用户</button>
+						<button onclick='addUser()' type='button' class='btn btn-primary'>添加管理员</button>
 					</div>
 				</div>
 				
@@ -200,6 +242,7 @@
 										<th>用户名</th>
 										<th>邮箱</th>
 										<th>真实姓名</th>
+										<th>角色</th>
 										<th>操作</th>
 									</tr>
 								</table>
@@ -219,7 +262,7 @@
 	<div id='userDiv' style="display:none;">
 		<input type='hidden' id='userId'/>
 		<div style="margin-top:20px;margin-left:20px;">
-			<label>用户名</label>
+			<span style='color:red;'>*</span><label>用户名</label>
 			<input type='text' id='userName' />
 		</div>
 		<div style="margin-top:20px;margin-left:20px;">
@@ -230,8 +273,11 @@
 			<label>真实姓名</label>
 			<input type='text' id='userRealName' />
 		</div>
+		<div id='roleDiv' style="margin-left:20px;margin-top:20px;">
+			<label>角色</label>
+		</div>
 		<div style="margin-top:20px;margin-left:20px;">
-			<span style='color:red'>注:新添加的用户密码默认为000000</span>
+			<span style='color:red'>注:新添加的管理员密码默认为111111</span>
 		</div>
 		<div style="margin-top:20px;margin-left:20px;">
 			<button onclick='confirmAdd()' type="button" class="btn btn-primary">确认</button>

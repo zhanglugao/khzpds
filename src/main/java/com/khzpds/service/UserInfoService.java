@@ -9,8 +9,10 @@ import com.khzpds.base.PageParameter;
 import com.khzpds.base.SessionInfo;
 import com.khzpds.dao.MenuDao;
 import com.khzpds.dao.UserInfoDao;
+import com.khzpds.dao.UserRoleDao;
 import com.khzpds.vo.MenuInfo;
 import com.khzpds.vo.UserInfoInfo;
+import com.khzpds.vo.UserRoleInfo;
 @Service
 public class UserInfoService extends IBaseService<UserInfoInfo> {
     private UserInfoDao userInfoDao;
@@ -24,6 +26,9 @@ public class UserInfoService extends IBaseService<UserInfoInfo> {
     //--CustomBegin***///
     @Autowired
     private MenuDao menuDao;
+    @Autowired
+    private UserRoleDao userRoleDao;
+    
     public SessionInfo setSession(UserInfoInfo user){
 		SessionInfo session=new SessionInfo();
 		session.setIfLogin(true);
@@ -45,6 +50,19 @@ public class UserInfoService extends IBaseService<UserInfoInfo> {
 	public List<UserInfoInfo> findByIndexForPage(PageParameter page) {
 		return userInfoDao.findByIndexForPage(page);
 	}
+	public void updateManagerInfo(UserInfoInfo user,
+			List<UserRoleInfo> userRoleList, boolean ifAdd) {
+		if(ifAdd){
+			userInfoDao.insert(user);
+		}else{
+			userInfoDao.update(user,null);
+			userRoleDao.deleteByUserId(user.getId());
+		}
+		for(UserRoleInfo userRole:userRoleList){
+			userRoleDao.insert(userRole);
+		}
+	}
 //--CustomEnd*****///
+
 }
 

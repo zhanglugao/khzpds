@@ -111,7 +111,7 @@ function save(){
 			</form>
 			<div class="box-body">
 				<div class="box-footer col-xs-12 " style='margin-left:100px;margin-top:30px;'>
-					<button type="button" class="btn btn-primary" onclick="save()">添加</button>
+					<button type="button" class="btn btn-primary" onclick="save()">确定</button>
 				</div>
 			</div>
 		</aside>

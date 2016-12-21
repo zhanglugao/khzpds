@@ -163,6 +163,26 @@ public class UserInfoInfo implements Serializable
 			.isEquals();
 	}
     
-    //--CustomBegin***/////--CustomEnd*****///
+    //--CustomBegin***///
+	private String roleIds;
+	private String roleNames;
+	
+	public String getRoleNames() {
+		return roleNames;
+	}
+
+	public void setRoleNames(String roleNames) {
+		this.roleNames = roleNames;
+	}
+
+	public String getRoleIds() {
+		return roleIds;
+	}
+
+	public void setRoleIds(String roleIds) {
+		this.roleIds = roleIds;
+	}
+	
+	//--CustomEnd*****///
 }
 

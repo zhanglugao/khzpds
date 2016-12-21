@@ -59,5 +59,10 @@
 		where user_id=#{obj.userId}  and role_id=#{obj.roleId} 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
     </update> 
-	<!--CustomBegin***--><!--CustomEnd*****-->
+	<!--CustomBegin***-->
+	<delete id="deleteByUserId">
+		delete from user_role 
+		where user_id=#{userId}
+	</delete>
+	<!--CustomEnd*****-->
 </mapper>

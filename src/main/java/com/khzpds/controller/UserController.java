@@ -1,5 +1,6 @@
 package com.khzpds.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,16 +15,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
 import com.khzpds.base.BaseController;
 import com.khzpds.base.BusinessConfig;
 import com.khzpds.base.PageParameter;
 import com.khzpds.base.SessionInfo;
 import com.khzpds.service.MenuService;
+import com.khzpds.service.RoleService;
 import com.khzpds.service.UserInfoService;
+import com.khzpds.service.UserRoleService;
 import com.khzpds.util.EmailTool;
 import com.khzpds.util.UUIDUtil;
 import com.khzpds.util.VerifyCodeUtil;
+import com.khzpds.vo.RoleInfo;
 import com.khzpds.vo.UserInfoInfo;
+import com.khzpds.vo.UserRoleInfo;
 /**
  * 
  * @author zhanglugao
@@ -36,6 +42,10 @@ public class UserController extends BaseController{
 	private UserInfoService userInfoService;
 	@Autowired
 	private MenuService menuService;
+	@Autowired
+	private RoleService roleService;
+	@Autowired
+	private UserRoleService userRoleService;
 	
 	/***
 	 * 学员登陆主界面
@@ -290,8 +300,8 @@ public class UserController extends BaseController{
 	}
 	
 	@RequestMapping("/getData")
-	public void getData(String name,String mail,String realName,HttpServletRequest request,HttpServletResponse response){
-		
+	public void getData(String name,String mail,String realName,String type,HttpServletRequest request,HttpServletResponse response){
+		if(StringUtils.isBlank(type))type="0";
 		Map<String,Object> result=new HashMap<String, Object>();
 		
 		PageParameter page=getPageParameter2(request);
@@ -301,10 +311,32 @@ public class UserController extends BaseController{
 		if(StringUtils.isNotBlank(mail)) search.put("mail", mail);
 		if(StringUtils.isNotBlank(realName)) search.put("realName", realName);
 		
+		search.put("type", type);
+		
 		page.setSearch(search);
 		
 		List<UserInfoInfo> users=userInfoService.findByIndexForPage(page);
-		
+		if("1".equals(type)){
+			for(UserInfoInfo user:users){
+				UserRoleInfo findInfo=new UserRoleInfo();
+				findInfo.setUserId(user.getId());
+				List<UserRoleInfo> roles=userRoleService.findByParam(findInfo);
+				StringBuffer sb=new StringBuffer();
+				StringBuffer sb2=new StringBuffer();
+				for(UserRoleInfo userRole:roles){
+					RoleInfo role=roleService.findById(userRole.getRoleId());
+					if("".equals(sb.toString())){
+						sb.append(userRole.getRoleId());
+						sb2.append(role.getName());
+					}else{
+						sb.append(","+userRole.getRoleId());
+						sb2.append(","+role.getName());
+					}
+				}
+				user.setRoleIds(sb.toString());
+				user.setRoleNames(sb2.toString());
+			}
+		}
 		result.put("rows", users);
 		result.put("total_page", page.getTotalPage());
 		this.writeJson(response, result);
@@ -312,21 +344,68 @@ public class UserController extends BaseController{
 	
 	
 	@RequestMapping("/add")
-	public void add(UserInfoInfo user,HttpServletRequest request,HttpServletResponse response){
+	public void add(UserInfoInfo user,String type,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
-		if(StringUtils.isBlank(user.getId())){
-			user.setId(UUIDUtil.getUUID());
-			user.setPassword("000000");
-			userInfoService.add(user);
-		}else{
-			userInfoService.update(user);
+		//判断userName的合法性
+		UserInfoInfo findInfo=new UserInfoInfo();
+		findInfo.setUserName(user.getUserName());
+		List<UserInfoInfo> users=userInfoService.findByParam(findInfo);
+		if(users!=null&&users.size()>0&&!users.get(0).getId().equals(user.getId())){
+			result.put("status", "1");
+			result.put("error_desc", "用户已存在，请更换会员名称");
+			this.writeJson(response, result);
+			return;
+		}
+		
+		findInfo.setUserName(null);
+		findInfo.setMail(user.getMail());
+		users=userInfoService.findByParam(findInfo);
+		if(users!=null&&users.size()>0&&!users.get(0).getId().equals(user.getId())){
+			result.put("status", "1");
+			result.put("error_desc", "邮箱已被注册，请更换");
+			this.writeJson(response, result);
+			return;
+		}
+		
+		if(StringUtils.isBlank(type)){
+			type="0";
+		}
+		if("0".equals(type)){
+			if(StringUtils.isBlank(user.getId())){
+				user.setId(UUIDUtil.getUUID());
+				user.setPassword("000000");
+				userInfoService.add(user);
+			}else{
+				userInfoService.update(user);
+			}
+		}else if("1".equals(type)){
+			String roleIds=request.getParameter("roleIds");
+			boolean ifAdd=false;
+			if(StringUtils.isBlank(user.getId())){
+				ifAdd=true;
+				user.setId(UUIDUtil.getUUID());
+				user.setPassword("111111");
+			}
+			String[] roleArr=roleIds.split(",");
+			List<UserRoleInfo> userRoleList=new ArrayList<UserRoleInfo>();
+			for(String roleId:roleArr){
+				UserRoleInfo userRole=new UserRoleInfo();
+				userRole.setRoleId(roleId);
+				userRole.setUserId(user.getId());
+				userRoleList.add(userRole);
+			}
+			userInfoService.updateManagerInfo(user,userRoleList,ifAdd);
+			
 		}
 		result.put("status", "0");
 		this.writeJson(response, result);
 	}
 	
 	@RequestMapping("/resetpwd")
-	public void resetpwd(String id,HttpServletRequest request,HttpServletResponse response){
+	public void resetpwd(String id,String type,HttpServletRequest request,HttpServletResponse response){
+		if(StringUtils.isBlank(type)){
+			type="0";
+		}
 		Map<String,Object> result=new HashMap<String, Object>();
 		UserInfoInfo user=userInfoService.findById(id);
 		if(user==null){
@@ -334,10 +413,27 @@ public class UserController extends BaseController{
 			result.put("error_desc", "用户已不存在");
 			this.writeJson(response, result);return;
 		}
-		user.setPassword("000000");
+		if("0".equals(type)){
+			user.setPassword("000000");
+		}else if("1".equals(type)){
+			user.setPassword("111111");
+		}
 		userInfoService.update(user);
 		result.put("status", "0");
 		this.writeJson(response, result);
 	}
-	
+
+	/***
+	 * 管理员管理首页
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/manageIndex")
+	public ModelAndView manageIndex(HttpServletRequest request,HttpServletResponse response){
+		//查出所有的角色
+		List<RoleInfo> roles=roleService.findByParam(new RoleInfo());
+		request.setAttribute("roles",JSON.toJSONString(roles));
+		return new ModelAndView(getRootPath(request)+"/manage/manager/manager_list");
+	}
 }

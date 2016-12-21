@@ -92,7 +92,9 @@
         <if test="search.name!=null"> AND user_name like CONCAT ('%',#{search.name},'%')</if>
         <if test="search.mail!=null"> AND mail like CONCAT ('%',#{search.mail},'%')</if>
         <if test="search.realName!=null"> AND real_name like CONCAT ('%',#{search.realName},'%')</if>
-		and id not in(select user_id from user_role)
+        <if test="search.type=='0'.toString()"> and id not in(select user_id from user_role) </if>
+        <if test="search.type=='1'.toString()"> and id in(select user_id from user_role) </if>
+		 and user_name !='admin'
 	</select>
 	<!--CustomEnd*****-->
 </mapper>

@@ -273,7 +273,7 @@
 		          <br/>
 		             <form action="" method="post">
 		             	<div class="col-lg-2 col-xs-5">
-							<input id='name' value='${label.name }' name='name' type="text" class="form-control" placeholder="输入分类名称">
+							<input id='name' value='${label.name }' name='name' type="text" class="form-control" placeholder="输入机构名称">
 						</div>
 		               <button type='button' class='btn btn-primary' onclick="submitLabelForm();">查询</button>
 		             </form>
