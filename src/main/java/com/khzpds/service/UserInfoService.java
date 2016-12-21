@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.khzpds.base.IBaseService;
+import com.khzpds.base.PageParameter;
 import com.khzpds.base.SessionInfo;
 import com.khzpds.dao.MenuDao;
 import com.khzpds.dao.UserInfoDao;
@@ -39,6 +40,10 @@ public class UserInfoService extends IBaseService<UserInfoInfo> {
 			session.setMenus(menus);
 		}
 		return session;
+	}
+    
+	public List<UserInfoInfo> findByIndexForPage(PageParameter page) {
+		return userInfoDao.findByIndexForPage(page);
 	}
 //--CustomEnd*****///
 }

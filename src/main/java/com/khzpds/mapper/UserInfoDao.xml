@@ -85,5 +85,14 @@
 		where id=#{obj.id} 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
     </update> 
-	<!--CustomBegin***--><!--CustomEnd*****-->
+	<!--CustomBegin***-->
+	<select id="findByIndexForPage" parameterType="com.khzpds.base.PageParameter" resultMap="UserInfoResultMap">
+		select * from user_info 
+		where 1=1
+        <if test="search.name!=null"> AND user_name like CONCAT ('%',#{search.name},'%')</if>
+        <if test="search.mail!=null"> AND mail like CONCAT ('%',#{search.mail},'%')</if>
+        <if test="search.realName!=null"> AND real_name like CONCAT ('%',#{search.realName},'%')</if>
+		and id not in(select user_id from user_role)
+	</select>
+	<!--CustomEnd*****-->
 </mapper>

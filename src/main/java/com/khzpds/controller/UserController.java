@@ -8,14 +8,15 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.khzpds.base.BaseController;
 import com.khzpds.base.BusinessConfig;
+import com.khzpds.base.PageParameter;
 import com.khzpds.base.SessionInfo;
 import com.khzpds.service.MenuService;
 import com.khzpds.service.UserInfoService;
@@ -287,4 +288,56 @@ public class UserController extends BaseController{
 			this.writeJson(response, result);
 		}
 	}
+	
+	@RequestMapping("/getData")
+	public void getData(String name,String mail,String realName,HttpServletRequest request,HttpServletResponse response){
+		
+		Map<String,Object> result=new HashMap<String, Object>();
+		
+		PageParameter page=getPageParameter2(request);
+		
+		Map<String,String> search=new HashMap<String, String>();
+		if(StringUtils.isNotBlank(name)) search.put("name", name);
+		if(StringUtils.isNotBlank(mail)) search.put("mail", mail);
+		if(StringUtils.isNotBlank(realName)) search.put("realName", realName);
+		
+		page.setSearch(search);
+		
+		List<UserInfoInfo> users=userInfoService.findByIndexForPage(page);
+		
+		result.put("rows", users);
+		result.put("total_page", page.getTotalPage());
+		this.writeJson(response, result);
+	}
+	
+	
+	@RequestMapping("/add")
+	public void add(UserInfoInfo user,HttpServletRequest request,HttpServletResponse response){
+		Map<String,Object> result=new HashMap<String, Object>();
+		if(StringUtils.isBlank(user.getId())){
+			user.setId(UUIDUtil.getUUID());
+			user.setPassword("000000");
+			userInfoService.add(user);
+		}else{
+			userInfoService.update(user);
+		}
+		result.put("status", "0");
+		this.writeJson(response, result);
+	}
+	
+	@RequestMapping("/resetpwd")
+	public void resetpwd(String id,HttpServletRequest request,HttpServletResponse response){
+		Map<String,Object> result=new HashMap<String, Object>();
+		UserInfoInfo user=userInfoService.findById(id);
+		if(user==null){
+			result.put("status", "1");
+			result.put("error_desc", "用户已不存在");
+			this.writeJson(response, result);return;
+		}
+		user.setPassword("000000");
+		userInfoService.update(user);
+		result.put("status", "0");
+		this.writeJson(response, result);
+	}
+	
 }
