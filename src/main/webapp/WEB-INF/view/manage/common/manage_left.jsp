@@ -4,13 +4,15 @@
 <aside class="left-side sidebar-offcanvas" style='margin-top:70px;'>
 	<section class="sidebar">
 		<ul class="sidebar-menu">
-			<li class="active">
-				<a href="/user/index" > 
-					<i class="fa fa-align-justify"></i> <span>用户管理</span> 
+			<c:forEach items="${User_session_key.menus }" var="menu">
+				<li>
+				<a href="${menu.url }" > 
+					<i class="fa fa-align-justify"></i> <span>${menu.name }</span> 
 				</a>
 			</li>
+			</c:forEach>
 			
-			<li>
+			<!-- <li>
 				<a href="/menu/index" > 
 					<i class="fa fa-align-justify"></i>  <span>菜单管理</span> 
 				</a>
@@ -34,11 +36,11 @@
 				</a>
 			</li>
 			
-			<!-- 分类管理 -->
+			分类管理
 			<li>
 				<a href="/contentCategory/list" > 
 				<i class="fa fa-align-justify"></i> <span>组织机构管理</span></a>
-			</li>
+			</li> -->
 			
 			<!-- 系统管理 -->
 			<!-- <li class="treeview">

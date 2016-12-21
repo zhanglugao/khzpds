@@ -91,17 +91,17 @@
 				for(var i=0;i<roles.length;i++){
 					if($(this).val()==roles[i]){
 						f=true;
-						$(this).attr("checked",true);
+						$(this).prop("checked",true);
 						break;
 					}
 				}
 				if(!f){
-					$(this).attr("checked",false);
+					$(this).prop("checked",false);
 				}
 			});
 		}else{
 			$("input[type=checkbox][name=roleChecks]:checked").each(function(){
-				$(this).attr("checked",false);
+				$(this).prop("checked",false);
 			});
 		}
 		layer.open({
