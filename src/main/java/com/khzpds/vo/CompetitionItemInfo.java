@@ -261,6 +261,18 @@ public class CompetitionItemInfo implements Serializable
 			.isEquals();
 	}
     
-    //--CustomBegin***/////--CustomEnd*****///
+    //--CustomBegin***///
+	private String statusName;
+
+	public String getStatusName() {
+		return statusName;
+	}
+
+
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
+	}
+	
+	//--CustomEnd*****///
 }
 

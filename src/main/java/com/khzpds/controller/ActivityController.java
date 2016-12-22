@@ -20,11 +20,14 @@ import com.khzpds.base.BaseController;
 import com.khzpds.base.DictionaryConst;
 import com.khzpds.base.PageParameter;
 import com.khzpds.service.ActivityInfoService;
+import com.khzpds.service.CompetitionItemService;
 import com.khzpds.service.DictionaryService;
+import com.khzpds.service.UserCompletionItemApplyService;
+import com.khzpds.util.DateUtil;
 import com.khzpds.util.UUIDUtil;
 import com.khzpds.vo.ActivityInfoInfo;
 import com.khzpds.vo.CompetitionItemInfo;
-import com.khzpds.vo.DictionaryInfo;
+import com.khzpds.vo.UserCompletionItemApplyInfo;
 
 /***
  * 活动管理controller
@@ -38,6 +41,10 @@ public class ActivityController extends BaseController{
 	private ActivityInfoService activityInfoService;
 	@Autowired
 	private DictionaryService dictionaryService;
+	@Autowired
+	private CompetitionItemService competitionItemService;
+	@Autowired
+	private UserCompletionItemApplyService userCompetitionItemApplyService;
 	/***
 	 * 首页
 	 * @param request
@@ -101,6 +108,179 @@ public class ActivityController extends BaseController{
 		return new ModelAndView(getRootPath(request)+"/manage/activity/activity_add");
 	}
 	
+	/**
+	 * to编辑页面
+	 * @param id
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/toEdit")
+	public ModelAndView toEdit(String id,HttpServletRequest request,HttpServletResponse response){
+		ActivityInfoInfo activity=activityInfoService.findById(id);
+		
+		CompetitionItemInfo findInfo=new CompetitionItemInfo();
+		findInfo.setActivityId(id);
+		List<CompetitionItemInfo> items=competitionItemService.findByParam(findInfo);
+		
+		for(CompetitionItemInfo item:items){
+			item.setType(dictionaryService.findById(item.getType()).getName());
+			item.setStatusName(dictionaryService.findById(item.getStatus()).getName());
+		}
+		
+		request.setAttribute("activity", activity);
+		request.setAttribute("items", items);
+		
+		return new ModelAndView(getRootPath(request)+"/manage/activity/activity_edit");
+	}
+	
+	/***
+	 * 结束活动
+	 * @param id
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/turnEnd")
+	public void turnEnd(String id,HttpServletRequest request,HttpServletResponse response){
+		Map<String,Object> result=new HashMap<String, Object>();
+		ActivityInfoInfo activity=activityInfoService.findById(id);
+		if(activity==null){
+			result.put("status", "1");
+			result.put("error_desc", "要中止的活动已不存在，请刷新页面重试");
+			this.writeJson(response, result);return;
+		}
+		activity.setStatus(DictionaryConst.HUO_DONG_ZHUANG_TAI_YI_JIE_SHU);
+		activity.setEndTime(new Date());
+		if(activity.getStartTime().after(new Date())){
+			activity.setStartTime(new Date());
+		}
+		activity.setUpdateTime(new Date());
+		activity.setUpdateUser(this.getCurrentSessionInfo(request).getUserId());
+		CompetitionItemInfo findInfo=new CompetitionItemInfo();
+		findInfo.setActivityId(id);
+		List<CompetitionItemInfo> items=competitionItemService.findByParam(findInfo);
+		for(CompetitionItemInfo item:items){
+			item.setStatus(DictionaryConst.BI_SAI_XIANG_MU_ZHUANG_TAI_YI_JIE_SHU);
+			item.setUpdateTime(new Date());
+			item.setUpdateUser(this.getCurrentSessionInfo(request).getUserId());
+		}
+		activityInfoService.updateActivity(activity,items);
+		result.put("status", "0");
+		this.writeJson(response, result);
+	}
+	
+	/***
+	 * 废弃活动
+	 * @param id
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/terminate")
+	public void terminate(String id,HttpServletRequest request,HttpServletResponse response){
+		Map<String,Object> result=new HashMap<String, Object>();
+		ActivityInfoInfo activity=activityInfoService.findById(id);
+		if(activity==null){
+			result.put("status", "1");
+			result.put("error_desc", "要废弃的活动已不存在，请刷新页面重试");
+			this.writeJson(response, result);return;
+		}
+		activity.setStatus(DictionaryConst.HUO_DONG_ZHUANG_TAI_YI_FEI_QI);
+		activity.setEndTime(new Date());
+		if(activity.getStartTime().after(new Date())){
+			activity.setStartTime(new Date());
+		}
+		activity.setUpdateTime(new Date());
+		activity.setUpdateUser(this.getCurrentSessionInfo(request).getUserId());
+		CompetitionItemInfo findInfo=new CompetitionItemInfo();
+		findInfo.setActivityId(id);
+		List<CompetitionItemInfo> items=competitionItemService.findByParam(findInfo);
+		for(CompetitionItemInfo item:items){
+			item.setStatus(DictionaryConst.BI_SAI_XIANG_MU_ZHUANG_TAI_YI_FEI_QI);
+			item.setUpdateTime(new Date());
+			item.setUpdateUser(this.getCurrentSessionInfo(request).getUserId());
+		}
+		activityInfoService.updateActivity(activity,items);
+		result.put("status", "0");
+		this.writeJson(response, result);
+	}
+	
+	/**
+	 * 删除活动
+	 * @param id
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/delete")
+	public void delete(String id,HttpServletRequest request,HttpServletResponse response){
+		Map<String,Object> result=new HashMap<String, Object>();
+		ActivityInfoInfo activity=activityInfoService.findById(id);
+		if(activity==null){
+			result.put("status", "1");
+			result.put("error_desc", "要删除的活动已不存在，请刷新页面重试");
+			this.writeJson(response, result);return;
+		}
+		UserCompletionItemApplyInfo applyFind=new UserCompletionItemApplyInfo();
+		applyFind.setActivityId(id);
+		List<UserCompletionItemApplyInfo> applys=userCompetitionItemApplyService.findByParam(applyFind);
+		if(applys!=null&&applys.size()>0){
+			result.put("status", "1");
+			result.put("error_desc", "活动下的项目已经有用户报名，无法删除");
+			this.writeJson(response, result);return;
+		}
+		CompetitionItemInfo findInfo=new CompetitionItemInfo();
+		findInfo.setActivityId(id);
+		List<CompetitionItemInfo> items=competitionItemService.findByParam(findInfo);
+		activityInfoService.deleteActivity(id,items);
+		result.put("status", "0");
+		this.writeJson(response, result);
+	}
+	
+	/***
+	 * 发布活动
+	 * @param id
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/publish")
+	public void publish(String id,HttpServletRequest request,HttpServletResponse response){
+		Map<String,Object> result=new HashMap<String, Object>();
+		//判断有没有正常运行中的活动
+		ActivityInfoInfo findInfo=new ActivityInfoInfo();
+		findInfo.setStatus(DictionaryConst.HUO_DONG_ZHUANG_TAI_YI_FA_BU);
+		List<ActivityInfoInfo> infos=activityInfoService.findByParam(findInfo);
+		if(infos!=null&&infos.size()>0){
+			//有未发布
+			result.put("status", "1");
+			result.put("error_desc", "存在已发布的活动，无法发布");
+			this.writeJson(response, result);return;
+		}
+		ActivityInfoInfo activity=activityInfoService.findById(id);
+		if(activity==null){
+			result.put("status", "1");
+			result.put("error_desc", "要发布的活动已不存在，请刷新页面重试");
+			this.writeJson(response, result);return;
+		}
+		activity.setStatus(DictionaryConst.HUO_DONG_ZHUANG_TAI_YI_FA_BU);
+		activity.setStartTime(new Date());
+		if(activity.getEndTime().before(activity.getStartTime())){
+			activity.setEndTime(DateUtil.addDate(activity.getStartTime(), 120));
+		}
+		activity.setUpdateTime(new Date());
+		activity.setUpdateUser(this.getCurrentSessionInfo(request).getUserId());
+		CompetitionItemInfo findInfo2=new CompetitionItemInfo();
+		findInfo2.setActivityId(id);
+		List<CompetitionItemInfo> items=competitionItemService.findByParam(findInfo2);
+		for(CompetitionItemInfo item:items){
+			item.setStatus(DictionaryConst.BI_SAI_XIANG_MU_ZHUANG_TAI_YI_FA_BU);
+			item.setPublishTime(new Date());
+			item.setUpdateTime(new Date());
+			item.setUpdateUser(this.getCurrentSessionInfo(request).getUserId());
+		}
+		activityInfoService.updateActivity(activity,items);
+		result.put("status", "0");
+		this.writeJson(response, result);
+	}
+	
 	/***
 	 * 添加活动 
 	 * 添加活动的同时会添加
@@ -119,7 +299,7 @@ public class ActivityController extends BaseController{
 			//判断是否有已发布状态的活动
 			ActivityInfoInfo findInfo=new ActivityInfoInfo();
 			findInfo.setStatus(DictionaryConst.HUO_DONG_ZHUANG_TAI_YI_FA_BU);
-			List<ActivityInfoInfo> infos=activityInfoService.findByParam(activity);
+			List<ActivityInfoInfo> infos=activityInfoService.findByParam(findInfo);
 			if(infos!=null&&infos.size()>0){
 				//有未发布
 			}else{
@@ -158,6 +338,70 @@ public class ActivityController extends BaseController{
 			ciList.add(item);
 		}
 		activityInfoService.addActivityAndCompetitionItem(activity,ciList);
+		result.put("status", "0");
+		this.writeJson(response, result);
+	}
+	
+	/**
+	 * 更新姓名
+	 * @param id
+	 * @param name
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/editName")
+	public void editName(String id,String name,HttpServletRequest request,HttpServletResponse response){
+		Map<String,Object> result=new HashMap<String, Object>();
+		ActivityInfoInfo activity=activityInfoService.findById(id);
+		if(activity==null){
+			result.put("status", "1");
+			result.put("error_desc", "活动已不存在");
+			this.writeJson(response, result);return;
+		}
+		activity.setName(name);
+		activityInfoService.update(activity);
+		result.put("status", "0");
+		this.writeJson(response, result);
+	}
+	
+	/**
+	 * 更改项目状态
+	 * @param id
+	 * @param type
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/changeItemStatus")
+	public void changeItemStatus(String id,String type,HttpServletRequest request,HttpServletResponse response){
+		Map<String,Object> result=new HashMap<String, Object>();
+		CompetitionItemInfo item=competitionItemService.findById(id);
+		if(item==null){
+			result.put("status", "1");
+			result.put("error_desc", "项目已不存在，请刷新重试");
+			this.writeJson(response, result);return;
+		}
+		if("0".equals(type)){
+			//结束报名
+			item.setStatus(DictionaryConst.BI_SAI_XIANG_MU_ZHUANG_TAI_BAO_MING_JIE_SHU);
+			item.setUserApplyEndtime(new Date());
+		}
+		if("1".equals(type)){
+			//启动一轮评审
+			item.setStatus(DictionaryConst.BI_SAI_XIANG_MU_ZHUANG_TAI_YI_LUN_PING_SHEN_ZHONG);
+			item.setFirstReviewStarttime(new Date());
+		}
+		if("2".equals(type)){
+			//结束一轮评审
+			item.setStatus(DictionaryConst.BI_SAI_XIANG_MU_ZHUANG_TAI_YI_LUN_PING_SHEN_JIE_SHU);;
+			item.setFirstReviewEndtime(new Date());
+		}
+		if("3".equals(type)){
+			//开始二轮评审
+			item.setStatus(DictionaryConst.BI_SAI_XIANG_MU_ZHUANG_TAI_ER_LUN_PING_SHEN_JIE_SHU);
+			item.setSecondReviewEndtime(new Date());
+		}
+		
+		competitionItemService.update(item);
 		result.put("status", "0");
 		this.writeJson(response, result);
 	}

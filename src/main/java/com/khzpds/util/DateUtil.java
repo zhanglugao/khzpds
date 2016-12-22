@@ -374,6 +374,13 @@ public class DateUtil {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(calendar.getTime());
     }
+    
+    public static Date addDate(Date date,int day){
+    	 Calendar calendar=Calendar.getInstance();   
+    	 calendar.setTime(date);
+    	 calendar.set(Calendar.DAY_OF_MONTH,calendar.get(Calendar.DAY_OF_MONTH)+day);
+    	 return calendar.getTime();
+    }
 
     // public static String addCurrentMonth(int month)
     // {

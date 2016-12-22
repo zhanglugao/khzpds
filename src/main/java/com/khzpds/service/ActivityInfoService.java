@@ -39,7 +39,24 @@ public class ActivityInfoService extends IBaseService<ActivityInfoInfo> {
 			}
 		}
 	}
+	
+	public void updateActivity(ActivityInfoInfo activity,
+			List<CompetitionItemInfo> items) {
+		activityInfoDao.update(activity, null);
+		for(CompetitionItemInfo item:items){
+			competitionItemDao.update(item, null);
+		}
+		
+	}
+	
+	public void deleteActivity(String id, List<CompetitionItemInfo> items) {
+		activityInfoDao.deleteById(id, null);
+		for(CompetitionItemInfo item:items){
+			competitionItemDao.deleteById(item.getId(), null);
+		}
+	}
 	//--CustomEnd*****///
+
 
 }
 

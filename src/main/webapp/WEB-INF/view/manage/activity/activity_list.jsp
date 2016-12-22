@@ -38,15 +38,15 @@
 					if(obj.status=='未发布'){
 						html+="&nbsp;<button onclick='toEdit(\""+obj.id+"\")' type='button' class='btn btn-primary'>编辑</button>";
 						html+="&nbsp;<button onclick='publish(\""+obj.id+"\")' type='button' class='btn btn-primary'>发布</button>";
-						html+="&nbsp;<button onclick='publish(\""+obj.id+"\")' type='button' class='btn btn-primary'>删除</button>";
-						html+="&nbsp;<button onclick='publish(\""+obj.id+"\")' type='button' class='btn btn-primary'>废弃</button>";
+						html+="&nbsp;<button onclick='deleteActivity(\""+obj.id+"\")' type='button' class='btn btn-primary'>删除</button>";
+						html+="&nbsp;<button onclick='terminate(\""+obj.id+"\")' type='button' class='btn btn-primary'>废弃</button>";
 					}
 					if(obj.status=='已发布'){
 						html+="&nbsp;<button onclick='toEdit(\""+obj.id+"\")' type='button' class='btn btn-primary'>编辑</button>";
-						html+="&nbsp;<button onclick='terminate(\""+obj.id+"\")' type='button' class='btn btn-primary'>中止</button>";
+						html+="&nbsp;<button onclick='turnEnd(\""+obj.id+"\")' type='button' class='btn btn-primary'>中止</button>";
 					}
 					if(obj.status=='已结束'){
-						html+="&nbsp;<button onclick='reopen(\""+obj.id+"\")' type='button' class='btn btn-primary'>重新打开</button>";
+						html+="&nbsp;<button onclick='publish(\""+obj.id+"\")' type='button' class='btn btn-primary'>重新打开</button>";
 					}
 					if(obj.status=='已废弃'){
 						html+="&nbsp;<button onclick='toEdit(\""+obj.id+"\")' type='button' class='btn btn-primary'>编辑</button>";
@@ -56,6 +56,122 @@
 					$("#dataTable").append(html);
 				}
 				setPageHtml(data.total_page, "next", "getData", currentPage);
+			},error:function(){
+				layer.alert(errorText);
+			}
+		});
+	}
+	
+	/**
+	*	to编辑页面
+	*/
+	function toEdit(id){
+		window.location.href="/activity/toEdit?id="+id;
+	}
+	
+	function turnEnd(id){
+		layer.confirm('确定要中止么', {
+		    btn: ['确定','取消'], //按钮
+		    shade: false //不显示遮罩
+		}, function(index){
+		    layer.close(index);
+			$.ajax({
+				url:"/activity/turnEnd",
+				data:{id:id},
+				type:"post",
+				dataType:"json",
+				success:function(data){
+					if(data.status=='0'){
+						layer.closeAll();
+						layer.msg("中止成功",{icon:1});
+						getData(1);
+					}else{
+						layer.alert(data.error_desc);
+					}
+				},
+				error:function(){
+					layer.alert(errorText);
+				}
+			});
+		});
+	}
+	
+	/***
+	*	废弃活动
+	*/
+	function terminate(id){
+		layer.confirm('确定要废弃么', {
+		    btn: ['确定','取消'], //按钮
+		    shade: false //不显示遮罩
+		}, function(index){
+		    layer.close(index);
+			$.ajax({
+				url:"/activity/terminate",
+				data:{id:id},
+				type:"post",
+				dataType:"json",
+				success:function(data){
+					if(data.status=='0'){
+						layer.closeAll();
+						layer.msg("废弃成功",{icon:1});
+						getData(1);
+					}else{
+						layer.alert(data.error_desc);
+					}
+				},
+				error:function(){
+					layer.alert(errorText);
+				}
+			});
+		});
+	}
+	
+	/***
+	*	删除活动
+	*/
+	function deleteActivity(id){
+		layer.confirm('确定要删除么', {
+		    btn: ['确定','取消'], //按钮
+		    shade: false //不显示遮罩
+		}, function(index){
+		    layer.close(index);
+			$.ajax({
+				url:"/activity/delete",
+				data:{id:id},
+				type:"post",
+				dataType:"json",
+				success:function(data){
+					if(data.status=='0'){
+						layer.closeAll();
+						layer.msg("删除成功",{icon:1});
+						getData(1);
+					}else{
+						layer.alert(data.error_desc);
+					}
+				},
+				error:function(){
+					layer.alert(errorText);
+				}
+			});
+		});
+	}
+	
+	/***
+	*	发布活动
+	*/
+	function publish(id){
+		$.ajax({
+			url:"/activity/publish",
+			data:{id:id},
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.status=='0'){
+					layer.msg("发布成功",{icon:1});
+					getData(1);
+				}else if(data.status=='1'){
+					layer.alert(data.error_desc);
+				}
 			},error:function(){
 				layer.alert(errorText);
 			}
