@@ -88,7 +88,7 @@ public class ActivityController extends BaseController{
 				acinfo.setStatus(dicMap.get(acinfo.getStatus()));
 			}
 			result.put("rows", activityList);
-			result.put("total_page", page.getTotalCount());
+			result.put("total_page", page.getTotalPage());
 			
 			this.writeJson(response, result);
 		}catch(Exception e){
