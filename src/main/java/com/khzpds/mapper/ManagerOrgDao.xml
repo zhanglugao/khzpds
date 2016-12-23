@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.khzpds.dao.ManagerOrgDao">
+
+	 <resultMap id="ManagerOrgResultMap" type="com.khzpds.vo.ManagerOrgInfo">
+        <id property="managerId" column="manager_id" />
+        <id property="orgId" column="org_id" />
+    </resultMap>
+    
+    <!--根据联合主键查询-->
+    <select id="findById" parameterType="java.util.HashMap" resultMap="ManagerOrgResultMap">
+		select manager_id,org_id from manager_org where manager_id=#{managerId} and org_id=#{orgId}
+	</select>
+    
+    <!--插入-->
+	 <insert id="insert" parameterType="com.khzpds.vo.ManagerOrgInfo" >
+    	INSERT INTO manager_org
+        (manager_id,org_id) 
+		values(#{managerId},#{orgId})
+    </insert>
+
+    
+    <!--根据传入的map参数查询 并分页-->
+    <select id="findByParamForPage" resultMap="ManagerOrgResultMap" >
+		select manager_id,org_id from manager_org
+		where 1=1
+           <if test="obj.search.managerId!=null"> AND manager_id = #{obj.search.managerId}</if>
+           <if test="obj.search.orgId!=null"> AND org_id = #{obj.search.orgId}</if>
+
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+        <if test="obj.orderField!=null and obj.orderType!=null"> order by ${obj.orderField} ${obj.orderType}</if>
+	</select>
+    
+     <!--根据传入的实体参数查询-->
+    <select id="findByParam" resultMap="ManagerOrgResultMap" >
+		select manager_id,org_id from manager_org
+		where 1=1
+           <if test="obj.managerId!=null"> AND manager_id = #{obj.managerId}</if>
+           <if test="obj.orgId!=null"> AND org_id = #{obj.orgId}</if>
+
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+	</select>
+    
+     <!--根据联合主键进行删除-->
+	<delete id="deleteById" parameterType="java.util.HashMap">
+    	delete from manager_org where manager_id=#{managerId} and org_id=#{orgId}
+    </delete>
+    
+    <!--根据实体进行更新-->
+	<update id="update" >
+    	update manager_org 
+        <trim prefix="SET" suffixOverrides=",">
+           <if test="obj.managerId!=null">manager_id=#{obj.managerId},</if>
+           <if test="obj.orgId!=null">org_id=#{obj.orgId},</if>  
+        </trim>
+		where manager_id=#{obj.managerId}  and org_id=#{obj.orgId} 
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+    </update> 
+	<!--CustomBegin***--><!--CustomEnd*****-->
+</mapper>
