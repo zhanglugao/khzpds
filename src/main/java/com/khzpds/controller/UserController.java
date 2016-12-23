@@ -100,6 +100,8 @@ public class UserController extends BaseController{
 				}
 				System.out.println(user);
 				user.setId(UUIDUtil.getUUID());
+				user.setCreateTime(new Date());
+				user.setStatus("0");
 				userInfoService.add(user);
 				session=userInfoService.setSession(user);
 				request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, session);
