@@ -42,7 +42,6 @@
 		if(obj!=''){
 			var data=eval(obj);
 			for(var o in data){
-				console.log(o);
 				$("#"+name).append("<option value='"+o+"'>"+data[o]+"</option>");
 			}
 		}

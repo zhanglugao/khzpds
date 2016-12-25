@@ -234,5 +234,37 @@
            <if test="obj.teamDesc!=null"> AND team_desc = #{obj.teamDesc}</if>
         order by ${sort}
 	</select>
+	<select id="findBySearchMap" resultType="map" parameterType="map">
+		SELECT
+			apply.id AS id,
+			item. NAME AS itemName,
+			dic. NAME AS itemStatus,
+			USER .user_name AS userName,
+			USER .real_name AS realName,
+			apply.production_name AS proName,
+			org. NAME AS orgName,
+			dic3.name AS applyGroup,
+			dic2.name AS applyYearGroup
+		FROM
+			user_completion_item_apply apply
+		JOIN user_info USER ON apply.user_id = USER .id
+		left JOIN content_category org ON apply.recommened_company = org.id
+		JOIN competition_item item ON apply.competition_item_id = item.id
+		JOIN dictionary dic ON apply.apply_status = dic.id
+		left JOIN dictionary dic2 ON apply.apply_year_group =dic2.id
+		left JOIN dictionary dic3 ON apply.apply_group =dic3.id
+		WHERE
+			1 = 1
+		<if test="itemId!=null"> and apply.competition_item_id=#{itemId}</if>
+		<if test="applyGroup!=null"> and apply.apply_group=#{applyGroup}</if>
+		<if test="applyYearGroup!=null"> and apply.apply_year_group=#{applyYearGroup}</if>
+		<if test="orgId!=null"> and apply.recommened_company=#{orgId}</if>
+		<if test="userName!=null"> and user.user_name=#{userName}</if>
+		<if test="realName!=null"> and user.real_name=#{realName}</if>
+		
+		<if test="orderField!=null and orderType!=null">
+			order by ${orderField} ${orderType}
+		</if>
+	</select>
 	<!--CustomEnd*****-->
 </mapper>

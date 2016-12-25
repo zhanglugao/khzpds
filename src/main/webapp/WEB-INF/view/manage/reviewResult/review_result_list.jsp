@@ -50,8 +50,8 @@
 	*	to编辑页面
 	*/
 	function toShowItem(id){
-		layer.msg("敬请期待");
-		//window.location.href="/reviewResult/toShowItem?id="+id;
+		//layer.msg("敬请期待");
+		window.location.href="/reviewResult/toShowItem?id="+id;
 	}
 	
 	

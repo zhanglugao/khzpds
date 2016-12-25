@@ -1,5 +1,6 @@
 package com.khzpds.service;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,12 @@ public class UserCompletionItemApplyService extends IBaseService<UserCompletionI
 			UserCompletionItemApplyInfo applyfind, String sort) {
 		return userCompletionItemApplyDao.findByParamSort(applyfind,sort);
 	} 
+	public List<Map<String, String>> findBySearchMap(
+			Map<String, String> searchMap) {
+		return userCompletionItemApplyDao.findBySearchMap(searchMap);
+	}
 //--CustomEnd*****///
+
+
 }
 

@@ -209,7 +209,9 @@
 	
 	var treeIndex;
 	function loadCategoryTree(){
-		createTree();
+		if($("#tree").html()==''){
+			createTree();
+		}
 		treeIndex=layer.open({
 			type: 1,
 			content:$("#treeDiv"),

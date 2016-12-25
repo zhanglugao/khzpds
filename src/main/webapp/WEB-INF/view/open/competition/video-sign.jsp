@@ -395,7 +395,9 @@ display:block;
 	}
 	
 	function loadCategoryTree(){
-		createTree();
+		if($("#tree").html()==''){
+			createTree();
+		}
 		layer.open({
 			type: 1,
 			content:$("#treeDiv"),
