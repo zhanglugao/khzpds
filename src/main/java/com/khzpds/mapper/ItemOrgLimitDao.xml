@@ -97,5 +97,9 @@
 		where id=#{obj.id} 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
     </update> 
-	<!--CustomBegin***--><!--CustomEnd*****-->
+	<!--CustomBegin***-->
+	<delete id="deleteByItemId">
+		delete from item_org_limit where item_id=#{itemId}
+	</delete>
+	<!--CustomEnd*****-->
 </mapper>

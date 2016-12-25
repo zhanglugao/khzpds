@@ -24,7 +24,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.khzpds.base.BaseController;
-import com.khzpds.base.BusinessConfig;
 import com.khzpds.service.ContentCategoryService;
 import com.khzpds.util.ArrayUtils;
 import com.khzpds.vo.ContentCategoryInfo;

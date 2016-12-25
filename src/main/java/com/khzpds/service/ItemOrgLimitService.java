@@ -1,4 +1,6 @@
 package com.khzpds.service;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,17 @@ public class ItemOrgLimitService extends IBaseService<ItemOrgLimitInfo> {
     public void setItemOrgLimitRepository(ItemOrgLimitDao repository) {  
         setRepository(repository);  
         itemOrgLimitDao=repository;
-    }  
+    }
+
     
     //--CustomBegin***///
-//--CustomEnd*****///
+	public void addItemOrgListInfo(String itemId,
+			List<ItemOrgLimitInfo> itemOrgLimitList) {
+		itemOrgLimitDao.deleteByItemId(itemId);
+		for(ItemOrgLimitInfo info:itemOrgLimitList){
+			itemOrgLimitDao.insert(info);
+		}
+	} 
+	//--CustomEnd*****///
 }
 

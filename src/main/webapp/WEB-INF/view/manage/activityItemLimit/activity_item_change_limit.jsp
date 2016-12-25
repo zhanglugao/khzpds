@@ -9,8 +9,45 @@
 <jsp:include page="../common/manage_inc.jsp"></jsp:include>
 <meta content='width=device-width,initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 <script type="text/javascript">
+	var r = /^\+?[1-9][0-9]*$/;
 	$(document).ready(function(){
-		
+		$("#saveBtn").click(function(){
+			var objs=$(".orgClass");
+			var jsonData='[';
+			for(var i=0;i<objs.length;i++){
+				var obj=$(objs[i]);
+				var value=obj.val();
+				if(value!=""&&!r.test(value)){
+					layer.alert("第"+(i+1)+"行限额数目填写非法。");
+					return;
+				}
+				if(value!=''){
+					var d='{"id":"'+obj.attr("id")+'","value":"'+value+'"}';
+					if(jsonData=='['){
+						jsonData+=d;
+					}else{
+						jsonData+=","+d;
+					}
+				}
+			}
+			jsonData+="]";
+			$.ajax({
+				url:"/activityItemLimit/changeLimit",
+				type:"post",
+				data:{data:jsonData,id:"${param.id}"},
+				dataType:"json",
+				success:function(data){
+					if(data.status=='0'){
+						layer.msg("保存成功",{icon:1});
+					}else if(data.status=='1'){
+						layer.alert(data.error_desc);
+					}
+				},
+				error:function(){
+					layer.alert(errorText)
+				}
+			});
+		});
 	});
 	
 	function returnIndex(){
@@ -32,7 +69,9 @@
 			</section>
 			<section class="content">
 				<div class="form-group mt10" style='margin-top:5px;'>
-							<label class="control-label  col-xs-1"><button onclick='returnIndex()' type='button' class='btn btn-primary'>返回</button></label>
+							<label class="control-label  col-xs-3"><button id='saveBtn' type='button' class='btn btn-primary'>保存</button>
+								&nbsp;
+							<button onclick='returnIndex()' type='button' class='btn btn-primary'>返回</button></label>
 							<div class="col-sm-4">
 								
                        		</div>
@@ -43,29 +82,17 @@
 							<div class="box-body table-responsive">
 								<table class="table table-hover table-bordered" id='dataTable'>
 									<tr>
+										<th>序号</th>
 										<th>项目名称</th>
-										<th>项目类型</th>
-										<th>项目状态</th>
-										<th>创建人</th>
-										<th>发布时间</th>
-										<th>报名截止时间</th>
-										<th>一轮评审开始时间</th>
-										<th>一轮评审结束时间</th>
-										<th>二轮评审结束时间</th>
-										<th>操作</th>
+										<th>组织机构名称</th>
+										<th>限额数目</th>
 									</tr>
-									<c:forEach items="${items}" var="item">
+									<c:forEach items="${orgList}" var="org" varStatus="vs">
 										<tr>
+											<td>${vs.count }</td>
 											<td>${item.name }</td>
-											<td>${item.type }</td>
-											<td>${item.statusName }</td>
-											<td>${item.createUser }</td>
-											<td><fmt:formatDate value="${item.publishTime }" pattern="yyyy-MM-dd"/></td>
-											<td><fmt:formatDate value="${item.userApplyEndtime }" pattern="yyyy-MM-dd"/></td>
-											<td><fmt:formatDate value="${item.firstReviewStarttime }" pattern="yyyy-MM-dd"/></td>
-											<td><fmt:formatDate value="${item.firstReviewEndtime }" pattern="yyyy-MM-dd"/></td>
-											<td><fmt:formatDate value="${item.secondReviewEndtime }" pattern="yyyy-MM-dd"/></td>
-											<td><button onclick='toSetItemLimit("${item.id}")' type='button' class='btn btn-primary'>设置项目限额</button></td>
+											<td>${org.name }</td>
+											<td><input class='orgClass' id='${org.id }' type='text' value='${org.additional }' /></td>
 										</tr>
 									</c:forEach>
 								</table>
