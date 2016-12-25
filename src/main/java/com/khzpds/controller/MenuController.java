@@ -92,7 +92,7 @@ public class MenuController extends BaseController{
 	public void delete(String id,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
 		
-		menuService.delete(id);
+		menuService.deleteMenu(id);
 		
 		result.put("status", "0");
 		this.writeJson(response, result);

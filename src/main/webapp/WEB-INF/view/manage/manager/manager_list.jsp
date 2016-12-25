@@ -18,6 +18,10 @@
 }
 </style>
 <script src="/js/pageset.js" type="text/javascript"></script>
+<!-- ztree -->
+<link type="text/css" rel="stylesheet" href="/js/ztree/css/zTreeStyle/zTreeStyle.css"/>
+<script src="/js/ztree/js/jquery.ztree.core-3.4.js"></script>
+<script src="/js/ztree/js/jquery.ztree.excheck-3.4.js"></script>
 <script type="text/javascript">
 	function getData(currentPage){
 		var pageSize=10;
@@ -39,8 +43,11 @@
 					if(typeof(obj.realName)=='undefined'){
 						obj.realName='';
 					}
-					var html="<tr class='datatr'><td>"+(i+1)+"</td><td>"+obj.userName+"</td><td>"+obj.mail+"</td><td>"+obj.realName+"</td><td>"+obj.roleNames+"</td><td>"
-						+"<button class='btn btn-primary' type='button' onclick='addUser(\""+obj.id+"\",\""+obj.userName+"\",\""+obj.mail+"\",\""+obj.realName+"\",\""+obj.roleIds+"\")'>编辑</button>&nbsp;<button class='btn btn-primary' onclick='resetpwd(\""+obj.id+"\")' type='button'>重置密码</button></td></tr>";
+					if(typeof(obj.orgName)=='undefined'){
+						obj.orgName='';
+					}
+					var html="<tr class='datatr'><td>"+(i+1)+"</td><td>"+obj.userName+"</td><td>"+obj.mail+"</td><td>"+obj.realName+"</td><td>"+obj.orgName+"</td><td>"+obj.roleNames+"</td><td>"
+						+"<button class='btn btn-primary' type='button' onclick='addUser(\""+obj.id+"\",\""+obj.userName+"\",\""+obj.mail+"\",\""+obj.realName+"\",\""+obj.roleIds+"\",\""+obj.orgId+"\",\""+obj.orgName+"\")'>编辑</button>&nbsp;<button class='btn btn-primary' onclick='resetpwd(\""+obj.id+"\")' type='button'>重置密码</button></td></tr>";
 					$("#dataTable").append(html);
 				}
 				setPageHtml(data.total_page, "next", "getData", currentPage);
@@ -62,8 +69,12 @@
 				$("#roleDiv").append(html);
 			}
 		}
+		
+		$("#orgName").click(function(){
+			loadCategoryTree();
+		});
 	});
-	function addUser(id,userName,mail,realName,roleIds){
+	function addUser(id,userName,mail,realName,roleIds,orgId,orgName){
 		if(typeof(id)!='undefined'){
 			$("#userId").val(id);
 		}else{
@@ -83,6 +94,13 @@
 			$("#userRealName").val(realName);
 		}else{
 			$("#userRealName").val("");
+		}
+		if(typeof(orgId)!='undefined'&&typeof(orgName)!='undefined'){
+			$("#orgId").val(orgId);
+			$("#orgName").val(orgName);
+		}else{
+			$("#orgId").val("");
+			$("#orgName").val("");
 		}
 		if(typeof(roleIds)!='undefined'){
 			var roles=roleIds.split(",");
@@ -163,10 +181,11 @@
 		if(roleIds==''){
 			layer.msg("请选择角色",{icon:4});return;
 		}
+		var orgId=$("#orgId").val();
 		var id=$("#userId").val();
 		$.ajax({
 			url:"/user/add",
-			data:{userName:userName,mail:mail,realName:realName,id:id,roleIds:roleIds,type:"1"},
+			data:{userName:userName,mail:mail,realName:realName,id:id,roleIds:roleIds,type:"1",orgId:orgId},
 			type:"post",
 			dataType:"json",
 			success:function(data){
@@ -187,7 +206,60 @@
 			}
 		});
 	}
+	
+	var treeIndex;
+	function loadCategoryTree(){
+		createTree();
+		treeIndex=layer.open({
+			type: 1,
+			content:$("#treeDiv"),
+			shadeClose: true,//开启遮罩关闭
+			title:false,
+			/* offset: [ //为了演示，随机坐标
+						75,$(window).width()*0.65
+					], */
+			area: ['400px', '300px']
+		}); 
+	}
+    
+	function getParentsName(array,treeNode){
+		if (treeNode.getParentNode()==null) {
+			return;
+		}else{
+			array.push(treeNode.getParentNode().name);
+			getParentsName(array,treeNode.getParentNode());
+		}
+	}
+	
+    function zTreeOnClick(event, treeId, treeNode) {
+    	var treeObj = $.fn.zTree.getZTreeObj("tree");
+    	var nodes = treeObj.getSelectedNodes();
+    	var NameArray=new Array();
+    	var str = "";	
+    	//getParentsName(NameArray,treeNode);
+    	for(var i=NameArray.length-1;i>=0;i--){
+    		//str+=NameArray[i]+"-";
+    		str+=NameArray[i];
+    	}
+    	var array = new Array();
+    	str+=treeNode.name;
+    	var n = "";			//id
+    	for (var i = 0, l = nodes.length; i < l; i++) {
+            n += nodes[i].id + ",";  
+        }  
+        if (n.length > 0) {
+        	n = n.substring(0, n.length - 1);  
+        }
+        $("#orgId").val(n);
+        $("#orgName").val(str);
+        layer.close(treeIndex);
+    }
+    function clearClass(){
+    	$("#orgId").val("");
+    	$("#orgName").val("");
+    }
 </script>
+<script src="/js/categoryTree.js"></script>
 </head>
 <body class="skin-blue">
 	<!-- courseyun 后端模板 header -->
@@ -242,6 +314,7 @@
 										<th>用户名</th>
 										<th>邮箱</th>
 										<th>真实姓名</th>
+										<th>组织机构</th>
 										<th>角色</th>
 										<th>操作</th>
 									</tr>
@@ -273,6 +346,11 @@
 			<label>真实姓名</label>
 			<input type='text' id='userRealName' />
 		</div>
+		<div style="margin-top:20px;margin-left:20px;">
+			<label>组织机构</label>
+			<input type='text' id='orgName' readonly="readonly"/>
+			<input id='orgId' type='hidden'/>
+		</div>
 		<div id='roleDiv' style="margin-left:20px;margin-top:20px;">
 			<label>角色</label>
 		</div>
@@ -282,6 +360,9 @@
 		<div style="margin-top:20px;margin-left:20px;">
 			<button onclick='confirmAdd()' type="button" class="btn btn-primary">确认</button>
 		</div>
+	</div>
+	<div id='treeDiv' style='display:none'>
+		<ul id="tree" class="ztree"></ul>
 	</div>
 </body>
 </html>

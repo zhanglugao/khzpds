@@ -14,11 +14,11 @@
 	});
 	
 	function returnIndex(){
-		window.location.href="/activityItemLimit/index";
+		window.location.href="/reviewResult/index";
 	}
 	
 	function toSetItemLimit(id){
-		window.location.href="/activityItemLimit/toSetItemLimit?id="+id+"&activityId=${param.id}";
+		window.location.href="/reviewResult/toSetItemLimit?id="+id+"&activityId=${param.id}";
 	}
 </script>
 </head>
@@ -32,7 +32,7 @@
 		</div>
 		<aside class="right-side">
 			<section class="content-header">
-				<h1>活动项目限额选择</h1>
+				<h1>查看活动列表</h1>
 			</section>
 			<section class="content">
 				<div class="form-group mt10" style='margin-top:5px;'>

@@ -8,6 +8,8 @@ public interface RoleMenuDao extends IBaseDao<RoleMenuInfo> {
 	
     //--CustomBegin***///
 	void deleteByRoleId(@Param("roleId")String roleId);
+	void deleteByMenuId(@Param("menuId")String id);
 	//--CustomEnd*****///
+
 }
 

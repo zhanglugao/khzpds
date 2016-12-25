@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.khzpds.base.IBaseService;
 import com.khzpds.base.PageParameter;
 import com.khzpds.dao.MenuDao;
+import com.khzpds.dao.RoleMenuDao;
 import com.khzpds.vo.MenuInfo;
 @Service
 public class MenuService extends IBaseService<MenuInfo> {
@@ -21,6 +22,8 @@ public class MenuService extends IBaseService<MenuInfo> {
 
     
     //--CustomBegin***///
+    @Autowired
+    private RoleMenuDao roleMenuDao;
     public List<MenuInfo> findMenusByUserId(String id) {
 		return menuDao.findMenusByUserId(id);
 	}  
@@ -30,7 +33,13 @@ public class MenuService extends IBaseService<MenuInfo> {
 	public List<Map<String, String>> findMenusByRoleId(String roleId) {
 		return menuDao.findMenusByRoleId(roleId);
 	}
+	public void deleteMenu(String id) {
+		menuDao.deleteById(id, null);
+		roleMenuDao.deleteByMenuId(id);
+	}
     //--CustomEnd*****///
+
+
 
 
 

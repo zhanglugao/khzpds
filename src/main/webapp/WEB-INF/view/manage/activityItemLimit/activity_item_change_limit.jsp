@@ -65,7 +65,7 @@
 		</div>
 		<aside class="right-side">
 			<section class="content-header">
-				<h1>活动编辑</h1>
+				<h1>活动限额设置</h1>
 			</section>
 			<section class="content">
 				<div class="form-group mt10" style='margin-top:5px;'>

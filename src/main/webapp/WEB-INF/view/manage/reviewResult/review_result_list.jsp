@@ -50,7 +50,8 @@
 	*	to编辑页面
 	*/
 	function toShowItem(id){
-		window.location.href="/activityItemLimit/toShowItem?id="+id;
+		layer.msg("敬请期待");
+		//window.location.href="/reviewResult/toShowItem?id="+id;
 	}
 	
 	
@@ -92,7 +93,7 @@
 		</div>
 		<aside class="right-side">
 			<section class="content-header">
-				<h1>活动项目限额管理</h1>
+				<h1>评审结果管理</h1>
 				<!-- 首页链接 -->
 				<!-- <ol class="breadcrumb">
 					<li><a href="../index.html"><i class="fa fa-dashboard"></i> 首页</a></li>

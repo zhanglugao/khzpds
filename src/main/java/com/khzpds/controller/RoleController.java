@@ -19,10 +19,12 @@ import com.khzpds.base.BaseController;
 import com.khzpds.base.PageParameter;
 import com.khzpds.service.MenuService;
 import com.khzpds.service.RoleService;
+import com.khzpds.service.UserRoleService;
 import com.khzpds.util.UUIDUtil;
 import com.khzpds.vo.MenuInfo;
 import com.khzpds.vo.RoleInfo;
 import com.khzpds.vo.RoleMenuInfo;
+import com.khzpds.vo.UserRoleInfo;
 
 /***
  * 角色管理
@@ -37,6 +39,8 @@ public class RoleController extends BaseController{
 	private MenuService menuService;
 	@Autowired
 	private RoleService roleService;
+	@Autowired
+	private UserRoleService userRoleService;
 	
 	/***
 	 * 进入角色首页
@@ -144,6 +148,29 @@ public class RoleController extends BaseController{
 		}
 		roleService.addRole(role,roleMenus,ifAdd);
 		
+		result.put("status", "0");
+		this.writeJson(response, result);
+	}
+	
+	/***
+	 * 删除角色
+	 * @param id
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/delete")
+	public void delete(String id,HttpServletRequest request,HttpServletResponse response ){
+		Map<String,Object> result=new HashMap<String, Object>();
+		UserRoleInfo findInfo=new UserRoleInfo();
+		findInfo.setRoleId(id);
+		List<UserRoleInfo> infoList=userRoleService.findByParam(findInfo);
+		if(infoList!=null&&infoList.size()>0){
+			result.put("status", "1");
+			result.put("error_desc", "角色正在使用中，无法删除");
+			this.writeJson(response, result);
+			return;
+		}
+		roleService.delete(id);
 		result.put("status", "0");
 		this.writeJson(response, result);
 	}

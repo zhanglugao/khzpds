@@ -20,6 +20,8 @@ import com.khzpds.base.BaseController;
 import com.khzpds.base.BusinessConfig;
 import com.khzpds.base.PageParameter;
 import com.khzpds.base.SessionInfo;
+import com.khzpds.service.ContentCategoryService;
+import com.khzpds.service.ManagerOrgService;
 import com.khzpds.service.MenuService;
 import com.khzpds.service.RoleService;
 import com.khzpds.service.UserInfoService;
@@ -27,6 +29,8 @@ import com.khzpds.service.UserRoleService;
 import com.khzpds.util.EmailTool;
 import com.khzpds.util.UUIDUtil;
 import com.khzpds.util.VerifyCodeUtil;
+import com.khzpds.vo.ContentCategoryInfo;
+import com.khzpds.vo.ManagerOrgInfo;
 import com.khzpds.vo.RoleInfo;
 import com.khzpds.vo.UserInfoInfo;
 import com.khzpds.vo.UserRoleInfo;
@@ -46,6 +50,10 @@ public class UserController extends BaseController{
 	private RoleService roleService;
 	@Autowired
 	private UserRoleService userRoleService;
+	@Autowired
+	private ManagerOrgService managerOrgService;
+	@Autowired
+	private ContentCategoryService contentCategoryService;
 	
 	/***
 	 * 学员登陆主界面
@@ -337,6 +345,25 @@ public class UserController extends BaseController{
 				}
 				user.setRoleIds(sb.toString());
 				user.setRoleNames(sb2.toString());
+				
+				ManagerOrgInfo orgFind=new ManagerOrgInfo();
+				orgFind.setManagerId(user.getId());
+				List<ManagerOrgInfo> managerOrgs=managerOrgService.findByParam(orgFind);
+				StringBuffer sb3=new StringBuffer();
+				StringBuffer sb4=new StringBuffer();
+				for(ManagerOrgInfo managerOrg:managerOrgs){
+					ContentCategoryInfo orgInfo=contentCategoryService.findById(managerOrg.getOrgId());
+					if("".equals(sb3.toString())){
+						sb3.append(managerOrg.getOrgId());
+						sb4.append(orgInfo.getName());
+					}else{
+						sb3.append(","+managerOrg.getOrgId());
+						sb4.append(","+orgInfo.getName());
+					}
+				}
+				
+				user.setOrgId(sb3.toString());
+				user.setOrgName(sb4.toString());
 			}
 		}
 		result.put("rows", users);
@@ -396,7 +423,15 @@ public class UserController extends BaseController{
 				userRole.setUserId(user.getId());
 				userRoleList.add(userRole);
 			}
-			userInfoService.updateManagerInfo(user,userRoleList,ifAdd);
+			String orgId=request.getParameter("orgId");
+			List<ManagerOrgInfo> managerOrgList=new ArrayList<ManagerOrgInfo>();
+			if(StringUtils.isNotBlank(orgId)&&!"undefined".equals(orgId)){
+				ManagerOrgInfo managerOrg=new ManagerOrgInfo();
+				managerOrg.setManagerId(user.getId());
+				managerOrg.setOrgId(orgId);
+				managerOrgList.add(managerOrg);
+			}
+			userInfoService.updateManagerInfo(user,userRoleList,managerOrgList,ifAdd);
 			
 		}
 		result.put("status", "0");
