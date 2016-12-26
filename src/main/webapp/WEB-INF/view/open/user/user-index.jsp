@@ -26,19 +26,19 @@
 					var html="<tr class='trclass'><td class='zp1'>"+obj.productionName+"</td><td class='ss1'>"+obj.artist+"</td><td class='ts1'>"+obj.createTime+
 						"</td><td class='zt1'>"+obj.applyStatus+"</td>";
 					if(obj.applyStatus=='已报名'){
-						html+="<td class='cz1'><a onclick='toedit(\""+obj.id+"\")' href='javascript:;'>查看</a>&nbsp;<a onclick='cancelApply(\""+obj.id+"\")' href='javascript:;'>撤销</a>&nbsp;<a onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.competitionItemId+"\")' href='javascript:;'>下载报名表</a></td></tr>";
+						html+="<td class='cz1'><a onclick='toedit(\""+obj.id+"\")' href='javascript:;'>查看</a>&nbsp;<a onclick='cancelApply(\""+obj.id+"\")' href='javascript:;'>撤销</a>&nbsp;<a onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' href='javascript:;'>下载报名表</a></td></tr>";
 					}else if(obj.applyStatus=='已取消'){
-						html+="<td class='cz1'><a onclick='toedit(\""+obj.id+"\")' href='javascript:;'>编辑</a>&nbsp;<a onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.competitionItemId+"\")' href='javascript:;'>下载报名表</a></td></tr>";
+						html+="<td class='cz1'><a onclick='toedit(\""+obj.id+"\")' href='javascript:;'>编辑</a>&nbsp;<a onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' href='javascript:;'>下载报名表</a></td></tr>";
 					}else if (obj.applyStatus=='新建'){
-						html+="<td class='cz1'><a onclick='toedit(\""+obj.id+"\")' href='javascript:;'>编辑</a>&nbsp;<a onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.competitionItemId+"\")' href='javascript:;'>下载报名表</a></td></tr>";
+						html+="<td class='cz1'><a onclick='toedit(\""+obj.id+"\")' href='javascript:;'>编辑</a>&nbsp;<a onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' href='javascript:;'>下载报名表</a></td></tr>";
 					}
 					$("#dataDiv").append(html);
 				}
 			}
 		});
 	}
-	function downloadApplyTable(type,itemId){
-		window.open("/userApply/download?type="+type+"&itemId="+itemId,"_blank");
+	function downloadApplyTable(type,applyId){
+		window.open("/userApply/download?type="+type+"&applyId="+applyId,"_blank");
 	}
 	
 	function toedit(id){

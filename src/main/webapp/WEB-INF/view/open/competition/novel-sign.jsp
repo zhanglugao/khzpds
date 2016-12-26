@@ -394,8 +394,8 @@ display:block;
 		});
 	}
 	
-	function downloadApplyTable(type){
-		window.open("/userApply/download?type="+type+"&itemId=${itemId}","_blank");
+	function downloadApplyTable(type,applyId){
+		window.open("/userApply/download?type="+type+"&applyId="+applyId,"_blank");
 	}
 	
 	function loadCategoryTree(){
@@ -589,9 +589,10 @@ display:block;
                             </li>
                         </ul>
                         <div class="cb left-form1" id='applyDIv'>
-                           <p>
+                           <p style='width: 700px;'>
+                            <a href="/userApply/toApply?type=301001&flag=1"><img src="/images/xj-btn.png" alt="新建报名表"></a>
                            	 <a id='onlysavea'  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> onclick="onlySave()" href="javascript:;" class="bc"><img src="/images/bc-btn.png" alt="保存报名表"></a>
-                           	 <a onclick="downloadApplyTable(301001)" href="javascript:;" class="dl"><img src="/images/dl-btn.png" alt="下载报名表"></a>
+                           	 <a onclick="downloadApplyTable(301001,'${applyInfo.id}')" href="javascript:;" class="dl"><img src="/images/dl-btn.png" alt="下载报名表"></a>
                              <a onclick='openChoose()'  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> id='chooseProduct' href="javascript:;" class="tj"><img src="/images/tj-bm.png"></a>
                              <a id="applya"  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> onclick="apply()" href="javascript:;"><img src="/images/qr.png"></a></p>
                         </div>
@@ -603,9 +604,6 @@ display:block;
                         <input type='hidden' name="id" id="id" value="${applyInfo.id }"/>
                     </form>
                </div>
-
-
-
           </div>
       </div>
      <!-- 底部 -->

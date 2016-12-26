@@ -109,7 +109,7 @@ public class UserApplyCompetitionController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("toApply")
-	public ModelAndView toApply(String type,String id,HttpServletRequest request,HttpServletResponse response){
+	public ModelAndView toApply(String type,String id,String flag,HttpServletRequest request,HttpServletResponse response){
 		String dest=null;
 		//查询已发布状态的活动下的对应type的比赛项目
 		UserCompletionItemApplyInfo applyInfo=null;
@@ -117,16 +117,20 @@ public class UserApplyCompetitionController extends BaseController{
 		String itemId=null;
 		if(StringUtils.isBlank(id)){
 			List<CompetitionItemInfo> items=competitionItemService.findPublishedCompetitionItem(type);
-			if(items!=null&&items.size()>0){
+			if(items!=null&&items.size()==1){
 				item=items.get(0);
 				itemId=item.getId();
 				//判断用户是否已经报名
-				UserCompletionItemApplyInfo applyFind=new UserCompletionItemApplyInfo();
-				applyFind.setUserId(getCurrentSessionInfo(request).getUserId());
-				applyFind.setCompetitionItemId(items.get(0).getId());
-				List<UserCompletionItemApplyInfo> applys=userCompetitionItemApplyService.findByParam(applyFind);
-				if(applys!=null&&applys.size()>0){
-					applyInfo=applys.get(0);
+				if(StringUtils.isBlank(flag)){
+					UserCompletionItemApplyInfo applyFind=new UserCompletionItemApplyInfo();
+					applyFind.setUserId(getCurrentSessionInfo(request).getUserId());
+					applyFind.setCompetitionItemId(items.get(0).getId());
+					List<UserCompletionItemApplyInfo> applys=userCompetitionItemApplyService.findByParam(applyFind);
+					if(applys!=null&&applys.size()>0){
+						applyInfo=applys.get(0);
+					}else{
+						request.setAttribute("item", items.get(0));
+					}
 				}else{
 					request.setAttribute("item", items.get(0));
 				}
@@ -220,15 +224,14 @@ public class UserApplyCompetitionController extends BaseController{
 		"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r"
 	};
 	 @RequestMapping("download")    
-    public void download(HttpServletRequest request,String type,String itemId,HttpServletResponse response) throws IOException, Docx4JException { 
-    	UserCompletionItemApplyInfo findInfo=new UserCompletionItemApplyInfo();
-    	findInfo.setUserId(getCurrentSessionInfo(request).getUserId());
-    	findInfo.setCompetitionItemId(itemId);
-    	List<UserCompletionItemApplyInfo> list=userCompetitionItemApplyService.findByParam(findInfo);
+    public void download(HttpServletRequest request,String type,String applyId,HttpServletResponse response) throws IOException, Docx4JException { 
+		UserCompletionItemApplyInfo applyInfo=null;
+		if(StringUtils.isNotBlank(applyId)){
+			applyInfo=userCompetitionItemApplyService.findById(applyId);
+		}
     	File file=null;
     	String name="novel-sign-up.docx";
-    	if(list.size()>0){
-    		UserCompletionItemApplyInfo applyInfo=list.get(0);
+    	if(applyInfo!=null){
     		if(StringUtils.isNotBlank(applyInfo.getRecommenedCompany())){
     			ContentCategoryInfo category=contentCategoryService.findById(applyInfo.getRecommenedCompany());
 				if(category!=null){
