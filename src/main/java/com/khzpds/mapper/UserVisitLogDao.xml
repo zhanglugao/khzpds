@@ -85,5 +85,46 @@
 		where id=#{obj.id} 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
     </update> 
-	<!--CustomBegin***--><!--CustomEnd*****-->
+	<!--CustomBegin***-->
+	<select id="findBySearchMap" parameterType="map" resultMap="UserVisitLogResultMap">
+		select * from user_visit_log
+		where 1=1 
+		<if test="startTime!=null">
+			AND visit_time &gt; #{startTime}
+		</if>
+		<if test="endTime!=null">
+			AND visit_time &lt; #{endTime}
+		</if>
+		<if test="visitType!=null">
+			AND visit_type = #{visitType}
+		</if>
+	</select>
+	<select id="findVisitNumBySearchMap" parameterType="map" resultType="int">
+		select count(*) from user_visit_log
+		where 1=1 
+		<if test="startTime!=null">
+			AND visit_time &gt; #{startTime}
+		</if>
+		<if test="endTime!=null">
+			AND visit_time &lt; #{endTime}
+		</if>
+		<if test="visitType!=null">
+			AND visit_type = #{visitType}
+		</if>
+	</select>
+	<select id="findRefNumBySearchMap" parameterType="map" resultType="map">
+		select count(id) as num,refer_site as ref from user_visit_log
+		where 1=1 
+		<if test="startTime!=null">
+			AND visit_time &gt; #{startTime}
+		</if>
+		<if test="endTime!=null">
+			AND visit_time &lt; #{endTime}
+		</if>
+		<if test="visitType!=null">
+			AND visit_type = #{visitType}
+		</if>
+		group by refer_site
+	</select>
+	<!--CustomEnd*****-->
 </mapper>
