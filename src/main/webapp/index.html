@@ -136,6 +136,24 @@ $(document).ready(function(){
     trigger:"click" 
   });
 
+  
+  var ref=getRef();
+  var ifPc=IsPC();
+  var type="0";
+  if(!ifPc){
+	  type="1";
+  }
+  $.ajax({
+	 url:"/userVisitLog/visitLog",
+	 type:"post",
+	 data:{ref:ref,visitType:type},
+	 success:function(data){
+		 
+	 },error:function(){
+		 
+	 }
+  });
+  
 });
 var ggRoll = {  
 	    roll : document.getElementById("roll"),  
@@ -166,6 +184,35 @@ ggRoll.roll.onmouseout = function(){interval = setInterval("ggRoll.Go()", ggRoll
   $('#close_float_ad').on('click',function(){
       $('#roll').hide();
   });
+  
+  function IsPC() {
+	    var userAgentInfo = navigator.userAgent;
+	    var Agents = ["Android", "iPhone",
+	                "SymbianOS", "Windows Phone",
+	                "iPad", "iPod"];
+	    var flag = true;
+	    for (var v = 0; v < Agents.length; v++) {
+	        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+	            flag = false;
+	            break;
+	        }
+	    }
+	    return flag;
+	}
+  function getRef(){
+	  var ref = '';  
+	  if (document.referrer.length > 0) {  
+	   ref = document.referrer;  
+	  }  
+	  try {  
+	   if (ref.length == 0 && opener.location.href.length > 0) {  
+	    ref = opener.location.href;  
+	   }  
+	  } catch (e) {} 
+	  return ref;
+  }
+
+  
 </script>
 </body>
 	</html>

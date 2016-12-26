@@ -6,19 +6,19 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 @SuppressWarnings("serial")
-public class UserLoginLogInfo implements Serializable
+public class UserVisitLogInfo implements Serializable
 {
 	
 	private String id;   
 	private String userId;   
-	private java.util.Date loginTime;   
+	private java.util.Date visitTime;   
 	private String referSite;   
-	private String loginType;   
+	private String visitType;   
 	private String spare1;   
 	private String spare2;   
 	private String spare3;   
     
-    public UserLoginLogInfo(){}
+    public UserVisitLogInfo(){}
    
     
     /**
@@ -49,19 +49,6 @@ public class UserLoginLogInfo implements Serializable
         this.userId=userId;
     }
     
-    /**
-     * 
-     */ 	
-	public java.util.Date getLoginTime(){
-        return loginTime;
-    }
-    
-     /**
-     * 
-     */ 	
-    public void setLoginTime(java.util.Date loginTime){
-        this.loginTime=loginTime;
-    }
     
     /**
      * 来源网址
@@ -77,21 +64,28 @@ public class UserLoginLogInfo implements Serializable
         this.referSite=referSite;
     }
     
-    /**
-     * 0 pc 1手机
-     */ 	
-	public String getLoginType(){
-        return loginType;
-    }
     
-     /**
-     * 0 pc 1手机
-     */ 	
-    public void setLoginType(String loginType){
-        this.loginType=loginType;
-    }
-    
-    /**
+    public java.util.Date getVisitTime() {
+		return visitTime;
+	}
+
+
+	public void setVisitTime(java.util.Date visitTime) {
+		this.visitTime = visitTime;
+	}
+
+
+	public String getVisitType() {
+		return visitType;
+	}
+
+
+	public void setVisitType(String visitType) {
+		this.visitType = visitType;
+	}
+
+
+	/**
      * 
      */ 	
 	public String getSpare1(){
@@ -137,9 +131,9 @@ public class UserLoginLogInfo implements Serializable
 		return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
            .append("Id",getId())
            .append("UserId",getUserId())
-           .append("LoginTime",getLoginTime())
+           .append("LoginTime",getVisitTime())
            .append("ReferSite",getReferSite())
-           .append("LoginType",getLoginType())
+           .append("LoginType",getVisitType())
            .append("Spare1",getSpare1())
            .append("Spare2",getSpare2())
            .append("Spare3",getSpare3())
@@ -155,9 +149,9 @@ public class UserLoginLogInfo implements Serializable
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof UserLoginLogInfo == false) return false;
+		if(obj instanceof UserVisitLogInfo == false) return false;
 		if(this == obj) return true;
-		UserLoginLogInfo other = (UserLoginLogInfo)obj;
+		UserVisitLogInfo other = (UserVisitLogInfo)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();

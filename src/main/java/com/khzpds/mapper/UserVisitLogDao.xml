@@ -3,42 +3,42 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.khzpds.dao.UserLoginLogDao">
+<mapper namespace="com.khzpds.dao.UserVisitLogDao">
 
-	 <resultMap id="UserLoginLogResultMap" type="com.khzpds.vo.UserLoginLogInfo">
+	 <resultMap id="UserVisitLogResultMap" type="com.khzpds.vo.UserVisitLogInfo">
         <id property="id" column="id" />
         <result property="userId" column="user_id" />    
-        <result property="loginTime" column="login_time" />    
+        <result property="visitTime" column="visit_time" />    
         <result property="referSite" column="refer_site" />    
-        <result property="loginType" column="login_type" />    
+        <result property="visitType" column="visit_type" />    
         <result property="spare1" column="spare1" />    
         <result property="spare2" column="spare2" />    
         <result property="spare3" column="spare3" />    
     </resultMap>
     
     <!--根据主键查询-->
-	<select id="findById" resultMap="UserLoginLogResultMap">
-		select id,user_id,login_time,refer_site,login_type,spare1,spare2,spare3 from user_login_log where id=#{id}
+	<select id="findById" resultMap="UserVisitLogResultMap">
+		select id,user_id,visit_time,refer_site,visit_type,spare1,spare2,spare3 from user_visit_log where id=#{id}
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
 	</select>
     
     <!--插入-->
-	 <insert id="insert" parameterType="com.khzpds.vo.UserLoginLogInfo" >
-    	INSERT INTO user_login_log
-        (id,user_id,login_time,refer_site,login_type,spare1,spare2,spare3) 
-		values(#{id},#{userId},#{loginTime},#{referSite},#{loginType},#{spare1},#{spare2},#{spare3})
+	 <insert id="insert" parameterType="com.khzpds.vo.UserVisitLogInfo" >
+    	INSERT INTO user_visit_log
+        (id,user_id,visit_time,refer_site,visit_type,spare1,spare2,spare3) 
+		values(#{id},#{userId},#{visitTime},#{referSite},#{visitType},#{spare1},#{spare2},#{spare3})
     </insert>
 
     
     <!--根据传入的map参数查询 并分页-->
-    <select id="findByParamForPage" resultMap="UserLoginLogResultMap" >
-		select id,user_id,login_time,refer_site,login_type,spare1,spare2,spare3 from user_login_log
+    <select id="findByParamForPage" resultMap="UserVisitLogResultMap" >
+		select id,user_id,visit_time,refer_site,visit_type,spare1,spare2,spare3 from user_visit_log
 		where 1=1
            <if test="obj.search.id!=null"> AND id = #{obj.search.id}</if>
            <if test="obj.search.userId!=null"> AND user_id = #{obj.search.userId}</if>
-           <if test="obj.search.loginTime!=null"> AND login_time = #{obj.search.loginTime}</if>
+           <if test="obj.search.visitTime!=null"> AND visit_time = #{obj.search.visitTime}</if>
            <if test="obj.search.referSite!=null"> AND refer_site = #{obj.search.referSite}</if>
-           <if test="obj.search.loginType!=null"> AND login_type = #{obj.search.loginType}</if>
+           <if test="obj.search.visitType!=null"> AND visit_type = #{obj.search.visitType}</if>
            <if test="obj.search.spare1!=null"> AND spare1 = #{obj.search.spare1}</if>
            <if test="obj.search.spare2!=null"> AND spare2 = #{obj.search.spare2}</if>
            <if test="obj.search.spare3!=null"> AND spare3 = #{obj.search.spare3}</if>
@@ -48,14 +48,14 @@
 	</select>
     
      <!--根据传入的实体参数查询-->
-    <select id="findByParam" resultMap="UserLoginLogResultMap" >
-		select id,user_id,login_time,refer_site,login_type,spare1,spare2,spare3 from user_login_log
+    <select id="findByParam" resultMap="UserVisitLogResultMap" >
+		select id,user_id,visit_time,refer_site,visit_type,spare1,spare2,spare3 from user_visit_log
 		where 1=1
            <if test="obj.id!=null"> AND id = #{obj.id}</if>
            <if test="obj.userId!=null"> AND user_id = #{obj.userId}</if>
-           <if test="obj.loginTime!=null"> AND login_time = #{obj.loginTime}</if>
+           <if test="obj.visitTime!=null"> AND visit_time = #{obj.visitTime}</if>
            <if test="obj.referSite!=null"> AND refer_site = #{obj.referSite}</if>
-           <if test="obj.loginType!=null"> AND login_type = #{obj.loginType}</if>
+           <if test="obj.visitType!=null"> AND visit_type = #{obj.visitType}</if>
            <if test="obj.spare1!=null"> AND spare1 = #{obj.spare1}</if>
            <if test="obj.spare2!=null"> AND spare2 = #{obj.spare2}</if>
            <if test="obj.spare3!=null"> AND spare3 = #{obj.spare3}</if>
@@ -65,19 +65,19 @@
     
     <!--根据主键进行删除-->
 	<delete id="deleteById"  >
-    	delete from user_login_log where id=#{id}
+    	delete from user_visit_log where id=#{id}
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
     </delete>
     
     <!--根据实体进行更新-->
 	<update id="update" >
-    	update user_login_log 
+    	update user_visit_log 
         <trim prefix="SET" suffixOverrides=",">
            <if test="obj.id!=null">id=#{obj.id},</if>
            <if test="obj.userId!=null">user_id=#{obj.userId},</if>
-           <if test="obj.loginTime!=null">login_time=#{obj.loginTime},</if>
+           <if test="obj.visitTime!=null">visit_time=#{obj.visitTime},</if>
            <if test="obj.referSite!=null">refer_site=#{obj.referSite},</if>
-           <if test="obj.loginType!=null">login_type=#{obj.loginType},</if>
+           <if test="obj.visitType!=null">visit_type=#{obj.visitType},</if>
            <if test="obj.spare1!=null">spare1=#{obj.spare1},</if>
            <if test="obj.spare2!=null">spare2=#{obj.spare2},</if>
            <if test="obj.spare3!=null">spare3=#{obj.spare3},</if>  

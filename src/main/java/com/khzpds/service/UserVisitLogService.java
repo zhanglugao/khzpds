@@ -3,14 +3,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.khzpds.base.IBaseService;
-import com.khzpds.dao.UserLoginLogDao;
-import com.khzpds.vo.UserLoginLogInfo;
+import com.khzpds.dao.UserVisitLogDao;
+import com.khzpds.vo.UserVisitLogInfo;
 @Service
-public class UserLoginLogService extends IBaseService<UserLoginLogInfo> {
-    private UserLoginLogDao userLoginLogDao;
+public class UserVisitLogService extends IBaseService<UserVisitLogInfo> {
+    private UserVisitLogDao userLoginLogDao;
     
     @Autowired  
-    public void setUserLoginLogRepository(UserLoginLogDao repository) {  
+    public void setUserLoginLogRepository(UserVisitLogDao repository) {  
         setRepository(repository);  
         userLoginLogDao=repository;
     }  
