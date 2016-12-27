@@ -9,6 +9,7 @@ import com.khzpds.base.IBaseService;
 import com.khzpds.dao.UserCompletionItemApplyDao;
 import com.khzpds.vo.UserCompletionItemApplyInfo;
 
+
 @Service
 public class UserCompletionItemApplyService extends IBaseService<UserCompletionItemApplyInfo> {
     private UserCompletionItemApplyDao userCompletionItemApplyDao;

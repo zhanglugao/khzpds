@@ -44,6 +44,7 @@
         <result property="approveStatus" column="approve_status" />    
         <result property="approveUserId" column="approve_user_id" />    
         <result property="approveUserName" column="approve_user_name" />    
+        <result property="approveTime" column="approve_time" />    
         <result property="approveType" column="approve_type" />    
         <result property="reviewPoint" column="review_point" />    
         <result property="vdef1" column="vdef1" />    
@@ -53,21 +54,21 @@
     
     <!--根据主键查询-->
 	<select id="findById" resultMap="UserCompletionItemApplyResultMap">
-		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_type,review_point,vdef1,vdef2,vdef3 from user_completion_item_apply where id=#{id}
+		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,review_point,vdef1,vdef2,vdef3 from user_completion_item_apply where id=#{id}
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
 	</select>
     
     <!--插入-->
 	 <insert id="insert" parameterType="com.khzpds.vo.UserCompletionItemApplyInfo" >
     	INSERT INTO user_completion_item_apply
-        (id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_type,review_point,vdef1,vdef2,vdef3) 
-		values(#{id},#{userId},#{userName},#{activityId},#{competitionItemId},#{competitionType},#{createTime},#{applyStatus},#{productionName},#{applyGroup},#{applyYearGroup},#{realName},#{birthday},#{sex},#{schoolName},#{classCompany},#{recommenedCompany},#{cardType},#{cardNumber},#{telephone},#{mobilePhone},#{email},#{postcode},#{address},#{ideaDesc},#{fileName},#{filePath},#{scriptwriter},#{director},#{camerist},#{editor},#{musician},#{artist},#{mainStuff},#{teamDesc},#{approveStatus},#{approveUserId},#{approveUserName},#{approveType},#{reviewPoint},#{vdef1},#{vdef2},#{vdef3})
+        (id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,review_point,vdef1,vdef2,vdef3) 
+		values(#{id},#{userId},#{userName},#{activityId},#{competitionItemId},#{competitionType},#{createTime},#{applyStatus},#{productionName},#{applyGroup},#{applyYearGroup},#{realName},#{birthday},#{sex},#{schoolName},#{classCompany},#{recommenedCompany},#{cardType},#{cardNumber},#{telephone},#{mobilePhone},#{email},#{postcode},#{address},#{ideaDesc},#{fileName},#{filePath},#{scriptwriter},#{director},#{camerist},#{editor},#{musician},#{artist},#{mainStuff},#{teamDesc},#{approveStatus},#{approveUserId},#{approveUserName},#{approveTime},#{approveType},#{reviewPoint},#{vdef1},#{vdef2},#{vdef3})
     </insert>
 
     
     <!--根据传入的map参数查询 并分页-->
     <select id="findByParamForPage" resultMap="UserCompletionItemApplyResultMap" >
-		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_type,review_point,vdef1,vdef2,vdef3 from user_completion_item_apply
+		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,review_point,vdef1,vdef2,vdef3 from user_completion_item_apply
 		where 1=1
            <if test="obj.search.id!=null"> AND id = #{obj.search.id}</if>
            <if test="obj.search.userId!=null"> AND user_id = #{obj.search.userId}</if>
@@ -107,6 +108,7 @@
            <if test="obj.search.approveStatus!=null"> AND approve_status = #{obj.search.approveStatus}</if>
            <if test="obj.search.approveUserId!=null"> AND approve_user_id = #{obj.search.approveUserId}</if>
            <if test="obj.search.approveUserName!=null"> AND approve_user_name = #{obj.search.approveUserName}</if>
+           <if test="obj.search.approveTime!=null"> AND approve_time = #{obj.search.approveTime}</if>
            <if test="obj.search.approveType!=null"> AND approve_type = #{obj.search.approveType}</if>
            <if test="obj.search.reviewPoint!=null"> AND review_point = #{obj.search.reviewPoint}</if>
            <if test="obj.search.vdef1!=null"> AND vdef1 = #{obj.search.vdef1}</if>
@@ -119,7 +121,7 @@
     
      <!--根据传入的实体参数查询-->
     <select id="findByParam" resultMap="UserCompletionItemApplyResultMap" >
-		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_type,review_point,vdef1,vdef2,vdef3 from user_completion_item_apply
+		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,review_point,vdef1,vdef2,vdef3 from user_completion_item_apply
 		where 1=1
            <if test="obj.id!=null"> AND id = #{obj.id}</if>
            <if test="obj.userId!=null"> AND user_id = #{obj.userId}</if>
@@ -159,6 +161,7 @@
            <if test="obj.approveStatus!=null"> AND approve_status = #{obj.approveStatus}</if>
            <if test="obj.approveUserId!=null"> AND approve_user_id = #{obj.approveUserId}</if>
            <if test="obj.approveUserName!=null"> AND approve_user_name = #{obj.approveUserName}</if>
+           <if test="obj.approveTime!=null"> AND approve_time = #{obj.approveTime}</if>
            <if test="obj.approveType!=null"> AND approve_type = #{obj.approveType}</if>
            <if test="obj.reviewPoint!=null"> AND review_point = #{obj.reviewPoint}</if>
            <if test="obj.vdef1!=null"> AND vdef1 = #{obj.vdef1}</if>
@@ -216,6 +219,7 @@
            <if test="obj.approveStatus!=null">approve_status=#{obj.approveStatus},</if>
            <if test="obj.approveUserId!=null">approve_user_id=#{obj.approveUserId},</if>
            <if test="obj.approveUserName!=null">approve_user_name=#{obj.approveUserName},</if>
+           <if test="obj.approveTime!=null">approve_time=#{obj.approveTime},</if>
            <if test="obj.approveType!=null">approve_type=#{obj.approveType},</if>
            <if test="obj.reviewPoint!=null">review_point=#{obj.reviewPoint},</if>
            <if test="obj.vdef1!=null">vdef1=#{obj.vdef1},</if>

@@ -1,11 +1,13 @@
 
 
+
 package com.khzpds.vo;
 import java.io.Serializable;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+
 
 @SuppressWarnings("serial")
 public class UserCompletionItemApplyInfo implements Serializable
@@ -49,6 +51,7 @@ public class UserCompletionItemApplyInfo implements Serializable
 	private String approveStatus;   
 	private String approveUserId;   
 	private String approveUserName;   
+	private java.util.Date approveTime;   
 	private String approveType;   
 	private Double reviewPoint;   
 	private String vdef1;   
@@ -591,6 +594,20 @@ public class UserCompletionItemApplyInfo implements Serializable
     }
     
     /**
+     * 评审时间
+     */ 	
+	public java.util.Date getApproveTime(){
+        return approveTime;
+    }
+    
+     /**
+     * 评审时间
+     */ 	
+    public void setApproveTime(java.util.Date approveTime){
+        this.approveTime=approveTime;
+    }
+    
+    /**
      * 审批类型  专家or组织机构
      */ 	
 	public String getApproveType(){
@@ -700,6 +717,7 @@ public class UserCompletionItemApplyInfo implements Serializable
            .append("ApproveStatus",getApproveStatus())
            .append("ApproveUserId",getApproveUserId())
            .append("ApproveUserName",getApproveUserName())
+           .append("ApproveTime",getApproveTime())
            .append("ApproveType",getApproveType())
            .append("ReviewPoint",getReviewPoint())
            .append("Vdef1",getVdef1())
