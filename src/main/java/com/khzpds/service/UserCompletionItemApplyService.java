@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.khzpds.base.IBaseService;
 import com.khzpds.dao.UserCompletionItemApplyDao;
 import com.khzpds.vo.UserCompletionItemApplyInfo;
+
 @Service
 public class UserCompletionItemApplyService extends IBaseService<UserCompletionItemApplyInfo> {
     private UserCompletionItemApplyDao userCompletionItemApplyDao;
@@ -16,8 +17,7 @@ public class UserCompletionItemApplyService extends IBaseService<UserCompletionI
     public void setUserCompletionItemApplyRepository(UserCompletionItemApplyDao repository) {  
         setRepository(repository);  
         userCompletionItemApplyDao=repository;
-    }
-
+    }  
     
     //--CustomBegin***///
     public List<UserCompletionItemApplyInfo> findByParamSort(
@@ -29,7 +29,5 @@ public class UserCompletionItemApplyService extends IBaseService<UserCompletionI
 		return userCompletionItemApplyDao.findBySearchMap(searchMap);
 	}
 //--CustomEnd*****///
-
-
 }
 

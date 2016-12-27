@@ -1,10 +1,12 @@
 
+
 package com.khzpds.vo;
 import java.io.Serializable;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+
 @SuppressWarnings("serial")
 public class UserCompletionItemApplyInfo implements Serializable
 {
@@ -44,6 +46,14 @@ public class UserCompletionItemApplyInfo implements Serializable
 	private String artist;   
 	private String mainStuff;   
 	private String teamDesc;   
+	private String approveStatus;   
+	private String approveUserId;   
+	private String approveUserName;   
+	private String approveType;   
+	private Double reviewPoint;   
+	private String vdef1;   
+	private String vdef2;   
+	private String vdef3;   
     
     public UserCompletionItemApplyInfo(){}
    
@@ -538,6 +548,118 @@ public class UserCompletionItemApplyInfo implements Serializable
         this.teamDesc=teamDesc;
     }
     
+    /**
+     * 审批状态 -1 未审核 0不通过 1通过
+     */ 	
+	public String getApproveStatus(){
+        return approveStatus;
+    }
+    
+     /**
+     * 审批状态 -1 未审核 0不通过 1通过
+     */ 	
+    public void setApproveStatus(String approveStatus){
+        this.approveStatus=approveStatus;
+    }
+    
+    /**
+     * 审批人id
+     */ 	
+	public String getApproveUserId(){
+        return approveUserId;
+    }
+    
+     /**
+     * 审批人id
+     */ 	
+    public void setApproveUserId(String approveUserId){
+        this.approveUserId=approveUserId;
+    }
+    
+    /**
+     * 审批人用户名
+     */ 	
+	public String getApproveUserName(){
+        return approveUserName;
+    }
+    
+     /**
+     * 审批人用户名
+     */ 	
+    public void setApproveUserName(String approveUserName){
+        this.approveUserName=approveUserName;
+    }
+    
+    /**
+     * 审批类型  专家or组织机构
+     */ 	
+	public String getApproveType(){
+        return approveType;
+    }
+    
+     /**
+     * 审批类型  专家or组织机构
+     */ 	
+    public void setApproveType(String approveType){
+        this.approveType=approveType;
+    }
+    
+    /**
+     * 专家复赛评分
+     */ 	
+	public Double getReviewPoint(){
+        return reviewPoint;
+    }
+    
+     /**
+     * 专家复赛评分
+     */ 	
+    public void setReviewPoint(Double reviewPoint){
+        this.reviewPoint=reviewPoint;
+    }
+    
+    /**
+     * 
+     */ 	
+	public String getVdef1(){
+        return vdef1;
+    }
+    
+     /**
+     * 
+     */ 	
+    public void setVdef1(String vdef1){
+        this.vdef1=vdef1;
+    }
+    
+    /**
+     * 
+     */ 	
+	public String getVdef2(){
+        return vdef2;
+    }
+    
+     /**
+     * 
+     */ 	
+    public void setVdef2(String vdef2){
+        this.vdef2=vdef2;
+    }
+    
+    /**
+     * 
+     */ 	
+	public String getVdef3(){
+        return vdef3;
+    }
+    
+     /**
+     * 
+     */ 	
+    public void setVdef3(String vdef3){
+        this.vdef3=vdef3;
+    }
+    
     public String toString() {
 		return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
            .append("Id",getId())
@@ -575,6 +697,14 @@ public class UserCompletionItemApplyInfo implements Serializable
            .append("Artist",getArtist())
            .append("MainStuff",getMainStuff())
            .append("TeamDesc",getTeamDesc())
+           .append("ApproveStatus",getApproveStatus())
+           .append("ApproveUserId",getApproveUserId())
+           .append("ApproveUserName",getApproveUserName())
+           .append("ApproveType",getApproveType())
+           .append("ReviewPoint",getReviewPoint())
+           .append("Vdef1",getVdef1())
+           .append("Vdef2",getVdef2())
+           .append("Vdef3",getVdef3())
 
 			.toString();
             
