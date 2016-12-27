@@ -62,8 +62,23 @@
 						if(typeof(obj.applyYearGroup)=='undefined'){
 							obj.applyYearGroup='';
 						}
+						if(typeof(obj.approveUserName)=='undefined'){
+							obj.approveUserName='';
+						}
+						if(typeof(obj.approveStatus)=='undefined'){
+							obj.approveStatus='未审核';
+						}else{
+							if(obj.approveStatus=='0'){
+								obj.approveStatus="审核不通过";
+							}else if(obj.approveStatus=='1'){
+								obj.approveStatus="审核通过";
+							}
+						}
+						if(typeof(obj.approveTime)=='undefined'){
+							obj.approceTime='';
+						}
 						var html="<tr class='"+tabId+"class'><td>"+obj.userName+"</td><td>"+obj.realName+"</td><td>"+obj.orgName+"</td>"
-							+"<td>"+obj.proName+"</td><td>"+obj.applyGroup+"</td><td>"+obj.applyYearGroup+"</td><td></td><td></td></tr>";
+							+"<td>"+obj.proName+"</td><td>"+obj.applyGroup+"</td><td>"+obj.applyYearGroup+"</td><td>"+obj.approveStatus+"</td><td>"+obj.approveUserName+"</td><td>"+obj.approveTime+"</td><td></td><td></td></tr>";
 						$("#"+tabId+"t").append(html);
 					}
 				},error:function(){
@@ -211,6 +226,9 @@
 													<th>作品名称</th>
 													<th>参赛组别</th>
 													<th>参赛年龄组</th>
+													<th>初审结果</th>
+													<th>初审人</th>
+													<th>初审时间</th>
 													<th>复赛评分</th>
 													<th>操作</th>
 												</tr>

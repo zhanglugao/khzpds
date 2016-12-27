@@ -28,6 +28,8 @@ public class UserVisitLogController extends BaseController{
 	
 	@RequestMapping("/visitLog")
 	public void visiLog(String ref,String visitType,HttpServletRequest  request,HttpServletResponse response){
+		if(ref==null)ref="";
+		if(visitType==null)visitType="0";
 		UserVisitLogInfo log=new UserVisitLogInfo();
 		log.setId(UUIDUtil.getUUID());
 		log.setReferSite(ref);

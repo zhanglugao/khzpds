@@ -63,9 +63,8 @@
 					+'</div> ';
 				$("#myStatParent").append(html);
 				$("#myStat").attr("data-percent",percent+"");
-				//$("#myStat").attr("data-text","桌面"+percent+"%");
 				if(percent!=0){
-					$("#myStat").attr("data-text","手机"+(100-percent)+"%");
+					$("#myStat").attr("data-text","手机"+(100-Math.round($("#myStat").attr("data-percent")))+"%");
 				}
 				$('#myStat').circliful();
 				

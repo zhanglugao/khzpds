@@ -81,7 +81,7 @@ public class ReviewResultController extends BaseController{
 		/*searchMap.put("orderField", " apply");
 		searchMap.put("orderType", " desc");*/
 		List<Map<String,String>> dataMap=userCompetitionItemApplyService.findBySearchMap(searchMap);
-		
+		//for(Map<String,String> )
 		//
 		CompetitionItemInfo item=competitionItemService.findById(itemId);
 		String applyGroupParentId="";
