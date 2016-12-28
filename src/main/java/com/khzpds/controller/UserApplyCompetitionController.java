@@ -1,8 +1,11 @@
 package com.khzpds.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Date;
@@ -25,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.khzpds.base.BaseController;
 import com.khzpds.base.DictionaryConst;
 import com.khzpds.base.Docx4jUtil;
+import com.khzpds.base.SystemConfig;
 import com.khzpds.service.CompetitionItemService;
 import com.khzpds.service.ContentCategoryService;
 import com.khzpds.service.DictionaryService;
@@ -51,6 +55,32 @@ public class UserApplyCompetitionController extends BaseController{
 	private DictionaryService dictionaryService;
 	@Autowired
 	private ContentCategoryService contentCategoryService;
+	
+	
+	@RequestMapping("/showFile")
+	public ModelAndView showFile(String id,HttpServletRequest request,HttpServletResponse response) throws IOException{
+		UserCompletionItemApplyInfo apply=userCompetitionItemApplyService.findById(id);
+		apply.setFilePath(apply.getFilePath().replace("\\", "/"));
+		if(!apply.getFilePath().endsWith(".mp4")){
+			return new ModelAndView("redirect:/filePath"+apply.getFilePath());
+		}else{
+			request.setAttribute("filePath", apply.getFilePath());
+			return new ModelAndView(getRootPath(request)+"/manage/play/video_preview");
+		}
+	}
+	
+	public byte[] readStream(InputStream inStream) {  
+        ByteArrayOutputStream bops = new ByteArrayOutputStream();  
+        int data = -1;  
+        try {  
+            while((data = inStream.read()) != -1){  
+                bops.write(data);  
+            }  
+            return bops.toByteArray();  
+        }catch(Exception e){  
+            return null;  
+        }  
+    } 
 	
 	/***
 	 * 撤销报名
@@ -204,7 +234,7 @@ public class UserApplyCompetitionController extends BaseController{
 		String filePathHidden=request.getParameter("filePathHidden");
 		if(StringUtils.isNotBlank(filePathHidden)){
 			String fileNameHidden=request.getParameter("fileNameHidden");
-			applyInfo.setFilePath(URLDecoder.decode(filePathHidden, "utf-8"));
+			applyInfo.setFilePath(URLDecoder.decode(filePathHidden, "utf-8").replace(SystemConfig.getUploadDir(), ""));
 			applyInfo.setFileName(fileNameHidden);
 		}
 		
@@ -391,6 +421,7 @@ public class UserApplyCompetitionController extends BaseController{
             e.printStackTrace();  
         }  
     } 
+	 
     
     public static void main(String[] args) {
 		String number="12121";

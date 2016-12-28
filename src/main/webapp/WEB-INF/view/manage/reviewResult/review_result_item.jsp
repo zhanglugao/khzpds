@@ -75,10 +75,19 @@
 							}
 						}
 						if(typeof(obj.approveTime)=='undefined'){
-							obj.approceTime='';
+							obj.approveTime='';
+						}
+						var option="";
+						if(typeof(obj.reviewPoint)=='undefined'){
+							obj.reviewPoint="";
+						}else{
+							option+="&nbsp;<button onclick='viewPointInfo(\""+obj.id+"\")' class='btn btn-primary'>查看打分详情</button>";
+						}
+						if(typeof(obj.filePath)!='undefined'){
+							option+="&nbsp;<button onclick='viewProInfo(\""+obj.id+"\")' class='btn btn-primary'>查看作品详情</button>";
 						}
 						var html="<tr class='"+tabId+"class'><td>"+obj.userName+"</td><td>"+obj.realName+"</td><td>"+obj.orgName+"</td>"
-							+"<td>"+obj.proName+"</td><td>"+obj.applyGroup+"</td><td>"+obj.applyYearGroup+"</td><td>"+obj.approveStatus+"</td><td>"+obj.approveUserName+"</td><td>"+obj.approveTime+"</td><td></td><td></td></tr>";
+							+"<td>"+obj.proName+"</td><td>"+obj.applyGroup+"</td><td>"+obj.applyYearGroup+"</td><td>"+obj.approveStatus+"</td><td>"+obj.approveUserName+"</td><td>"+obj.approveTime+"</td><td>"+obj.reviewPoint+"</td><td>"+option+"</td></tr>";
 						$("#"+tabId+"t").append(html);
 					}
 				},error:function(){
@@ -86,6 +95,14 @@
 				}
 			});
 		}
+	}
+	
+	function viewPointInfo(id){
+		
+	}
+	
+	function viewProInfo(id){
+		window.open("/userApply/showFile?id="+id,"_target");
 	}
 	
 	function returnIndex(){

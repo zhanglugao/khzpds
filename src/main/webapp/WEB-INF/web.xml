@@ -12,11 +12,6 @@
     <param-name>webAppRootKey</param-name>
     <param-value>springmvc.root</param-value>
   </context-param>
-  
-  <servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>/js/*</url-pattern>
-	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
@@ -25,7 +20,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
-		<url-pattern>/images/*</url-pattern>
+		<url-pattern>/file/*</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>
@@ -35,12 +30,27 @@
 	
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
-		<url-pattern>/error/*</url-pattern>
+		<url-pattern>/images/*</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
-		<url-pattern>/file/*</url-pattern>
+		<url-pattern>/img/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/js/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/player/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/error/*</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

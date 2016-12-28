@@ -283,7 +283,9 @@
 			dic2.name AS applyYearGroup,
 			apply.approve_status as approveStatus,
 			apply.approve_user_name as approveUserName,
-			date_format(apply.approve_time, '%Y-%m-%d %H:%i:%S') as approveTime
+			date_format(apply.approve_time, '%Y-%m-%d %H:%i:%S') as approveTime,
+			apply.review_point as reviewPoint,
+			apply.file_path as filePath
 		FROM
 			user_completion_item_apply apply
 		JOIN user_info USER ON apply.user_id = USER .id
