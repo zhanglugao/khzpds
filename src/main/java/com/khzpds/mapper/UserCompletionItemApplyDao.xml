@@ -285,7 +285,8 @@
 			apply.approve_user_name as approveUserName,
 			date_format(apply.approve_time, '%Y-%m-%d %H:%i:%S') as approveTime,
 			apply.review_point as reviewPoint,
-			apply.file_path as filePath
+			apply.file_path as filePath,
+			apply.approve_type as approveType
 		FROM
 			user_completion_item_apply apply
 		JOIN user_info USER ON apply.user_id = USER .id
@@ -302,6 +303,7 @@
 		<if test="orgId!=null"> and apply.recommened_company=#{orgId}</if>
 		<if test="userName!=null"> and user.user_name=#{userName}</if>
 		<if test="realName!=null"> and user.real_name=#{realName}</if>
+		<if test="applyStatus!=null"> and apply.apply_status=#{applyStatus}</if>
 		
 		<if test="orderField!=null and orderType!=null">
 			order by ${orderField} ${orderType}

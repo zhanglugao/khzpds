@@ -1,5 +1,6 @@
 package com.khzpds.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +25,15 @@ import com.khzpds.vo.ActivityInfoInfo;
 import com.khzpds.vo.CompetitionItemInfo;
 import com.khzpds.vo.UserCompletionItemApplyInfo;
 
+/***
+ * 专家首轮审批管理
+ * @author hasee
+ *
+ */
 @Controller
-@RequestMapping("/reviewResult")
-public class ReviewResultController extends BaseController{
+@RequestMapping("/expertApprove")
+public class ExpertApproveController extends BaseController{
+	
 	@Autowired
 	private DictionaryService dictionaryService;
 	@Autowired
@@ -40,7 +47,7 @@ public class ReviewResultController extends BaseController{
 	public ModelAndView index(HttpServletRequest request,HttpServletResponse response){
 		Map<String,String> dicMap=dictionaryService.getDicMapByParentId(DictionaryConst.HUO_DONG_ZHUANG_TAI);
 		request.setAttribute("status", JSON.toJSONString(dicMap));
-		return new ModelAndView(getRootPath(request)+"/manage/reviewResult/review_result_list");
+		return new ModelAndView(getRootPath(request)+"/manage/expertApprove/expert_approve_list");
 	}
 	
 	/***
@@ -51,13 +58,34 @@ public class ReviewResultController extends BaseController{
 	@RequestMapping("/toShowItem")
 	public ModelAndView toShowItem(String id,HttpServletRequest request,HttpServletResponse response){
 		ActivityInfoInfo activity=activityInfoService.findById(id);
-		
 		CompetitionItemInfo findInfo=new CompetitionItemInfo();
 		findInfo.setActivityId(id);
 		List<CompetitionItemInfo> items=competitionItemService.findByParam(findInfo);
 		request.setAttribute("activity", activity);
 		request.setAttribute("items", items);
-		return new ModelAndView(getRootPath(request)+"/manage/reviewResult/review_result_item");
+		return new ModelAndView(getRootPath(request)+"/manage/expertApprove/expert_approve_item");
+	}
+	
+	/***
+	 * 初审
+	 * @param result
+	 * @param type
+	 * @param id
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/approve")
+	public void approve(String result,String type,String id,HttpServletRequest request,HttpServletResponse response){
+		Map<String,Object> data=new HashMap<String, Object>();
+		UserCompletionItemApplyInfo info=userCompetitionItemApplyService.findById(id);
+		info.setApproveStatus(result);
+		info.setApproveType(type);
+		info.setApproveTime(new Date());
+		info.setApproveUserId(getCurrentSessionInfo(request).getUserId());
+		info.setApproveUserName(getCurrentSessionInfo(request).getUserName());
+		userCompetitionItemApplyService.update(info);
+		data.put("status", "0");
+		this.writeJson(response, data);
 	}
 	
 	/***
@@ -77,7 +105,7 @@ public class ReviewResultController extends BaseController{
 		if(StringUtils.isNotBlank(orgId))searchMap.put("orgId", orgId);
 		if(StringUtils.isNotBlank(userName))searchMap.put("userName", userName);
 		if(StringUtils.isNotBlank(realName))searchMap.put("realName", realName);
-		searchMap.put("applyStatus", DictionaryConst.BI_SAI_BAO_MING_ZHUANG_TAI_YI_BAO_MING);
+		
 		/*searchMap.put("orderField", " apply");
 		searchMap.put("orderType", " desc");*/
 		List<Map<String,String>> dataMap=userCompetitionItemApplyService.findBySearchMap(searchMap);

@@ -30,7 +30,7 @@
 		}
 		if($("#"+tabId+"t tr").length<=1||ifSearch){
 			$.ajax({
-				url:"/reviewResult/getApplyData?itemId="+tabId,
+				url:"/expertApprove/getApplyData?itemId="+tabId,
 				data:$("#"+tabId+"form").serialize(),
 				dataType:"json",
 				type:"post",
@@ -47,6 +47,7 @@
 					$("."+tabId+"class").remove();
 					for(var i=0;i<dataList.length;i++){
 						var obj=dataList[i];
+						var option="";
 						if(typeof(obj.orgName)=='undefined'){
 							obj.orgName='';
 						}
@@ -67,24 +68,30 @@
 						}
 						if(typeof(obj.approveStatus)=='undefined'){
 							obj.approveStatus='未审核';
+							option+="&nbsp;&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>通过审核</button>";
+							option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>";
 						}else{
 							if(obj.approveStatus=='0'){
 								obj.approveStatus="审核不通过";
+								if(obj.approveType!='1'){
+									option+="&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>通过审核</button>";
+								}
 							}else if(obj.approveStatus=='1'){
 								obj.approveStatus="审核通过";
+								if(obj.approveType!='1'){
+									option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>";
+								}
+							}else if(obj.approveStatus=='-1'){
+								obj.approveStatus="未审核";
+								option+="&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>通过审核</button>";
+								option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>";
 							}
 						}
 						if(typeof(obj.approveTime)=='undefined'){
 							obj.approveTime='';
 						}
-						var option="";
 						if(typeof(obj.reviewPoint)=='undefined'){
 							obj.reviewPoint="";
-						}else{
-							option+="&nbsp;<button type='button' onclick='viewPointInfo(\""+obj.id+"\")' class='btn btn-primary'>查看打分详情</button>";
-						}
-						if(typeof(obj.filePath)!='undefined'){
-							option+="&nbsp;<button type='button' onclick='viewProInfo(\""+obj.id+"\")' class='btn btn-primary'>查看作品详情</button>";
 						}
 						var html="<tr class='"+tabId+"class'><td>"+obj.userName+"</td><td>"+obj.realName+"</td><td>"+obj.orgName+"</td>"
 							+"<td>"+obj.proName+"</td><td>"+obj.itemStatus+"</td><td>"+obj.applyGroup+"</td><td>"+obj.applyYearGroup+"</td><td>"+obj.approveStatus+"</td><td>"+obj.approveUserName+"</td><td>"+obj.approveTime+"</td><td>"+obj.reviewPoint+"</td><td>"+option+"</td></tr>";
@@ -97,16 +104,28 @@
 		}
 	}
 	
-	function viewPointInfo(id){
-		
-	}
-	
-	function viewProInfo(id){
-		window.open("/userApply/showFile?id="+id,"_target");
+	function approve1(result,type,id){
+		$.ajax({
+			url:"/expertApprove/approve",
+			data:{result:result,type:type,id:id},
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.status=='0'){
+					layer.msg("操作成功",{icon:1});
+					getApplyData(true);
+				}
+				if(data.status=='1'){
+					layer.alert(data.error_desc);
+				}
+			},error:function(){
+				layer.alert(errorText);
+			}
+		});
 	}
 	
 	function returnIndex(){
-		window.location.href="/reviewResult/index";
+		window.location.href="/expertApprove/index";
 	}
 	function loadCategoryTree(){
 		if($("#tree").html()==''){
