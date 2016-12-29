@@ -93,7 +93,7 @@ public class OrgApproveController extends BaseController{
 				ManagerOrgInfo findInfo=new ManagerOrgInfo();
 				findInfo.setManagerId(getCurrentSessionInfo(request).getUserId());
 				List<ManagerOrgInfo> infos=managerOrgService.findByParam(findInfo);
-				if(infos.size()==0){
+				if(infos.size()==1){
 					ItemOrgLimitInfo limitFind=new ItemOrgLimitInfo();
 					limitFind.setItemId(info.getCompetitionItemId());
 					limitFind.setOrgId(infos.get(0).getOrgId());
@@ -147,7 +147,7 @@ public class OrgApproveController extends BaseController{
 		ManagerOrgInfo findInfo=new ManagerOrgInfo();
 		findInfo.setManagerId(getCurrentSessionInfo(request).getUserId());
 		List<ManagerOrgInfo> infos=managerOrgService.findByParam(findInfo);
-		if(infos.size()==0){
+		if(infos.size()==1){
 			searchMap.put("orgId", infos.get(0).getOrgId());
 			//
 		}
