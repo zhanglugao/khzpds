@@ -29,6 +29,12 @@ public class UserCompletionItemApplyService extends IBaseService<UserCompletionI
 			Map<String, String> searchMap) {
 		return userCompletionItemApplyDao.findBySearchMap(searchMap);
 	}
+	public void updateMuti(List<UserCompletionItemApplyInfo> list) {
+		// TODO Auto-generated method stub
+		for(UserCompletionItemApplyInfo info:list){
+			userCompletionItemApplyDao.update(info, null);
+		}
+	}
 //--CustomEnd*****///
 }
 

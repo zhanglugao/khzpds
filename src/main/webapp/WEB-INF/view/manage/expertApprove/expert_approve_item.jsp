@@ -22,6 +22,7 @@
 			$(this).tab('show');
 		});
 		$($("#myTab a")[0]).click();
+		
 	});
 	
 	function getApplyData(ifSearch){
@@ -66,25 +67,30 @@
 						if(typeof(obj.approveUserName)=='undefined'){
 							obj.approveUserName='';
 						}
+						var checkHtml="";
 						if(typeof(obj.approveStatus)=='undefined'){
 							obj.approveStatus='未审核';
 							option+="&nbsp;&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>通过审核</button>";
 							option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>";
+							checkHtml="<input type='checkbox' name='"+tabId+"sel' value='"+obj.id+"'/>";
 						}else{
 							if(obj.approveStatus=='0'){
 								obj.approveStatus="审核不通过";
 								if(obj.approveType!='1'){
 									option+="&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>通过审核</button>";
+									checkHtml="<input type='checkbox' name='"+tabId+"sel' value='"+obj.id+"'/>";
 								}
 							}else if(obj.approveStatus=='1'){
 								obj.approveStatus="审核通过";
 								if(obj.approveType!='1'){
 									option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>";
+									checkHtml="<input type='checkbox' name='"+tabId+"sel' value='"+obj.id+"'/>";
 								}
 							}else if(obj.approveStatus=='-1'){
 								obj.approveStatus="未审核";
 								option+="&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>通过审核</button>";
 								option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>";
+								checkHtml="<input type='checkbox' name='"+tabId+"sel' value='"+obj.id+"'/>";
 							}
 						}
 						if(typeof(obj.approveTime)=='undefined'){
@@ -93,7 +99,7 @@
 						if(typeof(obj.reviewPoint)=='undefined'){
 							obj.reviewPoint="";
 						}
-						var html="<tr class='"+tabId+"class'><td>"+obj.userName+"</td><td>"+obj.realName+"</td><td>"+obj.orgName+"</td>"
+						var html="<tr class='"+tabId+"class'><td>"+checkHtml+"</td><td>"+obj.userName+"</td><td>"+obj.realName+"</td><td>"+obj.orgName+"</td>"
 							+"<td>"+obj.proName+"</td><td>"+obj.itemStatus+"</td><td>"+obj.applyGroup+"</td><td>"+obj.applyYearGroup+"</td><td>"+obj.approveStatus+"</td><td>"+obj.approveUserName+"</td><td>"+obj.approveTime+"</td><td>"+obj.reviewPoint+"</td><td>"+option+"</td></tr>";
 						$("#"+tabId+"t").append(html);
 					}
@@ -102,6 +108,24 @@
 				}
 			});
 		}
+	}
+	
+	function approveMuti(result){
+		var type=0;
+		var id="";
+		var checks=$("input[name="+tabId+"sel]:checked");
+		for(var i=0;i<checks.length;i++){
+			if(id==''){
+				id=$(checks[i]).val();
+			}else{
+				id+=","+$(checks[i]).val();
+			}
+		}
+		if(id==''){
+			layer.msg("请选择记录",{icon:4});
+			return;
+		}
+		approve1(result,type,id);
 	}
 	
 	function approve1(result,type,id){
@@ -179,6 +203,10 @@
     	$("#"+tabId+"org").val("");
         $("#"+tabId+"orgId").val("");
     }
+    
+    function fuckyou(){
+    	
+    }
 </script>
 <script src="/js/categoryTree.js"></script>
 </head>
@@ -254,8 +282,13 @@
 								<div class="col-xs-12" >
 									<div class="box">
 										<div class="box-body table-responsive" >
+											<div style="margin-bottom:8px;">
+												<button type="button" onclick="approveMuti(1)" class='btn btn-primary'>审核通过</button>
+												<button type="button" onclick='approveMuti(0)'class='btn btn-primary'>审核不通过</button>
+											</div>
 											<table class="table table-hover table-bordered" id='${item.id }t'>
 												<tr>
+													<th><span style="font-size:22px;cursor:pointer;" id="${item.id}checkText" onclick="clickCheck('${item.id}sel')">□</span></th>
 													<th>用户名</th>
 													<th>真实姓名</th>
 													<th>组织机构</th>
@@ -285,4 +318,16 @@
 		<ul id="tree" class="ztree"></ul>
 	</div>
 </body>
+<script type="text/javascript">
+	function clickCheck(name){
+		if($("#"+tabId+"checkText").text()=="□"){
+			$("#"+tabId+"checkText").text("☑");
+			$("input[name="+tabId+"sel]").prop("checked",true);
+		}else{
+			$("#"+tabId+"checkText").text("□");
+			$("input[name="+tabId+"sel]").prop("checked",false);
+		}
+		
+	}
+</script>
 </html>

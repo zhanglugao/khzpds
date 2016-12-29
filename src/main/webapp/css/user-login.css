@@ -24,11 +24,11 @@
 .form-left table thead th.zp{background:#fa8564; width: 350px;}
 .form-left table thead th.ss{background:#aec785; width: 200px;}
 .form-left table thead th.ts{background:#22beef; width: 300px;}
-.form-left table thead th.zt{background:#ffc100; width:300px;}
+.form-left table thead th.zt{background:#ffc100; width:100px;}
 .form-left table tr td.zp1{background:#fdb896; width: 350px;}
 .form-left table tr td.ss1{background:#c6d8a2; width: 200px;}
 .form-left table tr td.ts1{background:#bef7fd; width: 300px;}
-.form-left table tr td.zt1{background:#ffe900; width:300px;}
+.form-left table tr td.zt1{background:#ffe900; width:100px;}
 .form-left table tr{border:2px solid #fff;}
 .form-left table tr td{color: #000;border:2px solid #fff;  height:46px; font-size: 16px; line-height: 46px; text-align: center;}
 .form-left{ position: relative; height: 900px;*+position:relative;}

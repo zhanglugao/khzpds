@@ -1,5 +1,6 @@
 package com.khzpds.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -77,13 +78,18 @@ public class ExpertApproveController extends BaseController{
 	@RequestMapping("/approve")
 	public void approve(String result,String type,String id,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> data=new HashMap<String, Object>();
-		UserCompletionItemApplyInfo info=userCompetitionItemApplyService.findById(id);
-		info.setApproveStatus(result);
-		info.setApproveType(type);
-		info.setApproveTime(new Date());
-		info.setApproveUserId(getCurrentSessionInfo(request).getUserId());
-		info.setApproveUserName(getCurrentSessionInfo(request).getUserName());
-		userCompetitionItemApplyService.update(info);
+		String[] idArray=id.split(",");
+		List<UserCompletionItemApplyInfo> list=new ArrayList<UserCompletionItemApplyInfo>();
+		for(String applyId:idArray){
+			UserCompletionItemApplyInfo info=userCompetitionItemApplyService.findById(applyId);
+			info.setApproveStatus(result);
+			info.setApproveType(type);
+			info.setApproveTime(new Date());
+			info.setApproveUserId(getCurrentSessionInfo(request).getUserId());
+			info.setApproveUserName(getCurrentSessionInfo(request).getUserName());
+			list.add(info);
+		}
+		userCompetitionItemApplyService.updateMuti(list);
 		data.put("status", "0");
 		this.writeJson(response, data);
 	}

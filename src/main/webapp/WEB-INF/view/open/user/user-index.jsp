@@ -23,8 +23,19 @@
 				$(".trclass").remove();
 				for(var i=0;i<list.length;i++){
 					var obj=list[i];
+					if(typeof(obj.reviewPoint)=='undefined'){
+						obj.reviewPoint="";
+					}
+					if(typeof(obj.approveStatus)=='undefined'||obj.approveStatus=='-1'){
+						obj.approveStatus="未审核";
+					}else if(obj.approveStatus=='0'){
+						obj.approveStatus="审核不通过";
+					}else if(obj.approveStatus=='1'){
+						obj.approveStatus="审核通过";
+					}
 					var html="<tr class='trclass'><td class='zp1'>"+obj.productionName+"</td><td class='ss1'>"+obj.artist+"</td><td class='ts1'>"+obj.createTime+
 						"</td><td class='zt1'>"+obj.applyStatus+"</td>";
+					html+="<td class='zt1'>"+obj.approveStatus+"</td><td class='zt1'>"+obj.reviewPoint+"</td>";
 					if(obj.applyStatus=='已报名'){
 						html+="<td class='cz1'><a onclick='toedit(\""+obj.id+"\")' href='javascript:;'>查看</a>&nbsp;<a onclick='cancelApply(\""+obj.id+"\")' href='javascript:;'>撤销</a>&nbsp;<a onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' href='javascript:;'>下载报名表</a></td></tr>";
 					}else if(obj.applyStatus=='已取消'){
@@ -155,6 +166,8 @@
                               <th class="ss">所属类别</th>
                                <th class="ts">提交时间</th>
                                 <th class="zt">报名状态</th>
+                                <th class="zt">审核状态</th>
+                                <th class="zt">评分</th>
                                 <th class="cz">操作</th>
                                 </tr>
                           </thead>
