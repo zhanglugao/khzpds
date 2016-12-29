@@ -140,6 +140,9 @@ public class OrgApproveController extends BaseController{
 		Map<String,Object> result=new HashMap<String, Object>();
 		
 		Map<String,String> searchMap=new HashMap<String, String>();
+		
+		searchMap.put("applyStatus", DictionaryConst.BI_SAI_BAO_MING_ZHUANG_TAI_YI_BAO_MING);
+		
 		if(StringUtils.isNotBlank(itemId))searchMap.put("itemId", itemId);
 		if(StringUtils.isNotBlank(applyGroup))searchMap.put("applyGroup", applyGroup);
 		if(StringUtils.isNotBlank(applyYearGroup))searchMap.put("applyYearGroup", applyYearGroup);

@@ -77,7 +77,7 @@ public class ReviewResultController extends BaseController{
 		if(StringUtils.isNotBlank(orgId))searchMap.put("orgId", orgId);
 		if(StringUtils.isNotBlank(userName))searchMap.put("userName", userName);
 		if(StringUtils.isNotBlank(realName))searchMap.put("realName", realName);
-		searchMap.put("applyStatus", DictionaryConst.BI_SAI_BAO_MING_ZHUANG_TAI_YI_BAO_MING);
+		//searchMap.put("applyStatus", DictionaryConst.BI_SAI_BAO_MING_ZHUANG_TAI_YI_BAO_MING);
 		/*searchMap.put("orderField", " apply");
 		searchMap.put("orderType", " desc");*/
 		List<Map<String,String>> dataMap=userCompetitionItemApplyService.findBySearchMap(searchMap);
