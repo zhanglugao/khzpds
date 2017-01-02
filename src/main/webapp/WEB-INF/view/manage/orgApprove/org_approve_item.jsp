@@ -149,7 +149,17 @@
 	}
 	function loadCategoryTree(){
 		if($("#tree").html()==''){
-			createTree();
+			var rootName;
+			$.ajax({
+				url:"/contentCategory/getRootId",
+				data:{ifOrgManager:1},
+				type:"post",
+				async:false,
+				success:function(data){
+					rootName=data;
+				}
+			});
+			createTree("",rootName,"");
 		}
 		treeIndex=layer.open({
 			type: 1,
@@ -198,10 +208,6 @@
     function clearClass(){
     	$("#"+tabId+"org").val("");
         $("#"+tabId+"orgId").val("");
-    }
-    
-    function fuckyou(){
-    	
     }
 </script>
 <script src="/js/categoryTree.js"></script>
@@ -256,13 +262,13 @@
 								</div>
 								
 								<div class="box-body" style="margin-top:10px;">
-									<%-- <div class="col-lg-2 col-xs-5" style="width:13%">
-										<input onclick='loadCategoryTree()' id='${item.id }org' type="text" class="form-control" placeholder="选择组织机构"> --%>
+									<div class="col-lg-2 col-xs-5" style="width:13%">
+										<input onclick='loadCategoryTree()' id='${item.id }org' type="text" class="form-control" placeholder="选择组织机构">
 										<input type='hidden' id='${item.id }orgId' name='orgId' />
-									<!-- </div> -->
-									<!-- <div style="float:left">
+									</div>
+									<div style="float:left">
 										<input type='hidden' /><a href="##" onclick='clearClass()'><img src="/images/cuo.png"></a>
-									</div> -->
+									</div>
 									<div class="col-lg-2 col-xs-5" style="width:13%">
 										<input name='userName' type="text" class="form-control" placeholder="用户名">
 									</div>

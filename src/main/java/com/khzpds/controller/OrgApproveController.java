@@ -146,13 +146,17 @@ public class OrgApproveController extends BaseController{
 		if(StringUtils.isNotBlank(itemId))searchMap.put("itemId", itemId);
 		if(StringUtils.isNotBlank(applyGroup))searchMap.put("applyGroup", applyGroup);
 		if(StringUtils.isNotBlank(applyYearGroup))searchMap.put("applyYearGroup", applyYearGroup);
-		//查出用户所属组织机构
-		ManagerOrgInfo findInfo=new ManagerOrgInfo();
-		findInfo.setManagerId(getCurrentSessionInfo(request).getUserId());
-		List<ManagerOrgInfo> infos=managerOrgService.findByParam(findInfo);
-		if(infos.size()==1){
-			searchMap.put("orgId", infos.get(0).getOrgId());
-			//
+		if(StringUtils.isBlank(orgId)){
+			//查出用户所属组织机构
+			ManagerOrgInfo findInfo=new ManagerOrgInfo();
+			findInfo.setManagerId(getCurrentSessionInfo(request).getUserId());
+			List<ManagerOrgInfo> infos=managerOrgService.findByParam(findInfo);
+			if(infos.size()==1){
+				searchMap.put("orgId", infos.get(0).getOrgId());
+				//
+			}
+		}else{
+			searchMap.put("orgId", orgId);
 		}
 		if(StringUtils.isNotBlank(userName))searchMap.put("userName", userName);
 		if(StringUtils.isNotBlank(realName))searchMap.put("realName", realName);

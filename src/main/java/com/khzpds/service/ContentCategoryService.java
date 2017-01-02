@@ -114,7 +114,9 @@ public class ContentCategoryService extends IBaseService<ContentCategoryInfo> {
             if(searchResult.getId()!=null&&rootId!=null&&parentId!=null&&rootId.equals(parentId)){
                 searchResult.setParentId(null);
                 lst1.add(searchResult);
-            } 
+            }else{
+            	lst1.add(searchResult);
+            }
         }
         return lst1;
 	}

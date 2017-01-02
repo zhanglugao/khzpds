@@ -25,9 +25,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSONArray;
 import com.khzpds.base.BaseController;
 import com.khzpds.service.ContentCategoryService;
+import com.khzpds.service.ManagerOrgService;
 import com.khzpds.util.ArrayUtils;
 import com.khzpds.vo.ContentCategoryInfo;
 import com.khzpds.vo.ContentCategoryTreeGridVo;
+import com.khzpds.vo.ManagerOrgInfo;
 import com.khzpds.vo.TreeGridJsonVo;
 
 /***
@@ -41,6 +43,8 @@ public class ContentCategoryController extends BaseController{
 	private static final Log log = LogFactory.getLog(ContentCategoryController.class);
 	@Autowired
 	private ContentCategoryService contentCategoryService;
+	@Autowired
+	private ManagerOrgService managerOrgService;
 	
 	/**
 	 * 获取分类数据 for ztree
@@ -83,9 +87,19 @@ public class ContentCategoryController extends BaseController{
 	}
 	
 	@RequestMapping("/getRootId")
-	public void getRootId(String platformId,String type,HttpServletRequest request,HttpServletResponse response){
-		ContentCategoryInfo info=contentCategoryService.getRootCategory(getCurrentSessionInfo(request).getUserName(),null);
-		this.writeString(response, info.getId().toString());
+	public void getRootId(String platformId,String type,String ifOrgManager,HttpServletRequest request,HttpServletResponse response){
+		if(StringUtils.isNotBlank(ifOrgManager)){
+			ManagerOrgInfo managerOrg=new ManagerOrgInfo();
+			managerOrg.setManagerId(getCurrentSessionInfo(request).getUserId());
+			List<ManagerOrgInfo> managerOrgs=managerOrgService.findByParam(managerOrg);
+			if(managerOrgs.size()==1){
+				ContentCategoryInfo org=contentCategoryService.findById(managerOrgs.get(0).getOrgId());
+				this.writeString(response, org.getName());
+			}
+		}else{
+			ContentCategoryInfo info=contentCategoryService.getRootCategory(getCurrentSessionInfo(request).getUserName(),null);
+			this.writeString(response, info.getId().toString());
+		}
 	}
 	
 	/**

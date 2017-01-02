@@ -300,7 +300,7 @@
 		<if test="itemId!=null"> and apply.competition_item_id=#{itemId}</if>
 		<if test="applyGroup!=null"> and apply.apply_group=#{applyGroup}</if>
 		<if test="applyYearGroup!=null"> and apply.apply_year_group=#{applyYearGroup}</if>
-		<if test="orgId!=null"> and apply.recommened_company=#{orgId}</if>
+		<if test="orgId!=null"> and apply.recommened_company in(select id from content_category where path like CONCAT ('%-',#{orgId},'-%'))</if>
 		<if test="userName!=null"> and user.user_name=#{userName}</if>
 		<if test="realName!=null"> and user.real_name=#{realName}</if>
 		<if test="applyStatus!=null"> and apply.apply_status=#{applyStatus}</if>
