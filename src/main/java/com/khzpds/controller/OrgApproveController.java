@@ -119,7 +119,7 @@ public class OrgApproveController extends BaseController{
 			List<UserCompletionItemApplyInfo> list2=userCompetitionItemApplyService.findByParam(findInfo);
 			if(list2.size()+list.size()>limitNum){
 				data.put("status", "1");
-				data.put("error_desc", "您已审核"+list2.size()+"位作品，本次操作待审核"+list.size()+"位作品，超出限额"+limitNum+"，操作无法继续");
+				data.put("error_desc", "您已审核"+list2.size()+"幅作品，本次操作待审核"+list.size()+"幅作品，超出限额"+limitNum+"，操作无法继续");
 				this.writeJson(response, data);
 				return;
 			}

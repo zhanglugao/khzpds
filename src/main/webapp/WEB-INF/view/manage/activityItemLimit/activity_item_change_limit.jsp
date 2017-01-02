@@ -18,8 +18,10 @@
 				var obj=$(objs[i]);
 				var value=obj.val();
 				if(value!=""&&!r.test(value)){
-					layer.alert("第"+(i+1)+"行限额数目填写非法。");
-					return;
+					if(value!='0'){
+						layer.alert("第"+(i+1)+"行限额数目填写非法。");
+						return;
+					}
 				}
 				if(value!=''){
 					var d='{"id":"'+obj.attr("id")+'","value":"'+value+'"}';

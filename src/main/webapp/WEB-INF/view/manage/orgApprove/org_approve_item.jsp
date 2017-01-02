@@ -107,7 +107,7 @@
 	}
 	
 	function approveMuti(result){
-		var type=0;
+		var type=1;//1代表组织机构审核
 		var id="";
 		var checks=$("input[name="+tabId+"sel]:checked");
 		for(var i=0;i<checks.length;i++){
