@@ -33,10 +33,11 @@
 				}
 			}
 			jsonData+="]";
+			layer.load(1);
 			$.ajax({
 				url:"/activityItemLimit/changeLimit",
 				type:"post",
-				data:{data:jsonData,id:"${param.id}"},
+				data:"data="+jsonData+"&id=${param.id}",
 				dataType:"json",
 				success:function(data){
 					if(data.status=='0'){
@@ -48,6 +49,7 @@
 				error:function(){
 					layer.alert(errorText)
 				}
+			});
 			});
 		});
 	});

@@ -114,22 +114,30 @@ public class ActivityItemLimitController extends BaseController{
 	@RequestMapping("/changeLimit")
 	public void changeLimit(String data,String id,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
+		System.out.println(data);
 		JSONArray array=JSON.parseArray(data);
 		List<ItemOrgLimitInfo> itemOrgLimitList=new ArrayList<ItemOrgLimitInfo>();
-		for(Object object:array){
-			JSONObject obj=(JSONObject) object;
-			String orgId=obj.get("id").toString();
-			String limitNum=obj.get("value").toString();
-			ItemOrgLimitInfo info=new ItemOrgLimitInfo();
-			info.setCreateTime(new Date());
-			info.setCreateUser(getCurrentSessionInfo(request).getUserId());
-			info.setId(UUIDUtil.getUUID());
-			info.setItemId(id);
-			info.setLimitNum(limitNum);
-			info.setOrgId(orgId);
-			itemOrgLimitList.add(info);
+		if(array!=null){
+			for(Object object:array){
+				JSONObject obj=(JSONObject) object;
+				String orgId=obj.get("id").toString();
+				String limitNum=obj.get("value").toString();
+				ItemOrgLimitInfo info=new ItemOrgLimitInfo();
+				info.setCreateTime(new Date());
+				info.setCreateUser(getCurrentSessionInfo(request).getUserId());
+				info.setId(UUIDUtil.getUUID());
+				info.setItemId(id);
+				info.setLimitNum(limitNum);
+				info.setOrgId(orgId);
+				itemOrgLimitList.add(info);
+			}
+			itemOrgLimitService.addItemOrgListInfo(id,itemOrgLimitList);
+		}else{
+			result.put("status", "1");
+			result.put("error_desc", "参数data错误，data值为:"+data);
+			this.writeJson(response, result);
+			return;
 		}
-		itemOrgLimitService.addItemOrgListInfo(id,itemOrgLimitList);
 		result.put("status", "0");
 		this.writeJson(response, result);
 	}
