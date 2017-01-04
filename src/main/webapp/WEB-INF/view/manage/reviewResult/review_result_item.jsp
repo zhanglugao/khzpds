@@ -83,7 +83,7 @@
 						}else{
 							option+="&nbsp;<button type='button' onclick='viewPointInfo(\""+obj.id+"\")' class='btn btn-primary'>查看打分详情</button>";
 						}
-						if(typeof(obj.filePath)!='undefined'){
+						if(typeof(obj.filePath)!='undefined'&&obj.filePath!=''){
 							option+="&nbsp;<button type='button' onclick='viewProInfo(\""+obj.id+"\")' class='btn btn-primary'>查看作品详情</button>";
 						}
 						var html="<tr class='"+tabId+"class'><td>"+obj.userName+"</td><td>"+obj.realName+"</td><td>"+obj.orgName+"</td>"

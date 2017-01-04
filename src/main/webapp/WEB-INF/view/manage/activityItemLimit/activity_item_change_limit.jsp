@@ -47,7 +47,7 @@
 					}
 				},
 				error:function(){
-					layer.alert(errorText)
+					layer.alert(errorText);
 				}
 			});
 			});
