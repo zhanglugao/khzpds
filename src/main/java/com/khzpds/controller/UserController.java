@@ -25,6 +25,7 @@ import com.khzpds.service.ManagerOrgService;
 import com.khzpds.service.MenuService;
 import com.khzpds.service.RoleService;
 import com.khzpds.service.UserInfoService;
+import com.khzpds.service.UserLoginOperateLogService;
 import com.khzpds.service.UserRoleService;
 import com.khzpds.util.EmailTool;
 import com.khzpds.util.UUIDUtil;
@@ -33,6 +34,7 @@ import com.khzpds.vo.ContentCategoryInfo;
 import com.khzpds.vo.ManagerOrgInfo;
 import com.khzpds.vo.RoleInfo;
 import com.khzpds.vo.UserInfoInfo;
+import com.khzpds.vo.UserLoginOperateLogInfo;
 import com.khzpds.vo.UserRoleInfo;
 /**
  * 
@@ -54,6 +56,8 @@ public class UserController extends BaseController{
 	private ManagerOrgService managerOrgService;
 	@Autowired
 	private ContentCategoryService contentCategoryService;
+	@Autowired
+	private UserLoginOperateLogService userLoginOperateLogService;
 	
 	/***
 	 * 学员登陆主界面
@@ -197,6 +201,15 @@ public class UserController extends BaseController{
 				}else{
 					result.put("jump_url", "/user/openIndex");
 				}
+				//记录登录日志
+				UserLoginOperateLogInfo log=new UserLoginOperateLogInfo();
+				log.setId(UUIDUtil.getUUID());
+				log.setOperateTime(new Date());
+				log.setResourceId(users.get(0).getId());
+				log.setResourceType("用户登录");
+				log.setType("登录");
+				log.setUserId(users.get(0).getId());
+				userLoginOperateLogService.add(log);
 			}
 		}
 		this.writeJson(response, result);
