@@ -10,7 +10,7 @@
         <result property="type" column="type" />    
         <result property="userId" column="user_id" />    
         <result property="operateTime" column="operate_time" />    
-        <result property="desc" column="desc" />    
+        <result property="description" column="description" />    
         <result property="resourceId" column="resource_id" />    
         <result property="resourceType" column="resource_type" />    
         <result property="vdef1" column="vdef1" />    
@@ -22,27 +22,27 @@
     
     <!--根据主键查询-->
 	<select id="findById" resultMap="UserLoginOperateLogResultMap">
-		select id,type,user_id,operate_time,desc,resource_id,resource_type,vdef1,vdef2,vdef3,vdef4,vdef5 from user_login_operate_log where id=#{id}
+		select id,type,user_id,operate_time,description,resource_id,resource_type,vdef1,vdef2,vdef3,vdef4,vdef5 from user_login_operate_log where id=#{id}
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
 	</select>
     
     <!--插入-->
 	 <insert id="insert" parameterType="com.khzpds.vo.UserLoginOperateLogInfo" >
     	INSERT INTO user_login_operate_log
-        (id,type,user_id,operate_time,desc,resource_id,resource_type,vdef1,vdef2,vdef3,vdef4,vdef5) 
-		values(#{id},#{type},#{userId},#{operateTime},#{desc},#{resourceId},#{resourceType},#{vdef1},#{vdef2},#{vdef3},#{vdef4},#{vdef5})
+        (id,type,user_id,operate_time,description,resource_id,resource_type,vdef1,vdef2,vdef3,vdef4,vdef5) 
+		values(#{id},#{type},#{userId},#{operateTime},#{description},#{resourceId},#{resourceType},#{vdef1},#{vdef2},#{vdef3},#{vdef4},#{vdef5})
     </insert>
 
     
     <!--根据传入的map参数查询 并分页-->
     <select id="findByParamForPage" resultMap="UserLoginOperateLogResultMap" >
-		select id,type,user_id,operate_time,desc,resource_id,resource_type,vdef1,vdef2,vdef3,vdef4,vdef5 from user_login_operate_log
+		select id,type,user_id,operate_time,description,resource_id,resource_type,vdef1,vdef2,vdef3,vdef4,vdef5 from user_login_operate_log
 		where 1=1
            <if test="obj.search.id!=null"> AND id = #{obj.search.id}</if>
            <if test="obj.search.type!=null"> AND type = #{obj.search.type}</if>
            <if test="obj.search.userId!=null"> AND user_id = #{obj.search.userId}</if>
            <if test="obj.search.operateTime!=null"> AND operate_time = #{obj.search.operateTime}</if>
-           <if test="obj.search.desc!=null"> AND desc = #{obj.search.desc}</if>
+           <if test="obj.search.description!=null"> AND description = #{obj.search.description}</if>
            <if test="obj.search.resourceId!=null"> AND resource_id = #{obj.search.resourceId}</if>
            <if test="obj.search.resourceType!=null"> AND resource_type = #{obj.search.resourceType}</if>
            <if test="obj.search.vdef1!=null"> AND vdef1 = #{obj.search.vdef1}</if>
@@ -57,13 +57,13 @@
     
      <!--根据传入的实体参数查询-->
     <select id="findByParam" resultMap="UserLoginOperateLogResultMap" >
-		select id,type,user_id,operate_time,desc,resource_id,resource_type,vdef1,vdef2,vdef3,vdef4,vdef5 from user_login_operate_log
+		select id,type,user_id,operate_time,description,resource_id,resource_type,vdef1,vdef2,vdef3,vdef4,vdef5 from user_login_operate_log
 		where 1=1
            <if test="obj.id!=null"> AND id = #{obj.id}</if>
            <if test="obj.type!=null"> AND type = #{obj.type}</if>
            <if test="obj.userId!=null"> AND user_id = #{obj.userId}</if>
            <if test="obj.operateTime!=null"> AND operate_time = #{obj.operateTime}</if>
-           <if test="obj.desc!=null"> AND desc = #{obj.desc}</if>
+           <if test="obj.description!=null"> AND description = #{obj.description}</if>
            <if test="obj.resourceId!=null"> AND resource_id = #{obj.resourceId}</if>
            <if test="obj.resourceType!=null"> AND resource_type = #{obj.resourceType}</if>
            <if test="obj.vdef1!=null"> AND vdef1 = #{obj.vdef1}</if>
@@ -89,7 +89,7 @@
            <if test="obj.type!=null">type=#{obj.type},</if>
            <if test="obj.userId!=null">user_id=#{obj.userId},</if>
            <if test="obj.operateTime!=null">operate_time=#{obj.operateTime},</if>
-           <if test="obj.desc!=null">desc=#{obj.desc},</if>
+           <if test="obj.description!=null">description=#{obj.description},</if>
            <if test="obj.resourceId!=null">resource_id=#{obj.resourceId},</if>
            <if test="obj.resourceType!=null">resource_type=#{obj.resourceType},</if>
            <if test="obj.vdef1!=null">vdef1=#{obj.vdef1},</if>

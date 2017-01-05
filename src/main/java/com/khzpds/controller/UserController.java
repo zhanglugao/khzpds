@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -485,5 +486,17 @@ public class UserController extends BaseController{
 		List<RoleInfo> roles=roleService.findByParam(new RoleInfo());
 		request.setAttribute("roles",JSON.toJSONString(roles));
 		return new ModelAndView(getRootPath(request)+"/manage/manager/manager_list");
+	}
+	
+	
+	/**
+	 * 管理员个人资料编辑页面
+	 * @return
+	 */
+	@RequestMapping("/managerEditIndex")
+	public ModelAndView managerInfoEdit(HttpServletRequest request,HttpServletResponse response){
+		UserInfoInfo user=userInfoService.findById(getCurrentSessionInfo(request).getUserId());
+		request.setAttribute("editUser", user);
+		return new ModelAndView(getRootPath(request)+"/manage/manager/manager_edit");
 	}
 }

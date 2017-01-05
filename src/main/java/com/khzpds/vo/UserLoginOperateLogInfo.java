@@ -13,7 +13,7 @@ public class UserLoginOperateLogInfo implements Serializable
 	private String type;   
 	private String userId;   
 	private java.util.Date operateTime;   
-	private String desc;   
+	private String description;   
 	private String resourceId;   
 	private String resourceType;   
 	private String vdef1;   
@@ -84,15 +84,15 @@ public class UserLoginOperateLogInfo implements Serializable
     /**
      * 备注
      */ 	
-	public String getDesc(){
-        return desc;
+	public String getDescription(){
+        return description;
     }
     
      /**
      * 备注
      */ 	
-    public void setDesc(String desc){
-        this.desc=desc;
+    public void setDescription(String description){
+        this.description=description;
     }
     
     /**
@@ -199,7 +199,7 @@ public class UserLoginOperateLogInfo implements Serializable
            .append("Type",getType())
            .append("UserId",getUserId())
            .append("OperateTime",getOperateTime())
-           .append("Desc",getDesc())
+           .append("Description",getDescription())
            .append("ResourceId",getResourceId())
            .append("ResourceType",getResourceType())
            .append("Vdef1",getVdef1())
