@@ -507,7 +507,7 @@ display:block;
                              <li>
                                 <label class="ml50">（请在相应的类别中打√）</label>
                                     <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="applyGroup"   type="checkbox" value='305001' /><label >微型小说组</label>
-                                    <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="applyGroup"   type="checkbox" value='305002' />  <label id="applyGroupTips">中篇小说组</label>
+                                    <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="applyGroup"   type="checkbox" value='305002' />  <label id="applyGroupTips">短篇小说组</label>
                                     
                              </li>
                              <!-- 参照年龄组 -->
