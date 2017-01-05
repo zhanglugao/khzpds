@@ -33,6 +33,9 @@ public class UserInfoService extends IBaseService<UserInfoInfo> {
     @Autowired
     private ManagerOrgDao managerOrgDao;
     
+    @Autowired
+    private UserLoginOperateLogService userLoginOperateLogService;
+    
     public SessionInfo setSession(UserInfoInfo user){
 		SessionInfo session=new SessionInfo();
 		session.setIfLogin(true);
@@ -55,13 +58,15 @@ public class UserInfoService extends IBaseService<UserInfoInfo> {
 		return userInfoDao.findByIndexForPage(page);
 	}
 	public void updateManagerInfo(UserInfoInfo user,
-			List<UserRoleInfo> userRoleList, List<ManagerOrgInfo> managerOrgList, boolean ifAdd) {
+			List<UserRoleInfo> userRoleList, List<ManagerOrgInfo> managerOrgList, boolean ifAdd,String userId) {
 		if(ifAdd){
 			userInfoDao.insert(user);
+			userLoginOperateLogService.addLog(user.getId(), "管理员", "添加", userId);
 		}else{
 			userInfoDao.update(user,null);
 			userRoleDao.deleteByUserId(user.getId());
 			managerOrgDao.deleteByUserId(user.getId());
+			userLoginOperateLogService.addLog(user.getId(), "管理员", "修改", userId);
 		}
 		for(UserRoleInfo userRole:userRoleList){
 			userRoleDao.insert(userRole);

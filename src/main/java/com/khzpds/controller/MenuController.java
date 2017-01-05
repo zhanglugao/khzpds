@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.khzpds.base.BaseController;
 import com.khzpds.base.PageParameter;
 import com.khzpds.service.MenuService;
+import com.khzpds.service.UserLoginOperateLogService;
 import com.khzpds.util.UUIDUtil;
 import com.khzpds.vo.MenuInfo;
 
@@ -28,6 +29,8 @@ public class MenuController extends BaseController{
 
 	@Autowired
 	private MenuService menuService;
+	@Autowired
+	private UserLoginOperateLogService userLoginOperateLogService;
 	
 	/**
 	 * 主页
@@ -58,6 +61,7 @@ public class MenuController extends BaseController{
 		List<MenuInfo> menuList=menuService.findByIndexPage(page);
 		
 		result.put("total_page", page.getTotalPage());
+		result.put("total_count", page.getTotalCount());
 		result.put("rows", menuList);
 		this.writeJson(response, result);
 	}
@@ -74,8 +78,10 @@ public class MenuController extends BaseController{
 		if(StringUtils.isBlank(menu.getId())){
 			menu.setId(UUIDUtil.getUUID());
 			menuService.add(menu);
+			userLoginOperateLogService.addLog(menu.getId(), "菜单", "添加", getCurrentSessionInfo(request).getUserId());
 		}else{
 			menuService.update(menu);
+			userLoginOperateLogService.addLog(menu.getId(), "菜单", "修改", getCurrentSessionInfo(request).getUserId());
 		}
 		
 		result.put("status", "0");
@@ -92,7 +98,7 @@ public class MenuController extends BaseController{
 	public void delete(String id,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
 		
-		menuService.deleteMenu(id);
+		menuService.deleteMenu(id,getCurrentSessionInfo(request).getUserId());
 		
 		result.put("status", "0");
 		this.writeJson(response, result);

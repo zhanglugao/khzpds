@@ -24,6 +24,8 @@ public class MenuService extends IBaseService<MenuInfo> {
     //--CustomBegin***///
     @Autowired
     private RoleMenuDao roleMenuDao;
+    @Autowired
+    private UserLoginOperateLogService userLoginOperateLogService;
     public List<MenuInfo> findMenusByUserId(String id) {
 		return menuDao.findMenusByUserId(id);
 	}  
@@ -33,9 +35,10 @@ public class MenuService extends IBaseService<MenuInfo> {
 	public List<Map<String, String>> findMenusByRoleId(String roleId) {
 		return menuDao.findMenusByRoleId(roleId);
 	}
-	public void deleteMenu(String id) {
+	public void deleteMenu(String id,String userId) {
 		menuDao.deleteById(id, null);
 		roleMenuDao.deleteByMenuId(id);
+		userLoginOperateLogService.addLog(id, "菜单", "删除", userId);
 	}
 //--CustomEnd*****///
 }

@@ -20,7 +20,7 @@
 </style>
 <script type="text/javascript">
 	function getData(currentPage){
-		var pageSize=5;
+		var pageSize=10;
 		var year=$("#year").val();
 		var name=$("#name").val();
 		var status=$("#status").val();
@@ -39,7 +39,7 @@
 					html+="</td></tr>";
 					$("#dataTable").append(html);
 				}
-				setPageHtml(data.total_page, "next", "getData", currentPage);
+				setPageHtml(data.total_count, "pageDiv", "getData", currentPage,pageSize);
 			},error:function(){
 				layer.alert(errorText);
 			}
@@ -142,11 +142,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="box-footer clearfix">
-					<ul class="pagination pagination-sm no-margin pull-left">
-						<li id='previous'><a href="##" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-						<li id='next'><a href="##" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-					</ul>
+				<div id="pageDiv">
 				</div>
 			</section>
 		</aside>

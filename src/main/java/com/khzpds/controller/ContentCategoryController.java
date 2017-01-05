@@ -166,7 +166,7 @@ public class ContentCategoryController extends BaseController{
 				sort=0;
 			}
 			ContentCategoryInfo.setSort(sort+1);
-			contentCategoryService.addLabelInfo(ContentCategoryInfo,parentId,platformId);
+			contentCategoryService.addLabelInfo(ContentCategoryInfo,parentId,platformId,getCurrentSessionInfo(request).getUserId());
 			Map<String,Object> resMap = new HashMap<String,Object>();
 			resMap.put("id", ContentCategoryInfo.getId());
 			resMap.put("name", ContentCategoryInfo.getName());
@@ -234,7 +234,7 @@ public class ContentCategoryController extends BaseController{
 		if(id.length>0){
 			for(int i=0;i<id.length;i++){
 				ContentCategoryInfo contentCategory=contentCategoryService.findById(Long.valueOf(id[i]));
-				contentCategoryService.deleteLabel(contentCategory);
+				contentCategoryService.deleteLabel(contentCategory,getCurrentSessionInfo(request).getUserId());
 				result="success";
 			}
 			
@@ -490,7 +490,7 @@ public class ContentCategoryController extends BaseController{
 		contentCategory.setSort(changeObj.getSort());
 		changeObj.setSort(temp);
 		//执行
-		contentCategoryService.updateSort(contentCategory,changeObj);
+		contentCategoryService.updateSort(contentCategory,changeObj,getCurrentSessionInfo(request).getUserId());
 		this.writeString(response, "success");
 	}
 }

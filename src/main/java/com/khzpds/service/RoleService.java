@@ -25,18 +25,22 @@ public class RoleService extends IBaseService<RoleInfo> {
     //--CustomBegin***///
     @Autowired
     private RoleMenuDao roleMenuDao;
+    @Autowired
+    private UserLoginOperateLogService userLoginOperateLogService;
     
     public List<RoleInfo> findByIndexPage(PageParameter page) {
 		return roleDao.findByIndexPage(page);
 	}
 	public void addRole(RoleInfo role, List<RoleMenuInfo> roleMenus,
-			boolean ifAdd) {
+			boolean ifAdd,String userId) {
 		if(ifAdd){
 			roleDao.insert(role);
+			userLoginOperateLogService.addLog(role.getId(), "角色", "添加", userId);
 		}else{
 			roleDao.update(role,null);
 			//删除之前的菜单
 			roleMenuDao.deleteByRoleId(role.getId());
+			userLoginOperateLogService.addLog(role.getId(), "角色", "修改", userId);
 		}
 		for(RoleMenuInfo roleMenu:roleMenus){
 			roleMenuDao.insert(roleMenu);

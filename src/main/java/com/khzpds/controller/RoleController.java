@@ -19,6 +19,7 @@ import com.khzpds.base.BaseController;
 import com.khzpds.base.PageParameter;
 import com.khzpds.service.MenuService;
 import com.khzpds.service.RoleService;
+import com.khzpds.service.UserLoginOperateLogService;
 import com.khzpds.service.UserRoleService;
 import com.khzpds.util.UUIDUtil;
 import com.khzpds.vo.MenuInfo;
@@ -41,6 +42,8 @@ public class RoleController extends BaseController{
 	private RoleService roleService;
 	@Autowired
 	private UserRoleService userRoleService;
+	@Autowired
+	private UserLoginOperateLogService userLoginOperateLogService;
 	
 	/***
 	 * 进入角色首页
@@ -69,6 +72,7 @@ public class RoleController extends BaseController{
 		List<RoleInfo> roleList=roleService.findByIndexPage(page);
 		
 		result.put("total_page", page.getTotalPage());
+		result.put("total_count", page.getTotalCount());
 		result.put("rows", roleList);
 		this.writeJson(response, result);
 	}
@@ -146,7 +150,7 @@ public class RoleController extends BaseController{
 			roleMenu.setRoleId(role.getId());
 			roleMenus.add(roleMenu);
 		}
-		roleService.addRole(role,roleMenus,ifAdd);
+		roleService.addRole(role,roleMenus,ifAdd,getCurrentSessionInfo(request).getUserId());
 		
 		result.put("status", "0");
 		this.writeJson(response, result);
@@ -171,6 +175,7 @@ public class RoleController extends BaseController{
 			return;
 		}
 		roleService.delete(id);
+		userLoginOperateLogService.addLog(id, "角色", "删除", getCurrentSessionInfo(request).getUserId());
 		result.put("status", "0");
 		this.writeJson(response, result);
 	}

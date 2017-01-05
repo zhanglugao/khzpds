@@ -101,5 +101,26 @@
 		where id=#{obj.id} 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
     </update> 
-	<!--CustomBegin***--><!--CustomEnd*****-->
+	<!--CustomBegin***-->
+	<select id="findIndexPage" resultType="map">
+		select log.*,user.user_name as userName from user_login_operate_log log join user_info user on log.user_id=user.id
+		where 1=1
+           <if test="obj.search.id!=null"> AND log.id = #{obj.search.id}</if>
+           <if test="obj.search.type!=null"> AND log.type = #{obj.search.type}</if>
+           <if test="obj.search.userId!=null"> AND log.user_id = #{obj.search.userId}</if>
+           <if test="obj.search.operateTime!=null"> AND log.operate_time = #{obj.search.operateTime}</if>
+           <if test="obj.search.description!=null"> AND log.description = #{obj.search.description}</if>
+           <if test="obj.search.resourceId!=null"> AND log.resource_id = #{obj.search.resourceId}</if>
+           <if test="obj.search.resourceType!=null"> AND log.resource_type = #{obj.search.resourceType}</if>
+           <if test="obj.search.vdef1!=null"> AND log.vdef1 = #{obj.search.vdef1}</if>
+           <if test="obj.search.vdef2!=null"> AND log.vdef2 = #{obj.search.vdef2}</if>
+           <if test="obj.search.vdef3!=null"> AND log.vdef3 = #{obj.search.vdef3}</if>
+           <if test="obj.search.vdef4!=null"> AND log.vdef4 = #{obj.search.vdef4}</if>
+           <if test="obj.search.vdef5!=null"> AND log.vdef5 = #{obj.search.vdef5}</if>
+           
+           <if test="obj.search.name!=null"> AND user.user_name = #{obj.search.name}</if>
+
+        <if test="obj.orderField!=null and obj.orderType!=null"> order by ${obj.orderField} ${obj.orderType}</if>
+	</select>
+	<!--CustomEnd*****-->
 </mapper>

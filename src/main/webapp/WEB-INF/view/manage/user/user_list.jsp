@@ -43,7 +43,7 @@
 						+"<button class='btn btn-primary' type='button' onclick='addUser(\""+obj.id+"\",\""+obj.userName+"\",\""+obj.mail+"\",\""+obj.realName+"\")'>编辑</button>&nbsp;<button class='btn btn-primary' onclick='resetpwd(\""+obj.id+"\")' type='button'>重置密码</button></td></tr>";
 					$("#dataTable").append(html);
 				}
-				setPageHtml(data.total_page, "next", "getData", currentPage);
+				setPageHtml(data.total_count, "pageDiv", "getData", currentPage,pageSize);
 			},error:function(){
 				layer.alert(errorText);
 			}
@@ -207,11 +207,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="box-footer clearfix">
-					<ul class="pagination pagination-sm no-margin pull-left">
-						<li id='previous'><a href="##" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-						<li id='next'><a href="##" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-					</ul>
+				<div id='pageDiv'>
 				</div>
 			</section>
 		</aside>

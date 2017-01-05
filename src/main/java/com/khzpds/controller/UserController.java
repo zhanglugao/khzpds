@@ -276,6 +276,7 @@ public class UserController extends BaseController{
 		SessionInfo session=userInfoService.setSession(user);
 		request.getSession().setAttribute(BusinessConfig.USER_SESSION_KEY, session);
 		result.put("status", "0");
+		userLoginOperateLogService.addLog(user.getId(), "用户", "修改", getCurrentSessionInfo(request).getUserId());
 		this.writeJson(response, result);
 	}
 	
@@ -382,6 +383,7 @@ public class UserController extends BaseController{
 		}
 		result.put("rows", users);
 		result.put("total_page", page.getTotalPage());
+		result.put("total_count", page.getTotalCount());
 		this.writeJson(response, result);
 	}
 	
@@ -445,7 +447,7 @@ public class UserController extends BaseController{
 				managerOrg.setOrgId(orgId);
 				managerOrgList.add(managerOrg);
 			}
-			userInfoService.updateManagerInfo(user,userRoleList,managerOrgList,ifAdd);
+			userInfoService.updateManagerInfo(user,userRoleList,managerOrgList,ifAdd,getCurrentSessionInfo(request).getUserId());
 			
 		}
 		result.put("status", "0");
@@ -464,12 +466,17 @@ public class UserController extends BaseController{
 			result.put("error_desc", "用户已不存在");
 			this.writeJson(response, result);return;
 		}
+		String resourceType=null;
 		if("0".equals(type)){
 			user.setPassword("000000");
+			resourceType="用户";
 		}else if("1".equals(type)){
 			user.setPassword("111111");
+			resourceType="管理员";
 		}
 		userInfoService.update(user);
+		
+		userLoginOperateLogService.addLog(user.getId(), resourceType, "修改", getCurrentSessionInfo(request).getUserId());
 		result.put("status", "0");
 		this.writeJson(response, result);
 	}

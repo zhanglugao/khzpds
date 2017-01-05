@@ -24,6 +24,8 @@ public class ContentCategoryService extends IBaseService<ContentCategoryInfo> {
     }  
     
     //--CustomBegin***///
+    @Autowired
+    private UserLoginOperateLogService userLoginOperateLogService;
     /***
      * 返回分类的完整路径 1级-2级-3级,1级-2级-3级这种格式
      * @param classIds
@@ -138,7 +140,7 @@ public class ContentCategoryService extends IBaseService<ContentCategoryInfo> {
 		return contentCategoryDao.findByParentIdReturnOne(l);
 	}
 
-	public Integer addLabelInfo(ContentCategoryInfo labelInfo, String parentId, String platformId) {
+	public Integer addLabelInfo(ContentCategoryInfo labelInfo, String parentId, String platformId,String userId) {
 		Integer result = 0;
 		result = add(labelInfo);
 		long id = labelInfo.getId();
@@ -154,6 +156,7 @@ public class ContentCategoryService extends IBaseService<ContentCategoryInfo> {
 			update(laInfo);
 			update(info);
 		}
+		userLoginOperateLogService.addLog(labelInfo.getId()+"", "组织机构", "添加", userId);
 		return result;
 	}
 
@@ -179,7 +182,7 @@ public class ContentCategoryService extends IBaseService<ContentCategoryInfo> {
 	 * @param platformId 
 	 * 
 	 */
-	public void deleteLabel(ContentCategoryInfo labelInfo) {
+	public void deleteLabel(ContentCategoryInfo labelInfo,String userId) {
 		if(labelInfo==null)return;
 		boolean ifLeaf = labelInfo.getIfLeaf();
 		if(ifLeaf) {
@@ -200,6 +203,7 @@ public class ContentCategoryService extends IBaseService<ContentCategoryInfo> {
 				delete(laInfo.getId());
 			}
 		}
+		userLoginOperateLogService.addLog(labelInfo.getId()+"", "组织机构", "删除", userId);
 	}
 
 	public List<ContentCategoryInfo> findByParamSort(
@@ -222,9 +226,11 @@ public class ContentCategoryService extends IBaseService<ContentCategoryInfo> {
 	}
 
 	public void updateSort(ContentCategoryInfo contentCategory,
-			ContentCategoryInfo changeObj) {
+			ContentCategoryInfo changeObj,String userId) {
 		contentCategoryDao.update(contentCategory, contentCategory.getPlatformId());
 		contentCategoryDao.update(changeObj, changeObj.getPlatformId());
+		
+		userLoginOperateLogService.addLog(contentCategory.getId()+"", "组织机构", "删除", userId);
 	}
 
 	public List<ContentCategoryInfo> findByParentIdPath(String category_id) {

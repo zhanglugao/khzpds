@@ -21,19 +21,19 @@
 <script type="text/javascript">
 	function getData(currentPage){
 		var pageSize=10;
+		var operateType=$("#operateType").val();
 		var name=$("#name").val();
-		var url=$("#url").val();
 		$.ajax({
-			url:"/role/getData",
+			url:"/loginOperateLog/getData",
 			type:"post",
-			data:"current_page="+currentPage+"&page_size="+pageSize+"&name="+name+"&url="+url,
+			data:"current_page="+currentPage+"&page_size="+pageSize+"&name="+name+"&operateType="+operateType,
 			dataType:"json",
 			success:function(data){
 				$(".datatr").remove();
 				for(var i=0;i<data.rows.length;i++){
 					var obj=data.rows[i];
-					var html="<tr class='datatr'><td>"+(i+1)+"</td><td>"+obj.name+"</td><td>"
-						+"<button class='btn btn-primary' type='button' onclick='toAdd(\""+obj.id+"\")'>编辑</button>&nbsp;<button class='btn btn-primary' onclick='deleteRole(\""+obj.id+"\")' type='button'>删除</button></td></tr>";
+					var html="<tr class='datatr'><td>"+(i+1)+"</td><td>"+obj.resource_type+"</td><td>"+obj.userName+"</td><td>"+obj.type+"</td><td>"
+						+obj.operate_time+"</td>";
 					$("#dataTable").append(html);
 				}
 				setPageHtml(data.total_count, "pageDiv", "getData", currentPage,pageSize);
@@ -42,46 +42,10 @@
 			}
 		});
 	}
-	
-	function toAdd(id){
-		if(typeof(id)!='undefined'){
-			window.location.href="/role/toAdd?id="+id;
-		}else{
-			window.location.href="/role/toAdd";
-		}
-		
-	}
-	
 	$(document).ready(function(){
 		getData(1);
 	});
 	
-	function deleteRole(id){
-		layer.confirm('确定要删除么', {
-		    btn: ['确定','取消'], //按钮
-		    shade: false //不显示遮罩
-		}, function(index){
-		    layer.close(index);
-			$.ajax({
-				url:"/role/delete",
-				data:{id:id},
-				type:"post",
-				dataType:"json",
-				success:function(data){
-					if(data.status=='0'){
-						layer.closeAll();
-						layer.msg("删除成功",{icon:1});
-						getData(1);
-					}else{
-						layer.alert(data.error_desc);
-					}
-				},
-				error:function(){
-					layer.alert(errorText);
-				}
-			});
-		});
-	}
 </script>
 </head>
 <body class="skin-blue">
@@ -94,33 +58,28 @@
 		</div>
 		<aside class="right-side">
 			<section class="content-header">
-				<h1>角色管理</h1>
-				<!-- 首页链接 -->
-				<!-- <ol class="breadcrumb">
-					<li><a href="../index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
-                </ol> -->
+				<h1>日志管理</h1>
 			</section>
 			<section class="content">
-				<!-- <div class="selectbox">
+				<div class="selectbox">
 					<div class="form-group">
                            <div class="col-sm-1">
-                                <select id="status" class="selectpicker show-tick form-control" data-live-search="false">
-                                	<option value=''>课程状态</option>
+                                <select id="operateType" class="selectpicker show-tick form-control" data-live-search="false">
+                                	<option value=''>操作类型</option>
+                                	<option value='登录'>登录</option>
+                                	<option value='添加'>添加</option>
+                                	<option value='修改'>修改</option>
+                                	<option value='删除'>删除</option>
                                 </select>
                             </div>
                      </div>
-				</div> -->
+				</div>
 				<div class="box-body">
 					<div class="col-lg-2 col-xs-5" style="width:13%">
-						<input id='name' type="text" class="form-control" placeholder="菜单名称">
-					</div>
-					<div class="col-lg-2 col-xs-5" style="width:13%">
-						<input id='url' type="text" class="form-control" placeholder="菜单链接">
+						<input id='name' type="text" class="form-control" placeholder="用户名">
 					</div>
 					<div class="box-footer col-lg-2 col-xs-3">
 						<button onclick='getData(1)' type="button" class="btn btn-primary">搜索</button>
-						&nbsp;&nbsp;
-						<button onclick='toAdd()' type='button' class='btn btn-primary'>添加角色</button>
 					</div>
 				</div>
 				
@@ -131,15 +90,18 @@
 								<table class="table table-hover table-bordered" id='dataTable'>
 									<tr>
 										<th>序号</th>
-										<th>角色名称</th>
-										<th>操作</th>
+										<th>资源类型</th>
+										<th>操作用户</th>
+										<th>操作类型</th>
+										<th>操作时间</th>
 									</tr>
 								</table>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div id='pageDiv'>
+				<div id="pageDiv">
+					
 				</div>
 			</section>
 		</aside>

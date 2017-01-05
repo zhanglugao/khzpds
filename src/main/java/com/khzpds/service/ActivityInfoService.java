@@ -23,13 +23,15 @@ public class ActivityInfoService extends IBaseService<ActivityInfoInfo> {
     //--CustomBegin***///
     @Autowired
     private CompetitionItemDao competitionItemDao;
+    @Autowired
+    private UserLoginOperateLogService userLoginOperateLogService;
     //首页查询
 	public List<ActivityInfoInfo> findByParamLikeForPage(PageParameter page) {
 		return activityInfoDao.findByParamLikeForPage(page);
 	}
 	//添加活动-关联初始化比赛项目
 	public void addActivityAndCompetitionItem(ActivityInfoInfo activity,
-			List<CompetitionItemInfo> ciList) {
+			List<CompetitionItemInfo> ciList,String userId) {
 		if(activity!=null){
 			activityInfoDao.insert(activity);
 		}
@@ -38,22 +40,24 @@ public class ActivityInfoService extends IBaseService<ActivityInfoInfo> {
 				competitionItemDao.insert(ci);
 			}
 		}
+		userLoginOperateLogService.addLog(activity.getId(), "活动", "添加", userId);
 	}
 	
 	public void updateActivity(ActivityInfoInfo activity,
-			List<CompetitionItemInfo> items) {
+			List<CompetitionItemInfo> items,String userId) {
 		activityInfoDao.update(activity, null);
 		for(CompetitionItemInfo item:items){
 			competitionItemDao.update(item, null);
 		}
-		
+		userLoginOperateLogService.addLog(activity.getId(), "活动", "修改", userId);
 	}
 	
-	public void deleteActivity(String id, List<CompetitionItemInfo> items) {
+	public void deleteActivity(String id, List<CompetitionItemInfo> items,String userId) {
 		activityInfoDao.deleteById(id, null);
 		for(CompetitionItemInfo item:items){
 			competitionItemDao.deleteById(item.getId(), null);
 		}
+		userLoginOperateLogService.addLog(id, "活动", "删除", userId);
 	}
 	//--CustomEnd*****///
 

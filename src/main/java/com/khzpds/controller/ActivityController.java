@@ -23,6 +23,7 @@ import com.khzpds.service.ActivityInfoService;
 import com.khzpds.service.CompetitionItemService;
 import com.khzpds.service.DictionaryService;
 import com.khzpds.service.UserCompletionItemApplyService;
+import com.khzpds.service.UserLoginOperateLogService;
 import com.khzpds.util.DateUtil;
 import com.khzpds.util.UUIDUtil;
 import com.khzpds.vo.ActivityInfoInfo;
@@ -45,6 +46,8 @@ public class ActivityController extends BaseController{
 	private CompetitionItemService competitionItemService;
 	@Autowired
 	private UserCompletionItemApplyService userCompetitionItemApplyService;
+	@Autowired
+	private UserLoginOperateLogService userLoginOperateLogService;
 	/***
 	 * 首页
 	 * @param request
@@ -89,6 +92,7 @@ public class ActivityController extends BaseController{
 			}
 			result.put("rows", activityList);
 			result.put("total_page", page.getTotalPage());
+			result.put("total_count", page.getTotalCount());
 			
 			this.writeJson(response, result);
 		}catch(Exception e){
@@ -164,7 +168,7 @@ public class ActivityController extends BaseController{
 			item.setUpdateTime(new Date());
 			item.setUpdateUser(this.getCurrentSessionInfo(request).getUserId());
 		}
-		activityInfoService.updateActivity(activity,items);
+		activityInfoService.updateActivity(activity,items,this.getCurrentSessionInfo(request).getUserId());
 		result.put("status", "0");
 		this.writeJson(response, result);
 	}
@@ -199,7 +203,7 @@ public class ActivityController extends BaseController{
 			item.setUpdateTime(new Date());
 			item.setUpdateUser(this.getCurrentSessionInfo(request).getUserId());
 		}
-		activityInfoService.updateActivity(activity,items);
+		activityInfoService.updateActivity(activity,items,this.getCurrentSessionInfo(request).getUserId());
 		result.put("status", "0");
 		this.writeJson(response, result);
 	}
@@ -230,7 +234,7 @@ public class ActivityController extends BaseController{
 		CompetitionItemInfo findInfo=new CompetitionItemInfo();
 		findInfo.setActivityId(id);
 		List<CompetitionItemInfo> items=competitionItemService.findByParam(findInfo);
-		activityInfoService.deleteActivity(id,items);
+		activityInfoService.deleteActivity(id,items,this.getCurrentSessionInfo(request).getUserId());
 		result.put("status", "0");
 		this.writeJson(response, result);
 	}
@@ -276,7 +280,7 @@ public class ActivityController extends BaseController{
 			item.setUpdateTime(new Date());
 			item.setUpdateUser(this.getCurrentSessionInfo(request).getUserId());
 		}
-		activityInfoService.updateActivity(activity,items);
+		activityInfoService.updateActivity(activity,items,this.getCurrentSessionInfo(request).getUserId());
 		result.put("status", "0");
 		this.writeJson(response, result);
 	}
@@ -337,7 +341,7 @@ public class ActivityController extends BaseController{
 			item.setFirstReviewStarttime(firstReviewStarttime);
 			ciList.add(item);
 		}
-		activityInfoService.addActivityAndCompetitionItem(activity,ciList);
+		activityInfoService.addActivityAndCompetitionItem(activity,ciList,this.getCurrentSessionInfo(request).getUserId());
 		result.put("status", "0");
 		this.writeJson(response, result);
 	}
@@ -360,6 +364,7 @@ public class ActivityController extends BaseController{
 		}
 		activity.setName(name);
 		activityInfoService.update(activity);
+		userLoginOperateLogService.addLog(activity.getId(), "活动", "修改", getCurrentSessionInfo(request).getUserId());
 		result.put("status", "0");
 		this.writeJson(response, result);
 	}
@@ -402,6 +407,7 @@ public class ActivityController extends BaseController{
 		}
 		
 		competitionItemService.update(item);
+		userLoginOperateLogService.addLog(id, "项目", "修改", getCurrentSessionInfo(request).getUserId());
 		result.put("status", "0");
 		this.writeJson(response, result);
 	}
