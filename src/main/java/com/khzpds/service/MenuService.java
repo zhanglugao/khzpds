@@ -10,6 +10,7 @@ import com.khzpds.base.PageParameter;
 import com.khzpds.dao.MenuDao;
 import com.khzpds.dao.RoleMenuDao;
 import com.khzpds.vo.MenuInfo;
+
 @Service
 public class MenuService extends IBaseService<MenuInfo> {
     private MenuDao menuDao;
@@ -18,8 +19,7 @@ public class MenuService extends IBaseService<MenuInfo> {
     public void setMenuRepository(MenuDao repository) {  
         setRepository(repository);  
         menuDao=repository;
-    }
-
+    }  
     
     //--CustomBegin***///
     @Autowired
@@ -37,11 +37,6 @@ public class MenuService extends IBaseService<MenuInfo> {
 		menuDao.deleteById(id, null);
 		roleMenuDao.deleteByMenuId(id);
 	}
-    //--CustomEnd*****///
-
-
-
-
-
+//--CustomEnd*****///
 }
 

@@ -1,10 +1,12 @@
 
+
 package com.khzpds.vo;
 import java.io.Serializable;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+
 @SuppressWarnings("serial")
 public class MenuInfo implements Serializable
 {
@@ -12,6 +14,7 @@ public class MenuInfo implements Serializable
 	private String id;   
 	private String name;   
 	private String url;   
+	private Integer sort;   
     
     public MenuInfo(){}
    
@@ -58,11 +61,26 @@ public class MenuInfo implements Serializable
         this.url=url;
     }
     
+    /**
+     * 
+     */ 	
+	public Integer getSort(){
+        return sort;
+    }
+    
+     /**
+     * 
+     */ 	
+    public void setSort(Integer sort){
+        this.sort=sort;
+    }
+    
     public String toString() {
 		return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
            .append("Id",getId())
            .append("Name",getName())
            .append("Url",getUrl())
+           .append("Sort",getSort())
 
 			.toString();
             

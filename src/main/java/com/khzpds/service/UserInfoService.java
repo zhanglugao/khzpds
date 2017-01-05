@@ -42,7 +42,7 @@ public class UserInfoService extends IBaseService<UserInfoInfo> {
 		session.setUserName(user.getUserName());
 		session.setRealName(user.getRealName());
 		if("admin".equals(user.getUserName())){
-			List<MenuInfo> menus=menuDao.findByParam(new MenuInfo(),null);
+			List<MenuInfo> menus=menuDao.findByParamSort(new MenuInfo());
 			session.setMenus(menus);
 		}else{
 			List<MenuInfo> menus=menuDao.findMenusByUserId(user.getId());
