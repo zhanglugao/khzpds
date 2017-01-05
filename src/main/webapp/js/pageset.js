@@ -59,7 +59,7 @@
 		if(page<total_page){
 			next=page+1;
 		}
-		var html2='<div class="box-footer clearfix"><ul class="pagination pagination-sm no-margin pull-right">'+
+		var html2='<div class="box-footer clearfix"><ul class="pagination pagination-sm no-margin">'+
 			'<li id="'+phtmlId+'Previous" onclick="'+methodName+'('+previous+')"><a href="javascript:;" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>'+
 			'<li id="'+phtmlId+'Next" onclick="'+methodName+'('+next+')"><a href="javascript:;" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>'+
 			'<li>&nbsp;&nbsp;<label style="margin-top:5px;">共'+total_count+'条，每页'+page_size+'条</label><div style="width:80px;float:right;margin-left:5px;" class="input-group input-group-sm"><input onchange="jumpPageMethod(\''+methodName+'\','+total_page+','+page+',\''+phtmlId+'\')" id="'+phtmlId+'Input" class="form-control" type="text"><span class="input-group-btn">'+
