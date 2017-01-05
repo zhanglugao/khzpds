@@ -33,7 +33,7 @@
 				for(var i=0;i<data.rows.length;i++){
 					var obj=data.rows[i];
 					var html="<tr class='datatr'><td>"+(i+1)+"</td><td>"+obj.resource_type+"</td><td>"+obj.userName+"</td><td>"+obj.type+"</td><td>"
-						+obj.operate_time+"</td>";
+						+obj.operate_time+"</td><td>"+obj.resource_id+"</td>";
 					$("#dataTable").append(html);
 				}
 				setPageHtml(data.total_count, "pageDiv", "getData", currentPage,pageSize);
@@ -94,6 +94,7 @@
 										<th>操作用户</th>
 										<th>操作类型</th>
 										<th>操作时间</th>
+										<th>资源id</th>
 									</tr>
 								</table>
 							</div>
