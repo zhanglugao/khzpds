@@ -19,6 +19,20 @@
 </style>
 <script src="/js/pageset.js" type="text/javascript"></script>
 <script type="text/javascript">
+	function loadParentData(){
+		$.ajax({
+			url:"/menu/loadParentData",
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				var rows=data.rows;
+				for(var i=0;i<rows.length;i++){
+					var obj=rows[i];
+					$("#menuParentData").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
+				}
+			}
+		});
+	}
 	function getData(currentPage){
 		var pageSize=10;
 		var name=$("#name").val();
@@ -32,8 +46,11 @@
 				$(".datatr").remove();
 				for(var i=0;i<data.rows.length;i++){
 					var obj=data.rows[i];
-					var html="<tr class='datatr'><td>"+(i+1)+"</td><td>"+obj.name+"</td><td>"+obj.url+"</td><td>启用</td><td>"
-						+"<button class='btn btn-primary' type='button' onclick='addMenu(\""+obj.id+"\",\""+obj.name+"\",\""+obj.url+"\")'>编辑</button>&nbsp;<button class='btn btn-primary' onclick='deleteMenu(\""+obj.id+"\")' type='button'>删除</button></td></tr>";
+					if(typeof(obj.parentName)=='undefined'){
+						obj.parentName='';
+					}
+					var html="<tr class='datatr'><td>"+(i+1)+"</td><td>"+obj.name+"</td><td>"+obj.url+"</td><td>"+obj.level+"</td><td>"+obj.parentName+"</td><td>启用</td><td>"
+						+"<button class='btn btn-primary' type='button' onclick='addMenu(\""+obj.id+"\",\""+obj.name+"\",\""+obj.url+"\",\""+obj.level+"\",\""+obj.parentId+"\")'>编辑</button>&nbsp;<button class='btn btn-primary' onclick='deleteMenu(\""+obj.id+"\")' type='button'>删除</button></td></tr>";
 					$("#dataTable").append(html);
 				}
 				setPageHtml(data.total_count, "pageDiv", "getData", currentPage,pageSize);
@@ -43,9 +60,16 @@
 		});
 	}
 	$(document).ready(function(){
+		loadParentData();
 		getData(1);
+		$("#menuLevel").change(function(){
+			var value=$("#menuLevel").val();
+			if(value=='2'){
+				$("#parentMenuDiv").css("display","block");
+			}
+		});
 	});
-	function addMenu(id,name,url){
+	function addMenu(id,name,url,level,parentId){
 		if(typeof(id)!='undefined'){
 			$("#menuId").val(id);
 		}else{
@@ -60,6 +84,24 @@
 			$("#menuUrl").val(url);
 		}else{
 			$("#menuUrl").val("");
+		}
+		if(typeof(level)!='undefined'){
+			$("#menuLevel").val(level);
+			$("#menuLevel").attr("disabled","disabled");
+			if(level==1){
+				$("#parentMenuDiv").css("display","none");
+			}else if(level==2){
+				$("#parentMenuDiv").css("display","block");
+			}
+		}else{
+			$("#menuLevel").val(1);
+			$("#menuLevel").removeAttr("disabled");
+			$("#parentMenuDiv").css("display","none");
+		}
+		if(typeof(parentId)!='undefined'){
+			$("#menuParentData").val(parentId);
+		}else{
+			$("#menuParentData").val("");
 		}
 		layer.open({
 			type: 1,
@@ -107,9 +149,14 @@
 			layer.tips("请填写菜单链接","#menuUrl",{tips:[2,tipsColor]});return;
 		}
 		var id=$("#menuId").val();
+		var level=$("#menuLevel").val();
+		var menuParentData=$("#menuParentData").val();
+		if(level=='2'&&menuParentData==''){
+			layer.tips("请选择父级菜单","#menuParentData",{tips:[2,tipsColor]});return;
+		}
 		$.ajax({
 			url:"/menu/add",
-			data:{name:name,url:url,id:id},
+			data:{name:name,url:url,id:id,level:level,parentId:menuParentData},
 			type:"post",
 			dataType:"json",
 			success:function(data){
@@ -181,6 +228,8 @@
 										<th>序号</th>
 										<th>菜单名称</th>
 										<th>菜单链接</th>
+										<th>菜单等级</th>
+										<th>所属父级</th>
 										<th>状态</th>
 										<th>操作</th>
 									</tr>
@@ -200,9 +249,25 @@
 			<label>菜单名称</label>
 			<input type='text' id='menuName' />
 		</div>
+		
 		<div style="margin-top:20px;margin-left:20px;">
 			<label>菜单链接</label>
 			<input type='text' id='menuUrl' />
+		</div>
+		
+		<div style="margin-top:20px;margin-left:20px;">
+			<label>菜单等级</label>
+			<select id='menuLevel'>
+				<option value='1'>1级</option>
+				<option value='2'>2级</option>
+			</select>
+		</div>
+		
+		<div id='parentMenuDiv' style="display:none;margin-top:20px;margin-left:20px;">
+			<label>父级菜单</label>
+			<select id='menuParentData'>
+				<option value=''>请选择</option>
+			</select>
 		</div>
 		
 		<div style="margin-top:20px;margin-left:20px;">

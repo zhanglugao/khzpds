@@ -60,6 +60,13 @@ public class MenuController extends BaseController{
 		page.setSearch(search);
 		List<MenuInfo> menuList=menuService.findByIndexPage(page);
 		
+		for(MenuInfo menu:menuList){
+			if(2==menu.getLevel()){
+				MenuInfo parentMenu=menuService.findById(menu.getParentId());
+				menu.setParentName(parentMenu.getName());
+			}
+		}
+		
 		result.put("total_page", page.getTotalPage());
 		result.put("total_count", page.getTotalCount());
 		result.put("rows", menuList);
@@ -75,14 +82,8 @@ public class MenuController extends BaseController{
 	@RequestMapping("/add")
 	public void add(MenuInfo menu,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
-		if(StringUtils.isBlank(menu.getId())){
-			menu.setId(UUIDUtil.getUUID());
-			menuService.add(menu);
-			userLoginOperateLogService.addLog(menu.getId(), "菜单", "添加", getCurrentSessionInfo(request).getUserId());
-		}else{
-			menuService.update(menu);
-			userLoginOperateLogService.addLog(menu.getId(), "菜单", "修改", getCurrentSessionInfo(request).getUserId());
-		}
+		
+		menuService.addOrUpdateMenu(menu,getCurrentSessionInfo(request).getUserId());
 		
 		result.put("status", "0");
 		this.writeJson(response, result);
@@ -98,9 +99,33 @@ public class MenuController extends BaseController{
 	public void delete(String id,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
 		
-		menuService.deleteMenu(id,getCurrentSessionInfo(request).getUserId());
+		MenuInfo menu=menuService.findById(id);
+		if("1".equals(menu.getVdef1())){
+			result.put("status", "1");
+			result.put("error_desc", "删除父级菜单需要删除其所有子菜单");
+			this.writeJson(response, result);return;
+		}
+		
+		menuService.deleteMenu(menu,getCurrentSessionInfo(request).getUserId());
 		
 		result.put("status", "0");
+		this.writeJson(response, result);
+	}
+	
+	/****
+	 * 加载父级节点数据
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/loadParentData")
+	public void loadParentData(HttpServletRequest request,HttpServletResponse response){
+		Map<String,Object> result=new HashMap<String, Object>();
+		
+		MenuInfo menu=new MenuInfo();
+		menu.setLevel(1);
+		List<MenuInfo> menus=menuService.findByParamSort(menu);
+		result.put("rows", menus);
+		
 		this.writeJson(response, result);
 	}
 }

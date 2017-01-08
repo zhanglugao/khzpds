@@ -10,30 +10,40 @@
         <result property="name" column="name" />    
         <result property="url" column="url" />    
         <result property="sort" column="sort" />    
+        <result property="level" column="level" />    
+        <result property="parentId" column="parent_id" />    
+        <result property="vdef1" column="vdef1" />    
+        <result property="vdef2" column="vdef2" />    
+        <result property="vdef3" column="vdef3" />    
     </resultMap>
     
     <!--根据主键查询-->
 	<select id="findById" resultMap="MenuResultMap">
-		select id,name,url,sort from menu where id=#{id}
+		select id,name,url,sort,level,parent_id,vdef1,vdef2,vdef3 from menu where id=#{id}
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
 	</select>
     
     <!--插入-->
 	 <insert id="insert" parameterType="com.khzpds.vo.MenuInfo" >
     	INSERT INTO menu
-        (id,name,url,sort) 
-		values(#{id},#{name},#{url},#{sort})
+        (id,name,url,sort,level,parent_id,vdef1,vdef2,vdef3) 
+		values(#{id},#{name},#{url},#{sort},#{level},#{parentId},#{vdef1},#{vdef2},#{vdef3})
     </insert>
 
     
     <!--根据传入的map参数查询 并分页-->
     <select id="findByParamForPage" resultMap="MenuResultMap" >
-		select id,name,url,sort from menu
+		select id,name,url,sort,level,parent_id,vdef1,vdef2,vdef3 from menu
 		where 1=1
            <if test="obj.search.id!=null"> AND id = #{obj.search.id}</if>
            <if test="obj.search.name!=null"> AND name = #{obj.search.name}</if>
            <if test="obj.search.url!=null"> AND url = #{obj.search.url}</if>
            <if test="obj.search.sort!=null"> AND sort = #{obj.search.sort}</if>
+           <if test="obj.search.level!=null"> AND level = #{obj.search.level}</if>
+           <if test="obj.search.parentId!=null"> AND parent_id = #{obj.search.parentId}</if>
+           <if test="obj.search.vdef1!=null"> AND vdef1 = #{obj.search.vdef1}</if>
+           <if test="obj.search.vdef2!=null"> AND vdef2 = #{obj.search.vdef2}</if>
+           <if test="obj.search.vdef3!=null"> AND vdef3 = #{obj.search.vdef3}</if>
 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
         <if test="obj.orderField!=null and obj.orderType!=null"> order by ${obj.orderField} ${obj.orderType}</if>
@@ -41,12 +51,17 @@
     
      <!--根据传入的实体参数查询-->
     <select id="findByParam" resultMap="MenuResultMap" >
-		select id,name,url,sort from menu
+		select id,name,url,sort,level,parent_id,vdef1,vdef2,vdef3 from menu
 		where 1=1
            <if test="obj.id!=null"> AND id = #{obj.id}</if>
            <if test="obj.name!=null"> AND name = #{obj.name}</if>
            <if test="obj.url!=null"> AND url = #{obj.url}</if>
            <if test="obj.sort!=null"> AND sort = #{obj.sort}</if>
+           <if test="obj.level!=null"> AND level = #{obj.level}</if>
+           <if test="obj.parentId!=null"> AND parent_id = #{obj.parentId}</if>
+           <if test="obj.vdef1!=null"> AND vdef1 = #{obj.vdef1}</if>
+           <if test="obj.vdef2!=null"> AND vdef2 = #{obj.vdef2}</if>
+           <if test="obj.vdef3!=null"> AND vdef3 = #{obj.vdef3}</if>
 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
 	</select>
@@ -64,7 +79,7 @@
            <if test="obj.id!=null">id=#{obj.id},</if>
            <if test="obj.name!=null">name=#{obj.name},</if>
            <if test="obj.url!=null">url=#{obj.url},</if>
-           <if test="obj.sort!=null">sort=#{obj.sort},</if>  
+           <if test="obj.sort!=null">sort=#{obj.sort},</if>           <if test="obj.level!=null">level=#{obj.level},</if>           <if test="obj.parentId!=null">parent_id=#{obj.parentId},</if>           <if test="obj.vdef1!=null">vdef1=#{obj.vdef1},</if>           <if test="obj.vdef2!=null">vdef2=#{obj.vdef2},</if>           <if test="obj.vdef3!=null">vdef3=#{obj.vdef3},</if>  
         </trim>
 		where id=#{obj.id} 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
@@ -76,22 +91,23 @@
 		FROM
 			menu
 		WHERE
-			id IN (
-				SELECT
-					menu_id
-				FROM
-					role_menu
-				WHERE
-					role_id IN (
-						SELECT
-							role_id
-						FROM
-							user_role
-						WHERE
-							user_id = #{userId}
-					)
-	)
-	order by sort
+		level =1 AND
+		id IN (
+			SELECT
+				menu_id
+			FROM
+				role_menu
+			WHERE
+				role_id IN (
+					SELECT
+						role_id
+					FROM
+						user_role
+					WHERE
+						user_id = #{userId}
+				)
+		)
+		order by sort
 	</select>
 	<select id="findByIndexPage" parameterType="com.khzpds.base.PageParameter"  resultMap="MenuResultMap">
 		select * from menu 
@@ -102,7 +118,7 @@
 		<if test="search.url!=null">
 			AND url like CONCAT("%",#{search.url},"%")
 		</if>
-		order by sort
+		order by level,sort
 	</select>
 	<select id="findMenusByRoleId" resultType="map" >
 		select m.*,rm.role_id as roleId from menu m
@@ -118,6 +134,11 @@
            <if test="obj.name!=null"> AND name = #{obj.name}</if>
            <if test="obj.url!=null"> AND url = #{obj.url}</if>
            <if test="obj.sort!=null"> AND sort = #{obj.sort}</if>
+           <if test="obj.level!=null"> AND level = #{obj.level}</if>
+           <if test="obj.parentId!=null"> AND parent_id = #{obj.parentId}</if>
+           <if test="obj.vdef1!=null"> AND vdef1 = #{obj.vdef1}</if>
+           <if test="obj.vdef2!=null"> AND vdef2 = #{obj.vdef2}</if>
+           <if test="obj.vdef3!=null"> AND vdef3 = #{obj.vdef3}</if>
 		order by sort
 	</select>
 	<!--CustomEnd*****-->

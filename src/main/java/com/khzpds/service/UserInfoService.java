@@ -44,13 +44,24 @@ public class UserInfoService extends IBaseService<UserInfoInfo> {
 		session.setUserId(user.getId());
 		session.setUserName(user.getUserName());
 		session.setRealName(user.getRealName());
+		List<MenuInfo> menus=null;
 		if("admin".equals(user.getUserName())){
-			List<MenuInfo> menus=menuDao.findByParamSort(new MenuInfo());
-			session.setMenus(menus);
+			MenuInfo menuFind=new MenuInfo();
+			menuFind.setLevel(1);
+			menus=menuDao.findByParamSort(menuFind);
 		}else{
-			List<MenuInfo> menus=menuDao.findMenusByUserId(user.getId());
-			session.setMenus(menus);
+			menus=menuDao.findMenusByUserId(user.getId());
 		}
+		for(MenuInfo menu:menus){
+			if("1".equals(menu.getVdef1())){
+				//查找子级菜单
+				MenuInfo menuFind=new MenuInfo();
+				menuFind.setParentId(menu.getId());
+				List<MenuInfo> childMenus=menuDao.findByParamSort(menuFind);
+				menu.setChildMenus(childMenus);
+			}
+		}
+		session.setMenus(menus);
 		return session;
 	}
     

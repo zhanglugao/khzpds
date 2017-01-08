@@ -5,11 +5,28 @@
 	<section class="sidebar">
 		<ul class="sidebar-menu">
 			<c:forEach items="${User_session_key.menus }" var="menu">
-				<li>
-				<a href="${menu.url }" > 
-					<i class="fa fa-align-justify"></i> <span>${menu.name }</span> 
-				</a>
-			</li>
+				<c:if test="${menu.vdef1=='0'}">
+					<li>
+						<a href="${menu.url }" > 
+							<i class="fa fa-align-justify"></i> <span>${menu.name }</span> 
+						</a>
+					</li>
+				</c:if>
+				<c:if test="${menu.vdef1=='1'}">
+					<li class="treeview">
+						<a href="javascript:;"> 
+							<i class="fa fa-th"></i>
+							<span>${menu.name}</span> <i class="fa fa-angle-left pull-right"></i>
+						</a>
+						<ul class="treeview-menu">
+							<c:forEach items="${menu.childMenus }" var="childMenu">
+								<li><a href="${childMenu.url }" ><i
+									class="fa fa-angle-double-right"></i>${childMenu.name }</a></li>
+							</c:forEach>
+						</ul>
+					</li>
+				</c:if>
+			
 			</c:forEach>
 			
 			<!-- <li>
