@@ -87,7 +87,7 @@ display:block;
 			$("input[name=applyYearGroup][value=${applyInfo.applyYearGroup}]").prop("checked",true);
 		}
 		if("${applyInfo.sex}"!=''){
-			$("input[name=sex][value=${applyInfo.sex}]").prop("chceked",true);
+			$("input[name=sex][value=${applyInfo.sex}]").prop("checked",true);
 		}
 		
 		if("${applyInfo.filePath}"!=''){
