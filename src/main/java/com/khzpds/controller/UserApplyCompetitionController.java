@@ -230,7 +230,6 @@ public class UserApplyCompetitionController extends BaseController{
 		applyInfo.setUserId(getCurrentSessionInfo(request).getUserId());
 		String birthday1=request.getParameter("birthday1");
 		Date date=DateUtil.getDate(birthday1, "yyyyMM");
-		
 		String filePathHidden=request.getParameter("filePathHidden");
 		if(StringUtils.isNotBlank(filePathHidden)){
 			String fileNameHidden=request.getParameter("fileNameHidden");
@@ -239,6 +238,11 @@ public class UserApplyCompetitionController extends BaseController{
 		}
 		
 		applyInfo.setBirthday(date);
+		
+		if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(applyInfo.getCompetitionType())){
+			applyInfo.setApplyGroup("");
+		}
+		
 		if(StringUtils.isBlank(applyInfo.getId())){
 			applyInfo.setId(UUIDUtil.getUUID());
 			applyInfo.setCreateTime(new Date());

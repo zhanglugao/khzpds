@@ -91,7 +91,9 @@ public class RoleController extends BaseController{
 			RoleInfo role=roleService.findById(id);
 			if(role!=null){
 				request.setAttribute("role", role);
-				List<MenuInfo> menus=menuService.findByParam(new MenuInfo());
+				MenuInfo findMenu=new MenuInfo();
+				findMenu.setLevel(1);
+				List<MenuInfo> menus=menuService.findByParam(findMenu);
 				List<Map<String,String>> maps=menuService.findMenusByRoleId(id);
 				for(MenuInfo menu:menus){
 					for(Map<String,String> map:maps){

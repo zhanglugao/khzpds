@@ -35,6 +35,12 @@ public class UserCompletionItemApplyService extends IBaseService<UserCompletionI
 			userCompletionItemApplyDao.update(info, null);
 		}
 	}
+	
+	public List<Map<String, Object>> findReportDataByActivityId(
+			String id) {
+		return userCompletionItemApplyDao.findReportDataByActivityId(id);
+	}
 //--CustomEnd*****///
+
 }
 

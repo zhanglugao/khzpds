@@ -309,5 +309,22 @@
 			order by ${orderField} ${orderType}
 		</if>
 	</select>
+	<select id="findReportDataByActivityId" resultType="map">
+		SELECT
+			competition_type as itemType,
+			apply_group as applyGroup,
+			apply_year_group as applyYearGroup,
+			count(id) as num
+		FROM
+			user_completion_item_apply
+		WHERE
+			activity_id = #{activityId}
+		AND apply_group IS NOT NULL
+		AND apply_year_group IS NOT NULL
+		GROUP BY
+			competition_type,
+			apply_group,
+			apply_year_group
+	</select>
 	<!--CustomEnd*****-->
 </mapper>

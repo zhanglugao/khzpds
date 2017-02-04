@@ -13,6 +13,7 @@ public interface UserCompletionItemApplyDao extends IBaseDao<UserCompletionItemA
 	List<UserCompletionItemApplyInfo> findByParamSort(
 			@Param("obj")UserCompletionItemApplyInfo applyfind,@Param("sort") String sort);
 	List<Map<String, String>> findBySearchMap(Map<String, String> searchMap);
+	List<Map<String, Object>> findReportDataByActivityId(@Param("activityId")String id);
 	//--CustomEnd*****///
 }
 

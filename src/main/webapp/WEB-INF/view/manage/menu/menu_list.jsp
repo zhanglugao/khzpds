@@ -20,6 +20,8 @@
 <script src="/js/pageset.js" type="text/javascript"></script>
 <script type="text/javascript">
 	function loadParentData(){
+		$("#menuParentData").empty();
+		$("#menuParentData").append("<option value=''>请选择</option>");
 		$.ajax({
 			url:"/menu/loadParentData",
 			type:"post",
@@ -166,6 +168,7 @@
 						layer.msg("编辑成功",{icon:1});
 					}else{
 						layer.msg("添加成功",{icon:1});
+						loadParentData();
 					}
 					getData(1);
 				}else{
