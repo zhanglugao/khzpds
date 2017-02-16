@@ -33,6 +33,9 @@
 					}else if(obj.approveStatus=='1'){
 						obj.approveStatus="审核通过";
 					}
+					if(typeof(obj.vdef1)=='undefined'){
+						obj.vdef1="";
+					}
 					var html="<tr class='trclass'><td class='zp1'>"+obj.productionName+"</td><td class='ss1'>"+obj.artist+"</td><td class='ts1'>"+obj.createTime+
 						"</td><td class='zt1'>"+obj.applyStatus+"</td>";
 					html+="<td class='zt1'>"+obj.approveStatus+"</td><td class='zt1'>"+obj.reviewPoint+"</td>";

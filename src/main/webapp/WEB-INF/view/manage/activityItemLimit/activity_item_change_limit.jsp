@@ -50,7 +50,6 @@
 					layer.alert(errorText);
 				}
 			});
-			});
 		});
 	});
 	

@@ -49,7 +49,7 @@ display:block;
         regName : /^[a-z0-9_-]{3,16}$/,//用户名
         regMobile : /^0?1[3|4|5|7|8][0-9]\d{8}$/,//手机
         regTel : /^0[\d]{2,3}-[\d]{7,8}$/,
-        regPostCode:/^[1-9][0-9]{5}$/
+        regPostCode:/^[0-9][0-9]{5}$/
     }
  
     var mobile = '18758089867';
@@ -100,7 +100,7 @@ display:block;
 		}
 	});
 	function apply(){
-		layer.alert("目前为创作阶段请于2017年2月16日之后提交");return;
+		//layer.alert("目前为创作阶段请于2017年2月16日之后提交");return;
 		var productionName=$("#productionName").val();
 		if($.trim(productionName)==''){
 			$("#productionName").focus();
@@ -136,8 +136,8 @@ display:block;
 		} */
 		var recommenedCompany=$("#recommenedCompany").val();
 		if($.trim(recommenedCompany)==''){
-			$("#recommenedCompany").focus();
-			layer.tips('请填写推荐单位，没有写无', '#recommenedCompany',{tips:[2,tipsColor]});return;
+			$("#recommenedCompanyName").focus();
+			layer.tips('请填写推荐单位，没有写无', '#recommenedCompanyName',{tips:[2,tipsColor]});return;
 		}
 		var cardNumber=$("#cardNumber").val();
 		if($.trim(cardNumber)==''){
@@ -237,7 +237,7 @@ display:block;
         var tip = "";
         var pass= true;
         
-        if(!code || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(code)){
+        if(!code || !/^[1-9][0-9]{5}(19[0-9]{2}|200[0-9]|2010)(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])[0-9]{3}[0-9xX]$/i.test(code)){
             tip = "身份证号格式错误";
             pass = false;
         }
@@ -277,7 +277,7 @@ display:block;
 	
 	var uploader=null;
 	function openChoose(){
-		layer.alert("目前为创作阶段请于2017年2月16日之后提交");return;
+		//layer.alert("目前为创作阶段请于2017年2月16日之后提交");return;
 		if(uploader==null){
 			initUploader();
 		}

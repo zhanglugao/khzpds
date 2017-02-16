@@ -62,28 +62,28 @@ public class ContentCategoryController extends BaseController{
 		 List<ContentCategoryInfo> lst=contentCategoryService.getZtreeGridData(null,name,parentId,rootId);
 		 List<ContentCategoryTreeGridVo> treelst = new ArrayList<ContentCategoryTreeGridVo>();
 		 ContentCategoryInfo l=new ContentCategoryInfo();
-			for (ContentCategoryInfo m : lst) {
-				ContentCategoryTreeGridVo v = new ContentCategoryTreeGridVo();
-				PropertyUtils.copyProperties(v, m);
-				v.set_parentId(m.getParentId());
-				if(m.getIfLeaf()==null){
-					//判断有没有这个节点的子节点 
-					 l.setParentId(m.getId());
-					 //l.setPlatformId(m.getPlatformId());
-					 ContentCategoryInfo la=contentCategoryService.findByParentIdReturnOne(l);
-					 if(la==null){
-						 //没有子 所以setfalse
-						 v.setIsParent("false") ;
-					 }else{
-						 v.setIsParent("true") ;
-					 }
-				}else{
-					if(!m.getIfLeaf()) v.setIsParent("true") ;
-					else v.setIsParent("false") ;
-				}
-				treelst.add(v);
+		for (ContentCategoryInfo m : lst) {
+			ContentCategoryTreeGridVo v = new ContentCategoryTreeGridVo();
+			PropertyUtils.copyProperties(v, m);
+			v.set_parentId(m.getParentId());
+			if(m.getIfLeaf()==null){
+				//判断有没有这个节点的子节点 
+				 l.setParentId(m.getId());
+				 //l.setPlatformId(m.getPlatformId());
+				 ContentCategoryInfo la=contentCategoryService.findByParentIdReturnOne(l);
+				 if(la==null){
+					 //没有子 所以setfalse
+					 v.setIsParent("false") ;
+				 }else{
+					 v.setIsParent("true") ;
+				 }
+			}else{
+				if(!m.getIfLeaf()) v.setIsParent("true") ;
+				else v.setIsParent("false") ;
 			}
-			writeJson(response, treelst);
+			treelst.add(v);
+		}
+		writeJson(response, treelst);
 	}
 	
 	@RequestMapping("/getRootId")

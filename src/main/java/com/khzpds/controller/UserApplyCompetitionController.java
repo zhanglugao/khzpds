@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Date;
@@ -20,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -254,10 +254,12 @@ public class UserApplyCompetitionController extends BaseController{
 		result.put("id", applyInfo.getId());
 		this.writeJson(response, result);
 	}
+	
 	private String[] cardArr=new String[]{
 		"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r"
 	};
-	 @RequestMapping("download")    
+	
+	@RequestMapping("download")    
     public void download(HttpServletRequest request,String type,String applyId,HttpServletResponse response) throws IOException, Docx4JException { 
 		UserCompletionItemApplyInfo applyInfo=null;
 		if(StringUtils.isNotBlank(applyId)){

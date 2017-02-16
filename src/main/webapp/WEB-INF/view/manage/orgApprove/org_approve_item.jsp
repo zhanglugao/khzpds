@@ -95,6 +95,9 @@
 						if(typeof(obj.reviewPoint)=='undefined'){
 							obj.reviewPoint="";
 						}
+						if(typeof(obj.filePath)!='undefined'&&obj.filePath!=''){
+							option+="&nbsp;<button type='button' onclick='viewProInfo(\""+obj.id+"\")' class='btn btn-primary'>查看作品详情</button>";
+						}
 						var html="<tr class='"+tabId+"class'><td>"+checkHtml+"</td><td>"+obj.userName+"</td><td>"+obj.realName+"</td><td>"+obj.orgName+"</td>"
 							+"<td>"+obj.proName+"</td><td>"+obj.itemStatus+"</td><td>"+obj.applyGroup+"</td><td>"+obj.applyYearGroup+"</td><td>"+obj.approveStatus+"</td><td>"+obj.approveUserName+"</td><td>"+obj.approveTime+"</td><td>"+obj.reviewPoint+"</td><td>"+option+"</td></tr>";
 						$("#"+tabId+"t").append(html);
@@ -104,6 +107,10 @@
 				}
 			});
 		}
+	}
+	
+	function viewProInfo(id){
+		window.open("/userApply/showFile?id="+id,"_target");
 	}
 	
 	function approveMuti(result){

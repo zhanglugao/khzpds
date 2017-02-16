@@ -266,7 +266,7 @@
 			<properties>
 				<basedir.upload>E:\khzpds</basedir.upload>
 				<basedir.look>E:\khzpds</basedir.look>
-				<jdbc.url>jdbc:mysql://localhost/khzpds?useUnicode=true&amp;amp;characterEncoding=utf8</jdbc.url>
+				<jdbc.url>jdbc:mysql://localhost:3306/khzpds?useUnicode=true&amp;amp;characterEncoding=utf8</jdbc.url>
 				<jdbc.username>root</jdbc.username>
 				<jdbc.password>root123456</jdbc.password>
 				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>	

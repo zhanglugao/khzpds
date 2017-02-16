@@ -14,6 +14,7 @@ public interface UserCompletionItemApplyDao extends IBaseDao<UserCompletionItemA
 			@Param("obj")UserCompletionItemApplyInfo applyfind,@Param("sort") String sort);
 	List<Map<String, String>> findBySearchMap(Map<String, String> searchMap);
 	List<Map<String, Object>> findReportDataByActivityId(@Param("activityId")String id);
+	String findMaxApplyNumber(@Param("activityId")String activityId,@Param("itemId") String competitionItemId);
 	//--CustomEnd*****///
 }
 

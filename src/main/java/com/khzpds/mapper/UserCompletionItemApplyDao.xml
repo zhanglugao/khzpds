@@ -326,5 +326,11 @@
 			apply_group,
 			apply_year_group
 	</select>
+	<select id="findMaxApplyNumber" resultType="java.lang.String">
+		select max(vdef2) 
+		from user_completion_item_apply
+		where activity_id=#{activityId}
+		AND competition_item_id=#{itemId}
+	</select>
 	<!--CustomEnd*****-->
 </mapper>

@@ -22,6 +22,7 @@ import com.khzpds.service.ActivityInfoService;
 import com.khzpds.service.CompetitionItemService;
 import com.khzpds.service.DictionaryService;
 import com.khzpds.service.UserCompletionItemApplyService;
+import com.khzpds.util.DateUtil;
 import com.khzpds.vo.ActivityInfoInfo;
 import com.khzpds.vo.CompetitionItemInfo;
 import com.khzpds.vo.UserCompletionItemApplyInfo;
@@ -87,6 +88,44 @@ public class ExpertApproveController extends BaseController{
 			info.setApproveTime(new Date());
 			info.setApproveUserId(getCurrentSessionInfo(request).getUserId());
 			info.setApproveUserName(getCurrentSessionInfo(request).getUserName());
+			String number=null;
+			if(StringUtils.isBlank(info.getVdef1())){
+					if(StringUtils.isNotBlank(info.getApplyGroup())&&StringUtils.isNotBlank(info.getApplyYearGroup())){
+						//得到序号的最大值
+						String maxNo=userCompetitionItemApplyService.findMaxApplyNumber(info.getActivityId(),info.getCompetitionItemId());
+						if(StringUtils.isBlank(maxNo)){
+							maxNo="0";
+						}
+						if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_HUA.equals(info.getCompetitionType())){
+							number=DateUtil.formatDate2String(new Date(), "yyyy")+"2";
+							if(DictionaryConst.KE_HUAN_HUA_CAN_SAI_ZU_SHOU_HUI_ZU.equals(info.getApplyGroup())){
+								number=number+"1";
+							}else if(DictionaryConst.KE_HUAN_HUA_CAN_SAI_ZU_DIAN_NAO_HUI_TU_ZU.equals(info.getApplyGroup())){
+								number=number+"2";
+							}
+						}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_XIAO_SHUO.equals(info.getCompetitionType())){
+							number=DateUtil.formatDate2String(new Date(), "yyyy")+"1";
+							if(DictionaryConst.KE_HUAN_XIAO_SHUO_CAN_SAI_ZU_WEI_XING_XIAO_SHUO.equals(info.getApplyGroup())){
+								number=number+"1";
+							}else if(DictionaryConst.KE_HUAN_XIAO_SHUO_CAN_SAI_ZU_ZHONG_PIAN_XIAO_SHUO.equals(info.getApplyGroup())){
+								number=number+"2";
+							}
+						}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(info.getCompetitionType())){
+							number=DateUtil.formatDate2String(new Date(), "yyyy")+"3"+"1";
+						}
+						Integer num=Integer.parseInt(maxNo);
+						num++;
+						String numString=num+"";
+						if(numString.length()==1){
+							numString="00"+num;
+						}else if(numString.length()==1){
+							numString="0"+num;
+						}
+						number+=numString;
+						info.setVdef1(number);
+						info.setVdef2(number.substring(6, number.length()));
+					}
+			}
 			list.add(info);
 		}
 		userCompetitionItemApplyService.updateMuti(list);

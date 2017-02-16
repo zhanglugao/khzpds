@@ -40,6 +40,10 @@ public class UserCompletionItemApplyService extends IBaseService<UserCompletionI
 			String id) {
 		return userCompletionItemApplyDao.findReportDataByActivityId(id);
 	}
+
+	public String findMaxApplyNumber(String activityId, String competitionItemId) {
+		return userCompletionItemApplyDao.findMaxApplyNumber(activityId,competitionItemId);
+	}
 //--CustomEnd*****///
 
 }
