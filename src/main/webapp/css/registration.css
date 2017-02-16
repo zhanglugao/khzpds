@@ -20,7 +20,7 @@
 .process .process-i{height: 556px;}
 .process-i p.lc{width:100%;height:72px;line-height: 72px;text-align: center;font-size: 36px;color: #9d005d;font-weight: bolder;margin-top: 48px;}
 .process-i ul.zp{width: 1348px;float: left;margin-top: 39px;}
-.process-i ul.zp li{float: left; margin-right: 50px;width: 294px;height: 335px;}
+.process-i ul.zp li{float: left; margin-left:12px;width: 250px;height: 286px;}
 /*奖项设置*/
 .award{width:100%;height: auto;overflow: hidden; background: #dfdfdf;}
 
