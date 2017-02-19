@@ -7,6 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title></title>
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
 <style type="text/css">
 	.v_clarity{z-index:5;position:absolute; left:30px; top:30px;}
 </style>
@@ -179,12 +180,19 @@
 			}
 		}
 	}
-
+	function fileDownload(){
+		window.location.href="/userApply/fileDownload?filePath=${filePath}&fileName=${fileName}&fileType=${fileType}";
+	}
 </script>
 </head>
 <body>
 
 	<!-- 播放区 -->
+	<div style="margin-left:25%;margin-top:20px;margin-bottom:20px;">
+		<button type="button" onclick="fileDownload()" class="btn-primary" >
+			下载
+		</button>
+	</div>
 	<div style='TEXT-ALIGN: center;'>
 		<div id="a1" ></div>
 	</div>

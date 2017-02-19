@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.khzpds.base.BaseController;
 import com.khzpds.base.DictionaryConst;
+import com.khzpds.base.PageParameter;
 import com.khzpds.service.ActivityInfoService;
 import com.khzpds.service.CompetitionItemService;
 import com.khzpds.service.DictionaryService;
@@ -37,9 +38,12 @@ public class ReviewResultController extends BaseController{
 	private UserCompletionItemApplyService userCompetitionItemApplyService;
 	
 	@RequestMapping("/index")
-	public ModelAndView index(HttpServletRequest request,HttpServletResponse response){
+	public ModelAndView index(String type,HttpServletRequest request,HttpServletResponse response){
 		Map<String,String> dicMap=dictionaryService.getDicMapByParentId(DictionaryConst.HUO_DONG_ZHUANG_TAI);
 		request.setAttribute("status", JSON.toJSONString(dicMap));
+		if(StringUtils.isNotBlank(type)){
+			request.setAttribute("type", type);
+		}
 		return new ModelAndView(getRootPath(request)+"/manage/reviewResult/review_result_list");
 	}
 	
@@ -49,15 +53,26 @@ public class ReviewResultController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("/toShowItem")
-	public ModelAndView toShowItem(String id,HttpServletRequest request,HttpServletResponse response){
-		ActivityInfoInfo activity=activityInfoService.findById(id);
-		
-		CompetitionItemInfo findInfo=new CompetitionItemInfo();
-		findInfo.setActivityId(id);
-		List<CompetitionItemInfo> items=competitionItemService.findByParam(findInfo);
-		request.setAttribute("activity", activity);
-		request.setAttribute("items", items);
-		return new ModelAndView(getRootPath(request)+"/manage/reviewResult/review_result_item");
+	public ModelAndView toShowItem(String id,String type,HttpServletRequest request,HttpServletResponse response){
+		if(StringUtils.isNotBlank(type)){
+			if("school".equals(type)){
+				return new ModelAndView("redirect:/schoolBatchApply/toApplyList?id="+id);
+			}else{
+				return null;
+			}
+		}else{
+			ActivityInfoInfo activity=activityInfoService.findById(id);
+			
+			CompetitionItemInfo findInfo=new CompetitionItemInfo();
+			findInfo.setActivityId(id);
+			List<CompetitionItemInfo> items=competitionItemService.findByParam(findInfo);
+			request.setAttribute("activity", activity);
+			request.setAttribute("items", items);
+			if(StringUtils.isNotBlank(type)){
+				request.setAttribute("type", type);
+			}
+			return new ModelAndView(getRootPath(request)+"/manage/reviewResult/review_result_item");
+		}
 	}
 	
 	/***
@@ -67,9 +82,10 @@ public class ReviewResultController extends BaseController{
 	 * @param response
 	 */
 	@RequestMapping("/getApplyData")
-	public void getApplyData(String itemId,String applyGroup,String applyYearGroup,String orgId,String userName,String realName,HttpServletRequest request,HttpServletResponse response){
+	public void getApplyData(String applyStatus,String approveResult,String itemId,String applyGroup,String applyYearGroup,String orgId,String userName,String realName,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
 		
+		PageParameter page=this.getPageParameter2(request);
 		Map<String,String> searchMap=new HashMap<String, String>();
 		if(StringUtils.isNotBlank(itemId))searchMap.put("itemId", itemId);
 		if(StringUtils.isNotBlank(applyGroup))searchMap.put("applyGroup", applyGroup);
@@ -77,10 +93,15 @@ public class ReviewResultController extends BaseController{
 		if(StringUtils.isNotBlank(orgId))searchMap.put("orgId", orgId);
 		if(StringUtils.isNotBlank(userName))searchMap.put("userName", userName);
 		if(StringUtils.isNotBlank(realName))searchMap.put("realName", realName);
+		if(StringUtils.isNotBlank(applyStatus))searchMap.put("applyStatus", applyStatus);
+		if(StringUtils.isNotBlank(approveResult))searchMap.put("approveResult", approveResult);
 		//searchMap.put("applyStatus", DictionaryConst.BI_SAI_BAO_MING_ZHUANG_TAI_YI_BAO_MING);
 		/*searchMap.put("orderField", " apply");
 		searchMap.put("orderType", " desc");*/
-		List<Map<String,String>> dataMap=userCompetitionItemApplyService.findBySearchMap(searchMap);
+		page.setOrderField(" apply.create_time");
+		page.setOrderType(" desc");
+		page.setSearch(searchMap);
+		List<Map<String,String>> dataMap=userCompetitionItemApplyService.findBySearchMapPage(page);
 		//for(Map<String,String> )
 		//
 		CompetitionItemInfo item=competitionItemService.findById(itemId);
@@ -99,6 +120,7 @@ public class ReviewResultController extends BaseController{
 		Map<String,String> applyYearGroupMap=dictionaryService.getDicMapByParentId(applyYearGroupParentId);
 		
 		result.put("datas",dataMap);
+		result.put("total_count",page.getTotalCount());
 		result.put("applyGroupMap", applyGroupMap);
 		result.put("applyYearGroupMap", applyYearGroupMap);
 		this.writeJson(response, result);

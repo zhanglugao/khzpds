@@ -208,10 +208,15 @@ display:block;
 			data:$("#form").serialize(),
 			success:function(data){
 				if(data.status=='0'){
-					layer.msg("报名成功,2秒后回到个人中心",{icon:1});
-					$("#applyDIv").css("display","none");
-					x=2;
-					x1=window.setInterval(changeSuccess,1000); 
+					if("${NotShowExplain}"!=''){
+						parent.getData(1);
+						parent.layer.closeAll();
+					}else{
+						layer.msg("报名成功,2秒后回到个人中心",{icon:1});
+						$("#applyDIv").css("display","none");
+						x=2;
+						x1=window.setInterval(changeSuccess,1000); 
+					}
 				}else{
 					layer.alert(data.error_desc);
 				}
@@ -452,6 +457,7 @@ display:block;
 <script src="/js/categoryTree.js"></script>
 </head>
 <body>
+	<c:if test="${empty NotShowExplain }">
      <!-- 头部 -->
      <div style="position:absolute;right:50px;top:25px;z-index:2;"><span>${sessionScope.User_session_key.userName }</span>|<a href="/user/logout">退出</a>|<a href="/user/openIndex">个人中心</a></div>
      <div class="head">
@@ -473,9 +479,11 @@ display:block;
           </div>
        </div> 
        <!-- 中间内容 -->
+       </c:if>
       <div class="main">
           <div class="main-i w1348 m0">
           		<!-- 注意事项 -->
+          		<c:if test="${empty NotShowExplain }">
                <div class="notice w1348 fl">
                   <dl>
                    <dt>注意事项:</dt>
@@ -486,6 +494,7 @@ display:block;
                    <dd>5.请将报名表下载打印并签字，邮寄至：北京市西城区三里河路54号601室 邮编：100045   电话：010—68511864;</dd>
                  </dl>
                </div>
+               </c:if>
                <!-- 报名表左侧 -->
                <div class="form-left fl mt50">
                     <form id='form'>

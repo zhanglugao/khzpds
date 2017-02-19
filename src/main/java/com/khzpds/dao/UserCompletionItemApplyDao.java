@@ -5,6 +5,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.khzpds.base.IBaseDao;
+import com.khzpds.base.PageParameter;
 import com.khzpds.vo.UserCompletionItemApplyInfo;
 
 
@@ -15,6 +16,8 @@ public interface UserCompletionItemApplyDao extends IBaseDao<UserCompletionItemA
 	List<Map<String, String>> findBySearchMap(Map<String, String> searchMap);
 	List<Map<String, Object>> findReportDataByActivityId(@Param("activityId")String id);
 	String findMaxApplyNumber(@Param("activityId")String activityId,@Param("itemId") String competitionItemId);
+	List<Map<String, String>> findBySearchMapPage(PageParameter page);
 	//--CustomEnd*****///
+	
 }
 

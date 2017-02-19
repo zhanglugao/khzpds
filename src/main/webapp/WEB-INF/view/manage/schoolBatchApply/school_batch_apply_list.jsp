@@ -25,7 +25,7 @@
 		var name=$("#name").val();
 		var status=$("#status").val();
 		$.ajax({
-			url:"/activity/getData",
+			url:"/schoolBatchApply/getData",
 			type:"post",
 			data:"current_page="+currentPage+"&page_size="+pageSize+"&year="+year+"&name="+name+"&status="+status,
 			dataType:"json",
@@ -33,9 +33,33 @@
 				$(".datatr").remove();
 				for(var i=0;i<data.rows.length;i++){
 					var obj=data.rows[i];
-					var html="<tr class='datatr'><td>"+obj.name+"</td><td>"+obj.year+"</td><td>"+obj.startTime+"</td><td>"+obj.endTime+"</td>"+
-						"<td>"+obj.status+"</td><td>"+obj.createTime+"</td><td>";
-					html+="&nbsp;<button onclick='toShowItem(\""+obj.id+"\")' type='button' class='btn btn-primary'>选择</button>";
+					if(typeof(obj.reviewPoint)=='undefined'){
+						obj.reviewPoint="";
+					}
+					if(typeof(obj.approveStatus)=='undefined'||obj.approveStatus=='-1'){
+						obj.approveStatus="未审核";
+					}else if(obj.approveStatus=='0'){
+						obj.approveStatus="审核不通过";
+					}else if(obj.approveStatus=='1'){
+						obj.approveStatus="审核通过";
+					}
+					if(typeof(obj.vdef1)=='undefined'){
+						obj.vdef1="";
+					}
+					var html="<tr class='datatr'><td>"+obj.productionName+"</td><td>"+obj.artist+"</td><td>"+obj.createTime+"</td><td>"+obj.applyStatus+"</td>"+
+						"<td>"+obj.approveStatus+"</td><td>"+obj.reviewPoint+"</td>";
+					if(obj.applyStatus=='已报名'){
+						html+="<td class='cz1'><button onclick='toedit(\""+obj.id+"\")' class='btn btn-primary'>查看</button>&nbsp;";
+						//暂时设置审核通过了就不能改了 没通过还能改
+						if(obj.approveStatus!='审核通过'){
+							html+="<button onclick='cancelApply(\""+obj.id+"\")'  class='btn btn-primary'>撤销</button>&nbsp;"
+						}
+						html+="<button onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")'  class='btn btn-primary'>下载报名表</button>";
+					}else if(obj.applyStatus=='已取消'){
+						html+="<td class='cz1'><button onclick='toedit(\""+obj.id+"\")' class='btn btn-primary'>编辑</button>&nbsp;<button onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' class='btn btn-primary'>下载报名表</button>";
+					}else if (obj.applyStatus=='新建'){
+						html+="<td class='cz1'><button onclick='toedit(\""+obj.id+"\")' class='btn btn-primary'>编辑</button>&nbsp;<button onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' class='btn btn-primary'>下载报名表</button>";
+					}
 					html+="</td></tr>";
 					$("#dataTable").append(html);
 				}
@@ -46,29 +70,34 @@
 		});
 	}
 	
-	/**
-	*	to编辑页面
-	*/
-	function toShowItem(id){
-		//layer.msg("敬请期待");
-		window.location.href="/reviewResult/toShowItem?id="+id+"&type=${type}";
+	$(document).ready(function(){
+		getData(1);
+	});
+	
+	function downloadApplyTable(type,applyId){
+		window.open("/userApply/download?type="+type+"&applyId="+applyId,"_blank");
 	}
 	
+	function toedit(id){
+		layer.open({
+			type: 2,
+			content:"/userApply/toApply?id="+id+"&notShowExplain=1",
+			shadeClose: true,//开启遮罩关闭
+			title:false,
+			area: ['80%', '80%']
+		});
+	}
 	
-	/***
-	*	发布活动
-	*/
-	function publish(id){
+	function cancelApply(id){
 		$.ajax({
-			url:"/activity/publish",
+			url:"/userApply/cancelApply",
 			data:{id:id},
-			type:"post",
 			dataType:"json",
 			success:function(data){
 				if(data.status=='0'){
-					layer.msg("发布成功",{icon:1});
+					layer.msg("撤销成功",{icon:1});
 					getData(1);
-				}else if(data.status=='1'){
+				}else{
 					layer.alert(data.error_desc);
 				}
 			},error:function(){
@@ -76,11 +105,17 @@
 			}
 		});
 	}
-	$(document).ready(function(){
-		loadDictionarySelect("status",${status});
-		getData(1);
-	});
 	
+	function applyItem(type){
+		layer.closeAll();
+		layer.open({
+			type: 2,
+			content:"/userApply/toApply?flag=1&type="+type+"&notShowExplain=1",
+			shadeClose: true,//开启遮罩关闭
+			title:false,
+			area: ['80%', '80%']
+		});
+	}
 </script>
 </head>
 <body class="skin-blue">
@@ -93,16 +128,19 @@
 		</div>
 		<aside class="right-side">
 			<section class="content-header">
-				<h1><c:if test="${empty type }">评审结果管理</c:if>
-					<c:if test="${type=='school' }">学校批量申请管理</c:if>
-				</h1>
+				<h1>评审结果管理</h1>
 				<!-- 首页链接 -->
 				<!-- <ol class="breadcrumb">
 					<li><a href="../index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
                 </ol> -->
 			</section>
 			<section class="content">
-				<div class="selectbox">
+				<c:if test="${not empty ifCanAdd }">
+					<button class="btn btn-primary" onclick="applyItem(301001)" type="button">科幻小说报名</button>
+					<button class="btn btn-primary" onclick="applyItem(301002)" type="button">科幻画报名</button>
+					<button class="btn btn-primary" onclick="applyItem(301003)" type="button">科幻微视频报名</button>
+				</c:if>
+				<!-- <div class="selectbox">
 					<div class="form-group">
                            <div class="col-sm-1">
                                 <select id="status" class="selectpicker show-tick form-control" data-live-search="false">
@@ -118,13 +156,13 @@
 					<div class="col-lg-2 col-xs-5" style="width:13%">
 						<input id='name' type="text" class="form-control" placeholder="活动名称">
 					</div>
-					<!-- <div class="col-lg-2 col-xs-5" style="width:13%">
+					<div class="col-lg-2 col-xs-5" style="width:13%">
 						<input id='name' type="text" class="form-control" placeholder="课程名称">
-					</div> -->
+					</div>
 					<div class="box-footer col-lg-2 col-xs-3">
 						<button onclick='getData(1)' type="button" class="btn btn-primary">搜索</button>
 					</div>
-				</div>
+				</div> -->
 				
 				<div class="row" >
 					<div class="col-xs-12" >
@@ -132,12 +170,12 @@
 							<div class="box-body table-responsive">
 								<table class="table table-hover table-bordered" id='dataTable'>
 									<tr>
-										<th>活动名称</th>
-										<th>活动年度</th>
-										<th>开始时间</th>
-										<th>结束时间</th>
-										<th>状态</th>
+										<th>作品名称</th>
+										<th>所属类别</th>
 										<th>创建时间</th>
+										<th>报名状态</th>
+										<th>审核状态</th>
+										<th>评分</th>
 										<th>操作</th>
 									</tr>
 								</table>

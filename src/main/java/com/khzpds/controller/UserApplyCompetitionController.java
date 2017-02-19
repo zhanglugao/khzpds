@@ -20,6 +20,8 @@ import org.apache.commons.lang.StringUtils;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.org.apache.poi.util.StringUtil;
+import org.docx4j.org.apache.xml.security.exceptions.Base64DecodingException;
+import org.docx4j.org.apache.xml.security.utils.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,8 +67,37 @@ public class UserApplyCompetitionController extends BaseController{
 			return new ModelAndView("redirect:/filePath"+apply.getFilePath());
 		}else{
 			request.setAttribute("filePath", apply.getFilePath());
+			
+			request.setAttribute("fileName", Base64.encode(apply.getProductionName().getBytes()));
+			request.setAttribute("fileType", apply.getFilePath().split("\\.")[1]);
 			return new ModelAndView(getRootPath(request)+"/manage/play/video_preview");
 		}
+	}
+	
+	@RequestMapping("/fileDownload")    
+    public void fileDownload(String filePath,String fileName,String fileType,HttpServletRequest request,HttpServletResponse response) throws IOException, Base64DecodingException{
+		//获取网站部署路径(通过ServletContext对象)，用于确定下载文件位置，从而实现下载  
+        //1.设置文件ContentType类型，这样设置，会自动判断下载文件类型  
+        response.setContentType("multipart/form-data");  
+        //2.设置文件头：最后一个参数是设置下载文件名(假如我们叫a.pdf)  
+        response.setHeader("Content-Disposition", "attachment;fileName="+ Base64.decode(fileName).toString()+"."+fileType);  
+        ServletOutputStream out;  
+        //通过文件路径获得File对象(假如此路径中有一个download.pdf文件)  
+        try {  
+            FileInputStream inputStream = new FileInputStream(SystemConfig.getUploadDir()+filePath);  
+            //3.通过response获取ServletOutputStream对象(out)  
+            out = response.getOutputStream();  
+            byte[] b = new byte[512];
+            int len;
+            while ((len = inputStream.read(b)) > 0)
+            out.write(b, 0, len);
+            inputStream.close();  
+            out.close();  
+            out.flush();  
+  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
 	}
 	
 	public byte[] readStream(InputStream inStream) {  
@@ -139,7 +170,7 @@ public class UserApplyCompetitionController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("toApply")
-	public ModelAndView toApply(String type,String id,String flag,HttpServletRequest request,HttpServletResponse response){
+	public ModelAndView toApply(String notShowExplain,String notEdit,String type,String id,String flag,HttpServletRequest request,HttpServletResponse response){
 		String dest=null;
 		//查询已发布状态的活动下的对应type的比赛项目
 		UserCompletionItemApplyInfo applyInfo=null;
@@ -191,6 +222,13 @@ public class UserApplyCompetitionController extends BaseController{
 				request.setAttribute("ifReadonly", true);
 			}
 		}
+		if(notEdit!=null&&!"".equals(notEdit)){
+			request.setAttribute("ifReadonly", true);
+			request.setAttribute("NotShowExplain", true);
+		}
+		if(StringUtils.isNotBlank(notShowExplain)){
+			request.setAttribute("NotShowExplain", true);
+		}
 		if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_XIAO_SHUO.equals(type)){
 			dest="novel-sign";
 		}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_HUA.equals(type)){
@@ -241,6 +279,10 @@ public class UserApplyCompetitionController extends BaseController{
 		
 		if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(applyInfo.getCompetitionType())){
 			applyInfo.setApplyGroup("");
+		}
+		
+		if(applyInfo.getApproveStatus()==null){
+			applyInfo.setApproveStatus("-1");
 		}
 		
 		if(StringUtils.isBlank(applyInfo.getId())){

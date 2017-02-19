@@ -18,11 +18,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.khzpds.base.BaseController;
 import com.khzpds.base.DictionaryConst;
+import com.khzpds.base.PageParameter;
 import com.khzpds.service.ActivityInfoService;
 import com.khzpds.service.CompetitionItemService;
 import com.khzpds.service.DictionaryService;
 import com.khzpds.service.UserCompletionItemApplyService;
 import com.khzpds.util.DateUtil;
+import com.khzpds.util.TransHtmlHelper;
 import com.khzpds.vo.ActivityInfoInfo;
 import com.khzpds.vo.CompetitionItemInfo;
 import com.khzpds.vo.UserCompletionItemApplyInfo;
@@ -140,9 +142,9 @@ public class ExpertApproveController extends BaseController{
 	 * @param response
 	 */
 	@RequestMapping("/getApplyData")
-	public void getApplyData(String itemId,String applyGroup,String applyYearGroup,String orgId,String userName,String realName,HttpServletRequest request,HttpServletResponse response){
+	public void getApplyData(String applyStatus,String approveResult,String itemId,String applyGroup,String applyYearGroup,String orgId,String userName,String realName,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
-		
+		PageParameter page=this.getPageParameter2(request);
 		Map<String,String> searchMap=new HashMap<String, String>();
 		if(StringUtils.isNotBlank(itemId))searchMap.put("itemId", itemId);
 		if(StringUtils.isNotBlank(applyGroup))searchMap.put("applyGroup", applyGroup);
@@ -150,10 +152,14 @@ public class ExpertApproveController extends BaseController{
 		if(StringUtils.isNotBlank(orgId))searchMap.put("orgId", orgId);
 		if(StringUtils.isNotBlank(userName))searchMap.put("userName", userName);
 		if(StringUtils.isNotBlank(realName))searchMap.put("realName", realName);
-		
+		if(StringUtils.isNotBlank(applyStatus))searchMap.put("applyStatus", applyStatus);
+		if(StringUtils.isNotBlank(approveResult))searchMap.put("approveResult", approveResult);
 		/*searchMap.put("orderField", " apply");
 		searchMap.put("orderType", " desc");*/
-		List<Map<String,String>> dataMap=userCompetitionItemApplyService.findBySearchMap(searchMap);
+		page.setOrderField(" apply.create_time");
+		page.setOrderType(" desc");
+		page.setSearch(searchMap);
+		List<Map<String,String>> dataMap=userCompetitionItemApplyService.findBySearchMapPage(page);
 		//for(Map<String,String> )
 		//
 		CompetitionItemInfo item=competitionItemService.findById(itemId);
@@ -170,8 +176,11 @@ public class ExpertApproveController extends BaseController{
 		}
 		Map<String,String> applyGroupMap=dictionaryService.getDicMapByParentId(applyGroupParentId);
 		Map<String,String> applyYearGroupMap=dictionaryService.getDicMapByParentId(applyYearGroupParentId);
-		
+		for(Map<String,String> map:dataMap	){
+			map.put("ideaDesc", TransHtmlHelper.replaceStringToHtml(map.get("ideaDesc")));
+		}
 		result.put("datas",dataMap);
+		result.put("total_count",page.getTotalCount());
 		result.put("applyGroupMap", applyGroupMap);
 		result.put("applyYearGroupMap", applyYearGroupMap);
 		this.writeJson(response, result);

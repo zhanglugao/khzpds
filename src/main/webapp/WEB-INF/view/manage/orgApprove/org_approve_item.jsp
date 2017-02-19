@@ -12,22 +12,25 @@
 <script src="/js/ztree/js/jquery.ztree.core-3.4.js"></script>
 <script src="/js/ztree/js/jquery.ztree.excheck-3.4.js"></script>
 <meta content='width=device-width,initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+<script src="/js/pageset.js" type="text/javascript"></script>
 <script type="text/javascript">
 	var tabId;
 	$(document).ready(function(){
 		$('#myTab a').click(function (e) {
 			e.preventDefault();
 			tabId=$(this).context.hash.split("#")[1];
-			getApplyData();
+			getApplyData(1);
 			$(this).tab('show');
 		});
 		$($("#myTab a")[0]).click();
 		
 	});
 	
-	function getApplyData(ifSearch){
+	var pageSize=10;
+	function getApplyData(currentPage,ifSearch){
+		$("#"+tabId+"current_page").val(currentPage);
 		if(typeof(ifSearch)=='undefined'){
-			ifSearch=false;
+			ifSearch=true;
 		}
 		if($("#"+tabId+"t tr").length<=1||ifSearch){
 			$.ajax({
@@ -68,7 +71,7 @@
 							obj.approveUserName='';
 						}
 						var checkHtml="";
-						if(typeof(obj.approveStatus)=='undefined'){
+						if(typeof(obj.approveStatus)=='undefined'||obj.approveStatus=="-1"){
 							obj.approveStatus='未审核';
 							option+="&nbsp;&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>通过审核</button>";
 							option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>";
@@ -98,15 +101,29 @@
 						if(typeof(obj.filePath)!='undefined'&&obj.filePath!=''){
 							option+="&nbsp;<button type='button' onclick='viewProInfo(\""+obj.id+"\")' class='btn btn-primary'>查看作品详情</button>";
 						}
+						option+="&nbsp;<button type='button' onclick='viewDesc(\""+obj.id+"\")' class='btn btn-primary'>说明</button>";
 						var html="<tr class='"+tabId+"class'><td>"+checkHtml+"</td><td>"+obj.userName+"</td><td>"+obj.realName+"</td><td>"+obj.orgName+"</td>"
 							+"<td>"+obj.proName+"</td><td>"+obj.itemStatus+"</td><td>"+obj.applyGroup+"</td><td>"+obj.applyYearGroup+"</td><td>"+obj.approveStatus+"</td><td>"+obj.approveUserName+"</td><td>"+obj.approveTime+"</td><td>"+obj.reviewPoint+"</td><td>"+option+"</td></tr>";
 						$("#"+tabId+"t").append(html);
 					}
+					setPageHtml(data.total_count, "pageDiv", "getApplyData", currentPage,pageSize);
 				},error:function(){
 					layer.alert(errorText);
 				}
 			});
 		}
+	}
+	
+	function viewDesc(id){
+		//desc=html_encode(desc);
+		layer.closeAll();
+		layer.open({
+			type: 2,
+			content:"/userApply/toApply?id="+id+"&notEdit=1",
+			shadeClose: true,//开启遮罩关闭
+			title:false,
+			area: ['80%', '80%']
+		});
 	}
 	
 	function viewProInfo(id){
@@ -266,6 +283,26 @@
 			                                </select>
 			                            </div>
 				                     </div>
+				                     <div class="form-group">
+			                           	<div class="col-sm-1">
+			                                <select name="applyStatus" id="applyStatus" data-live-search="false">
+			                                	<option value=''>报名状态</option>
+			                                	<option value='302003'>新建</option>
+			                                	<option value='302001'>已报名</option>
+			                                	<option value='302002'>已取消</option>
+			                                </select>
+			                            </div>
+				                     </div>
+				                     <div class="form-group">
+			                           	<div class="col-sm-1">
+			                                <select name="approveResult" id="approveResult" data-live-search="false">
+			                                	<option value=''>初审结果</option>
+			                                	<option value='-1'>未审核</option>
+			                                	<option value='1'>审核通过</option>
+			                                	<option value='0'>审核不通过</option>
+			                                </select>
+			                            </div>
+				                     </div>
 								</div>
 								
 								<div class="box-body" style="margin-top:10px;">
@@ -282,8 +319,10 @@
 									<div class="col-lg-2 col-xs-5" style="width:13%">
 										<input name='realName' type="text" class="form-control" placeholder="真实姓名">
 									</div>
+									<input name='current_page' id="${item.id }current_page" type="hidden" value="10">
+									<input name='page_size' type="hidden" value="10">
 									<div class="box-footer col-lg-2 col-xs-3">
-										<button onclick='getApplyData(true)' type="button" class="btn btn-primary">搜索</button>
+										<button onclick='getApplyData(1,true)' type="button" class="btn btn-primary">搜索</button>
 									</div>
 								</div>
 							</form>
@@ -318,6 +357,8 @@
 							</div>
 						</div>
 					</c:forEach>
+					<div id='pageDiv'>
+					</div>
 					<!-- <div class="tab-pane fade in active" id="pptTab"></div> -->
 				</div>
 			</section>
@@ -325,6 +366,9 @@
 	</div>
 	<div id='treeDiv' style='display:none'>
 		<ul id="tree" class="ztree"></ul>
+	</div>
+	<div id='descDiv' style="display:none;text-align:center;margin-top:20px;" >
+		
 	</div>
 </body>
 <script type="text/javascript">

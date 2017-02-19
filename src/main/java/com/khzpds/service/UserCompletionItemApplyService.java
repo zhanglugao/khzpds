@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.khzpds.base.IBaseService;
+import com.khzpds.base.PageParameter;
 import com.khzpds.dao.UserCompletionItemApplyDao;
 import com.khzpds.vo.UserCompletionItemApplyInfo;
 
@@ -44,7 +45,13 @@ public class UserCompletionItemApplyService extends IBaseService<UserCompletionI
 	public String findMaxApplyNumber(String activityId, String competitionItemId) {
 		return userCompletionItemApplyDao.findMaxApplyNumber(activityId,competitionItemId);
 	}
+	public List<Map<String, String>> findBySearchMapPage(
+			PageParameter page) {
+		return userCompletionItemApplyDao.findBySearchMapPage(page);
+	}
 //--CustomEnd*****///
+
+	
 
 }
 

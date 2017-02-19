@@ -206,10 +206,15 @@ display:block;
 			data:$("#form").serialize(),
 			success:function(data){
 				if(data.status=='0'){
-					layer.msg("报名成功,2秒后回到个人中心",{icon:1});
-					$("#applyDIv").css("display","none");
-					x=2;
-					x1=window.setInterval(changeSuccess,1000); 
+					if("${NotShowExplain}"!=''){
+						parent.getData(1);
+						parent.layer.closeAll();
+					}else{
+						layer.msg("报名成功,2秒后回到个人中心",{icon:1});
+						$("#applyDIv").css("display","none");
+						x=2;
+						x1=window.setInterval(changeSuccess,1000); 
+					}
 				}else{
 					layer.alert(data.error_desc);
 				}
@@ -456,6 +461,7 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
 </head>
 <body>
      <!-- 头部 -->
+     <c:if test="${empty NotShowExplain }">
      <div id="loginDiv2" style="position:absolute;right:50px;top:25px;z-index:2;"><span>${sessionScope.User_session_key.userName }</span>|<a href="/user/logout">退出</a>|<a href="/user/openIndex">个人中心</a></div>
      <div class="head">
           <img src="/images/sj-top.png" class="sj-top">
@@ -475,10 +481,12 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
                <img src="/images/sign-video.png" width="769" height="45" alt="科幻微视频报名">
           </div>
        </div> 
+       </c:if>
        <!-- 中间内容 -->
       <div class="main">
           <div class="main-i w1348 m0">
           		<!-- 注意事项 -->
+          		<c:if test="${empty NotShowExplain }">
                <div class="notice w1348 fl">
                   <dl>
                    <dt>注意事项:</dt>
@@ -490,6 +498,7 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
                    <dd>6.上传微视频请选择mp4格式文件，文件大小小于100M，视频尺寸1280×720，时间不超过5分钟；</dd>
                  </dl>
                </div>
+               </c:if>
                <!-- 报名表左侧 -->
                <div class="form-left fl mt50">
                     <form id="form">
@@ -615,7 +624,9 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
                         </ul>
                        <div class="cb left-form1" id='applyDIv'>
                            <p style='width: 700px;'>
-                            <a href="/userApply/toApply?type=301003&flag=1"><img src="/images/xj-btn.png" alt="新建报名表"></a>
+                           	<c:if test="${empty NotShowExplain }">
+                            	<a href="/userApply/toApply?type=301003&flag=1"><img src="/images/xj-btn.png" alt="新建报名表"></a>
+                            </c:if>
                            	<a id='onlysavea'   <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> onclick="onlySave()" href="javascript:;" class="bc"><img src="/images/bc-btn.png" alt="保存报名表"></a>
                            	<a onclick="downloadApplyTable(301003,'${applyInfo.id}')" href="javascript:;" class="dl"><img src="/images/dl-btn.png" alt="下载报名表"></a>
                              <a onclick='openChoose()'  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> id='chooseProduct' href="javascript:;" class="tj"><img src="/images/tj-bm.png"></a>
