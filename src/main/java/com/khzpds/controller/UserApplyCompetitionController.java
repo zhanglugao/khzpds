@@ -229,6 +229,9 @@ public class UserApplyCompetitionController extends BaseController{
 		if(StringUtils.isNotBlank(notShowExplain)){
 			request.setAttribute("NotShowExplain", true);
 		}
+		if(StringUtils.isNotBlank(notShowExplain)&&StringUtils.isNotBlank(flag)){
+			request.setAttribute("ifSchool", "1");
+		}
 		if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_XIAO_SHUO.equals(type)){
 			dest="novel-sign";
 		}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_HUA.equals(type)){

@@ -98,6 +98,9 @@ display:block;
 		if("${applyInfo.cardType}"!=''){
 			$("#cardType").val("${applyInfo.cardType}");
 		}
+		if("${ifSchool}"=='1'&&$("#schoolName").val()==''){
+			$("#schoolName").val("${sessionScope.User_session_key.realName}");
+		}
 	});
 	function apply(){
 		//layer.alert("目前为创作阶段请于2017年2月16日之后提交");return;
