@@ -104,7 +104,7 @@
 						if(typeof(obj.filePath)!='undefined'&&obj.filePath!=''){
 							option+="&nbsp;<button type='button' onclick='viewProInfo(\""+obj.id+"\")' class='btn btn-primary'>查看作品详情</button>";
 						}
-						option+="&nbsp;<button type='button' onclick='viewDesc(\""+obj.id+"\")' class='btn btn-primary'>说明</button>";
+						option+="&nbsp;<button type='button' onclick='viewDesc(\""+obj.id+"\",\""+obj.ideaDesc+"\")' class='btn btn-primary'>说明</button>";
 						var html="<tr class='"+tabId+"class'><td>"+checkHtml+"</td><td>"+obj.userName+"</td><td>"+obj.realName+"</td><td>"+obj.orgName+"</td>"
 							+"<td>"+obj.proName+"</td><td>"+obj.itemStatus+"</td><td>"+obj.applyGroup+"</td><td>"+obj.applyYearGroup+"</td><td>"+obj.approveStatus+"</td><td>"+obj.approveUserName+"</td><td>"+obj.approveTime+"</td><td>"+obj.reviewPoint+"</td><td>"+option+"</td></tr>";
 						$("#"+tabId+"t").append(html);
@@ -117,16 +117,26 @@
 		}
 	}
 	
-	function viewDesc(id){
+	function viewDesc(id,desc){
 		//desc=html_encode(desc);
 		layer.closeAll();
-		layer.open({
-			type: 2,
-			content:"/userApply/toApply?id="+id+"&notEdit=1",
-			shadeClose: true,//开启遮罩关闭
-			title:false,
-			area: ['80%', '80%']
-		});
+		if("${ifAdmin}"=='true'){
+			layer.open({
+				type: 2,
+				content:"/userApply/toApply?id="+id+"&notEdit=1",
+				shadeClose: true,//开启遮罩关闭
+				title:false,
+				area: ['80%', '80%']
+			});
+		}else{
+			layer.open({
+				type: 1,
+				content:desc,
+				shadeClose: true,//开启遮罩关闭
+				title:false,
+				area: ['400px', '400px']
+			});
+		}
 	}
 	
 	function viewProInfo(id){
@@ -363,6 +373,9 @@
 	</div>
 	<div id='treeDiv' style='display:none'>
 		<ul id="tree" class="ztree"></ul>
+	</div>
+	<div id='descDiv' style="display:none;text-align:center;margin-top:20px;" >
+		
 	</div>
 </body>
 <script type="text/javascript">

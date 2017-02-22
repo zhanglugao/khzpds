@@ -22,12 +22,16 @@ import com.khzpds.base.PageParameter;
 import com.khzpds.service.ActivityInfoService;
 import com.khzpds.service.CompetitionItemService;
 import com.khzpds.service.DictionaryService;
+import com.khzpds.service.RoleService;
 import com.khzpds.service.UserCompletionItemApplyService;
+import com.khzpds.service.UserRoleService;
 import com.khzpds.util.DateUtil;
 import com.khzpds.util.TransHtmlHelper;
 import com.khzpds.vo.ActivityInfoInfo;
 import com.khzpds.vo.CompetitionItemInfo;
+import com.khzpds.vo.RoleInfo;
 import com.khzpds.vo.UserCompletionItemApplyInfo;
+import com.khzpds.vo.UserRoleInfo;
 
 /***
  * 专家首轮审批管理
@@ -46,6 +50,10 @@ public class ExpertApproveController extends BaseController{
 	private CompetitionItemService competitionItemService;
 	@Autowired
 	private UserCompletionItemApplyService userCompetitionItemApplyService;
+	@Autowired
+	private UserRoleService userRoleService;
+	@Autowired
+	private RoleService roleService;
 	
 	@RequestMapping("/index")
 	public ModelAndView index(HttpServletRequest request,HttpServletResponse response){
@@ -67,6 +75,23 @@ public class ExpertApproveController extends BaseController{
 		List<CompetitionItemInfo> items=competitionItemService.findByParam(findInfo);
 		request.setAttribute("activity", activity);
 		request.setAttribute("items", items);
+		//判断用户角色是否是管理员
+		UserRoleInfo userRoleFind=new UserRoleInfo();
+		userRoleFind.setUserId(this.getCurrentSessionInfo(request).getUserId());
+		List<UserRoleInfo> userRoles=userRoleService.findByParam(userRoleFind);
+		boolean ifAdmin=false;
+		if("admin".equals(this.getCurrentSessionInfo(request).getUserName())){
+			ifAdmin=true;
+		}
+		if(!ifAdmin){
+			for(UserRoleInfo userRoleInfo:userRoles){
+				RoleInfo role=roleService.findById(userRoleInfo.getRoleId());
+				if("科普处管理员".equals(role.getName())){
+					ifAdmin=true;
+				}
+			}
+		}
+		request.setAttribute("ifAdmin", ifAdmin);
 		return new ModelAndView(getRootPath(request)+"/manage/expertApprove/expert_approve_item");
 	}
 	
