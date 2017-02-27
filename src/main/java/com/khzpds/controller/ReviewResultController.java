@@ -84,7 +84,6 @@ public class ReviewResultController extends BaseController{
 	@RequestMapping("/getApplyData")
 	public void getApplyData(String applyStatus,String approveResult,String itemId,String applyGroup,String applyYearGroup,String orgId,String userName,String realName,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
-		
 		PageParameter page=this.getPageParameter2(request);
 		Map<String,String> searchMap=new HashMap<String, String>();
 		if(StringUtils.isNotBlank(itemId))searchMap.put("itemId", itemId);
