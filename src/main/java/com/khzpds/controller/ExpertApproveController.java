@@ -78,9 +78,9 @@ public class ExpertApproveController extends BaseController{
 		//判断用户角色是否是管理员
 		UserRoleInfo userRoleFind=new UserRoleInfo();
 		userRoleFind.setUserId(this.getCurrentSessionInfo(request).getUserId());
-		List<UserRoleInfo> userRoles=userRoleService.findByParam(userRoleFind);
+		//List<UserRoleInfo> userRoles=userRoleService.findByParam(userRoleFind);
 		boolean ifAdmin=false;
-		if("admin".equals(this.getCurrentSessionInfo(request).getUserName())){
+		/*if("admin".equals(this.getCurrentSessionInfo(request).getUserName())){
 			ifAdmin=true;
 		}
 		if(!ifAdmin){
@@ -90,7 +90,7 @@ public class ExpertApproveController extends BaseController{
 					ifAdmin=true;
 				}
 			}
-		}
+		}*/
 		request.setAttribute("ifAdmin", ifAdmin);
 		return new ModelAndView(getRootPath(request)+"/manage/expertApprove/expert_approve_item");
 	}
