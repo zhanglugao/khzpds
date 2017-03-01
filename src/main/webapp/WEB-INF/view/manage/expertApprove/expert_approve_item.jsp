@@ -170,7 +170,7 @@
 			success:function(data){
 				if(data.status=='0'){
 					layer.msg("操作成功",{icon:1});
-					getApplyData(true);
+					getApplyData(1,true);
 				}
 				if(data.status=='1'){
 					layer.alert(data.error_desc);
