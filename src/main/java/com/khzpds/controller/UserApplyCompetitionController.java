@@ -80,7 +80,7 @@ public class UserApplyCompetitionController extends BaseController{
         //1.设置文件ContentType类型，这样设置，会自动判断下载文件类型  
         response.setContentType("multipart/form-data");  
         //2.设置文件头：最后一个参数是设置下载文件名(假如我们叫a.pdf)  
-        response.setHeader("Content-Disposition", "attachment;fileName="+ Base64.decode(fileName).toString()+"."+fileType);  
+        response.setHeader("Content-Disposition", "attachment;fileName="+ Base64.decode(fileName).toString().replace("+", "%2B")+"."+fileType);  
         ServletOutputStream out;  
         //通过文件路径获得File对象(假如此路径中有一个download.pdf文件)  
         try {  
