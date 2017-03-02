@@ -130,7 +130,7 @@
 			success:function(data){
 				if(data.status=='0'){
 					layer.msg("操作成功",{icon:1});
-					getApplyData(1,true);
+					getApplyData($("#"+tabId+"current_page").val(),true);
 				}
 				if(data.status=='1'){
 					layer.alert(data.error_desc);
@@ -194,7 +194,7 @@
 			success:function(data){
 				if(data.status=='0'){
 					layer.msg("操作成功",{icon:1});
-					getApplyData(1,true);
+					getApplyData($("#"+tabId+"current_page").val(),true);
 				}
 				if(data.status=='1'){
 					layer.alert(data.error_desc);

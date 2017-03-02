@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +69,7 @@ public class UserApplyCompetitionController extends BaseController{
 		}else{
 			request.setAttribute("filePath", apply.getFilePath());
 			
-			request.setAttribute("fileName", Base64.encode(apply.getProductionName().getBytes()));
+			request.setAttribute("fileName", URLEncoder.encode(apply.getProductionName()));
 			request.setAttribute("fileType", apply.getFilePath().split("\\.")[1]);
 			return new ModelAndView(getRootPath(request)+"/manage/play/video_preview");
 		}
@@ -80,7 +81,7 @@ public class UserApplyCompetitionController extends BaseController{
         //1.设置文件ContentType类型，这样设置，会自动判断下载文件类型  
         response.setContentType("multipart/form-data");  
         //2.设置文件头：最后一个参数是设置下载文件名(假如我们叫a.pdf)  
-        response.setHeader("Content-Disposition", "attachment;fileName="+ Base64.decode(fileName).toString().replace("+", "%2B")+"."+fileType);  
+        response.setHeader("Content-Disposition", "attachment;fileName="+URLDecoder.decode(fileName)+"."+fileType);  
         ServletOutputStream out;  
         //通过文件路径获得File对象(假如此路径中有一个download.pdf文件)  
         try {  
