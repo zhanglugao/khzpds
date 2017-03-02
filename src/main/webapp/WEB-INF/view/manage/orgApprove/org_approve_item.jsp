@@ -73,19 +73,23 @@
 						var checkHtml="";
 						if(typeof(obj.approveStatus)=='undefined'||obj.approveStatus=="-1"){
 							obj.approveStatus='未审核';
+							obj.approveUserName="";
+							obj.approveTime="";
 							option+="&nbsp;&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>通过审核</button>";
 							option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>";
 							checkHtml="<input type='checkbox' name='"+tabId+"sel' value='"+obj.id+"'/>";
 						}else{
 							if(obj.approveStatus=='0'){
 								obj.approveStatus="审核不通过";
-								option+="&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>通过审核</button>";
+								option+="&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>通过审核</button>&nbsp;<button onclick='cancelApprove(\""+obj.id+"\")' type='button' class='btn btn-primary'>撤销审核</button>";";
 								checkHtml="<input type='checkbox' name='"+tabId+"sel' value='"+obj.id+"'/>";
 							}else if(obj.approveStatus=='1'){
 								obj.approveStatus="审核通过";
-								option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>";
+								option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>&nbsp;<button onclick='cancelApprove(\""+obj.id+"\")' type='button' class='btn btn-primary'>撤销审核</button>";";
 								checkHtml="<input type='checkbox' name='"+tabId+"sel' value='"+obj.id+"'/>";
 							}else if(obj.approveStatus=='-1'){
+								obj.approveUserName="";
+								obj.approveTime="";
 								obj.approveStatus="未审核";
 								option+="&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>通过审核</button>";
 								option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>";
@@ -157,6 +161,26 @@
 			return;
 		}
 		approve1(result,type,id);
+	}
+	
+	function cancelApprove(id){
+		$.ajax({
+			url:"/orgApprove/cancelApprove",
+			data:{id:id},
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.status=='0'){
+					layer.msg("操作成功",{icon:1});
+					getApplyData(1,true);
+				}
+				if(data.status=='1'){
+					layer.alert(data.error_desc);
+				}
+			},error:function(){
+				layer.alert(errorText);
+			}
+		});
 	}
 	
 	function approve1(result,type,id){

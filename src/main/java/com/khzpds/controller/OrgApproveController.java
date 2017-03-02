@@ -196,6 +196,26 @@ public class OrgApproveController extends BaseController{
 		this.writeJson(response, data);
 	}
 	
+	@RequestMapping("/cancelApprove")
+	public void cancelApprove(String id,HttpServletRequest request,HttpServletResponse
+			response){
+		Map<String,Object> data=new HashMap<String, Object>();
+		String[] idArray=id.split(",");
+		List<UserCompletionItemApplyInfo> applyInfos=new ArrayList<UserCompletionItemApplyInfo>();
+		for(String idStr:idArray){
+			UserCompletionItemApplyInfo applyInfo=userCompetitionItemApplyService.findById(idStr);
+			applyInfo.setApproveStatus("-1");
+			applyInfo.setApproveTime(null);
+			applyInfo.setApproveType(null);
+			applyInfo.setApproveUserId(null);
+			applyInfo.setApproveUserName(null);
+			applyInfos.add(applyInfo);
+		}
+		userCompetitionItemApplyService.updateMuti(applyInfos);
+		data.put("status", "0");
+		this.writeJson(response, data);
+	}
+	
 	/***
 	 * 查询用户报名数据
 	 * @param itemId
