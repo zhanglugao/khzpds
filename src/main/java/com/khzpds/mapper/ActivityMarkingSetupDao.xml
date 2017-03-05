@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.khzpds.dao.ActivityMarkingSetupDao">
+
+	 <resultMap id="ActivityMarkingSetupResultMap" type="com.khzpds.vo.ActivityMarkingSetupInfo">
+        <id property="id" column="id" />
+        <result property="activityId" column="activity_id" />    
+        <result property="itemType" column="item_type" />    
+        <result property="name" column="name" />    
+        <result property="score" column="score" />    
+        <result property="sort" column="sort" />    
+        <result property="vdef1" column="vdef1" />    
+        <result property="vdef2" column="vdef2" />    
+        <result property="vdef3" column="vdef3" />    
+    </resultMap>
+    
+    <!--根据主键查询-->
+	<select id="findById" resultMap="ActivityMarkingSetupResultMap">
+		select id,activity_id,item_type,name,score,sort,vdef1,vdef2,vdef3 from activity_marking_setup where id=#{id}
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+	</select>
+    
+    <!--插入-->
+	 <insert id="insert" parameterType="com.khzpds.vo.ActivityMarkingSetupInfo" >
+    	INSERT INTO activity_marking_setup
+        (id,activity_id,item_type,name,score,sort,vdef1,vdef2,vdef3) 
+		values(#{id},#{activityId},#{itemType},#{name},#{score},#{sort},#{vdef1},#{vdef2},#{vdef3})
+    </insert>
+
+    
+    <!--根据传入的map参数查询 并分页-->
+    <select id="findByParamForPage" resultMap="ActivityMarkingSetupResultMap" >
+		select id,activity_id,item_type,name,score,sort,vdef1,vdef2,vdef3 from activity_marking_setup
+		where 1=1
+           <if test="obj.search.id!=null"> AND id = #{obj.search.id}</if>
+           <if test="obj.search.activityId!=null"> AND activity_id = #{obj.search.activityId}</if>
+           <if test="obj.search.itemType!=null"> AND item_type = #{obj.search.itemType}</if>
+           <if test="obj.search.name!=null"> AND name = #{obj.search.name}</if>
+           <if test="obj.search.score!=null"> AND score = #{obj.search.score}</if>
+           <if test="obj.search.sort!=null"> AND sort = #{obj.search.sort}</if>
+           <if test="obj.search.vdef1!=null"> AND vdef1 = #{obj.search.vdef1}</if>
+           <if test="obj.search.vdef2!=null"> AND vdef2 = #{obj.search.vdef2}</if>
+           <if test="obj.search.vdef3!=null"> AND vdef3 = #{obj.search.vdef3}</if>
+
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+        <if test="obj.orderField!=null and obj.orderType!=null"> order by ${obj.orderField} ${obj.orderType}</if>
+	</select>
+    
+     <!--根据传入的实体参数查询-->
+    <select id="findByParam" resultMap="ActivityMarkingSetupResultMap" >
+		select id,activity_id,item_type,name,score,sort,vdef1,vdef2,vdef3 from activity_marking_setup
+		where 1=1
+           <if test="obj.id!=null"> AND id = #{obj.id}</if>
+           <if test="obj.activityId!=null"> AND activity_id = #{obj.activityId}</if>
+           <if test="obj.itemType!=null"> AND item_type = #{obj.itemType}</if>
+           <if test="obj.name!=null"> AND name = #{obj.name}</if>
+           <if test="obj.score!=null"> AND score = #{obj.score}</if>
+           <if test="obj.sort!=null"> AND sort = #{obj.sort}</if>
+           <if test="obj.vdef1!=null"> AND vdef1 = #{obj.vdef1}</if>
+           <if test="obj.vdef2!=null"> AND vdef2 = #{obj.vdef2}</if>
+           <if test="obj.vdef3!=null"> AND vdef3 = #{obj.vdef3}</if>
+
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+	</select>
+    
+    <!--根据主键进行删除-->
+	<delete id="deleteById"  >
+    	delete from activity_marking_setup where id=#{id}
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+    </delete>
+    
+    <!--根据实体进行更新-->
+	<update id="update" >
+    	update activity_marking_setup 
+        <trim prefix="SET" suffixOverrides=",">
+           <if test="obj.id!=null">id=#{obj.id},</if>
+           <if test="obj.activityId!=null">activity_id=#{obj.activityId},</if>
+           <if test="obj.itemType!=null">item_type=#{obj.itemType},</if>
+           <if test="obj.name!=null">name=#{obj.name},</if>
+           <if test="obj.score!=null">score=#{obj.score},</if>
+           <if test="obj.sort!=null">sort=#{obj.sort},</if>
+           <if test="obj.vdef1!=null">vdef1=#{obj.vdef1},</if>
+           <if test="obj.vdef2!=null">vdef2=#{obj.vdef2},</if>
+           <if test="obj.vdef3!=null">vdef3=#{obj.vdef3},</if>  
+        </trim>
+		where id=#{obj.id} 
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+    </update> 
+	<!--CustomBegin***--><!--CustomEnd*****-->
+</mapper>

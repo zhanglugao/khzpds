@@ -51,7 +51,7 @@
 	*/
 	function toShowItem(id){
 		//layer.msg("敬请期待");
-		window.location.href="/expertApprove/toShowItem?id="+id;
+		window.location.href="/expertTakeScore/toShowItem?id="+id;
 	}
 	
 	$(document).ready(function(){
