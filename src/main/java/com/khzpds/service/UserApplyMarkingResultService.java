@@ -1,4 +1,6 @@
 package com.khzpds.service;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,24 @@ public class UserApplyMarkingResultService extends IBaseService<UserApplyMarking
     public void setUserApplyMarkingResultRepository(UserApplyMarkingResultDao repository) {  
         setRepository(repository);  
         userApplyMarkingResultDao=repository;
-    }  
+    }
+
+	
     
     //--CustomBegin***///
+    public void addList(List<UserApplyMarkingResultInfo> results) {
+		for(UserApplyMarkingResultInfo info:results){
+			userApplyMarkingResultDao.insert(info);
+		}
+	}  
+
+	public List<UserApplyMarkingResultInfo> findByParamSort(
+			UserApplyMarkingResultInfo findInfo) {
+		// TODO Auto-generated method stub
+		return userApplyMarkingResultDao.findByParamSort(findInfo);
+	}
     //--CustomEnd*****///
+
+
 }
 

@@ -277,7 +277,7 @@
 		</div>
 		<aside class="right-side">
 			<section class="content-header">
-				<h1>查询报名列表</h1>
+				<h1>专家首轮审批管理-查询报名列表</h1>
 			</section>
 			<section class="content">
 				<div class="form-group mt10" style='margin-top:5px;'>

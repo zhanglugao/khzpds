@@ -23,14 +23,18 @@ import com.khzpds.service.ActivityInfoService;
 import com.khzpds.service.CompetitionItemService;
 import com.khzpds.service.DictionaryService;
 import com.khzpds.service.RoleService;
+import com.khzpds.service.UserApplyMarkingResultService;
 import com.khzpds.service.UserCompletionItemApplyService;
+import com.khzpds.service.UserInfoService;
 import com.khzpds.service.UserRoleService;
 import com.khzpds.util.DateUtil;
 import com.khzpds.util.TransHtmlHelper;
 import com.khzpds.vo.ActivityInfoInfo;
 import com.khzpds.vo.CompetitionItemInfo;
 import com.khzpds.vo.RoleInfo;
+import com.khzpds.vo.UserApplyMarkingResultInfo;
 import com.khzpds.vo.UserCompletionItemApplyInfo;
+import com.khzpds.vo.UserInfoInfo;
 import com.khzpds.vo.UserRoleInfo;
 
 /***
@@ -53,7 +57,11 @@ public class ExpertApproveController extends BaseController{
 	@Autowired
 	private UserRoleService userRoleService;
 	@Autowired
+	private UserInfoService userInfoService;
+	@Autowired
 	private RoleService roleService;
+	@Autowired
+	private UserApplyMarkingResultService userApplyMarkingResultService;
 	
 	@RequestMapping("/index")
 	public ModelAndView index(HttpServletRequest request,HttpServletResponse response){
@@ -167,7 +175,7 @@ public class ExpertApproveController extends BaseController{
 	 * @param response
 	 */
 	@RequestMapping("/getApplyData")
-	public void getApplyData(String applyStatus,String approveResult,String itemId,String applyGroup,String applyYearGroup,String orgId,String userName,String realName,HttpServletRequest request,HttpServletResponse response){
+	public void getApplyData(String ifShowScore,String applyStatus,String approveResult,String itemId,String applyGroup,String applyYearGroup,String orgId,String userName,String realName,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
 		PageParameter page=this.getPageParameter2(request);
 		Map<String,String> searchMap=new HashMap<String, String>();
@@ -203,6 +211,32 @@ public class ExpertApproveController extends BaseController{
 		Map<String,String> applyYearGroupMap=dictionaryService.getDicMapByParentId(applyYearGroupParentId);
 		for(Map<String,String> map:dataMap	){
 			map.put("ideaDesc", TransHtmlHelper.replaceStringToHtml(map.get("ideaDesc")));
+			if(StringUtils.isNotBlank(ifShowScore)){
+				//
+				UserApplyMarkingResultInfo findInfo=new UserApplyMarkingResultInfo();
+				findInfo.setItemId(itemId);
+				findInfo.setApplyId(map.get("id").toString());
+				List<UserApplyMarkingResultInfo> results=userApplyMarkingResultService.findByParam(findInfo);
+				map.put("markingUser", "");
+				map.put("markingTime", "");
+				map.put("totalScore", "0");
+				if(results!=null&&results.size()>0){
+					UserInfoInfo user=userInfoService.findById( results.get(0).getMarkingUser());
+					if(user!=null){
+						map.put("markingUser",user.getUserName());
+					}
+					if(results.get(0).getMarkingTime()!=null){
+						map.put("markingTime", DateUtil.formatDate2String(results.get(0).getMarkingTime(), "yyyy-MM-dd HH:mm:ss"));
+					}
+					Double totalScore=0d;
+					for(UserApplyMarkingResultInfo result1:results){
+						if(result1.getGetScore()!=null){
+							totalScore+=result1.getGetScore();
+						}
+					}
+					map.put("totalScore", totalScore.toString());
+				}
+			}
 		}
 		result.put("datas",dataMap);
 		result.put("total_count",page.getTotalCount());

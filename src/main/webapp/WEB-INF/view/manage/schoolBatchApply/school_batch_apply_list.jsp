@@ -81,7 +81,7 @@
 	function toedit(id){
 		layer.open({
 			type: 2,
-			content:"/userApply/toApply?id="+id+"&notShowExplain=1",
+			content:"/userApply/toApply?id="+id+"&notShowExplain=1&ifSchool=1",
 			shadeClose: true,//开启遮罩关闭
 			title:false,
 			area: ['80%', '80%']
@@ -110,7 +110,7 @@
 		layer.closeAll();
 		layer.open({
 			type: 2,
-			content:"/userApply/toApply?flag=1&type="+type+"&notShowExplain=1",
+			content:"/userApply/toApply?flag=1&type="+type+"&notShowExplain=1&ifSchool=1",
 			shadeClose: true,//开启遮罩关闭
 			title:false,
 			area: ['80%', '80%']
@@ -128,7 +128,7 @@
 		</div>
 		<aside class="right-side">
 			<section class="content-header">
-				<h1>评审结果管理</h1>
+				<h1>学校批量报名管理</h1>
 				<!-- 首页链接 -->
 				<!-- <ol class="breadcrumb">
 					<li><a href="../index.html"><i class="fa fa-dashboard"></i> 首页</a></li>

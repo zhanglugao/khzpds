@@ -13,7 +13,7 @@ public class ActivityMarkingSetupInfo implements Serializable
 	private String activityId;   
 	private String itemType;   
 	private String name;   
-	private Integer score;   
+	private Double score;   
 	private Integer sort;   
 	private String vdef1;   
 	private String vdef2;   
@@ -81,14 +81,14 @@ public class ActivityMarkingSetupInfo implements Serializable
     /**
      * 标准的最大分值
      */ 	
-	public Integer getScore(){
+	public Double getScore(){
         return score;
     }
     
      /**
      * 标准的最大分值
      */ 	
-    public void setScore(Integer score){
+    public void setScore(Double score){
         this.score=score;
     }
     

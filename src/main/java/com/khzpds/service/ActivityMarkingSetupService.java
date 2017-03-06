@@ -1,4 +1,6 @@
 package com.khzpds.service;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,15 @@ public class ActivityMarkingSetupService extends IBaseService<ActivityMarkingSet
     public void setActivityMarkingSetupRepository(ActivityMarkingSetupDao repository) {  
         setRepository(repository);  
         activityMarkingSetupDao=repository;
-    }  
+    }
+
+	
     
     //--CustomBegin***///
+    public List<ActivityMarkingSetupInfo> findByParamSort(
+			ActivityMarkingSetupInfo setUpFind) {
+		return activityMarkingSetupDao.findByParamSort(setUpFind);
+	}  
 //--CustomEnd*****///
 }
 

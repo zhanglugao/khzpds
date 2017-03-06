@@ -1,6 +1,7 @@
 
 package com.khzpds.vo;
 import java.io.Serializable;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -14,7 +15,7 @@ public class UserApplyMarkingResultInfo implements Serializable
 	private String itemId;   
 	private String itemType;   
 	private String applyId;   
-	private Integer getScore;   
+	private Double getScore;   
 	private String markingUser;   
 	private java.util.Date markingTime;   
 	private String vdef1;   
@@ -97,14 +98,14 @@ public class UserApplyMarkingResultInfo implements Serializable
     /**
      * 得分
      */ 	
-	public Integer getGetScore(){
+	public Double getGetScore(){
         return getScore;
     }
     
      /**
      * 得分
      */ 	
-    public void setGetScore(Integer getScore){
+    public void setGetScore(Double getScore){
         this.getScore=getScore;
     }
     
@@ -211,6 +212,34 @@ public class UserApplyMarkingResultInfo implements Serializable
 			.isEquals();
 	}
     
-    //--CustomBegin***/////--CustomEnd*****///
+    //--CustomBegin***///
+	private String setUpId;
+	private String setUpName;
+	private Double totalScore;
+	
+	public Double getTotalScore() {
+		return totalScore;
+	}
+
+	public void setTotalScore(Double totalScore) {
+		this.totalScore = totalScore;
+	}
+
+	public String getSetUpId() {
+		return setUpId;
+	}
+
+	public void setSetUpId(String setUpId) {
+		this.setUpId = setUpId;
+	}
+
+	public String getSetUpName() {
+		return setUpName;
+	}
+
+	public void setSetUpName(String setUpName) {
+		this.setUpName = setUpName;
+	}
+	//--CustomEnd*****///
 }
 

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.org.apache.poi.util.StringUtil;
@@ -32,12 +33,14 @@ import com.khzpds.base.BaseController;
 import com.khzpds.base.DictionaryConst;
 import com.khzpds.base.Docx4jUtil;
 import com.khzpds.base.SystemConfig;
+import com.khzpds.service.ActivityInfoService;
 import com.khzpds.service.CompetitionItemService;
 import com.khzpds.service.ContentCategoryService;
 import com.khzpds.service.DictionaryService;
 import com.khzpds.service.UserCompletionItemApplyService;
 import com.khzpds.util.DateUtil;
 import com.khzpds.util.UUIDUtil;
+import com.khzpds.vo.ActivityInfoInfo;
 import com.khzpds.vo.CompetitionItemInfo;
 import com.khzpds.vo.ContentCategoryInfo;
 import com.khzpds.vo.UserCompletionItemApplyInfo;
@@ -58,6 +61,8 @@ public class UserApplyCompetitionController extends BaseController{
 	private DictionaryService dictionaryService;
 	@Autowired
 	private ContentCategoryService contentCategoryService;
+	@Autowired
+	private ActivityInfoService activityInfoService;
 	
 	
 	@RequestMapping("/showFile")
@@ -171,14 +176,29 @@ public class UserApplyCompetitionController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("toApply")
-	public ModelAndView toApply(String notShowExplain,String notEdit,String type,String id,String flag,HttpServletRequest request,HttpServletResponse response){
+	public ModelAndView toApply(String ifSchool,String notShowExplain,String notEdit,String type,String id,String flag,HttpServletRequest request,HttpServletResponse response){
 		String dest=null;
 		//查询已发布状态的活动下的对应type的比赛项目
 		UserCompletionItemApplyInfo applyInfo=null;
 		CompetitionItemInfo item=null;
 		String itemId=null;
 		if(StringUtils.isBlank(id)){
-			List<CompetitionItemInfo> items=competitionItemService.findPublishedCompetitionItem(type);
+			List<CompetitionItemInfo> items=null;
+			if(StringUtils.isNotBlank(ifSchool)){
+				//items=competitionItemService.findPublishedCompetitionItem(type);
+				//先查找到运行中的活动
+				ActivityInfoInfo findInfo=new ActivityInfoInfo();
+				findInfo.setStatus(DictionaryConst.HUO_DONG_ZHUANG_TAI_YI_FA_BU);
+				List<ActivityInfoInfo> activitys= activityInfoService.findByParam(findInfo);
+				if(activitys.size()>0){
+					CompetitionItemInfo itemFind=new CompetitionItemInfo();
+					itemFind.setActivityId(activitys.get(0).getId());
+					itemFind.setType(type);
+					items=competitionItemService.findByParam(itemFind);
+				}
+			}else{
+				items=competitionItemService.findPublishedCompetitionItem(type);
+			}
 			if(items!=null&&items.size()==1){
 				item=items.get(0);
 				itemId=item.getId();
@@ -219,8 +239,14 @@ public class UserApplyCompetitionController extends BaseController{
 			if(item==null){
 				item=competitionItemService.findById(applyInfo.getCompetitionItemId());
 			}
-			if(DictionaryConst.BI_SAI_BAO_MING_ZHUANG_TAI_YI_BAO_MING.equals(applyInfo.getApplyStatus())||new Date().after(item.getUserApplyEndtime())){
-				request.setAttribute("ifReadonly", true);
+			if(StringUtils.isNotBlank(ifSchool)){
+				if(DictionaryConst.BI_SAI_BAO_MING_ZHUANG_TAI_YI_BAO_MING.equals(applyInfo.getApplyStatus())){
+					request.setAttribute("ifReadonly", true);
+				}
+			}else{
+				if(DictionaryConst.BI_SAI_BAO_MING_ZHUANG_TAI_YI_BAO_MING.equals(applyInfo.getApplyStatus())||new Date().after(item.getUserApplyEndtime())){
+					request.setAttribute("ifReadonly", true);
+				}
 			}
 		}
 		if(notEdit!=null&&!"".equals(notEdit)){

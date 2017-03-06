@@ -25,6 +25,11 @@
 		$($("#myTab a")[0]).click();
 		
 	});
+	function takeScoreSuccess(){
+		layer.closeAll();
+		layer.msg("打分成功",{icon:1});
+		getApplyData($("#"+tabId+"current_page").val());
+	}
 	var pageSize=10;	
 	function getApplyData(currentPage,ifSearch){
 		$("#"+tabId+"current_page").val(currentPage);
@@ -69,48 +74,24 @@
 						if(typeof(obj.approveUserName)=='undefined'){
 							obj.approveUserName='';
 						}
-						var checkHtml="";
-						if(typeof(obj.approveStatus)=='undefined'||obj.approveStatus=="-1"){
-							obj.approveStatus='未审核';
-							obj.approveUserName="";
-							obj.approveTime="";
-							option+="&nbsp;&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>通过审核</button>";
-							option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>";
-							checkHtml="<input type='checkbox' name='"+tabId+"sel' value='"+obj.id+"'/>";
-						}else{
-							if(obj.approveStatus=='0'){
-								obj.approveStatus="审核不通过";
-								if(obj.approveType!='1'){
-									option+="&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>通过审核</button>&nbsp;<button onclick='cancelApprove(\""+obj.id+"\")' type='button' class='btn btn-primary'>撤销审核</button>";
-									checkHtml="<input type='checkbox' name='"+tabId+"sel' value='"+obj.id+"'/>";
-								}
-							}else if(obj.approveStatus=='1'){
-								obj.approveStatus="审核通过";
-								if(obj.approveType!='1'){
-									option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>&nbsp;<button onclick='cancelApprove(\""+obj.id+"\")' type='button' class='btn btn-primary'>撤销审核</button>";
-									checkHtml="<input type='checkbox' name='"+tabId+"sel' value='"+obj.id+"'/>";
-								}
-							}else if(obj.approveStatus=='-1'){
-								obj.approveStatus="未审核";
-								obj.approveUserName="";
-								obj.approveTime="";
-								option+="&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>通过审核</button>";
-								option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>";
-								checkHtml="<input type='checkbox' name='"+tabId+"sel' value='"+obj.id+"'/>";
-							}
-						}
+						var checkHtml="<input type='checkbox' name='"+tabId+"sel' value='"+obj.id+"'/>";
 						if(typeof(obj.approveTime)=='undefined'){
 							obj.approveTime='';
 						}
 						if(typeof(obj.reviewPoint)=='undefined'){
 							obj.reviewPoint="";
 						}
+						if(obj.markingUser==''&&obj.markingTime==''){
+							option+="&nbsp;<button type='button' onclick='takeScoreDis(\""+obj.id+"\")' class='btn btn-primary'>打分</button>";
+						}else{
+							option+="&nbsp;<button type='button' onclick='takeScoreDis(\""+obj.id+"\",1)' class='btn btn-primary'>打分详情</button>";
+						}
 						if(typeof(obj.filePath)!='undefined'&&obj.filePath!=''){
 							option+="&nbsp;<button type='button' onclick='viewProInfo(\""+obj.id+"\")' class='btn btn-primary'>查看作品详情</button>";
 						}
 						option+="&nbsp;<button type='button' onclick='viewDesc(\""+obj.id+"\",\""+obj.ideaDesc+"\")' class='btn btn-primary'>说明</button>";
 						var html="<tr class='"+tabId+"class'><td>"+checkHtml+"</td><td>"+obj.userName+"</td><td>"+obj.realName+"</td><td>"+obj.orgName+"</td>"
-							+"<td>"+obj.proName+"</td><td>"+obj.itemStatus+"</td><td>"+obj.applyGroup+"</td><td>"+obj.applyYearGroup+"</td><td>"+obj.approveStatus+"</td><td>"+obj.approveUserName+"</td><td>"+obj.approveTime+"</td><td>"+obj.reviewPoint+"</td><td>"+option+"</td></tr>";
+							+"<td>"+obj.proName+"</td><td>"+obj.itemStatus+"</td><td>"+obj.applyGroup+"</td><td>"+obj.applyYearGroup+"</td><td>"+obj.markingUser+"</td><td>"+obj.markingTime+"</td><td>"+obj.totalScore+"</td><td>"+option+"</td></tr>";
 						$("#"+tabId+"t").append(html);
 					}
 					setPageHtml(data.total_count, "pageDiv", "getApplyData", currentPage,pageSize);
@@ -120,26 +101,23 @@
 			});
 		}
 	}
-	
-	function cancelApprove(id){
-		$.ajax({
-			url:"/orgApprove/cancelApprove",
-			data:{id:id},
-			type:"post",
-			dataType:"json",
-			success:function(data){
-				if(data.status=='0'){
-					layer.msg("操作成功",{icon:1});
-					getApplyData($("#"+tabId+"current_page").val(),true);
-				}
-				if(data.status=='1'){
-					layer.alert(data.error_desc);
-				}
-			},error:function(){
-				layer.alert(errorText);
-			}
+	var takeId="";
+	function takeScoreDis(id,flag){
+		var ifCanAdd=0;
+		if(typeof(flag)=='undefined'){
+			ifCanAdd=1;
+		}
+		takeId=id;
+		layer.open({
+			type: 2,
+			content:"/expertTakeScore/getTakeScoreInfo?id="+takeId+"&ifCanAdd="+ifCanAdd,
+			shadeClose: true,//开启遮罩关闭
+			title:false,
+			scrollbar: false,
+			area: ['40%', '70%']
 		});
 	}
+	
 	
 	function viewDesc(id,desc){
 		//desc=html_encode(desc);
@@ -150,12 +128,14 @@
 				content:"/userApply/toApply?id="+id+"&notEdit=1",
 				shadeClose: true,//开启遮罩关闭
 				title:false,
+				scrollbar: false,
 				area: ['80%', '80%']
 			});
 		}else{
 			layer.open({
 				type: 1,
 				content:desc,
+				scrollbar: false,
 				shadeClose: true,//开启遮罩关闭
 				title:false,
 				area: ['400px', '400px']
@@ -167,46 +147,8 @@
 		window.open("/userApply/showFile?id="+id,"_target");
 	}
 	
-	function approveMuti(result){
-		var type=0;
-		var id="";
-		var checks=$("input[name="+tabId+"sel]:checked");
-		for(var i=0;i<checks.length;i++){
-			if(id==''){
-				id=$(checks[i]).val();
-			}else{
-				id+=","+$(checks[i]).val();
-			}
-		}
-		if(id==''){
-			layer.msg("请选择记录",{icon:4});
-			return;
-		}
-		approve1(result,type,id);
-	}
-	
-	function approve1(result,type,id){
-		$.ajax({
-			url:"/expertApprove/approve",
-			data:{result:result,type:type,id:id},
-			type:"post",
-			dataType:"json",
-			success:function(data){
-				if(data.status=='0'){
-					layer.msg("操作成功",{icon:1});
-					getApplyData($("#"+tabId+"current_page").val(),true);
-				}
-				if(data.status=='1'){
-					layer.alert(data.error_desc);
-				}
-			},error:function(){
-				layer.alert(errorText);
-			}
-		});
-	}
-	
 	function returnIndex(){
-		window.location.href="/expertApprove/index";
+		window.location.href="/expertTakeScore/index";
 	}
 	function loadCategoryTree(){
 		if($("#tree").html()==''){
@@ -216,6 +158,7 @@
 			type: 1,
 			content:$("#treeDiv"),
 			shadeClose: true,//开启遮罩关闭
+			scrollbar: false,
 			title:false,
 			/* offset: [ //为了演示，随机坐标
 						75,$(window).width()*0.65
@@ -277,7 +220,7 @@
 		</div>
 		<aside class="right-side">
 			<section class="content-header">
-				<h1>查询报名列表</h1>
+				<h1>复审评分管理-查询报名列表</h1>
 			</section>
 			<section class="content">
 				<div class="form-group mt10" style='margin-top:5px;'>
@@ -324,7 +267,7 @@
 			                                </select>
 			                            </div>
 				                     </div>
-				                     <div class="form-group">
+				                     <!-- <div class="form-group">
 			                           	<div class="col-sm-1">
 			                                <select name="approveResult" id="approveResult" data-live-search="false">
 			                                	<option value=''>初审结果</option>
@@ -333,7 +276,9 @@
 			                                	<option value='0'>审核不通过</option>
 			                                </select>
 			                            </div>
-				                     </div>
+				                     </div> -->
+				                     <input name="approveResult" value="1" type="hidden"/>
+				                     <input name="ifShowScore" value="1" type="hidden"/>
 								</div>
 								
 								<div class="box-body" style="margin-top:10px;">
@@ -361,10 +306,6 @@
 								<div class="col-xs-12" >
 									<div class="box">
 										<div class="box-body table-responsive" >
-											<div style="margin-bottom:8px;">
-												<button type="button" onclick="approveMuti(1)" class='btn btn-primary'>审核通过</button>
-												<button type="button" onclick='approveMuti(0)'class='btn btn-primary'>审核不通过</button>
-											</div>
 											<table class="table table-hover table-bordered" id='${item.id }t'>
 												<tr>
 													<th><span style="font-size:22px;cursor:pointer;" id="${item.id}checkText" onclick="clickCheck('${item.id}sel')">□</span></th>
@@ -375,10 +316,9 @@
 													<th>报名状态</th>
 													<th>参赛组别</th>
 													<th>参赛年龄组</th>
-													<th>初审结果</th>
-													<th>初审人</th>
-													<th>初审时间</th>
-													<th>复赛评分</th>
+													<th>复审人</th>
+													<th>复审时间</th>
+													<th>复审得分</th>
 													<th>操作</th>
 												</tr>
 											</table>
@@ -399,6 +339,9 @@
 		<ul id="tree" class="ztree"></ul>
 	</div>
 	<div id='descDiv' style="display:none;text-align:center;margin-top:20px;" >
+		
+	</div>
+	<div id='takeScoreDiv' style="display:none;">
 		
 	</div>
 </body>
