@@ -263,6 +263,9 @@
 									<div class="col-lg-2 col-xs-5" style="width:13%">
 										<input name='realName' type="text" class="form-control" placeholder="真实姓名">
 									</div>
+									<div class="col-lg-2 col-xs-5" style="width:13%">
+										<input name='schoolName' type="text" class="form-control" placeholder="学校名称">
+									</div>
 									<input name='current_page' id="${item.id }current_page" type="hidden" value="10">
 									<input name='page_size' type="hidden" value="10">
 									<div class="box-footer col-lg-2 col-xs-3">

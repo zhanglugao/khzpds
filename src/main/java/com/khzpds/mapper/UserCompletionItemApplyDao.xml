@@ -306,6 +306,7 @@
 		<if test="search.realName!=null"> and user.real_name=#{search.realName}</if>
 		<if test="search.applyStatus!=null"> and apply.apply_status=#{search.applyStatus}</if>
 		<if test="search.approveResult!=null"> and apply.approve_status=#{search.approveResult}</if>
+		<if test="search.schoolName!=null"> and apply.school_name like CONCAT("%",#{search.schoolName},"%")</if>
 		
 		<if test="orderField!=null and orderType!=null">
 			order by ${orderField} ${orderType}
@@ -347,6 +348,7 @@
 		<if test="realName!=null"> and user.real_name=#{realName}</if>
 		<if test="applyStatus!=null"> and apply.apply_status=#{applyStatus}</if>
 		<if test="approveResult!=null"> and apply.approve_status=#{approveResult}</if>
+		<if test="schoolName!=null"> and apply.school_name=#{schoolName}</if>
 		
 		<if test="orderField!=null and orderType!=null">
 			order by ${orderField} ${orderType}

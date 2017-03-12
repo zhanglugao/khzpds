@@ -82,7 +82,7 @@ public class ReviewResultController extends BaseController{
 	 * @param response
 	 */
 	@RequestMapping("/getApplyData")
-	public void getApplyData(String applyStatus,String approveResult,String itemId,String applyGroup,String applyYearGroup,String orgId,String userName,String realName,HttpServletRequest request,HttpServletResponse response){
+	public void getApplyData(String schoolName,String applyStatus,String approveResult,String itemId,String applyGroup,String applyYearGroup,String orgId,String userName,String realName,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
 		PageParameter page=this.getPageParameter2(request);
 		Map<String,String> searchMap=new HashMap<String, String>();
@@ -94,6 +94,7 @@ public class ReviewResultController extends BaseController{
 		if(StringUtils.isNotBlank(realName))searchMap.put("realName", realName);
 		if(StringUtils.isNotBlank(applyStatus))searchMap.put("applyStatus", applyStatus);
 		if(StringUtils.isNotBlank(approveResult))searchMap.put("approveResult", approveResult);
+		if(StringUtils.isNotBlank(schoolName))searchMap.put("schoolName", schoolName);
 		//searchMap.put("applyStatus", DictionaryConst.BI_SAI_BAO_MING_ZHUANG_TAI_YI_BAO_MING);
 		/*searchMap.put("orderField", " apply");
 		searchMap.put("orderType", " desc");*/
