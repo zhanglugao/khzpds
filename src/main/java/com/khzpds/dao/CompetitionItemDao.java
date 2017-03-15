@@ -9,6 +9,9 @@ import com.khzpds.vo.CompetitionItemInfo;
 public interface CompetitionItemDao extends IBaseDao<CompetitionItemInfo> {
     //--CustomBegin***///
 	List<CompetitionItemInfo> findPublishedCompetitionItem(@Param("type")String type);
+	List<CompetitionItemInfo> findCompetitionItemByTypeStatus(@Param("itemType")String itemType,
+			 @Param("itemStatus")String itemStatus);
 	//--CustomEnd*****///
+
 }
 

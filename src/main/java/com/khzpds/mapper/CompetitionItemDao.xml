@@ -121,5 +121,17 @@
 		AND ci. STATUS = '309002'
 		AND ai. STATUS = '300002'
 	</select>
+	
+	<select id="findCompetitionItemByTypeStatus" resultMap="CompetitionItemResultMap" >
+		SELECT
+			*
+		FROM
+			competition_item ci
+		JOIN activity_info ai ON ci.activity_id = ai.id
+		WHERE
+			ci.type = #{itemType}
+		AND ci. STATUS = #{itemStatus}
+		AND ai. STATUS = '300002'
+	</select>
 	<!--CustomEnd*****-->
 </mapper>

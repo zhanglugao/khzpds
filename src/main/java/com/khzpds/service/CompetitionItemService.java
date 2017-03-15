@@ -23,6 +23,12 @@ public class CompetitionItemService extends IBaseService<CompetitionItemInfo> {
 		// TODO Auto-generated method stub
 		return competitionItemDao.findPublishedCompetitionItem(type);
 	}
+    
+	public List<CompetitionItemInfo> findCompetitionItemByTypeStatus(String itemType,
+			String itemStatus) {
+		return competitionItemDao.findCompetitionItemByTypeStatus(itemType,itemStatus);
+	}
 //--CustomEnd*****///
+
 }
 
