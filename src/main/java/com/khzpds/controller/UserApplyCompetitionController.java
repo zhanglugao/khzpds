@@ -506,4 +506,54 @@ public class UserApplyCompetitionController extends BaseController{
 		System.out.println(number.substring(0,1));
 		System.out.println(number.substring(4,5));
 	}
+    
+    @RequestMapping("/resetNo")
+    public void resetNo(){
+    	//查询出所有审核通过的作品 并按时间排序
+    	UserCompletionItemApplyInfo findInfo=new UserCompletionItemApplyInfo();
+    	findInfo.setApproveStatus("1");
+    	List<UserCompletionItemApplyInfo> list=userCompetitionItemApplyService.findByParamSort(findInfo, " approve_time ");
+    	System.out.println("list的size为："+list.size());
+    	String number=null;
+    	for(UserCompletionItemApplyInfo info:list){
+    		if(StringUtils.isBlank(info.getVdef1())){
+				if(StringUtils.isNotBlank(info.getApplyGroup())){
+					//得到序号的最大值
+					String maxNo=userCompetitionItemApplyService.findMaxApplyNumber(info.getActivityId(),info.getCompetitionItemId(),info.getCompetitionType(),info.getApplyGroup());
+					if(StringUtils.isBlank(maxNo)){
+						maxNo="0";
+					}
+					if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_HUA.equals(info.getCompetitionType())){
+						number=DateUtil.formatDate2String(new Date(), "yyyy")+"2";
+						if(DictionaryConst.KE_HUAN_HUA_CAN_SAI_ZU_SHOU_HUI_ZU.equals(info.getApplyGroup())){
+							number=number+"1";
+						}else if(DictionaryConst.KE_HUAN_HUA_CAN_SAI_ZU_DIAN_NAO_HUI_TU_ZU.equals(info.getApplyGroup())){
+							number=number+"2";
+						}
+					}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_XIAO_SHUO.equals(info.getCompetitionType())){
+						number=DateUtil.formatDate2String(new Date(), "yyyy")+"1";
+						if(DictionaryConst.KE_HUAN_XIAO_SHUO_CAN_SAI_ZU_WEI_XING_XIAO_SHUO.equals(info.getApplyGroup())){
+							number=number+"1";
+						}else if(DictionaryConst.KE_HUAN_XIAO_SHUO_CAN_SAI_ZU_ZHONG_PIAN_XIAO_SHUO.equals(info.getApplyGroup())){
+							number=number+"2";
+						}
+					}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(info.getCompetitionType())){
+						number=DateUtil.formatDate2String(new Date(), "yyyy")+"31";
+					}
+					Integer num=Integer.parseInt(maxNo);
+					num++;
+					String numString=num+"";
+					if(numString.length()==1){
+						numString="00"+num;
+					}else if(numString.length()==2){
+						numString="0"+num;
+					}
+					number+=numString;
+					info.setVdef1(number);
+					info.setVdef2(number.substring(6, number.length()));
+					userCompetitionItemApplyService.update(info);
+				}
+    		}
+    	}
+    }
 }

@@ -268,6 +268,16 @@
            <if test="obj.artist!=null"> AND artist = #{obj.artist}</if>
            <if test="obj.mainStuff!=null"> AND main_stuff = #{obj.mainStuff}</if>
            <if test="obj.teamDesc!=null"> AND team_desc = #{obj.teamDesc}</if>
+           <if test="obj.approveStatus!=null"> AND approve_status = #{obj.approveStatus}</if>
+           <if test="obj.approveUserId!=null"> AND approve_user_id = #{obj.approveUserId}</if>
+           <if test="obj.approveUserName!=null"> AND approve_user_name = #{obj.approveUserName}</if>
+           <if test="obj.approveTime!=null"> AND approve_time = #{obj.approveTime}</if>
+           <if test="obj.approveType!=null"> AND approve_type = #{obj.approveType}</if>
+           <if test="obj.reviewPoint!=null"> AND review_point = #{obj.reviewPoint}</if>
+           <if test="obj.vdef1!=null"> AND vdef1 = #{obj.vdef1}</if>
+           <if test="obj.vdef2!=null"> AND vdef2 = #{obj.vdef2}</if>
+           <if test="obj.vdef3!=null"> AND vdef3 = #{obj.vdef3}</if>
+           
         order by ${sort}
 	</select>
 	<select id="findBySearchMapPage" resultType="map" parameterType="com.khzpds.base.PageParameter">
@@ -376,6 +386,8 @@
 		from user_completion_item_apply
 		where activity_id=#{activityId}
 		AND competition_item_id=#{itemId}
+		AND competition_type=#{itemType}
+		AND apply_group=#{applyGroup}
 	</select>
 	<!--CustomEnd*****-->
 </mapper>

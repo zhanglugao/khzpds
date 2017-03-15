@@ -33,7 +33,6 @@ import com.khzpds.vo.ActivityInfoInfo;
 import com.khzpds.vo.CompetitionItemInfo;
 import com.khzpds.vo.ItemOrgLimitInfo;
 import com.khzpds.vo.ManagerOrgInfo;
-import com.khzpds.vo.RoleInfo;
 import com.khzpds.vo.UserCompletionItemApplyInfo;
 import com.khzpds.vo.UserRoleInfo;
 
@@ -111,10 +110,23 @@ public class OrgApproveController extends BaseController{
 	public void approve(String result,String type,String id,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> data=new HashMap<String, Object>();
 		String[] idArray=id.split(",");
-		List<UserCompletionItemApplyInfo> list=new ArrayList<UserCompletionItemApplyInfo>();
+		//List<UserCompletionItemApplyInfo> list=new ArrayList<UserCompletionItemApplyInfo>();
 		int limitNum=-1;
 		boolean f=false;
 		String itemId=null;
+		if(limitNum!=-1){
+			//判断数目是否超限
+			UserCompletionItemApplyInfo findInfo=new UserCompletionItemApplyInfo();
+			findInfo.setApproveUserId(getCurrentSessionInfo(request).getUserId());
+			findInfo.setCompetitionItemId(itemId);
+			List<UserCompletionItemApplyInfo> list2=userCompetitionItemApplyService.findByParam(findInfo);
+			if(list2.size()+idArray.length>limitNum){
+				data.put("status", "1");
+				data.put("error_desc", "您已审核"+list2.size()+"幅作品，本次操作待审核"+idArray.length+"幅作品，超出限额"+limitNum+"，操作无法继续");
+				this.writeJson(response, data);
+				return;
+			}
+		}
 		for(String applyId:idArray){
 			UserCompletionItemApplyInfo info=userCompetitionItemApplyService.findById(applyId);
 			if(!f){
@@ -139,59 +151,49 @@ public class OrgApproveController extends BaseController{
 			info.setApproveUserId(getCurrentSessionInfo(request).getUserId());
 			info.setApproveUserName(getCurrentSessionInfo(request).getUserName());
 			String number=null;
-			if(StringUtils.isBlank(info.getVdef1())){
-					if(StringUtils.isNotBlank(info.getApplyGroup())&&StringUtils.isNotBlank(info.getApplyYearGroup())){
-						//得到序号的最大值
-						String maxNo=userCompetitionItemApplyService.findMaxApplyNumber(info.getActivityId(),info.getCompetitionItemId());
-						if(StringUtils.isBlank(maxNo)){
-							maxNo="0";
-						}
-						if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_HUA.equals(info.getCompetitionType())){
-							number=DateUtil.formatDate2String(new Date(), "yyyy")+"2";
-							if(DictionaryConst.KE_HUAN_HUA_CAN_SAI_ZU_SHOU_HUI_ZU.equals(info.getApplyGroup())){
-								number=number+"1";
-							}else if(DictionaryConst.KE_HUAN_HUA_CAN_SAI_ZU_DIAN_NAO_HUI_TU_ZU.equals(info.getApplyGroup())){
-								number=number+"2";
+			if("1".equals(result)){
+				if(StringUtils.isBlank(info.getVdef1())){
+						if(StringUtils.isNotBlank(info.getApplyGroup())){
+							//得到序号的最大值
+							String maxNo=userCompetitionItemApplyService.findMaxApplyNumber(info.getActivityId(),info.getCompetitionItemId(),info.getCompetitionType(),info.getApplyGroup());
+							if(StringUtils.isBlank(maxNo)){
+								maxNo="0";
 							}
-						}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_XIAO_SHUO.equals(info.getCompetitionType())){
-							number=DateUtil.formatDate2String(new Date(), "yyyy")+"1";
-							if(DictionaryConst.KE_HUAN_XIAO_SHUO_CAN_SAI_ZU_WEI_XING_XIAO_SHUO.equals(info.getApplyGroup())){
-								number=number+"1";
-							}else if(DictionaryConst.KE_HUAN_XIAO_SHUO_CAN_SAI_ZU_ZHONG_PIAN_XIAO_SHUO.equals(info.getApplyGroup())){
-								number=number+"2";
+							if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_HUA.equals(info.getCompetitionType())){
+								number=DateUtil.formatDate2String(new Date(), "yyyy")+"2";
+								if(DictionaryConst.KE_HUAN_HUA_CAN_SAI_ZU_SHOU_HUI_ZU.equals(info.getApplyGroup())){
+									number=number+"1";
+								}else if(DictionaryConst.KE_HUAN_HUA_CAN_SAI_ZU_DIAN_NAO_HUI_TU_ZU.equals(info.getApplyGroup())){
+									number=number+"2";
+								}
+							}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_XIAO_SHUO.equals(info.getCompetitionType())){
+								number=DateUtil.formatDate2String(new Date(), "yyyy")+"1";
+								if(DictionaryConst.KE_HUAN_XIAO_SHUO_CAN_SAI_ZU_WEI_XING_XIAO_SHUO.equals(info.getApplyGroup())){
+									number=number+"1";
+								}else if(DictionaryConst.KE_HUAN_XIAO_SHUO_CAN_SAI_ZU_ZHONG_PIAN_XIAO_SHUO.equals(info.getApplyGroup())){
+									number=number+"2";
+								}
+							}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(info.getCompetitionType())){
+								number=DateUtil.formatDate2String(new Date(), "yyyy")+"3"+"1";
 							}
-						}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(info.getCompetitionType())){
-							number=DateUtil.formatDate2String(new Date(), "yyyy")+"3"+"1";
+							Integer num=Integer.parseInt(maxNo);
+							num++;
+							String numString=num+"";
+							if(numString.length()==1){
+								numString="00"+num;
+							}else if(numString.length()==2){
+								numString="0"+num;
+							}
+							number+=numString;
+							info.setVdef1(number);
+							info.setVdef2(number.substring(6, number.length()));
 						}
-						Integer num=Integer.parseInt(maxNo);
-						num++;
-						String numString=num+"";
-						if(numString.length()==1){
-							numString="00"+num;
-						}else if(numString.length()==1){
-							numString="0"+num;
-						}
-						number+=numString;
-						info.setVdef1(number);
-						info.setVdef2(number.substring(6, number.length()));
-					}
+				}
 			}
-			list.add(info);
+			userCompetitionItemApplyService.update(info);
+			//list.add(info);
 		}
-		if(limitNum!=-1){
-			//判断数目是否超限
-			UserCompletionItemApplyInfo findInfo=new UserCompletionItemApplyInfo();
-			findInfo.setApproveUserId(getCurrentSessionInfo(request).getUserId());
-			findInfo.setCompetitionItemId(itemId);
-			List<UserCompletionItemApplyInfo> list2=userCompetitionItemApplyService.findByParam(findInfo);
-			if(list2.size()+list.size()>limitNum){
-				data.put("status", "1");
-				data.put("error_desc", "您已审核"+list2.size()+"幅作品，本次操作待审核"+list.size()+"幅作品，超出限额"+limitNum+"，操作无法继续");
-				this.writeJson(response, data);
-				return;
-			}
-		}
-		userCompetitionItemApplyService.updateMuti(list);
+		//userCompetitionItemApplyService.updateMuti(list);
 		data.put("status", "0");
 		this.writeJson(response, data);
 	}

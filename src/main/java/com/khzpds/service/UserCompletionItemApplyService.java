@@ -42,8 +42,8 @@ public class UserCompletionItemApplyService extends IBaseService<UserCompletionI
 		return userCompletionItemApplyDao.findReportDataByActivityId(id);
 	}
 
-	public String findMaxApplyNumber(String activityId, String competitionItemId) {
-		return userCompletionItemApplyDao.findMaxApplyNumber(activityId,competitionItemId);
+	public String findMaxApplyNumber(String activityId, String competitionItemId, String itemType, String applyGroup) {
+		return userCompletionItemApplyDao.findMaxApplyNumber(activityId,competitionItemId,itemType,applyGroup);
 	}
 	public List<Map<String, String>> findBySearchMapPage(
 			PageParameter page) {
