@@ -126,7 +126,7 @@ public class ExpertApproveController extends BaseController{
 			String number=null;
 			if("1".equals(result)){
 				if(StringUtils.isBlank(info.getVdef1())){
-						if(StringUtils.isNotBlank(info.getApplyGroup())){
+						if(StringUtils.isNotBlank(info.getCompetitionType())){
 							//得到序号的最大值
 							String maxNo=userCompetitionItemApplyService.findMaxApplyNumber(info.getActivityId(),info.getCompetitionItemId(),info.getCompetitionType(),info.getApplyGroup());
 							if(StringUtils.isBlank(maxNo)){
