@@ -132,7 +132,7 @@
                 </ul>
           </div>
      </div>
-     <div class="wx-novel">
+     <div class="wx-novel"  id="dataDiv">
               <div class="wt1700 m0">
                   <h2 class="title mb60">微型小说</h2>
                   <!-- 小学  中学 大学  社会人士 -->

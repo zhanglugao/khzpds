@@ -129,7 +129,7 @@ function vote(applyId,applyYearGroup){
                 </ul>
           </div>
      </div>
-     <div class="wx-novel">
+     <div class="wx-novel"  id="dataDiv">
               <div class="wt1700 m0">
                   <!-- 小学  中学 大学  社会人士 -->
                     <ul class="novel-tile wx">
