@@ -755,6 +755,19 @@ public class UserCompletionItemApplyInfo implements Serializable
 		this.recommenedCompanyName = recommenedCompanyName;
 	}
 	
+	private int voteNum;//投票数
+
+	public int getVoteNum() {
+		return voteNum;
+	}
+
+
+	public void setVoteNum(int voteNum) {
+		this.voteNum = voteNum;
+	}
+	
+	
+	
 	//--CustomEnd*****///
 }
 

@@ -11,3 +11,17 @@
 .banner-box .hd ul li{width:12px;height:12px;border-radius :50%;text-indent:-9999px;margin-right:20px;background:#ccc;float:left;cursor:pointer;}
 .banner-box .hd ul li.on{background:#DA324D;}
 
+/*guide*/
+.guide{height:auto; overflow: hidden; width: 100%}
+.guide .guide-i{height: 230px;margin: 0 auto; padding-top: 60px;}
+.guide-i dl{float: left;width:680px; margin-left: 365px; margin-bottom: 54px;}
+.guide-i dd{width: 120px; margin-left:50px; float: left;}
+.guide-i dd a{display: inline-block; margin:0 16px;width: 87px;height:86px;}
+.guide-i dd span{display:inline-block;width: 120px;height:30px; clear: both;}
+.enter{background: url(/images/enter.png) no-repeat;}
+.novel{background: url(/images/novel.png) no-repeat;}
+.draw{background: url(/images/draw.png) no-repeat;}
+.video{background: url(/images/video.png) no-repeat;}
+.guide-i p{text-align: center; height:24px;line-height: 24px;font-size: 12px; display:block; clear: both;font-weight: bold;}
+.foot-i p{text-align: center; height:24px;line-height: 24px;font-size: 12px; display:block; clear: both;font-weight: bold;}
+

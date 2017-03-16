@@ -16,12 +16,62 @@
 <script type="text/javascript" src='/js/autoLogin.js'></script>
 <script src="/js/layer/layer.js"></script>
 <script type="text/javascript">
-	$(document).ready(function(){
-		<c:if test="${empty itemId}">
-			layer.alert("当前没有可供投票的本类型比赛项目");
-			$("#dataDiv").css("display","none");
-		</c:if>
+var itemId="${itemId}";
+var itemType="${itemType}";
+$(document).ready(function(){
+	<c:if test="${empty itemId}">
+		layer.alert("当前没有可供投票的本类型比赛项目");
+		$("#dataDiv").css("display","none");
+	</c:if>
+	getData(303001,304001);
+	getData(303002,304001);
+});
+function getData(applyGroup,applyYearGroup){
+	if($("#"+applyGroup+"-"+applyYearGroup).text()==''){
+		$.ajax({
+			url:"/vote/getVoteData",
+			data:{applyGroup:applyGroup,applyYearGroup:applyYearGroup,itemId:itemId,itemType:itemType},
+			dataType:"json",
+			type:"post",
+			success:function(data){
+				var rows=data.rows;
+				for(var i=0;i<rows.length;i++){
+					var obj=rows[i];
+					if(typeof(obj.applyYearGroup)=='undefined'){
+						obj.applyYearGroup="";
+					}
+					if(typeof(obj.applyGroup)=='undefined'){
+						obj.applyGroup="";
+					}
+					var html="<dl><dt><a href='javascript:;'><img src='/img/draw-zp.png' width='429' height='322'></a></dt>"
+						+"<dd><span class='number'>NO."+obj.vdef1+"</span><span class='author'>作者："+obj.realName+"</span>"
+						+"<p><span class='fl'><img onclick='vote(\""+obj.id+"\",\""+applyGroup+"\",\""+applyYearGroup+"\")' src='/img/vote1.png' width='76' height='36' class='mt10'></span>"
+                        +"<span class='fl mt10 ml10'>票数：<i id='"+obj.id+"voteNum'>"+obj.voteNum+"</i></span></p></dd></dl>";
+					$("#"+applyGroup+"-"+applyYearGroup).append(html);
+				}
+			}
+		});
+	}
+}
+
+
+function vote(applyId,applyGroup,applyYearGroup){
+	$.ajax({
+		url:"/vote/vote",
+		data:{applyId:applyId,applyGroup:applyGroup,applyYearGroup:applyYearGroup},
+		dataType:"json",
+		type:"post",
+		success:function(data){
+			if(data.status=="0"){
+				layer.msg("投票成功",{icon:1});
+				var voteNum=parseInt($("#"+applyId+"voteNum").text());
+				$("#"+applyId+"voteNum").text(voteNum+1);
+			}else{
+				layer.alert(data.error_desc);
+			}
+		}
 	});
+}
 </script>
 </head>
 <body>
@@ -37,14 +87,14 @@
                </i>
               <div class="nav fr">
                   <ul class="nav-text fl">
-                        <li><a id='indexa' href="index.html">首页</a></li>
-                        <li><a href="javascript:;">科幻小说投票</a></li>
-                        <li><a href="##" class="cur">科幻画投票</a></li>
-                        <li><a href="##" >科幻微视频投票</a></li>
+                        <li><a id='indexa' href="/index.html">首页</a></li>
+                        <li><a href="/vote/votePage?itemType=301001">科幻小说投票</a></li>
+                        <li><a href="javascript:;" class="cur">科幻画投票</a></li>
+                        <li><a href="/vote/votePage?itemType=301003" >科幻微视频投票</a></li>
                   </ul>
                   <p id='loginDiv' class="head-login fl mt15" style="display:none;">
-                       <a href="##">登  录</a>
-                       <a href="##">注  册</a>
+                       <a href="/login.html">登  录</a>
+                       <a href="/register.html">注  册</a>
                   </p>
               </div>
               
@@ -87,203 +137,33 @@
                   <h2 class="title mb60">手绘组</h2>
                   <!-- 小学  中学 大学 -->
                     <ul class="novel-tile wx">
-                        <li class="xx">小学组</li>.
-                        <li class="zx">中学组</li>
-                        <li class="dx">大学组</li>
+                        <li class="xx" onclick="getData(303001,304001)">小学组</li>
+                        <li class="zx" onclick="getData(303001,304002)">中学组</li>
+                        <li class="dx" onclick="getData(303001,304003)">大学组</li>
                     </ul>
                     <!-- 手绘组 小学 -->
-                    <div class="main xx on ">
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/draw-zp.png" width="429" height="322"></a></dt>
-                            <dd >
-                                  <span class="nubmer">NO.000001</span>
-                                
-                                  <span class="auther">作者：王某某</span>
-                                  <p>
-                                     <span class="fl"><img src="/img/vote1.png" width="76" height="36" class="mt10"></span>
-                                     <span class="fl mt10 ml10">票数：15</span>
-                                  </p>
-                               </dd>
-                          </dl>
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/draw-zp.png" width="429" height="322"></a></dt>
-                            <dd >
-                                  <span class="nubmer">NO.000001</span>
-                                
-                                  <span class="auther">作者：王某某</span>
-                                  <p>
-                                     <span class="fl"><img src="/img/vote1.png" width="76" height="36" class="mt10"></span>
-                                     <span class="fl mt10 ml10">票数：15</span>
-                                  </p>
-                               </dd>
-                          </dl>
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/draw-zp.png" width="429" height="322"></a></dt>
-                            <dd >
-                                  <span class="nubmer">NO.000001</span>
-                                
-                                  <span class="auther">作者：王某某</span>
-                                  <p>
-                                     <span class="fl"><img src="/img/vote1.png" width="76" height="36" class="mt10"></span>
-                                     <span class="fl mt10 ml10">票数：15</span>
-                                  </p>
-                               </dd>
-                          </dl>
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/draw-zp.png" width="429" height="322"></a></dt>
-                            <dd >
-                                  <span class="nubmer">NO.000001</span>
-                                
-                                  <span class="auther">作者：王某某</span>
-                                  <p>
-                                     <span class="fl"><img src="/img/vote1.png" width="76" height="36" class="mt10"></span>
-                                     <span class="fl mt10 ml10">票数：15</span>
-                                  </p>
-                               </dd>
-                          </dl>
-                          
-                    </div>
+                    <div class="main xx on " id="303001-304001"></div>
                     <!-- 手绘组 中学学 -->
-                    <div class="main  ">
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/draw-zp.png" width="429" height="322"></a></dt>
-                            <dd >
-                                  <span class="nubmer">NO.000001</span>
-                                
-                                  <span class="auther">作者：王某某</span>
-                                  <p>
-                                     <span class="fl"><img src="/img/vote1.png" width="76" height="36" class="mt10"></span>
-                                     <span class="fl mt10 ml10">票数：15</span>
-                                  </p>
-                               </dd>
-                          </dl>
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/draw-zp.png" width="429" height="322"></a></dt>
-                            <dd >
-                                  <span class="nubmer">NO.000001</span>
-                                
-                                  <span class="auther">作者：王某某</span>
-                                  <p>
-                                     <span class="fl"><img src="/img/vote1.png" width="76" height="36" class="mt10"></span>
-                                     <span class="fl mt10 ml10">票数：15</span>
-                                  </p>
-                               </dd>
-                          </dl>
-                          
-                    </div>
+                    <div class="main  " id="303001-304002"></div>
                        <!-- 手绘组 大学 -->
-                    <div class="main   ">
-                          
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/draw-zp.png" width="429" height="322"></a></dt>
-                            <dd >
-                                  <span class="nubmer">NO.000001</span>
-                                
-                                  <span class="auther">作者：王某某</span>
-                                  <p>
-                                     <span class="fl"><img src="/img/vote1.png" width="76" height="36" class="mt10"></span>
-                                     <span class="fl mt10 ml10">票数：15</span>
-                                  </p>
-                               </dd>
-                          </dl>
-                          
-                    </div>
+                    <div class="main   " id="303001-304003"></div>
 
                     <!-- 电脑绘图组 -->
-                    <h2 class="title mb60">手绘组</h2>
+                    <h2 class="title mb60">电脑绘图组</h2>
                   <!-- 小学  中学 大学 -->
                     <ul class="novel-tile wx dn">
-                        <li class="xx">小学组</li>.
-                        <li class="zx">中学组</li>
-                        <li class="dx">大学组</li>
+                        <li class="xx" onclick="getData(303002,304001)">小学组</li>
+                        <li class="zx" onclick="getData(303002,304002)">中学组</li>
+                        <li class="dx" onclick="getData(303002,304003)">大学组</li>
                     </ul>
                     <!-- 电脑绘图组 小学 -->
-                    <div class="main1 xx on ">
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/draw-zp.png" width="429" height="322"></a></dt>
-                            <dd >
-                                  <span class="nubmer">NO.000001</span>
-                                  <span class="auther">作者：王某某</span>
-                                  <p>
-                                     <span class="fl"><img src="/img/vote1.png" width="76" height="36" class="mt10"></span>
-                                     <span class="fl mt10 ml10">票数：15</span>
-                                  </p>
-                               </dd>
-                          </dl>
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/draw-zp.png" width="429" height="322"></a></dt>
-                            <dd >
-                                  <span class="nubmer">NO.000001</span>
-                                
-                                  <span class="auther">作者：王某某</span>
-                                  <p>
-                                     <span class="fl"><img src="/img/vote1.png" width="76" height="36" class="mt10"></span>
-                                     <span class="fl mt10 ml10">票数：15</span>
-                                  </p>
-                               </dd>
-                          </dl>
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/draw-zp.png" width="429" height="322"></a></dt>
-                            <dd >
-                                  <span class="nubmer">NO.000001</span>
-                                
-                                  <span class="auther">作者：王某某</span>
-                                  <p>
-                                     <span class="fl"><img src="/img/vote1.png" width="76" height="36" class="mt10"></span>
-                                     <span class="fl mt10 ml10">票数：15</span>
-                                  </p>
-                               </dd>
-                          </dl>
-
-                          
-                    </div>
+                    <div class="main1 xx on " id="303002-304001"></div>
                     <!-- 电脑绘图组 中学 -->
-                    <div class="main1 ">
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/draw-zp.png" width="429" height="322"></a></dt>
-                            <dd >
-                                  <span class="nubmer">NO.000001</span>
-                                
-                                  <span class="auther">作者：王某某</span>
-                                  <p>
-                                     <span class="fl"><img src="/img/vote1.png" width="76" height="36" class="mt10"></span>
-                                     <span class="fl mt10 ml10">票数：15</span>
-                                  </p>
-                               </dd>
-                          </dl>
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/draw-zp.png" width="429" height="322"></a></dt>
-                            <dd >
-                                  <span class="nubmer">NO.000001</span>
-                                  <span class="auther">作者：王某某</span>
-                                  <p>
-                                     <span class="fl"><img src="/img/vote1.png" width="76" height="36" class="mt10"></span>
-                                     <span class="fl mt10 ml10">票数：15</span>
-                                  </p>
-                               </dd>
-                          </dl>
-                          
-                    </div>
+                    <div class="main1 " id="303002-304002"></div>
                        <!-- 手绘组 大学 -->
-                    <div class="main1   ">
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/draw-zp.png" width="429" height="322"></a></dt>
-                            <dd >
-                                  <span class="nubmer">NO.000001</span>
-                                  <span class="auther">作者：王某某</span>
-                                  <p>
-                                     <span class="fl"><img src="/img/vote1.png" width="76" height="36" class="mt10"></span>
-                                     <span class="fl mt10 ml10">票数：15</span>
-                                  </p>
-                               </dd>
-                          </dl>
-                    </div>
+                    <div class="main1   " id="303002-304003"></div>
             </div>
      </div>
-  
-  
-    
-
      <!-- 底部 -->
      <!-- <div class="footer">
         <div class="footer-i w1348 m0">

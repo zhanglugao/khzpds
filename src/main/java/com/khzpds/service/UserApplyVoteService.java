@@ -1,4 +1,6 @@
 package com.khzpds.service;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,21 @@ public class UserApplyVoteService extends IBaseService<UserApplyVoteInfo> {
     public void setUserApplyVoteRepository(UserApplyVoteDao repository) {  
         setRepository(repository);  
         userApplyVoteDao=repository;
-    }  
+    }
+
+	
     
     //--CustomBegin***///
+    public int findByParamCount(UserApplyVoteInfo voteFind) {
+		return userApplyVoteDao.findByParamCount(voteFind);
+	}  
+    public List<UserApplyVoteInfo> findByParamOr(UserApplyVoteInfo voteFind) {
+		return userApplyVoteDao.findByParamOr(voteFind);
+	}
 //--CustomEnd*****///
+
+
+
+	
 }
 

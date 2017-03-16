@@ -62,6 +62,8 @@
 	        <mvc:exclude-mapping path="/user/findPassword"/>
 	        <!-- 游客访问首页日志 -->
 	        <mvc:exclude-mapping path="/userVisitLog/visitLog"/>
+	        <!-- 游客投票 -->
+	        <mvc:exclude-mapping path="/vote/*"/>
 	        
 	        <bean class="com.khzpds.secure.LoginInterceptor" />
 	    </mvc:interceptor>

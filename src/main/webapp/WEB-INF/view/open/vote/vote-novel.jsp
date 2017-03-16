@@ -16,17 +16,66 @@
 <script type="text/javascript" src='/js/autoLogin.js'></script>
 <script src="/js/layer/layer.js"></script>
 <script type="text/javascript">
-	/* $(document).ready(function(){
+	var itemId="${itemId}";
+	var itemType="${itemType}";
+	$(document).ready(function(){
 		<c:if test="${empty itemId}">
 			layer.alert("当前没有可供投票的本类型比赛项目");
 			$("#dataDiv").css("display","none");
 		</c:if>
-	}); */
+		getData(305001,306001);
+		getData(305002,306001);
+	});
+	function getData(applyGroup,applyYearGroup){
+		if($("#"+applyGroup+"-"+applyYearGroup).text()==''){
+			$.ajax({
+				url:"/vote/getVoteData",
+				data:{applyGroup:applyGroup,applyYearGroup:applyYearGroup,itemId:itemId,itemType:itemType},
+				dataType:"json",
+				type:"post",
+				success:function(data){
+					var rows=data.rows;
+					for(var i=0;i<rows.length;i++){
+						var obj=rows[i];
+						if(typeof(obj.applyYearGroup)=='undefined'){
+							obj.applyYearGroup="";
+						}
+						if(typeof(obj.applyGroup)=='undefined'){
+							obj.applyGroup="";
+						}
+						var html="<dl><dt><a href='javascript:;'><img src='/img/vote-dx.jpg' width='237' height='302'></a></dt>"
+							+"<dd><span>NO."+obj.vdef1+"</span><span>《"+obj.productionName+"》</span><span>作者："+obj.realName+"</span><span><img onclick='vote(\""+obj.id+"\",\""+applyGroup+"\",\""+applyYearGroup+"\")' style='cursor:pointer' src='/img/vote1.png' class='mt20' ></span>"
+							+"<span>票数：<i id='"+obj.id+"voteNum'>"+obj.voteNum+"</i></span></dd></dl>";
+						$("#"+applyGroup+"-"+applyYearGroup).append(html);
+					}
+				}
+			});
+		}
+	}
+	
+	
+	function vote(applyId,applyGroup,applyYearGroup){
+		$.ajax({
+			url:"/vote/vote",
+			data:{applyId:applyId,applyGroup:applyGroup,applyYearGroup:applyYearGroup},
+			dataType:"json",
+			type:"post",
+			success:function(data){
+				if(data.status=="0"){
+					layer.msg("投票成功",{icon:1});
+					var voteNum=parseInt($("#"+applyId+"voteNum").text());
+					$("#"+applyId+"voteNum").text(voteNum+1);
+				}else{
+					layer.alert(data.error_desc);
+				}
+			}
+		});
+	}
 </script>
 </head>
 <body>
      <!-- 头部 -->
-    <!--  <div id="loginDiv2" style="display:none;position:absolute;right:50px;top:25px;"><span id='loginName'></span>|<a href="/user/logout">退出</a>|<a href="/user/openIndex">个人中心</a></div> -->
+    <div id="loginDiv2" style="display:none;position:absolute;right:50px;top:25px;"><span id='loginName'></span>|<a href="/user/logout">退出</a>|<a href="/user/openIndex">个人中心</a></div>
      <div class="head">
           <div class="head-i w1348 m0">
                <i class="fl mr10">
@@ -37,14 +86,14 @@
                </i>
               <div class="nav fr">
                   <ul class="nav-text fl">
-                        <li><a id='indexa' href="index.html">首页</a></li>
+                        <li><a id='indexa' href="/index.html">首页</a></li>
                         <li><a href="javascript:;" class="cur">科幻小说投票</a></li>
-                        <li><a href="draw.html" >科幻画投票</a></li>
-                        <li><a href="video.html" >科幻微视频投票</a></li>
+                        <li><a href="/vote/votePage?itemType=301002" >科幻画投票</a></li>
+                        <li><a href="/vote/votePage?itemType=301003" >科幻微视频投票</a></li>
                   </ul>
                   <p id='loginDiv' class="head-login fl mt15" style="display:none;">
-                       <a href="login.html">登  录</a>
-                       <a href="register.html">注  册</a>
+                       <a href="/login.html">登  录</a>
+                       <a href="/register.html">注  册</a>
                   </p>
               </div>
               
@@ -88,262 +137,34 @@
                   <h2 class="title mb60">微型小说</h2>
                   <!-- 小学  中学 大学  社会人士 -->
                     <ul class="novel-tile wx">
-                        <li class="xx">小学</li>.
-                        <li class="zx">中学</li>
-                        <li class="dx">大学</li>
-                        <li class="sh">社会人士</li>
+                        <li class="xx" onclick="getData(305001,306001)">小学</li>
+                        <li class="zx" onclick="getData(305001,306002)">中学</li>
+                        <li class="dx" onclick="getData(305001,306003)">大学</li>
+                        <li class="sh" onclick="getData(305001,306004)">社会人士</li>
                     </ul>
                     <!-- 微型小说  小学 -->
-                    <div class="content xx on ">
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl>
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl><dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl>
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl>
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl>
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl>
-                    </div>
+                    <div class="content xx on " id="305001-306001"></div>
                     <!-- 微型小说  中学 -->
-                    <div class="content xx ">
-                          
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl><dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl>
-                    </div>
+                    <div class="content xx " id="305001-306002"></div>
                     <!--微型小说  大学 -->
-                    <div class="content xx ">
-                          
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl>
-                    </div>
+                    <div class="content xx " id="305001-306003"></div>
                     <!-- 微型小说  社会 -->
-                    <div class="content xx ">
-                          
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl><dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl>
-                    </div>
-                 <h2 class="title mt20">短篇小说</h2>
+                    <div class="content xx " id="305001-306004"></div>
+                 <h2 class="title mt20">中篇小说</h2>
                  <ul class="novel-tile dx">
-                        <li class="xx">小学</li>.
-                        <li class="zx">中学</li>
-                        <li class="dx">大学</li>
-                        <li class="sh">社会人士</li>
+                        <li class="xx" onclick="getData(305002,306001)">小学</li>
+                        <li class="zx" onclick="getData(305002,306002)">中学</li>
+                        <li class="dx" onclick="getData(305002,306003)">大学</li>
+                        <li class="sh" onclick="getData(305002,306004)">社会人士</li>
                     </ul>
                   <!-- 短型小说  小学 -->
-                    <div class="content1 xx on ">
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl>
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl><dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl>
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl>
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl>
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl>
-                    </div>
+                    <div class="content1 xx on " id="305002-306001"></div>
                     <!-- 短型小说  中学 -->
-                    <div class="content1 xx ">
-                          
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl><dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl>
-                    </div>
+                    <div class="content1 xx " id="305002-306002"></div>
                     <!--短型小说  大学 -->
-                    <div class="content1 xx ">
-                          
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl>
-                    </div>
+                    <div class="content1 xx " id="305002-306003"></div>
                     <!-- 短型小说  社会 -->
-                    <div class="content1 xx ">
-                          
-                          <dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl><dl>
-                            <dt><a href="javascript:;"><img src="/img/vote-dx.jpg" width="237" height="302"></a></dt>
-                            <dd >
-                                 <span>NO.000001</span>
-                                 <span>《科学畅想》</span>
-                                  <span>作者：王某某</span>
-                                  <span><img src="/img/vote1.png" class="mt20" ></span>
-                                  <span>票数：15</span>
-                            </dd>
-                          </dl>
-                    </div>
+                    <div class="content1 xx " id="305002-306004"></div>
             </div>
      </div>
   

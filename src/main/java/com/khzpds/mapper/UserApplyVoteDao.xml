@@ -97,5 +97,37 @@
 		where id=#{obj.id} 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
     </update> 
-	<!--CustomBegin***--><!--CustomEnd*****-->
+	<!--CustomBegin***-->
+	<select id="findByParamCount" resultType="java.lang.Integer">
+		select count(id) from user_apply_vote
+		where 1=1
+           <if test="obj.id!=null"> AND id = #{obj.id}</if>
+           <if test="obj.applyId!=null"> AND apply_id = #{obj.applyId}</if>
+           <if test="obj.userId!=null"> AND user_id = #{obj.userId}</if>
+           <if test="obj.openId!=null"> AND open_id = #{obj.openId}</if>
+           <if test="obj.ip!=null"> AND ip = #{obj.ip}</if>
+           <if test="obj.voteTime!=null"> AND vote_time = #{obj.voteTime}</if>
+           <if test="obj.activityId!=null"> AND activity_id = #{obj.activityId}</if>
+           <if test="obj.itemId!=null"> AND item_id = #{obj.itemId}</if>
+           <if test="obj.vdef1!=null"> AND vdef1 = #{obj.vdef1}</if>
+           <if test="obj.vdef2!=null"> AND vdef2 = #{obj.vdef2}</if>
+           <if test="obj.vdef3!=null"> AND vdef3 = #{obj.vdef3}</if>
+	</select>
+	
+	<select id="findByParamOr" resultMap="UserApplyVoteResultMap">
+		select * from user_apply_vote
+		where 1=1 AND( 1!=1
+           <if test="obj.applyId!=null"> or apply_id = #{obj.applyId}</if>
+           <if test="obj.userId!=null"> or user_id = #{obj.userId}</if>
+           <if test="obj.openId!=null"> or open_id = #{obj.openId}</if>
+           <if test="obj.ip!=null"> or ip = #{obj.ip}</if>
+           <if test="obj.voteTime!=null"> or vote_time = #{obj.voteTime}</if>
+           <if test="obj.activityId!=null"> or activity_id = #{obj.activityId}</if>
+           <if test="obj.itemId!=null"> or item_id = #{obj.itemId}</if>
+           <if test="obj.vdef3!=null"> or vdef3 = #{obj.vdef3}</if>
+           )
+           <if test="obj.vdef1!=null"> and vdef1 = #{obj.vdef1}</if>
+           <if test="obj.vdef2!=null"> and vdef2 = #{obj.vdef2}</if>
+	</select>
+	<!--CustomEnd*****-->
 </mapper>
