@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.khzpds.dao.UserApplyVoteDao">
+
+	 <resultMap id="UserApplyVoteResultMap" type="com.khzpds.vo.UserApplyVoteInfo">
+        <id property="id" column="id" />
+        <result property="applyId" column="apply_id" />    
+        <result property="userId" column="user_id" />    
+        <result property="openId" column="open_id" />    
+        <result property="ip" column="ip" />    
+        <result property="voteTime" column="vote_time" />    
+        <result property="activityId" column="activity_id" />    
+        <result property="itemId" column="item_id" />    
+        <result property="vdef1" column="vdef1" />    
+        <result property="vdef2" column="vdef2" />    
+        <result property="vdef3" column="vdef3" />    
+    </resultMap>
+    
+    <!--根据主键查询-->
+	<select id="findById" resultMap="UserApplyVoteResultMap">
+		select id,apply_id,user_id,open_id,ip,vote_time,activity_id,item_id,vdef1,vdef2,vdef3 from user_apply_vote where id=#{id}
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+	</select>
+    
+    <!--插入-->
+	 <insert id="insert" parameterType="com.khzpds.vo.UserApplyVoteInfo" >
+    	INSERT INTO user_apply_vote
+        (id,apply_id,user_id,open_id,ip,vote_time,activity_id,item_id,vdef1,vdef2,vdef3) 
+		values(#{id},#{applyId},#{userId},#{openId},#{ip},#{voteTime},#{activityId},#{itemId},#{vdef1},#{vdef2},#{vdef3})
+    </insert>
+
+    
+    <!--根据传入的map参数查询 并分页-->
+    <select id="findByParamForPage" resultMap="UserApplyVoteResultMap" >
+		select id,apply_id,user_id,open_id,ip,vote_time,activity_id,item_id,vdef1,vdef2,vdef3 from user_apply_vote
+		where 1=1
+           <if test="obj.search.id!=null"> AND id = #{obj.search.id}</if>
+           <if test="obj.search.applyId!=null"> AND apply_id = #{obj.search.applyId}</if>
+           <if test="obj.search.userId!=null"> AND user_id = #{obj.search.userId}</if>
+           <if test="obj.search.openId!=null"> AND open_id = #{obj.search.openId}</if>
+           <if test="obj.search.ip!=null"> AND ip = #{obj.search.ip}</if>
+           <if test="obj.search.voteTime!=null"> AND vote_time = #{obj.search.voteTime}</if>
+           <if test="obj.search.activityId!=null"> AND activity_id = #{obj.search.activityId}</if>
+           <if test="obj.search.itemId!=null"> AND item_id = #{obj.search.itemId}</if>
+           <if test="obj.search.vdef1!=null"> AND vdef1 = #{obj.search.vdef1}</if>
+           <if test="obj.search.vdef2!=null"> AND vdef2 = #{obj.search.vdef2}</if>
+           <if test="obj.search.vdef3!=null"> AND vdef3 = #{obj.search.vdef3}</if>
+
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+        <if test="obj.orderField!=null and obj.orderType!=null"> order by ${obj.orderField} ${obj.orderType}</if>
+	</select>
+    
+     <!--根据传入的实体参数查询-->
+    <select id="findByParam" resultMap="UserApplyVoteResultMap" >
+		select id,apply_id,user_id,open_id,ip,vote_time,activity_id,item_id,vdef1,vdef2,vdef3 from user_apply_vote
+		where 1=1
+           <if test="obj.id!=null"> AND id = #{obj.id}</if>
+           <if test="obj.applyId!=null"> AND apply_id = #{obj.applyId}</if>
+           <if test="obj.userId!=null"> AND user_id = #{obj.userId}</if>
+           <if test="obj.openId!=null"> AND open_id = #{obj.openId}</if>
+           <if test="obj.ip!=null"> AND ip = #{obj.ip}</if>
+           <if test="obj.voteTime!=null"> AND vote_time = #{obj.voteTime}</if>
+           <if test="obj.activityId!=null"> AND activity_id = #{obj.activityId}</if>
+           <if test="obj.itemId!=null"> AND item_id = #{obj.itemId}</if>
+           <if test="obj.vdef1!=null"> AND vdef1 = #{obj.vdef1}</if>
+           <if test="obj.vdef2!=null"> AND vdef2 = #{obj.vdef2}</if>
+           <if test="obj.vdef3!=null"> AND vdef3 = #{obj.vdef3}</if>
+
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+	</select>
+    
+    <!--根据主键进行删除-->
+	<delete id="deleteById"  >
+    	delete from user_apply_vote where id=#{id}
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+    </delete>
+    
+    <!--根据实体进行更新-->
+	<update id="update" >
+    	update user_apply_vote 
+        <trim prefix="SET" suffixOverrides=",">
+           <if test="obj.id!=null">id=#{obj.id},</if>
+           <if test="obj.applyId!=null">apply_id=#{obj.applyId},</if>
+           <if test="obj.userId!=null">user_id=#{obj.userId},</if>
+           <if test="obj.openId!=null">open_id=#{obj.openId},</if>
+           <if test="obj.ip!=null">ip=#{obj.ip},</if>
+           <if test="obj.voteTime!=null">vote_time=#{obj.voteTime},</if>
+           <if test="obj.activityId!=null">activity_id=#{obj.activityId},</if>
+           <if test="obj.itemId!=null">item_id=#{obj.itemId},</if>
+           <if test="obj.vdef1!=null">vdef1=#{obj.vdef1},</if>
+           <if test="obj.vdef2!=null">vdef2=#{obj.vdef2},</if>
+           <if test="obj.vdef3!=null">vdef3=#{obj.vdef3},</if>  
+        </trim>
+		where id=#{obj.id} 
+        <if test="platformId!=null"> AND platform_id = #{platformId}</if>
+    </update> 
+	<!--CustomBegin***--><!--CustomEnd*****-->
+</mapper>
