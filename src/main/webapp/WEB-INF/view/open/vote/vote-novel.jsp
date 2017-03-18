@@ -43,7 +43,7 @@
 						if(typeof(obj.applyGroup)=='undefined'){
 							obj.applyGroup="";
 						}
-						var html="<dl><dt><a href='javascript:;'><img src='/img/vote-dx.jpg' width='237' height='302'></a></dt>"
+						var html="<dl><dt><a href='/userApply/showFile?id="+obj.id+"' target='_blank'><img src='/img/vote-dx.jpg' width='237' height='302'></a></dt>"
 							+"<dd><span>NO."+obj.vdef1+"</span><span>《"+obj.productionName+"》</span><span>作者："+obj.realName+"</span><span><img onclick='vote(\""+obj.id+"\",\""+applyGroup+"\",\""+applyYearGroup+"\")' style='cursor:pointer' src='/img/vote1.png' class='mt20' ></span>"
 							+"<span>票数：<i id='"+obj.id+"voteNum'>"+obj.voteNum+"</i></span></dd></dl>";
 						$("#"+applyGroup+"-"+applyYearGroup).append(html);
