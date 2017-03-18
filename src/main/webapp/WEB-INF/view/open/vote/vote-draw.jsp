@@ -6,9 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>科幻作品大赛--科幻画投票</title>
-<link rel="stylesheet" href="/css/style.css"/>
-<link rel="stylesheet" href="/css/header.css"/>
-<link rel="stylesheet" type="text/css" href="/css/registration.css">
+<link rel="stylesheet" href="/css/vote/style.css"/>
+<link rel="stylesheet" href="/css/vote/header.css"/>
+<link rel="stylesheet" type="text/css" href="/css/vote/registration.css">
 <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src='/js/common.js'></script>
 <script type="text/javascript" src='/js/base64.js'></script>
@@ -43,8 +43,8 @@ function getData(applyGroup,applyYearGroup){
 					if(typeof(obj.applyGroup)=='undefined'){
 						obj.applyGroup="";
 					}
-					var html="<dl><dt><a href='javascript:;'><img src='/img/draw-zp.png' width='429' height='322'></a></dt>"
-						+"<dd><span class='number'>NO."+obj.vdef1+"</span><span class='author'>作者："+obj.realName+"</span>"
+					var html="<dl><dt><a href='javascript:;'><img src='${lookdir}"+obj.filePath+"' width='429' height='322'></a></dt>"
+						+"<dd><span class='number'>NO."+obj.vdef1+"</span><span class='auther'>作者："+obj.realName+"</span>"
 						+"<p><span class='fl'><img onclick='vote(\""+obj.id+"\",\""+applyGroup+"\",\""+applyYearGroup+"\")' src='/img/vote1.png' width='76' height='36' class='mt10'></span>"
                         +"<span class='fl mt10 ml10'>票数：<i id='"+obj.id+"voteNum'>"+obj.voteNum+"</i></span></p></dd></dl>";
 					$("#"+applyGroup+"-"+applyYearGroup).append(html);

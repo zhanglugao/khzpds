@@ -6,9 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>科幻作品大赛--科幻小说投票</title>
-<link rel="stylesheet" href="/css/style.css"/>
-<link rel="stylesheet" href="/css/header.css"/>
-<link rel="stylesheet" type="text/css" href="/css/registration.css">
+<link rel="stylesheet" href="/css/vote/style.css"/>
+<link rel="stylesheet" href="/css/vote/header.css"/>
+<link rel="stylesheet" type="text/css" href="/css/vote/registration.css">
 <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src='/js/common.js'></script>
 <script type="text/javascript" src='/js/base64.js'></script>

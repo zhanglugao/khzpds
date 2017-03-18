@@ -236,8 +236,8 @@
 		<profile>
 			<id>dev-env</id>
 			<properties>
-				<basedir.upload>D:\</basedir.upload>
-				<basedir.look>D:\</basedir.look>
+				<basedir.upload>D:\\</basedir.upload>
+				<basedir.look>/filePath/</basedir.look>
 				<jdbc.url>jdbc:mysql://localhost:3306/khzpds?useUnicode=true&amp;amp;characterEncoding=utf8</jdbc.url>
 				<jdbc.username>root</jdbc.username>
 				<jdbc.password>000000</jdbc.password>
@@ -250,8 +250,8 @@
 		<profile>
 			<id>company-env</id>
 			<properties>
-				<basedir.upload>E:\khzpds</basedir.upload>
-				<basedir.look>E:\khzpds</basedir.look>
+				<basedir.upload>E:\\khzpds</basedir.upload>
+				<basedir.look>/filePath/</basedir.look>
 				<jdbc.url>jdbc:mysql://172.27.1.101:3306/test?useUnicode=true&amp;amp;characterEncoding=utf8</jdbc.url>
 				<jdbc.username>root</jdbc.username>
 				<jdbc.password>MyNewPass4!</jdbc.password>
@@ -264,8 +264,8 @@
 		<profile>
 			<id>product-env</id>
 			<properties>
-				<basedir.upload>E:\khzpds</basedir.upload>
-				<basedir.look>E:\khzpds</basedir.look>
+				<basedir.upload>E:\\khzpds</basedir.upload>
+				<basedir.look>/filePath/</basedir.look>
 				<jdbc.url>jdbc:mysql://localhost:3306/khzpds?useUnicode=true&amp;amp;characterEncoding=utf8</jdbc.url>
 				<jdbc.username>root</jdbc.username>
 				<jdbc.password>root123456</jdbc.password>

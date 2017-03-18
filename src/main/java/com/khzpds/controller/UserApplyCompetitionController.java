@@ -167,6 +167,29 @@ public class UserApplyCompetitionController extends BaseController{
 		result.put("applyList", applys);
 		this.writeJson(response, result);
 	}
+	/**
+	 * 复赛报名表完善
+	 * @param id
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/toFusaiApply")
+	public ModelAndView toFusaiApply(String id,HttpServletRequest request,HttpServletResponse response){
+		UserCompletionItemApplyInfo applyInfo=userCompetitionItemApplyService.findById(id);
+		String type=applyInfo.getCompetitionType();
+		String dest=null;
+		if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_XIAO_SHUO.equals(type)){
+			dest="novel-sign";
+		}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_HUA.equals(type)){
+			dest="draw-sign";
+		}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(type)){
+			dest="video-sign";
+		}
+		request.setAttribute("applyInfo", applyInfo);
+		request.setAttribute("ifReadonly", "1");
+		return new ModelAndView(getRootPath(request)+"/open/fusaisign/"+dest);
+	}
 	
 	/***
 	 * 跳转报名页  需要根据type判断是否存在正在运行中的活动下的已发布状态的比赛项目
@@ -271,6 +294,19 @@ public class UserApplyCompetitionController extends BaseController{
 		return new ModelAndView(getRootPath(request)+"/open/competition/"+dest);
 	}
 	
+	@RequestMapping("/fusaiSave")
+	public void fusaiSave(UserCompletionItemApplyInfo applyInfo,HttpServletRequest request,HttpServletResponse response) {
+		Map<String,Object> result=new HashMap<String, Object>();
+		UserCompletionItemApplyInfo oldInfo=userCompetitionItemApplyService.findById(applyInfo.getId());
+		if(StringUtils.isNotBlank(applyInfo.getVdef3())){
+			oldInfo.setVdef3(applyInfo.getVdef3());
+			userCompetitionItemApplyService.update(oldInfo);
+		}
+		result.put("status", "0");
+		result.put("id", applyInfo.getId());
+		this.writeJson(response, result);
+	}
+	
 	/***
 	 * 比赛项目报名
 	 * @param applyInfo
@@ -332,13 +368,16 @@ public class UserApplyCompetitionController extends BaseController{
 	};
 	
 	@RequestMapping("download")    
-    public void download(HttpServletRequest request,String type,String applyId,HttpServletResponse response) throws IOException, Docx4JException { 
+    public void download(HttpServletRequest request,String fusai,String type,String applyId,HttpServletResponse response) throws IOException, Docx4JException { 
 		UserCompletionItemApplyInfo applyInfo=null;
 		if(StringUtils.isNotBlank(applyId)){
 			applyInfo=userCompetitionItemApplyService.findById(applyId);
 		}
     	File file=null;
     	String name="novel-sign-up.docx";
+    	if(StringUtils.isNotBlank(fusai)){
+    		name="novel-fusai-sign-up.docx";
+    	}
     	if(applyInfo!=null){
     		if(StringUtils.isNotBlank(applyInfo.getRecommenedCompany())){
     			ContentCategoryInfo category=contentCategoryService.findById(applyInfo.getRecommenedCompany());
@@ -352,12 +391,23 @@ public class UserApplyCompetitionController extends BaseController{
     			applyInfo.setCardType(dictionaryService.findById(applyInfo.getCardType()).getName());
     		}
     		String suffix="novel-template.docx";
+    		if(StringUtils.isNotBlank(fusai)){
+    			suffix="novel-fusai-template.docx";
+        	}
     		if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_HUA.equals(type)){
     			suffix="paint-template.docx";
     			name="paint-sign-up.docx";
+    			if(StringUtils.isNotBlank(fusai)){
+    				suffix="paint-fusai-template.docx";
+        			name="paint-fusai-sign-up.docx";
+    			}
 	    	}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(type)){
 	    		suffix="video-template.docx";
 	    		name="video-sign-up.docx";
+	    		if(StringUtils.isNotBlank(fusai)){
+    				suffix="video-fusai-template.docx";
+        			name="video-fusai-sign-up.docx";
+    			}
 	    	}
     		WordprocessingMLPackage word=Docx4jUtil.getTemplate(request.getSession().getServletContext().getRealPath("")+File.separator+"/file/"+suffix);
     		HashMap<String,String> map=new HashMap<String, String>();
@@ -375,6 +425,9 @@ public class UserApplyCompetitionController extends BaseController{
     		map.put("$postcode", applyInfo.getPostcode()==null?"":applyInfo.getPostcode());
     		map.put("$address", applyInfo.getAddress()==null?"":applyInfo.getAddress());
     		map.put("$ideaDesc", applyInfo.getIdeaDesc()==null?"":applyInfo.getIdeaDesc());
+    		if(!DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(type)&&StringUtils.isNotBlank(fusai)){
+    			map.put("$vdef3",  applyInfo.getVdef3()==null?"":applyInfo.getVdef3());
+    		}
     		
     		//微视频附加属性
     		if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(type)){

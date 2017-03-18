@@ -45,6 +45,9 @@
 						if(obj.approveStatus!='审核通过'){
 							html+="<a onclick='cancelApply(\""+obj.id+"\")' href='javascript:;'>撤销</a>&nbsp;"
 						}
+						if(obj.approveStatus=='审核通过'){
+							html+="<a onclick='fusai(\""+obj.id+"\")' href='javascript:;'>完善复赛报名表</a>&nbsp;"
+						}
 						html+="<a onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' href='javascript:;'>下载报名表</a></td></tr>";
 					}else if(obj.applyStatus=='已取消'){
 						html+="<td class='cz1'><a onclick='toedit(\""+obj.id+"\")' href='javascript:;'>编辑</a>&nbsp;<a onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' href='javascript:;'>下载报名表</a></td></tr>";
@@ -56,6 +59,10 @@
 			}
 		});
 	}
+	function fusai(id){
+		window.location.href="/userApply/toFusaiApply?id="+id;
+	}
+	
 	function downloadApplyTable(type,applyId){
 		window.open("/userApply/download?type="+type+"&applyId="+applyId,"_blank");
 	}

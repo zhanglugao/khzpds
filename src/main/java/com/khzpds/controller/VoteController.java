@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.khzpds.base.BaseController;
 import com.khzpds.base.DictionaryConst;
 import com.khzpds.base.SessionInfo;
+import com.khzpds.base.SystemConfig;
 import com.khzpds.service.CompetitionItemService;
 import com.khzpds.service.UserApplyVoteService;
 import com.khzpds.service.UserCompletionItemApplyService;
@@ -53,6 +54,7 @@ public class VoteController extends BaseController{
 			request.setAttribute("itemId", list.get(0).getId());
 			request.setAttribute("itemType", itemType);
 		}
+		request.setAttribute("lookdir", SystemConfig.getLookDir());
 		return model;
 	}
 	
@@ -89,6 +91,9 @@ public class VoteController extends BaseController{
 			voteFind.setApplyId(applyInfo.getId());
 			int count=userApplyVoteService.findByParamCount(voteFind);
 			applyInfo.setVoteNum(count);
+			if(applyInfo.getFilePath()!=null){
+				applyInfo.setFilePath(applyInfo.getFilePath().replace("\\", "/"));
+			}
 		}
 		result.put("rows", list);
 		this.writeJson(response, result);

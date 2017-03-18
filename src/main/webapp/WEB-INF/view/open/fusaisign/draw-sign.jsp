@@ -57,10 +57,6 @@ display:block;
     var mflag = regBox.regMobile.test(mobile);
     var tflag = regBox.regTel.test(tel);
 	$(document).ready(function(){
-		<c:if test="${empty item && empty applyInfo}">
-			layer.alert("没有可供报名的本类型比赛项目");
-			$("form").css("display","none");
-		</c:if>
 		$("input[name=applyGroup]").click(function(){
 			$("input[name=applyGroup]:checked").prop("checked",false);
 			$(this).prop("checked",true);
@@ -377,8 +373,11 @@ display:block;
 		});
 	}
 	function onlySave(){
+		if($("#vdef3").val()==''){
+			layer.tips('请填写指导老师', '#vdef3',{tips:[1,tipsColor]});return;
+		}
 		$.ajax({
-			url:"/userApply/userApplyCompetitionItem?onlySave=1",
+			url:"/userApply/fusaiSave?onlySave=1",
 			type:"post",
 			dataType:"json",
 			data:$("#form").serialize(),
@@ -401,7 +400,7 @@ display:block;
 	}
 	
 	function downloadApplyTable(type,applyId){
-		window.open("/userApply/download?type="+type+"&applyId="+applyId,"_blank");
+		window.open("/userApply/download?fusai=1&type="+type+"&applyId="+applyId,"_blank");
 	}
 	
 	function loadCategoryTree(){
@@ -542,6 +541,10 @@ display:block;
                             </li>
                             <!-- 所在学校 -->
                             <li>
+                                <span class="dw">指导老师（没有写无）</span>
+                                <input value="${applyInfo.vdef3 }"  name="vdef3" id="vdef3" type="text"  style="width:510px" />
+                             </li>
+                            <li>
                                 <span>所在学校</span>
                                 <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.schoolName }"  name='schoolName' id='schoolName' type="text"  style="width:590px" />
                              </li>
@@ -593,7 +596,7 @@ display:block;
                         </ul>
                         <div class="cb left-form1" id='applyDIv'>
                            <p>
-                           	 <a id='onlysavea'  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if>  onclick="onlySave()" href="javascript:;" class="bc"><img src="/images/bc-btn.png" alt="保存报名表"></a>
+                           	 <a id='onlysavea' onclick="onlySave()" href="javascript:;" class="bc"><img src="/images/bc-btn.png" alt="保存报名表"></a>
                            	 <a onclick="downloadApplyTable(301002,'${applyInfo.id}')" href="javascript:;" class="dl"><img src="/images/dl-btn.png" alt="下载报名表"></a>
                              <a onclick='openChoose()'  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> id='chooseProduct' href="javascript:;" class="tj"><img src="/images/tj-bm.png"></a>
                              <a id="applya"  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> onclick="apply()" href="javascript:;"><img src="/images/qr.png"></a></p>

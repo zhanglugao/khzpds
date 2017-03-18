@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>科幻画-报名表</title>
+<title>科幻微视频-报名表</title>
 <link href="/webuploader/webuploader.css" rel="stylesheet" type="text/css">
 <jsp:include page="../common/open_inc.jsp"></jsp:include>
 <!-- <script type="text/javascript" src="js/Validform.js"></script> -->
@@ -15,7 +15,6 @@
 <link type="text/css" rel="stylesheet" href="/js/ztree/css/zTreeStyle/zTreeStyle.css"/>
 <script src="/js/ztree/js/jquery.ztree.core-3.4.js"></script>
 <script src="/js/ztree/js/jquery.ztree.excheck-3.4.js"></script>
-
 <style type="text/css">
 .graph{
 position:relative;
@@ -42,6 +41,8 @@ display:block;
 
 .form-left table thead th.cz{background:#fa8564; width:250px;}
 .form-left table tr td.cz1{background:#fa8564; width:250px;}
+
+}
 </style>
 <script type="text/javascript">
 	var regBox = {
@@ -57,10 +58,6 @@ display:block;
     var mflag = regBox.regMobile.test(mobile);
     var tflag = regBox.regTel.test(tel);
 	$(document).ready(function(){
-		<c:if test="${empty item && empty applyInfo}">
-			layer.alert("没有可供报名的本类型比赛项目");
-			$("form").css("display","none");
-		</c:if>
 		$("input[name=applyGroup]").click(function(){
 			$("input[name=applyGroup]:checked").prop("checked",false);
 			$(this).prop("checked",true);
@@ -109,17 +106,9 @@ display:block;
 			$("#productionName").focus();
 			layer.tips('请填写作品名称', '#productionName',{tips:[2,tipsColor]});return;
 		}
-		if($("input[name=applyGroup]:checked").length==0){
-			document.getElementById("applyGroupTips").scrollIntoView();
-			layer.tips('请选择参赛组别', '#applyGroupTips',{tips:[2,tipsColor]});return;
-		}
 		if($("input[name=applyYearGroup]:checked").length==0){
 			document.getElementById("applyYearGroupTips").scrollIntoView();
 			layer.tips('请选择参赛年龄组', '#applyYearGroupTips',{tips:[2,tipsColor]});return;
-		}
-		if($("input[name=applyGroup]:checked").val()=='303002'&&$("input[name=applyYearGroup]:checked").val()=='304001'){
-			$("#applyYearGroupTips").focus();
-			layer.tips('电脑绘图组限中学、大学两个年龄段', '#applyYearGroupTips',{tips:[2,tipsColor]});return;
 		}
 		var realName=$("#realName").val();
 		if($.trim(realName)==''){
@@ -134,8 +123,13 @@ display:block;
 		var schoolName=$("#schoolName").val();
 		if($.trim(schoolName)==''){
 			$("#schoolName").focus();
-			layer.tips('请填写所在学校', '#schoolName',{tips:[2,tipsColor]});return;
+			layer.tips('请填写所在学校/工作单位', '#schoolName',{tips:[2,tipsColor]});return;
 		}
+/* 		var classCompany=$("#classCompany").val();
+		if($.trim(classCompany)==''){
+			$("#classCompany").focus();
+			layer.tips('请填写年级(单位)', '#classCompany',{tips:[2,tipsColor]});return;
+		} */
 		var recommenedCompany=$("#recommenedCompany").val();
 		if($.trim(recommenedCompany)==''){
 			$("#recommenedCompanyName").focus();
@@ -293,7 +287,7 @@ display:block;
 			content:$("#uploadDiv"),
 			shadeClose: true,//开启遮罩关闭
 			title:false,
-			area: ['400px', '300px']
+			area: ['500px', '300px']
 		});
 	}
 	var fileId=null;
@@ -306,16 +300,17 @@ display:block;
 		       id: '#picker',
 		       multiple:false
 		   },
-		   formData:{uploadType:"draw"},
+		   formData:{uploadType:"video"},
 		   resize: false,
 		   chunked:false,
 		   accept: {
-		       title: 'Images',
-		       extensions: 'jpg,jpeg',
-		       mimeTypes: 'image/jpg,image/jpeg'
+		       title: 'video',
+		       extensions: 'mp4',
+		       mimeTypes: 'video/mp4'
 		   },
 		   duplicate:true,
-		   auto:false
+		   auto:false,
+		   fileSizeLimit:100*1024*1024
 		});
 		uploader.on("error",function(type){
 			if(type=='Q_TYPE_DENIED'){
@@ -352,18 +347,18 @@ display:block;
 			}else{return false;}
 		});
 		uploader.on( 'uploadProgress', function( file, percentage ) {
-			 var $li = $( '#fileProgressDiv' ),
-			    $percent = $li.find('#percentbar');
-			    // 避免重复创建
-			    if ( !$percent.length ) {
-			        $percent = $('<div class="graph"><span id="percentbar" class="orange" style="width:0%;">0%</span></div>').appendTo( $li ).find('#percentbar');
-	/* 		        $percent = $('<div class="progress progress-striped active">' +
-			          '<div class="progress-bar" role="progressbar" style="width: 0%">' +
-			          '</div>' +
-			        '</div>').appendTo( $li ).find('.progress-bar'); */
-			    }
-			    $percent.css( 'width', percentage * 100 + '%' );
-			    $percent.html( (percentage * 100 +"").substring(0,5)+ '%' );
+		    var $li = $( '#fileProgressDiv' ),
+		    $percent = $li.find('#percentbar');
+		    // 避免重复创建
+		    if ( !$percent.length ) {
+		        $percent = $('<div class="graph"><span id="percentbar" class="orange" style="width:0%;">0%</span></div>').appendTo( $li ).find('#percentbar');
+/* 		        $percent = $('<div class="progress progress-striped active">' +
+		          '<div class="progress-bar" role="progressbar" style="width: 0%">' +
+		          '</div>' +
+		        '</div>').appendTo( $li ).find('.progress-bar'); */
+		    }
+		    $percent.css( 'width', percentage * 100 + '%' );
+		    $percent.html( (percentage * 100 +"").substring(0,5)+ '%' );
 		});
 		uploader.on("uploadError",function(file,reason){
 			$("#uploadStateDiv").html(file.name+'上传失败，请重试或联系管理员');
@@ -376,9 +371,10 @@ display:block;
 			layer.msg("作品上传成功，请点击确认报名完成报名",{icon:1});
 		});
 	}
+	
 	function onlySave(){
 		$.ajax({
-			url:"/userApply/userApplyCompetitionItem?onlySave=1",
+			url:"/userApply/fusaiSave?onlySave=1",
 			type:"post",
 			dataType:"json",
 			data:$("#form").serialize(),
@@ -401,7 +397,7 @@ display:block;
 	}
 	
 	function downloadApplyTable(type,applyId){
-		window.open("/userApply/download?type="+type+"&applyId="+applyId,"_blank");
+		window.open("/userApply/download?fusai=1&type="+type+"&applyId="+applyId,"_blank");
 	}
 	
 	function loadCategoryTree(){
@@ -419,7 +415,7 @@ display:block;
 			area: ['400px', '300px']
 		}); 
 	}
-    
+	
 	function getParentsName(array,treeNode){
 		if (treeNode.getParentNode()==null) {
 			return;
@@ -458,19 +454,22 @@ display:block;
     }
 </script>
 <script src="/js/categoryTree.js"></script>
+<style type="text/css">  
+div#roll{width:100px;height:100px; background-color:red; color:#fff; position:absolute;}  
+</style>
 </head>
 <body>
-	<c:if test="${empty NotShowExplain }">
      <!-- 头部 -->
-     <div style="position:absolute;right:50px;top:25px;z-index:2;"><span>${sessionScope.User_session_key.userName }</span>|<a href="/user/logout">退出</a>|<a href="/user/openIndex">个人中心</a></div>
+     <c:if test="${empty NotShowExplain }">
+     <div id="loginDiv2" style="position:absolute;right:50px;top:25px;z-index:2;"><span>${sessionScope.User_session_key.userName }</span>|<a href="/user/logout">退出</a>|<a href="/user/openIndex">个人中心</a></div>
      <div class="head">
           <img src="/images/sj-top.png" class="sj-top">
           <div class="head-i w1348 m0">
-              
               <div class="nav fr mt15">
-                   <p id='loginDiv' class="head-login fl" style="visibility:hidden">
+                  <p id='loginDiv' class="head-login fl" style="visibility:hidden">
                        <a href="login.html">登   录</a>
                        <a href="register.html">注  册</a>
+
                   </p>
               </div>
           </div>
@@ -478,11 +477,11 @@ display:block;
      <!--头部banner-->
        <div class="headbanner">
           <div class="headbanner-i w1348 m0">
-               <img src="/images/sign-draw.png" width="769" height="45" alt="科幻画报名">
+               <img src="/images/sign-video.png" width="769" height="45" alt="科幻微视频报名">
           </div>
        </div> 
-       <!-- 中间内容 -->
        </c:if>
+       <!-- 中间内容 -->
       <div class="main">
           <div class="main-i w1348 m0">
           		<!-- 注意事项 -->
@@ -492,44 +491,35 @@ display:block;
                    <dt>注意事项:</dt>
                    <dd>1.参赛者须如实填写报名信息，按照报名表各项内容认真填写；</dd>
                    <dd>2.参赛编号由大赛组委会统一填写；</dd>
-                   <dd>3.每个作品只可选择一个参赛类别，不可重复报名，系列作品按一幅计算；</dd>
+                   <dd>3.每个作品只可填一张报名表，不可重复报名，若提交多个参赛作品，应分别提交报名材料；</dd>
                    <dd>4.报名表需提交纸质版、电子版各一份，电子版报名表与作品及作品说明统一在khds.actc.com.cn网站注册并按要求提交作品；</dd>
-                   <dd>5.请将报名表下载打印并签字，邮寄至：北京市西城区三里河路54号601室 邮编：100045   电话：010—68511864;</dd>
+                   <dd>5.请将报名表下载打印并签字，邮寄至：北京市西城区三里河路54号601室 邮编：100045   电话：010—68511864；</dd>
+                   <dd>6.上传微视频请选择mp4格式文件，文件大小小于100M，视频尺寸1280×720，时间不超过5分钟；</dd>
                  </dl>
                </div>
                </c:if>
                <!-- 报名表左侧 -->
                <div class="form-left fl mt50">
-                    <form id='form'>
+                    <form id="form">
                         <ul  class="left-form">
                            <!-- 作品名称 -->
                             <li>
                                 <span>作品名称</span>
                                 <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.productionName }" id="productionName" name="productionName" type="text" style="width:560px;" />
                             </li>
-                            <!-- 参照组别 -->
-                             <li>
-                                <span>参赛组别</span>
-                             </li>
-                             <li>
-                                <label class="ml50">（请在相应的类别中打√）</label>
-                                    <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="applyGroup"   type="checkbox"  value="303001"   /><label >手绘组</label>
-                                    <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="applyGroup"   type="checkbox"  value="303002" />  <label id="applyGroupTips">电脑绘图组（限中学、大学两个年龄段）</label>
-                                    <!-- <span id="applyGroupTips"></span> -->
-                             </li>
+                            
                              <!-- 参照年龄组 -->
                              <li>
                                 <span>参赛年龄组</span>
                              </li>
                               <li>
                                 <label  class="ml50">（请在相应的类别中打√）</label>
-                                    <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="applyYearGroup"   type="checkbox"  value="304001"   /><label >小学</label>
-                                    <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="applyYearGroup"   type="checkbox"  value="304002" />  <label >中学</label>
-                                    <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="applyYearGroup"   type="checkbox"  value="304003" />  <label id="applyYearGroupTips">大学</label>
-                                     <!-- <span id="applyYearGroupTips"></span> -->
+                                    <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="applyYearGroup"   type="checkbox" value='307001'/><label >大学段</label>
+                                    <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="applyYearGroup"   type="checkbox" value='307002'/><label id="applyYearGroupTips">社会人士</label>
+                                    
                              </li>
                              <!--  姓名  出生年月 -->
-                             <li>
+                              <li>
                                 <span class="name">姓名</span>
                                 <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.realName }" id="realName" name="realName" type="text"  style="width:150px" />
                                  <span>出生年月</span>
@@ -537,14 +527,19 @@ display:block;
                             </li>
                             <li>  
                                 <span class="name">性别</span>
-                               <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> value="男" name="sex" type="radio" checked="checked"/>男
+                              <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> value="男" name="sex" type="radio" checked="checked"/>男
                                <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> value="女" name="sex" type="radio" />女
                             </li>
-                            <!-- 所在学校 -->
-                            <li>
-                                <span>所在学校</span>
-                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.schoolName }"  name='schoolName' id='schoolName' type="text"  style="width:590px" />
+                            <!-- 所在学校  -->
+                             <li>
+                                <span class="dw">所在学校/工作单位</span>
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.schoolName }"  name='schoolName' id='schoolName' type="text"  style="width:510px" />
                              </li>
+                             <!-- 年级  -->
+                            <%-- <li>
+                                <span>年级(单位)</span>
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.schoolName }"  name='classCompany' id='classCompany' type="text"  style="width:590px" />
+                             </li> --%>
                              <!-- 推荐单位 -->
                              <li>
                                 <span class="dw">推荐单位（没有写无）</span>
@@ -554,14 +549,13 @@ display:block;
                              <!-- 证件类型 -->
                               <li>
                                  <span>证件类型</span>
-                                  <select <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="cardType" id='cardType'>
+                                   <select <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="cardType" id='cardType'>
            		                      <option value='308001'>身份证</option>
                    		              <option value='308002'>护照</option>
                    		              <option value='308003'>军人证</option>
                                   </select>
-                                  <span>证件号码</span>
-                                  <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if>  value="${applyInfo.cardNumber }"  type="text" name="cardNumber" id='cardNumber' style="width:380px" />
-
+                                   <span>证件号码</span>
+                                    <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if>  value="${applyInfo.cardNumber }"  type="text" name="cardNumber" id='cardNumber' style="width:380px" />
                              </li>
                               <!-- 联系方式 -->
                               <li>
@@ -575,38 +569,70 @@ display:block;
                                 <span>邮箱</span>
                                 <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.email }" name='email' id='email' type="text"  style="width:150px" />
                                  <span>邮编</span>
-                                 <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.postcode }"  name="postcode" id='postcode' type="text"  style="width:150px" />
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.postcode }"  name="postcode" id='postcode' type="text"  style="width:150px" />
                              </li>
                              <!-- 通讯地址 -->
                               <li>
                                 <span>通讯地址</span>
                                 <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.address }"  name='address' id='address' type="text" style="width:560px;" />
                             </li>
+
                          </ul>   
                         <ul class="right-form">
                             <li>
                                 <span>创意说明（不超过300字）</span>
                             </li>
                             <li>
-                               <textarea <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> id='ideaDesc' name="ideaDesc" cols="50" rows="28">${applyInfo.ideaDesc}</textarea>
+                               <textarea <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> id='ideaDesc' name="ideaDesc" cols="50" rows="23">${applyInfo.ideaDesc}</textarea>
                             </li>
                         </ul>
-                        <div class="cb left-form1" id='applyDIv'>
-                           <p>
-                           	 <a id='onlysavea'  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if>  onclick="onlySave()" href="javascript:;" class="bc"><img src="/images/bc-btn.png" alt="保存报名表"></a>
-                           	 <a onclick="downloadApplyTable(301002,'${applyInfo.id}')" href="javascript:;" class="dl"><img src="/images/dl-btn.png" alt="下载报名表"></a>
+                         <ul class="cb left-form ml30">
+                            <li>
+                                <span  style="width: auto;">主创人员资料（如无不用填写）</span>
+                            </li>
+                            <li>
+                                <span>编剧</span>
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.scriptwriter }"  name='scriptwriter' id='scriptwriter' type="text" style="width:220px;" />
+                                <span>导演</span>
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.director }"  name='director' id='director' type="text" style="width:220px;" /> 
+                            </li>
+                             <li>
+                                <span>摄影</span>
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.camerist }"  name='camerist' id='camerist' type="text" style="width:220px;" />
+                                <span>剪辑</span>
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.editor }"  name='editor' id='editor' type="text" style="width:220px;" /> 
+                            </li>
+                             <li>
+                                <span>音乐</span>
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.musician }"  name='musician' id='musician' type="text" style="width:220px;" />
+                                <span>美术</span>
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.artist }"  name='artist' id='artist' type="text" style="width:220px;" /> 
+                            </li>
+                             <li>
+                                <span>主演</span>
+                                <input <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> value="${applyInfo.mainStuff }"  name='mainStuff' id='mainStuff' type="text" style="width:570px;" />
+                               <%--  <textarea <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> id='mainStuff' name="mainStuff" cols="96" rows="2" >${applyInfo.mainStuff }</textarea> --%>
+                            </li>
+                             <li class="mr10 ml30">
+                                <span style="width: auto;" >参赛团队简介（如无不用填写）</span>
+                             </li>
+                             <li>   
+                               <textarea style="margin-left:50px;" <c:if test="${!empty ifReadonly }"> readonly="readonly" </c:if> id='teamDesc' name="teamDesc" cols="90" rows="10" class="ml100">${applyInfo.teamDesc }</textarea>
+                               
+                            </li>
+                        </ul>
+                       <div class="cb left-form1" id='applyDIv'>
+                           <p style='width: 700px;'>
+                           	<a onclick="downloadApplyTable(301003,'${applyInfo.id}')" href="javascript:;" class="dl"><img src="/images/dl-btn.png" alt="下载报名表"></a>
                              <a onclick='openChoose()'  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> id='chooseProduct' href="javascript:;" class="tj"><img src="/images/tj-bm.png"></a>
                              <a id="applya"  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> onclick="apply()" href="javascript:;"><img src="/images/qr.png"></a></p>
                         </div>
-                        <input type='hidden' name="activityId" id="activityId" value="${applyInfo.activityId }"/>
+                     <input type='hidden' name="activityId" id="activityId" value="${applyInfo.activityId }"/>
                         <input type='hidden' name="competitionItemId" id="competitionItemId" value="${applyInfo.competitionItemId}"/>
                         <input type='hidden' name="competitionType" id="competitionType" value="${applyInfo.competitionType }"/>
                         <input type='hidden' name="fileNameHidden" id="fileNameHidden" />
                         <input type='hidden' name="filePathHidden" id="filePathHidden" />
                         <input type='hidden' name="id" id="id" value="${applyInfo.id }"/>
-                       <%--  <input type='hidden' name="activityId" id="activityId" value="${item.activityId }"/>
-                        <input type='hidden' name="competitionItemId" id="competitionItemId" value="${item.id }"/>
-                        <input type='hidden' name="competitionType" id="competitionType" value="${item.type }"/> --%>
                     </form>
                </div>
           </div>
@@ -617,10 +643,11 @@ display:block;
               Copyright © 2016-2017 Science  contest
         </div>
      </div> -->
-     <div id='uploadDiv' style="display:none">
+       <div id='uploadDiv' style="display:none">
      	<div id='picker' style="margin-left:30px;margin-top:30px;">添加作品</div>
      	<div style="margin-left:30px;margin-top:10px;">
-     		请选择尺寸为540x380mm,像素为300dpi的jpeg格式文件
+     		<!-- 请选择mp4格式文件，文件大小小于100M<br/>
+     		视频尺寸1280×720，时间不超过5分钟， -->
      	</div>
      	<div id="fileNameDiv" style="margin-left:30px;margin-top:20px;"></div>
      	<div id="fileProgressDiv" style="margin-left:30px;margin-top:20px;"></div>
@@ -633,5 +660,5 @@ display:block;
      <div id='treeDiv' style='display:none'>
 		<ul id="tree" class="ztree"></ul>
 	</div>
-	</body>
-</html>
+</body>
+	</html>
