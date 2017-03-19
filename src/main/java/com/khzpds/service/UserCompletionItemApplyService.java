@@ -49,6 +49,9 @@ public class UserCompletionItemApplyService extends IBaseService<UserCompletionI
 			PageParameter page) {
 		return userCompletionItemApplyDao.findBySearchMapPage(page);
 	}
+	public List<UserCompletionItemApplyInfo> findTopVoteApplyInfo(Integer n) {
+		return userCompletionItemApplyDao.findTopVoteApplyInfo(n);
+	}
 //--CustomEnd*****///
 
 	

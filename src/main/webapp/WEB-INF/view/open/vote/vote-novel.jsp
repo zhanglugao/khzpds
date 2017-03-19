@@ -30,7 +30,7 @@
 		if($("#"+applyGroup+"-"+applyYearGroup).text()==''){
 			$.ajax({
 				url:"/vote/getVoteData",
-				data:{applyGroup:applyGroup,applyYearGroup:applyYearGroup,itemId:itemId,itemType:itemType},
+				data:{page_size:10,applyGroup:applyGroup,applyYearGroup:applyYearGroup,itemId:itemId,itemType:itemType},
 				dataType:"json",
 				type:"post",
 				success:function(data){
@@ -86,7 +86,7 @@
                </i>
               <div class="nav fr">
                   <ul class="nav-text fl">
-                        <li><a id='indexa' href="/index.html">首页</a></li>
+                        <li><a id='indexa' href="/vote/voteIndex">首页</a></li>
                         <li><a href="javascript:;" class="cur">科幻小说投票</a></li>
                         <li><a href="/vote/votePage?itemType=301002" >科幻画投票</a></li>
                         <li><a href="/vote/votePage?itemType=301003" >科幻微视频投票</a></li>

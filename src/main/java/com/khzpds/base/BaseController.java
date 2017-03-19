@@ -86,7 +86,7 @@ public class BaseController {
 		String pageSize=request.getParameter("page_size");
 		String currentPage=request.getParameter("current_page");
 		if(pageSize==null){
-			page.setPageSize(5);
+			page.setPageSize(10);
 		}else{
 			page.setPageSize(Integer.parseInt(pageSize));
 		}

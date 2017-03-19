@@ -16,12 +16,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.khzpds.base.BaseController;
 import com.khzpds.base.DictionaryConst;
+import com.khzpds.base.PageParameter;
 import com.khzpds.base.SessionInfo;
 import com.khzpds.base.SystemConfig;
+import com.khzpds.service.ActivityInfoService;
 import com.khzpds.service.CompetitionItemService;
 import com.khzpds.service.UserApplyVoteService;
 import com.khzpds.service.UserCompletionItemApplyService;
 import com.khzpds.util.UUIDUtil;
+import com.khzpds.vo.ActivityInfoInfo;
 import com.khzpds.vo.CompetitionItemInfo;
 import com.khzpds.vo.UserApplyVoteInfo;
 import com.khzpds.vo.UserCompletionItemApplyInfo;
@@ -36,6 +39,47 @@ public class VoteController extends BaseController{
 	private UserCompletionItemApplyService userCompletionItemService;
 	@Autowired
 	private UserApplyVoteService userApplyVoteService;
+	@Autowired
+	private ActivityInfoService activityInfoService;
+	
+	@RequestMapping("/phoneIndex")
+	public ModelAndView phoneIndex(HttpServletRequest request,HttpServletResponse response){
+		
+		return null;
+	}
+	
+	@RequestMapping("/voteIndex")
+	public ModelAndView voteIndex(HttpServletRequest request,HttpServletResponse response){
+		//查询运行中的活动 如果没有return Null;
+		ModelAndView model=new ModelAndView(getRootPath(request)+"/open/vote/vote-index");
+		ActivityInfoInfo activityInfo=new  ActivityInfoInfo();
+		activityInfo.setStatus(DictionaryConst.HUO_DONG_ZHUANG_TAI_YI_FA_BU);
+		List<ActivityInfoInfo> list=activityInfoService.findByParam(activityInfo);
+		if(list.size()==0){
+			model.addObject("show", "0");
+			return model;
+		}
+		CompetitionItemInfo itemFind=new CompetitionItemInfo();
+		itemFind.setActivityId(list.get(0).getId());
+		itemFind.setStatus(DictionaryConst.BI_SAI_XIANG_MU_ZHUANG_TAI_YI_LUN_PING_SHEN_JIE_SHU);
+		List<CompetitionItemInfo> items=competitionItemService.findByParam(itemFind);
+		if(items.size()==0){
+			model.addObject("show","0");
+			return model;
+		}else{
+			for(CompetitionItemInfo item:items){
+				if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_HUA.equals(item.getType())){
+					model.addObject("paintId",item.getId());
+				}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_XIAO_SHUO.equals(item.getType())){
+					model.addObject("novelId",item.getId());
+				}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(item.getType())){
+					model.addObject("videoId",item.getId());
+				}
+			}
+		}
+		model.addObject("lookdir", SystemConfig.getLookDir());
+		return model;
+	}
 	
 	@RequestMapping("/votePage")
 	public ModelAndView voteDrawPage(String itemType,HttpServletRequest request,HttpServletResponse response){
@@ -59,6 +103,20 @@ public class VoteController extends BaseController{
 	}
 	
 	/***
+	 * 排行榜
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/getRankingData")
+	public void getRankingData(String num,HttpServletRequest request,HttpServletResponse response){
+		Map<String,Object> result=new HashMap<String, Object>();
+		Integer n=Integer.parseInt(num);
+		List<UserCompletionItemApplyInfo> list=userCompletionItemService.findTopVoteApplyInfo(n);
+		result.put("rows", list);
+		this.writeJson(response, result);
+	}
+	
+	/***
 	 * 查询可投票的报名数据
 	 * @param applyGroup
 	 * @param applyYearGroup
@@ -70,21 +128,24 @@ public class VoteController extends BaseController{
 	@RequestMapping("/getVoteData")
 	public void getVoteData(String applyGroup,String applyYearGroup,String itemId,String itemType,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
-		UserCompletionItemApplyInfo findInfo=new UserCompletionItemApplyInfo();
+		
+		Map<String,String> search=new HashMap<String, String>();
 		if(StringUtils.isNotBlank(applyGroup)){
-			findInfo.setApplyGroup(applyGroup);
+			search.put("applyGroup", applyGroup);
 		}
 		if(StringUtils.isNotBlank(applyYearGroup)){
-			findInfo.setApplyYearGroup(applyYearGroup);
+			search.put("applyYearGroup", applyYearGroup);
 		}
 		if(StringUtils.isNotBlank(itemId)){
-			findInfo.setCompetitionItemId(itemId);
+			search.put("competitionItemId", itemId);
 		}
 		if(StringUtils.isNotBlank(itemType)){
-			findInfo.setCompetitionType(itemType);
+			search.put("competitionType", itemType);
 		}
-		findInfo.setApproveStatus("1");
-		List<UserCompletionItemApplyInfo> list=userCompletionItemService.findByParam(findInfo);
+		search.put("approveStatus", "1");
+		PageParameter page=this.getPageParameter2(request);
+		page.setSearch(search);
+		List<UserCompletionItemApplyInfo> list=userCompletionItemService.findByParamForPage(page);
 		for(UserCompletionItemApplyInfo applyInfo:list){
 			//得到票数
 			UserApplyVoteInfo voteFind=new UserApplyVoteInfo();

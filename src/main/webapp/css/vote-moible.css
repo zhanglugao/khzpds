@@ -1,0 +1,60 @@
+body{background:#fff;padding: 0;margin: 0;}
+ol,ul,li {padding-left: 0em;list-style: none}
+ h2,h3,h4,ul,li,p {padding: 0;margin: 0;}
+ input {outline: none;}
+ html{ padding: 0; margin: 0;}
+a{text-decoration: none;}
+ input, select, textarea {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-appearance: none;
+    border: 0;
+    border-radius: 0;
+}
+dd{list-style: none;margin-start:0;}
+
+.vote-nav{height:100%;width:96%;padding: 0 2%;margin-top:-2%;position: relative;}
+.nav-bar{position: auto;left:0;top:0}
+.vote-main{background: #1290b4;;height:auto;padding-bottom: 10%;width:92%;margin: 0 auto;margin-top:-1%;}
+.vote-novel,.vote-draw,.vote-video{display: inline-block;height: auto;width: 30%;height: 30%;margin: 12% 35%;}
+.vote-novel a,.vote-draw a,.vote-video a{display: inline-block;}
+.vote-novel a img,.vote-draw a img,.vote-video a img{width:100%}
+/*/*科幻小说投票*/
+.novel-main{margin-top:4%;border-top:4px solid #681210;height: auto;overflow: hidden;margin-bottom: 6%}
+.video-main{margin-top:4%;}
+.novel-main h3{font-size:1.2rem;text-align: center;font-weight: bold;color:#fff;margin:6% 0}
+.novel-tile{width: 100%;height:2rem}
+ .content ul,.content1 ul{width: 42%;float:left;margin: 2% 4%}
+ .content ul li,.content1 ul li{float: left;width:98%;}
+  .content ul li span,.content1 ul li span{float:left;display: inline-block;line-height:1.25rem;font-size: 0.4rem; color: #fff;}
+ .vote-button {clear: both;float: left;margin: 2% }
+ .content ul li>img,.content1 ul li>img{border:2px solid #000;}
+ .content ul li span,.content1 ul li span{display: inline-block;line-height:1.25rem;font-size: 0.8rem;text-align:left;color:#fff; padding-left: 0.5rem}
+/*.dl{width:40%;float: left;margin-left:3%;margin-top:3%;border:2px solid #000;}
+  p span{float:left;display: inline-block;line-height:1.25rem;font-size: 0.4rem; color: #fff;}
+.dl .vote-button img{margin:1% 0;}*/
+.moible-more{display: inline-block;width: 100%;line-height: 1rem;font-size: 0.8rem;color:#1290b4;text-align: center;font-weight:bold;margin-top:1.2rem}
+.content,.content1{display: none;width: 100%;float: left;padding-bottom: 2.2rem;margin-bottom:3%}
+.content.on,.content1.on{display:block;}
+.novel-ul  li{float: left;padding:0 10px;font-size:100%;color:#fff;line-height: 30px;text-align: center;cursor: pointer;}
+.novel-ul  li.xx,.content.xx,.content1.xx,.content2.xx{background: #580fc8;}
+.novel-ul  li.zx,.content.zx,.content1.zx,.content2.zx{background: #a20fc8;}
+.novel-ul  li.dx,.content.dx,.content1.dx,.content2.dx{background: #d3012d;}
+.novel-ul  li.sh,.content.sh,.content1.sh,.content2.sh{background: #c8a50f;}
+.btn-float-wrapper {
+    position: fixed;
+    right: 10px;
+    bottom: 60px;
+	z-index: 9999;
+}
+.btn-float-wrapper .top {
+    background: url(/img/top.png) no-repeat 50% 50%;
+}
+.btn-float-wrapper .btn-float {
+    width: 36px;
+    height: 36px;
+    margin-top: 12px;
+    display: block;
+    background-size: contain;
+    background-color: #FFF;
+    border-radius: 100%;
+}

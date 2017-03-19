@@ -3,6 +3,8 @@
 
 package com.khzpds.vo;
 import java.io.Serializable;
+import java.util.Map;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -765,8 +767,6 @@ public class UserCompletionItemApplyInfo implements Serializable
 	public void setVoteNum(int voteNum) {
 		this.voteNum = voteNum;
 	}
-	
-	
 	
 	//--CustomEnd*****///
 }

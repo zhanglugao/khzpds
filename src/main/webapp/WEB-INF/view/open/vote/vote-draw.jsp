@@ -30,7 +30,7 @@ function getData(applyGroup,applyYearGroup){
 	if($("#"+applyGroup+"-"+applyYearGroup).text()==''){
 		$.ajax({
 			url:"/vote/getVoteData",
-			data:{applyGroup:applyGroup,applyYearGroup:applyYearGroup,itemId:itemId,itemType:itemType},
+			data:{page_size:1000,applyGroup:applyGroup,applyYearGroup:applyYearGroup,itemId:itemId,itemType:itemType},
 			dataType:"json",
 			type:"post",
 			success:function(data){
@@ -44,7 +44,7 @@ function getData(applyGroup,applyYearGroup){
 						obj.applyGroup="";
 					}
 					var html="<dl><dt><a href='/userApply/showFile?id="+obj.id+"' target='_blank'><img src='${lookdir}"+obj.filePath+"' width='429' height='322'></a></dt>"
-						+"<dd><span class='number'>NO."+obj.vdef1+"</span><span class='auther'>作者："+obj.realName+"</span>"
+						+"<dd><span class='number'>NO."+obj.vdef1+"&nbsp;"+obj.productionName+"</span><span class='auther'>作者："+obj.realName+"</span>"
 						+"<p><span class='fl'><img onclick='vote(\""+obj.id+"\",\""+applyGroup+"\",\""+applyYearGroup+"\")' src='/img/vote1.png' width='76' height='36' class='mt10'></span>"
                         +"<span class='fl mt10 ml10'>票数：<i id='"+obj.id+"voteNum'>"+obj.voteNum+"</i></span></p></dd></dl>";
 					$("#"+applyGroup+"-"+applyYearGroup).append(html);
@@ -87,7 +87,7 @@ function vote(applyId,applyGroup,applyYearGroup){
                </i>
               <div class="nav fr">
                   <ul class="nav-text fl">
-                        <li><a id='indexa' href="/index.html">首页</a></li>
+                        <li><a id='indexa' href="/vote/voteIndex">首页</a></li>
                         <li><a href="/vote/votePage?itemType=301001">科幻小说投票</a></li>
                         <li><a href="javascript:;" class="cur">科幻画投票</a></li>
                         <li><a href="/vote/votePage?itemType=301003" >科幻微视频投票</a></li>

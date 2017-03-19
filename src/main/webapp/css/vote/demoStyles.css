@@ -1,0 +1,19 @@
+/* JScrollPane中我的演示页面的样式表 - 这些样式是没有必要的，使用JScrollPane的不特定的任何特别的例子 */
+body{font-family:Arial, Helvetica, sans-serif;font-size:80%;}
+a.jScrollArrowUp{background:url(/images/basic_arrow_up.gif) repeat-x 0 0;}
+a.jScrollArrowUp:hover{background-position:0 -15px;}
+a.jScrollArrowDown{background:url(/images/basic_arrow_down.gif) repeat-x 0 0;}
+a.jScrollArrowDown:hover{background-position:0 -15px;}
+a.jScrollActiveArrowButton, a.jScrollActiveArrowButton:hover{background-position:0 -30px;}
+.orange-bar .jScrollPaneTrack{background:#f60;}
+.orange-bar .jScrollPaneDrag{background:#00f url(/images/drag_grab.gif) no-repeat 50% 50%;}
+.orange-bar .scroll-pane{background:#69f;}
+.holder{float:left;}
+.scroll-pane{width:200px;height:200px;overflow:auto;}
+.wide{width:400px;}
+.super-wide{width:700px;}
+.tall{height:400px;}
+#pane1{}
+#pane2{height:150px;}
+#pane3{height:190px;}
+#pane4{height:190px;}
