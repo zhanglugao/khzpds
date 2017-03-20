@@ -44,7 +44,7 @@ function getData(applyGroup,applyYearGroup){
 						obj.applyGroup="";
 					}
 					var html="<dl><dt><a href='/userApply/showFile?id="+obj.id+"' target='_blank'><img src='${lookdir}"+obj.filePath+"' width='429' height='322'></a></dt>"
-						+"<dd><span class='number'>NO."+obj.vdef1+"&nbsp;"+obj.productionName+"</span><span class='auther'>作者："+obj.realName+"</span>"
+						+"<dd><span class='number'>NO."+obj.vdef1+"</span><span class='auther'>作者："+obj.realName+"</span>"
 						+"<p><span class='fl'><img onclick='vote(\""+obj.id+"\",\""+applyGroup+"\",\""+applyYearGroup+"\")' src='/img/vote1.png' width='76' height='36' class='mt10'></span>"
                         +"<span class='fl mt10 ml10'>票数：<i id='"+obj.id+"voteNum'>"+obj.voteNum+"</i></span></p></dd></dl>";
 					$("#"+applyGroup+"-"+applyYearGroup).append(html);

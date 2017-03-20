@@ -14,20 +14,20 @@
 
 <body>
       <div class="top">
-           <img src="img/vote-banner.png" width="100%" height="100%">
+           <img src="/img/vote-banner.png" width="100%" height="100%">
       </div>
       <div class="vote-nav">
             <a href="javascript:;"> <img src="/img/vote-nav.png" width="100%" height="100%"  alt="投票导航"></a>
       </div>
       <div class="vote-main">
           <div class="vote-novel"> 
-                <a href="vote-novel.html" > <img src="/img/vote-novel.png"   alt="科幻小说-投票"></a>
+                <a href="/vote/votePage?itemType=301001&phone=1" > <img src="/img/vote-novel.png"   alt="科幻小说-投票"></a>
           </div>
           <div class="vote-draw"> 
-                <a href="vote-draw.html" > <img src="/img/vote-draw.png"   alt="科幻画-投票"></a>
+                <a href="/vote/votePage?itemType=301002&phone=1" > <img src="/img/vote-draw.png"   alt="科幻画-投票"></a>
           </div>
           <div class="vote-video"> 
-                <a href="vote-video.html" > <img src="/img/vote-video.png"  alt="科幻视频-投票"></a>
+                <a href="/vote/votePage?itemType=301003&phone=1" > <img src="/img/vote-video.png"  alt="科幻视频-投票"></a>
           </div>
         
       </div>

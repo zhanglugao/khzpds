@@ -30,7 +30,7 @@
 		if($("#"+applyGroup+"-"+applyYearGroup).text()==''){
 			$.ajax({
 				url:"/vote/getVoteData",
-				data:{page_size:10,applyGroup:applyGroup,applyYearGroup:applyYearGroup,itemId:itemId,itemType:itemType},
+				data:{page_size:1000,applyGroup:applyGroup,applyYearGroup:applyYearGroup,itemId:itemId,itemType:itemType},
 				dataType:"json",
 				type:"post",
 				success:function(data){

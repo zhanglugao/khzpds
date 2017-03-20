@@ -110,7 +110,7 @@ function getData(applyGroup,applyYearGroup,itemType,itemId){
 							zu="电脑绘图组";
 						}
 						html=html+"<div class='pic'><a href='/userApply/showFile?id="+obj.id+"' target='_blank'><img src='${lookdir}"+obj.filePath+"' /></a></div>"
-							+"<div class='title mt20'><span>"+zu+"NO."+obj.vdef1+"&nbsp;"+obj.productionName+"</span><div class='cb fl db'><span>作者:"+obj.realName+"</span>"
+							+"<div class='title mt20'><span>"+zu+"NO."+obj.vdef1+"</span><div class='cb fl db'><span>作者:"+obj.realName+"</span>"
 							+"<p class='fr'><span class='fl'>票数:<i id='"+obj.id+"voteNum'>"+obj.voteNum+"</i></span><img style='cursor:pointer' onclick='vote(\""+obj.id+"\",\""+obj.applyGroup+"\",\""+obj.applyYearGroup+"\")' src='/img/vote-button1.png' width='76' height='35' class='vote-btn fl'>"
 							+"</p></div></div></li>";
 						if((i%4==3)||i==rows.length-1){
@@ -241,15 +241,15 @@ function searchNovel(applyGroup1,applyGroup2,applyYearGroup){
                      <a href="javascript:;"><img src="/img/weixin-login.png" alt="微信登陆"></a>
                      <a href="javascript:;"><img src="/img/qq-style.png" alt="qq登陆"></a>
                </div>
-       </div> -->
-     </div>
+       </div> 
+     </div>-->
   </div>
 </div>
 <!--  -->
 <div class="vote">
   <div class="wt1746 vote-title m0">
     <dl class="fl m0">
-      <dd><a href="/index.html" class="vote-enter"><img src="/img/vote-enter.png"></a></dd>
+      <dd><a href=## class="vote-enter"><img src="/img/vote-enter.png"></a></dd>
       <dd><a href="/vote/votePage?itemType=301001" class="vote-novel"><img src="/img/vote-novel.png"></a></dd>
       <dd><a href="/vote/votePage?itemType=301002" class="vote-draw"><img src="/img/vote-draw.png"></a></dd>
       <dd><a href="/vote/votePage?itemType=301003" class="vote-video"><img src="/img/vote-video.png"></a></dd>
@@ -543,7 +543,7 @@ function searchNovel(applyGroup1,applyGroup2,applyYearGroup){
 <div class="footer">
         <div class="footer-i wt1348 m0">
              <p> 全国青少年优秀原创科幻作品大赛活动组委会 </p> 
-             <p> 联系电话：010-62003328，68511864，68598019  </p> 
+             <p> 联系电话：68511864，68598019  </p> 
         </div>
        
   </div>
