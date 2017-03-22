@@ -29,9 +29,9 @@
 					if(typeof(obj.approveStatus)=='undefined'||obj.approveStatus=='-1'){
 						obj.approveStatus="未审核";
 					}else if(obj.approveStatus=='0'){
-						obj.approveStatus="审核不通过";
+						obj.approveStatus="初赛不通过";
 					}else if(obj.approveStatus=='1'){
-						obj.approveStatus="审核通过";
+						obj.approveStatus="初赛通过";
 					}
 					if(typeof(obj.vdef1)=='undefined'){
 						obj.vdef1="";
@@ -42,10 +42,10 @@
 					if(obj.applyStatus=='已报名'){
 						html+="<td class='cz1'><a onclick='toedit(\""+obj.id+"\")' href='javascript:;'>查看</a>&nbsp;";
 						//暂时设置审核通过了就不能改了 没通过还能改
-						if(obj.approveStatus!='审核通过'){
+						if(obj.approveStatus!='初赛通过'){
 							html+="<a onclick='cancelApply(\""+obj.id+"\")' href='javascript:;'>撤销</a>&nbsp;"
 						}
-						if(obj.approveStatus=='审核通过'){
+						if(obj.approveStatus=='初赛通过'){
 							html+="<a onclick='fusai(\""+obj.id+"\")' href='javascript:;'>完善复赛报名表</a>&nbsp;"
 						}
 						html+="<a onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' href='javascript:;'>下载报名表</a></td></tr>";
@@ -181,7 +181,7 @@
                               <th class="ss">所属类别</th>
                                <th class="ts">提交时间</th>
                                 <th class="zt">报名状态</th>
-                                <th class="zt">审核状态</th>
+                                <th class="zt">初赛</th>
                                 <th class="zt">评分</th>
                                 <th class="cz">操作</th>
                                 </tr>

@@ -177,7 +177,7 @@ public class UserApplyCompetitionController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("/toFusaiApply")
-	public ModelAndView toFusaiApply(String id,HttpServletRequest request,HttpServletResponse response){
+	public ModelAndView toFusaiApply(String ifAdmin,String id,HttpServletRequest request,HttpServletResponse response){
 		UserCompletionItemApplyInfo applyInfo=userCompetitionItemApplyService.findById(id);
 		String type=applyInfo.getCompetitionType();
 		String dest=null;
@@ -187,6 +187,9 @@ public class UserApplyCompetitionController extends BaseController{
 			dest="draw-sign";
 		}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(type)){
 			dest="video-sign";
+		}
+		if(StringUtils.isNotBlank(ifAdmin)){
+			request.setAttribute("ifAdmin", "1");
 		}
 		request.setAttribute("applyInfo", applyInfo);
 		request.setAttribute("ifReadonly", "1");

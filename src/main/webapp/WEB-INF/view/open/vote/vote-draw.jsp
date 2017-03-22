@@ -159,7 +159,7 @@ function vote(applyId,applyGroup,applyYearGroup){
                     <!-- 电脑绘图组 小学 -->
                    <!--  <div class="main1 xx on " id="303002-304001"></div> -->
                     <!-- 电脑绘图组 中学 -->
-                    <div class="main1 " id="303002-304002"></div>
+                    <div class="main1 xx on" id="303002-304002"></div>
                        <!-- 手绘组 大学 -->
                     <div class="main1   " id="303002-304003"></div>
             </div>

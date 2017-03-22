@@ -547,7 +547,7 @@ display:block;
                             <!-- 所在学校  -->
                              <li>
                                 <span class="dw">指导老师（没有写无）</span>
-                                <input value="${applyInfo.vdef3 }"  name="vdef3" id="vdef3" type="text"  style="width:510px" />
+                                <input <c:if test="${!empty ifAdmin}"> readonly='readonly' </c:if> value="${applyInfo.vdef3 }"  name="vdef3" id="vdef3" type="text"  style="width:510px" />
                              </li>
                             <li>
                                 <span class="dw">所在学校/工作单位</span>
@@ -605,7 +605,9 @@ display:block;
                         </ul>
                         <div class="cb left-form1" id='applyDIv'>
                            <p style='width: 700px;'>
+                           <c:if test="${!empty ifAdmin}">
                            	 <a id='onlysavea' onclick="onlySave()" href="javascript:;" class="bc"><img src="/images/bc-btn.png" alt="保存报名表"></a>
+                           	 </c:if>
                            	 <a onclick="downloadApplyTable(301001,'${applyInfo.id}')" href="javascript:;" class="dl"><img src="/images/dl-btn.png" alt="下载报名表"></a>
                              <a onclick='openChoose()'  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> id='chooseProduct' href="javascript:;" class="tj"><img src="/images/tj-bm.png"></a>
                              <a id="applya"  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> onclick="apply()" href="javascript:;"><img src="/images/qr.png"></a></p>
