@@ -297,7 +297,8 @@
 			apply.review_point as reviewPoint,
 			apply.file_path as filePath,
 			apply.approve_type as approveType,
-			apply.idea_desc as ideaDesc
+			apply.idea_desc as ideaDesc,
+			apply.vdef3 as vdef3
 		FROM
 			user_completion_item_apply apply
 		JOIN user_info USER ON apply.user_id = USER.id
@@ -339,7 +340,8 @@
 			apply.review_point as reviewPoint,
 			apply.file_path as filePath,
 			apply.approve_type as approveType,
-			apply.idea_desc as ideaDesc
+			apply.idea_desc as ideaDesc,
+			apply.vdef3 as vdef3
 		FROM
 			user_completion_item_apply apply
 		JOIN user_info USER ON apply.user_id = USER .id

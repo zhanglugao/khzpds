@@ -567,7 +567,7 @@ display:block;
                              <!-- 证件类型 -->
                               <li>
                                  <span>证件类型</span>
-                                  <select <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> name="cardType" id='cardType'>
+                                  <select <c:if test="${empty ifReadonly }"> disabled="disabled" </c:if> name="cardType" id='cardType'>
            		                      <option value='308001'>身份证</option>
                    		              <option value='308002'>护照</option>
                    		              <option value='308003'>军人证</option>
@@ -605,7 +605,7 @@ display:block;
                         </ul>
                         <div class="cb left-form1" id='applyDIv'>
                            <p style='width: 700px;'>
-                           <c:if test="${!empty ifAdmin}">
+                           <c:if test="${empty ifAdmin}">
                            	 <a id='onlysavea' onclick="onlySave()" href="javascript:;" class="bc"><img src="/images/bc-btn.png" alt="保存报名表"></a>
                            	 </c:if>
                            	 <a onclick="downloadApplyTable(301001,'${applyInfo.id}')" href="javascript:;" class="dl"><img src="/images/dl-btn.png" alt="下载报名表"></a>

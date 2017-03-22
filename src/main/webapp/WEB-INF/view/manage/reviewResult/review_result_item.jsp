@@ -90,7 +90,7 @@
 							option+="&nbsp;<button type='button' onclick='viewProInfo(\""+obj.id+"\")' class='btn btn-primary'>查看作品详情</button>";
 						}
 						if(typeof(obj.vdef3)!='undefined'&&obj.vdef3!=''){
-							option="&nbsp;<button type='button' onclick='viewFusai(\""+obj.id+"\")' class='btn btn-primary'>查看复赛信息</button>";
+							option+="&nbsp;<button type='button' onclick='viewFusai(\""+obj.id+"\")' class='btn btn-primary'>查看复赛信息</button>";
 						}
 						option+="&nbsp;<button type='button' onclick='viewDesc(\""+obj.id+"\")' class='btn btn-primary'>说明</button>";
 						var html="<tr class='"+tabId+"class'><td>"+obj.userName+"</td><td>"+obj.realName+"</td><td>"+obj.orgName+"</td>"

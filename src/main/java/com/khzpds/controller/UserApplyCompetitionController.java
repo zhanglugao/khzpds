@@ -192,6 +192,18 @@ public class UserApplyCompetitionController extends BaseController{
 			request.setAttribute("ifAdmin", "1");
 		}
 		request.setAttribute("applyInfo", applyInfo);
+		if(applyInfo!=null){
+			Date birthday=applyInfo.getBirthday();
+			if(StringUtils.isNotBlank(applyInfo.getRecommenedCompany())){
+				ContentCategoryInfo category=contentCategoryService.findById(applyInfo.getRecommenedCompany());
+				if(category!=null){
+					applyInfo.setRecommenedCompanyName(category.getName());
+				}
+			}
+			if(birthday!=null){
+				request.setAttribute("birthday", DateUtil.formatDate2String(birthday, "yyyyMM"));
+			}
+		}
 		request.setAttribute("ifReadonly", "1");
 		return new ModelAndView(getRootPath(request)+"/open/fusaisign/"+dest);
 	}
