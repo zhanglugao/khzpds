@@ -1,0 +1,132 @@
+@charset "utf-8";
+
+.container1 {
+	width: 488px;
+	height: auto;
+	margin-left: 10px;
+	
+	
+	float: left;
+}
+
+.container1 .div_scroll {
+	width: 100%;
+	height: 2620px;
+	overflow: auto;
+	float: left;
+}	
+
+.container1 .scroll_container {
+	
+	position: relative;
+	
+}
+
+.container1 .scroll_absolute {
+    position: absolute;
+}
+
+.container1 .scroll_vertical_bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 16px;
+    height: 100%;
+   margin: 0;
+    padding: 0;
+}
+
+.container1 .scroll_track {
+	position: relative;
+	background: url(/img/osx_track.gif) repeat-y;
+}
+
+.container1 .scroll_drag {
+	position: relative;
+	top: 0;
+	left: 0;
+	cursor: pointer;
+	background: url(/img/osx_drag_middle.gif) repeat-y;
+}
+
+.container1 .scroll_arrow {
+	text-indent: -20000px;
+	display: block;
+	cursor: pointer;
+	background-color: #D6B74B;
+}
+
+.container1 .scroll_vertical_bar .scroll_arrow {
+    height: 16px;
+}
+.scroll_arrow_up {height: 17px;
+				background: url(/img/windows_arrow_up.gif) no-repeat 0 0;}
+.scroll_arrow_down{height: 17px;
+				background: url(/img/windows_arrow_down.gif) no-repeat 0 0;}
+.scroll_arrow_up:hover {
+				background-position: 0 -20px;
+			}
+.scroll_arrow_down:hover {
+				background-position: 0 -20px;
+			}
+
+.container2 {
+	width: 1680px;
+	height: auto;
+	
+	
+	margin-left: 12px;
+	float: left;
+}
+
+.container2 .div_scroll {
+	width: 100%;
+	height: 200px;
+	overflow: auto;
+	float: left;
+}	
+
+.container2 .scroll_container {
+	
+	position: relative;
+	
+}
+
+.container2 .scroll_absolute {
+    position: absolute;
+}
+
+.container2 .scroll_vertical_bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 16px;
+    height: 100%;
+    background: green;
+    margin: 0;
+    padding: 0;
+}
+
+.container2 .scroll_track {
+	position: relative;
+	background-color: #BFEBFF;
+}
+
+.container2 .scroll_drag {
+	position: relative;
+	top: 0;
+	left: 0;
+	cursor: pointer;
+	
+}
+
+.container2 .scroll_arrow {
+	text-indent: -20000px;
+	display: block;
+	cursor: pointer;
+	background-color: #369DB4;
+}
+
+.container2 .scroll_vertical_bar .scroll_arrow {
+    height: 16px;
+}

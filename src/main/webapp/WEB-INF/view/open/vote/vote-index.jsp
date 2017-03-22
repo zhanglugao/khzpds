@@ -8,6 +8,7 @@
 <title>科幻作品大赛投票页--引导页</title>
 <link rel="stylesheet" href="/css/vote/style.css"/>
 <link rel="stylesheet" href="/css/vote/header.css"/>
+<link rel="stylesheet" href="/css/vote/index.css"/>
 <link href="/css/vote/vote.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/js/jquery.SuperSlide.2.1.1.js"></script>
@@ -15,6 +16,11 @@
 <script type="text/javascript" src='/js/base64.js'></script>
 <script type="text/javascript" src='/js/cookieOperate.js'></script>
 <script type="text/javascript" src='/js/autoLogin.js'></script>
+
+<script type="text/javascript" charset="utf-8" src="/js/mousewheel.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/easyscroll.js"></script>
+<script type="text/javascript">$(function(){$('.div_scroll').scroll_absolute({arrows:true})});</script>
+
 <script src="/js/layer/layer.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -156,7 +162,7 @@ function getData(applyGroup,applyYearGroup,itemType,itemId){
 						if(i%4==3){
 							html+="<li class='pic-thour'>";
 						}
-						html=html+"<div class='pic'><a href='/userApply/showFile?id="+obj.id+"' target='_blank'><img src='${lookdir}/video/2017print/"+obj.id+".png'  /></a></div>"
+						html=html+"<div class='pic'><a href='/userApply/showFile?showDown=0&id="+obj.id+"' target='_blank'><img src='${lookdir}/video/2017print/"+obj.id+".png'  /></a></div>"
 							+"<div class='title mt20'><span>NO."+obj.vdef1+"&nbsp;"+obj.productionName+"</span><div class='cb fl db'><span>作者:"+obj.realName+"</span>"
 							+"<p class='fr'><span class='fl'>票数:<i id='"+obj.id+"voteNum'>"+obj.voteNum+"</i></span><img style='cursor:pointer' onclick='vote(\""+obj.id+"\",\""+obj.applyGroup+"\",\""+obj.applyYearGroup+"\")' src='/img/vote-button1.png' width='76' height='35' class='vote-btn fl'>"
 							+"</p></div></div></li>";
@@ -225,26 +231,17 @@ function searchNovel(applyGroup1,applyGroup2,applyYearGroup){
       </li>
 
     </ul>
-    <!-- <div class="share"> 
+    <div class="share"> 
               
               <div class="b-share fl">
-                   <span  class="shareTo fl"><img src="/img/add.png"> 分享到: </span>
+                   <span  class="shareTo fl"> 分享到: </span>
                        <div class="bshare fl ml10" >
-                        <a title="分享到QQ空间" class="bshare-qzone"></a>
-                        <a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
-                        <a title="分享到微信" class="bshare-weixin"></a>
-                       <a title="分享到腾讯微博" class="bshare-qqmb"></a>
-                      <a title="分享到人人网" class="bshare-renren"></a>
+                       <div class="bshare-custom"><a title="分享到QQ空间" class="bshare-qzone"></a><a title="分享到新浪微博" class="bshare-sinaminiblog"></a><a title="分享到人人网" class="bshare-renren"></a><a title="分享到腾讯微博" class="bshare-qqmb"></a><a title="分享到网易微博" class="bshare-neteasemb"></a><a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a><span class="BSHARE_COUNT bshare-share-count">0</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
                    </div>
                </div>
-               <div class="login-style fr">
-                     <a href="javascript:;"><img src="/img/weixin-login.png" alt="微信登陆"></a>
-                     <a href="javascript:;"><img src="/img/qq-style.png" alt="qq登陆"></a>
-               </div>
-       </div> 
-     </div>-->
+       </div>
+     </div>
   </div>
-</div>
 <!--  -->
 <div class="vote">
   <div class="wt1746 vote-title m0">
@@ -455,8 +452,8 @@ function searchNovel(applyGroup1,applyGroup2,applyYearGroup){
               <span class="top-title"><img src="/img/ds-pw.png" width="188" height="103"></span>
               <img src="/img/top-line.png" width="478" height="5" class="fl mt10">
             </div>
-        <div class="fl">
-            <div class="zj-scrool">
+        <div  class="container1 cb fl"  >
+            <div  class="div_scroll">
                 <dl>
                   <dt class="fl"><a href="javascript:;"><img src="/img/zj-oy.jpg" width="221" height="248" alt="欧阳奋远"></a></dt>
                   <dd>
@@ -476,7 +473,7 @@ function searchNovel(applyGroup1,applyGroup2,applyYearGroup){
                   <dt class="fl"><a href="javascript:;"><img src="/img/zj-xy.jpg" width="221" height="248" alt="刘晓群"></a></dt>
                   <dd>
                       <span>刘晓群</span>
-                        <p class="sec-p"> 中科院院士，主要研究方向为进化遗传学、人类群体遗传学和基因组学。发表SCI论文500多篇，被引2万多次。二次获国家自然科学二等奖、何梁何利奖科技进步奖等。</p>
+                        <p class="sec-p"> 中国科学院月球与深空探测总体部主任，中国科学院天文科普联盟执委会主任，《中国国家天文》总编辑，国家天文台研究员，长期从事科普及其管理工作。</p>
                   </dd>
                 </dl>
                  <dl>
@@ -491,6 +488,14 @@ function searchNovel(applyGroup1,applyGroup2,applyYearGroup){
                   <dd>
                       <span>吴岩</span>
                         <p class="sec-p">科幻作家，北师大教授，科幻创意研究中心主任，博士生导师。中国科普作家协会副理事长。</p>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt class="fl"><a href="javascript:;"><img src="/img/zj-hj.jpg" width="221" height="248" alt="何洁"></a></dt>
+                  <dd>
+                      <span>何洁</span>
+                        <p class="sec-p">    清华大学美术学院教授、中国美术家协会平面设计艺委会主任。
+</p>
                   </dd>
                 </dl>
                 <dl>

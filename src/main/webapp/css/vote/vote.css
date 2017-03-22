@@ -5,7 +5,6 @@ body{background: #fff;}
 .banner-box .bd li .m-width {width:1348px;margin:0 auto;}
 .banner-box .bd li{width:100% !important;height:690px;}
 .banner-box .bd li a{display:block;}
-/*分享*/
 .share{position:absolute;bottom:0;left: 0;*+bottom:4px;width: 100%;}
 .b-share{background:#fff;padding:5px;height:20px}
 .b-share span{height:20px;line-height: 20px;font-size:14px;color:#000;display: inline-block;}
@@ -17,13 +16,11 @@ body{background: #fff;}
 .bshare .bshare-qzone{background:url(/img/top_logos_sprite.png) no-repeat 0 -234px;display:inline-block}
 .bshare .bshare-sinaminiblog{background:url(/img/top_logos_sprite.png) no-repeat 0 -270px;display:inline-block}
 .bshare .bshare-weixin{background:url(/img/weixin.png) no-repeat;display:inline-block}
+.bshare .bshare-QQ{background:url(/img/QQ.png) no-repeat;display:inline-block}
 .bshare .bshare-qqmb{background:url(/img/top_logos_sprite.png) no-repeat 0 -198px;display:inline-block}
 .bshare .bshare-renren {background: url(/img/top_logos_sprite.png) no-repeat 0 -252px;display: inline-block;}
-
 .login-style{width:auto;height:30px;}
 .login-style a{display: inline-block;float: left;margin:0 4px;}
-
-
 .vote{width: 100%;height: auto;}
 .wt1746{width:1746px}
 .vote-title{background: url(/img/vote-top.png) top left no-repeat;height:172px; width: 1742px}
@@ -35,7 +32,6 @@ body{background: #fff;}
 .title-more{position:absolute;right: 60px; top:50px}
 .title-line{position:absolute;left: 0px; top:117px}
 .title-line1{position:absolute;left:0px; top:140px}*/
-/*作品排行榜*/
 .mt70{margin-top: 70px}
 .vote-fr{width: 478px;margin-right: 20px}
 .top-title{margin-top: 50px;margin-left: 50px;display: inline-block;}
@@ -48,7 +44,6 @@ body{background: #fff;}
 .pm tbody tr td em{width: 32px;height: 36px;line-height: 36px;font-size: 18px;display: inline-block;text-align: center; background: #dfd424;color:#787a89;font-weight: bold}
 .pm tbody tr td .vote-number{color:#dfd424}
 .pm tbody tr td em.no-important{background: #d9d9d9}
-/*大赛评委*/
 .pw{width: 478px;height:auto;margin-top: 10px;}
 .pw-title{margin-bottom: 20px}
 .zj-scrool{width: 488px;}
@@ -58,7 +53,6 @@ body{background: #fff;}
 .pw dl dd p{position:absolute;bottom:42px;left:10px;font-size:14px;text-indent: 2em;line-height: 20px;color:#fff;}
 .pw dl dd p.sec-p{bottom:0px;}
 .pw dl dd{margin-left: 10px;width: 200px;float: left}
-/*科幻小说投票*/
 .ml40{margin-left: 40px}
 .mt5{margin-top: 5px}
 .novel-ul  li{float: left;padding:0 10px;height: 54px;color:#fff;font-size:24px;line-height: 54px;text-align: center;cursor: pointer;}
@@ -83,7 +77,6 @@ body{background: #fff;}
 .tit-novel  li.dp-title{background:#665ab6;color: #fee8eb;margin-top: 19px}
 .tit-novel  li span{display: inline-block;margin:117px auto;font-weight:bold;}
 .novel-wx .more-novel{position: absolute; bottom: 20px;right: 20px;font-size: 16px;line-height: 24px;color:#fff;display: inline-block;letter-spacing: 2px;}
-/*轮播图*/
 .multipleColumn{ overflow:hidden; position:relative; width:1090px;height:968px   }
 .multipleColumn .hd{  height:30px; background:#f4f4f4; padding:0 10px;  }
 .multipleColumn .hd ul{ float:right; overflow:hidden; zoom:1; margin-top:10px; zoom:1; }
@@ -96,19 +89,100 @@ body{background: #fff;}
 .multipleColumn .bd ul li .pic img{ width:454px; height:343px; display:block;border:3px solid #000000; }
 .multipleColumn .bd ul li .title{width:454px;height: auto; }
 .multipleColumn .bd ul li .title span{display: inline-block;float:left;font-size: 24px;color:#fff;line-height: 24px;height: 30px;}
-/*轮播图样式*/
 .pic-one,.pic-three{margin-left: 20px}
 .pic-two,.pic-thour{margin-right: 20px;float:right !important;}
 .db{width: 454px}
 .vote-btn{display: inline-block;margin:0 10px;margin-top: -7px;}
-/*滚动条*/
-/*大赛评委*/
 .pw{width: 478px;height:auto;margin-top: 10px;}
 .pw-title{margin-bottom: 20px;float: left;}
 .zj-scrool{height:auto;}
-.pw dl{margin-top: 14px;float: left; margin-left: 10px}
+.pw dl{margin-left: 10px;margin:20px 0;float: left; }
 .pw dl dd,.pw dl dt{height: 248px;position: relative;}
 .pw dl dd span{position:absolute;bottom: 130px; left:10px;color:#fff;display: inline-block;font-size:20px;line-height: 34px;}
 .pw dl dd p{position:absolute;bottom:42px;left:10px;font-size:14px;text-indent: 2em;line-height: 20px;color:#fff;}
 .pw dl dd p.sec-p{bottom:0px;}
 .pw dl dd{margin-left: 10px;width: 200px;float: left}
+ #pane1, #pane2, #pane3, #pane4 {
+        height: 2620px;
+        width: 478px
+      }
+      
+      .winXP .jScrollPaneTrack {
+        background: url(/img/windows_track.gif) repeat-y;
+      }
+      .winXP .jScrollPaneDrag {
+        background: url(/img/windows_drag_middle.gif) no-repeat 0 50%;
+      }
+      .winXP .jScrollPaneDragTop {
+        background: url(/img/windows_drag_top.gif) no-repeat;
+        height: 4px;
+      }
+      .winXP .jScrollPaneDragBottom {
+        background: url(/img/windows_drag_bottom.gif) no-repeat;
+        height: 4px;
+      }
+      .winXP a.jScrollArrowUp {
+        height: 17px;
+        background: url(/img/windows_arrow_up.gif) no-repeat 0 0;
+      }
+      .winXP a.jScrollArrowUp:hover {
+        background-position: 0 -20px;
+      }
+      .winXP a.jScrollArrowDown {
+        height: 17px;
+        background: url(/img/windows_arrow_down.gif) no-repeat 0 0;
+      }
+      .winXP a.jScrollArrowDown:hover {
+        background-position: 0 -20px;
+      }
+      .winXP a.jScrollActiveArrowButton, .winXP a.jScrollActiveArrowButton:hover {
+        background-position: 0 -40px;
+      }
+      
+      
+      .osX .jScrollPaneTrack {
+        background: url(/img/osx_track.gif) repeat-y;
+      }
+      .osX .jScrollPaneDrag {
+        background: url(/img/osx_drag_middle.gif) repeat-y;
+      }
+      .osX .jScrollPaneDragTop {
+        background: url(/img/osx_drag_top.gif) no-repeat;
+        height: 6px;
+      }
+      .osX .jScrollPaneDragBottom {
+        background: url(/img/osx_drag_bottom.gif) no-repeat;
+        height: 7px;
+      }
+      .osX a.jScrollArrowUp {
+        height: 24px;
+        background: url(/img/osx_arrow_up.png) no-repeat 0 -30px;
+      }
+      .osX a.jScrollArrowUp:hover {
+        background-position: 0 0;
+      }
+      .osX a.jScrollArrowDown {
+        height: 24px;
+        background: url(/img/osx_arrow_down.png) no-repeat 0 -30px;
+      }
+      .osX a.jScrollArrowDown:hover {
+        background-position: 0 0;
+      }
+      
+      .left .jScrollPaneTrack {
+        left: 0;
+        right: auto;
+      }
+      .left a.jScrollArrowUp {
+        left: 0;
+        right: auto;
+      }
+      .left a.jScrollArrowDown {
+        left: 0;
+        right: auto;
+      }
+    
+      
+      /* IE SPECIFIC HACKED STYLES */
+      * html .osX .jScrollPaneDragBottom {
+        bottom: -1px;

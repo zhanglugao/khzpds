@@ -24,7 +24,7 @@ $(document).ready(function(){
 		$("#dataDiv").css("display","none");
 	</c:if>
 	getData(303001,304001);
-	getData(303002,304001);
+	getData(303002,304002);
 });
 function getData(applyGroup,applyYearGroup){
 	if($("#"+applyGroup+"-"+applyYearGroup).text()==''){
@@ -152,12 +152,12 @@ function vote(applyId,applyGroup,applyYearGroup){
                     <h2 class="title mb60">电脑绘图组</h2>
                   <!-- 小学  中学 大学 -->
                     <ul class="novel-tile wx dn">
-                        <li class="xx" onclick="getData(303002,304001)">小学组</li>
-                        <li class="zx" onclick="getData(303002,304002)">中学组</li>
-                        <li class="dx" onclick="getData(303002,304003)">大学组</li>
+<!--                         <li class="xx" onclick="getData(303002,304001)">小学组</li>
+ -->                        <li class="xx" onclick="getData(303002,304002)">中学组</li>
+                        <li class="zx" onclick="getData(303002,304003)">大学组</li>
                     </ul>
                     <!-- 电脑绘图组 小学 -->
-                    <div class="main1 xx on " id="303002-304001"></div>
+                   <!--  <div class="main1 xx on " id="303002-304001"></div> -->
                     <!-- 电脑绘图组 中学 -->
                     <div class="main1 " id="303002-304002"></div>
                        <!-- 手绘组 大学 -->
@@ -192,25 +192,6 @@ function vote(applyId,applyGroup,applyYearGroup){
                
          $('.main1').eq(index) .addClass('on').siblings('.main1').removeClass('on');    
       }); 
-          
-            $('.main').niceScroll({
-                cursorcolor: "#a20fc8",//#CC0071 光标颜色
-                cursoropacitymax: 1, //改变不透明度非常光标处于活动状态（scrollabar“可见”状态），范围从1到0
-                touchbehavior: false, //使光标拖动滚动像在台式电脑触摸设备
-                cursorwidth: "10px", //像素光标的宽度
-                cursorborder: "0", //   游标边框css定义
-                cursorborderradius: "5px",//以像素为光标边界半径
-                autohidemode: false //是否隐藏滚动条
-            });
-            $('.main1').niceScroll({
-                cursorcolor: "#a20fc8",//#CC0071 光标颜色
-                cursoropacitymax: 1, //改变不透明度非常光标处于活动状态（scrollabar“可见”状态），范围从1到0
-                touchbehavior: false, //使光标拖动滚动像在台式电脑触摸设备
-                cursorwidth: "10px", //像素光标的宽度
-                cursorborder: "0", //   游标边框css定义
-                cursorborderradius: "5px",//以像素为光标边界半径
-                autohidemode: false //是否隐藏滚动条
-            });
         </script>
   
   

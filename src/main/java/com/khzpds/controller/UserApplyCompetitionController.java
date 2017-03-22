@@ -66,14 +66,16 @@ public class UserApplyCompetitionController extends BaseController{
 	
 	
 	@RequestMapping("/showFile")
-	public ModelAndView showFile(String id,HttpServletRequest request,HttpServletResponse response) throws IOException{
+	public ModelAndView showFile(String showDown,String id,HttpServletRequest request,HttpServletResponse response) throws IOException{
 		UserCompletionItemApplyInfo apply=userCompetitionItemApplyService.findById(id);
 		apply.setFilePath(apply.getFilePath().replace("\\", "/"));
 		if(!apply.getFilePath().endsWith(".mp4")){
 			return new ModelAndView("redirect:/filePath"+apply.getFilePath());
 		}else{
 			request.setAttribute("filePath", apply.getFilePath());
-			
+			if(org.apache.commons.lang3.StringUtils.isNotBlank(showDown)&&"0".equals(showDown)){
+				request.setAttribute("notShowDown", "1");
+			}
 			request.setAttribute("fileName", URLEncoder.encode(apply.getProductionName()));
 			request.setAttribute("fileType", apply.getFilePath().split("\\.")[1]);
 			return new ModelAndView(getRootPath(request)+"/manage/play/video_preview");

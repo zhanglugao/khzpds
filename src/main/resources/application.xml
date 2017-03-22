@@ -64,6 +64,8 @@
 	        <mvc:exclude-mapping path="/userVisitLog/visitLog"/>
 	        <!-- 游客投票 -->
 	        <mvc:exclude-mapping path="/vote/*"/>
+	       	<!-- 查看作品详情 -->
+	        <mvc:exclude-mapping path="/userApply/showFile"/>
 	        
 	        <bean class="com.khzpds.secure.LoginInterceptor" />
 	    </mvc:interceptor>
