@@ -51,7 +51,7 @@
 						}
 						var html="<ul><li><img src='${lookdir}"+obj.filePath+"' width='100%'></li>"
 							+"<li><span>NO."+obj.vdef1+"</span><span>作者："+obj.realName+"</span>"
-							+"<p class='vote-button'><span><img onclick='vote(\""+obj.id+"\",\""+applyGroup+"\",\""+applyYearGroup+"\")' src='/img/vote-button.png' width='80%'>"
+							+"<p class='vote-button'><span><img onclick='vote(\""+obj.id+"\",\""+applyGroup+"\",\""+applyYearGroup+"\")' src='/phoneimg/vote-button.png' width='80%'>"
 							+"</span><span>票数：<i id='"+obj.id+"voteNum'>"+obj.voteNum+"</i></span></p></li></ul>";
 						$("#"+applyGroup+"-"+applyYearGroup).append(html);
 					}
@@ -85,10 +85,10 @@
 </head>
 <body>
       <div class="top">
-           <img src="/img/vote-banner-draw.jpg" width="100%" height="100%"  alt="科幻大赛-科幻小说投票banner">
+           <img src="/phoneimg/vote-banner-draw.jpg" width="100%" height="100%"  alt="科幻大赛-科幻小说投票banner">
       </div>
       <div class="vote-nav">
-            <a href="/vote/phoneIndex"> <img src="/img/vote-nav.png" width="100%" height="100%"  alt="投票导航"></a>
+            <a href="/vote/phoneIndex"> <img src="/phoneimg/vote-nav.png" width="100%" height="100%"  alt="投票导航"></a>
       </div>
       <!-- 科幻小说  类别    小学  中学   大学 社会组 -->
       <div class="vote-main novel-main" id="dataDiv">
