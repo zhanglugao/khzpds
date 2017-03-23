@@ -134,7 +134,7 @@ function getData(applyGroup,applyYearGroup,itemType,itemId){
 					}
 					if(applyYearGroup=='304003'){
 						//大学
-						jQuery(".multipleColumn.khh-dx").slidde({titCell:".hd ul",mainCell:".bd .ulWrap",autoPage:true,effect:"leftLoop",autoPlay:true,vis:1});
+						jQuery(".multipleColumn.khh-dx").slide({titCell:".hd ul",mainCell:".bd .ulWrap",autoPage:true,effect:"leftLoop",autoPlay:true,vis:1});
 					}
 				}
 				else if(itemType=='301003'){
