@@ -50,7 +50,7 @@
 							obj.applyGroup="";
 						}
 						var html="<ul><li><img src='${lookdir}"+obj.filePath+"' width='100%'></li>"
-							+"<li><span>NO."+obj.vdef1+"</span><span>作者："+obj.realName+"</span>"
+							+"<li><span>NO."+obj.vdef1+"&nbsp;未来中国</span><span>作者："+obj.realName+"</span>"
 							+"<p class='vote-button'><span><img onclick='vote(\""+obj.id+"\",\""+applyGroup+"\",\""+applyYearGroup+"\")' src='/phoneimg/vote-button.png' width='80%'>"
 							+"</span><span>票数：<i id='"+obj.id+"voteNum'>"+obj.voteNum+"</i></span></p></li></ul>";
 						$("#"+applyGroup+"-"+applyYearGroup).append(html);

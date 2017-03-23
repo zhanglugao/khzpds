@@ -43,6 +43,9 @@ function getRankingData(){
 				if(obj.productionName.length>6){
 					obj.productionName=obj.productionName.substring(0,5)+"...";
 				}
+				if(obj.competitionType=='301002'){
+					obj.productionName="未来中国";
+				}
 				var html="<tr><td><em>"+(i+1)+"</em></td><td>"+obj.realName+"</td><td>"+obj.productionName+"</td><td><span class='vote-number'>"+obj.voteNum+"</span></td></tr>";
 				$("#rankingData").append(html);
 			}
@@ -116,7 +119,7 @@ function getData(applyGroup,applyYearGroup,itemType,itemId){
 							zu="电脑绘图组";
 						}
 						html=html+"<div class='pic'><a href='/userApply/showFile?id="+obj.id+"' target='_blank'><img src='${lookdir}"+obj.filePath+"' /></a></div>"
-							+"<div class='title mt20'><span>"+zu+"NO."+obj.vdef1+"</span><div class='cb fl db'><span>作者:"+obj.realName+"</span>"
+							+"<div class='title mt20'><span>"+zu+"NO."+obj.vdef1+"&nbsp;未来中国</span><div class='cb fl db'><span>作者:"+obj.realName+"</span>"
 							+"<p class='fr'><span class='fl'>票数:<i id='"+obj.id+"voteNum'>"+obj.voteNum+"</i></span><img style='cursor:pointer' onclick='vote(\""+obj.id+"\",\""+obj.applyGroup+"\",\""+obj.applyYearGroup+"\")' src='/img/vote-button1.png' width='76' height='35' class='vote-btn fl'>"
 							+"</p></div></div></li>";
 						if((i%4==3)||i==rows.length-1){
