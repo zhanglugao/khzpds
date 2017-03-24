@@ -22,7 +22,7 @@
 			$("#dataDiv").css("display","none");
 		</c:if>
 		getData(303001,304001,1);
-		getData(303002,304001,1);
+		getData(303002,304002,1);
 	});
 	function getData(applyGroup,applyYearGroup,currentPage){
 		if(($("#"+applyGroup+"-"+applyYearGroup).text()==''&&currentPage==1)||currentPage!=1){
@@ -121,18 +121,18 @@
           <h3>电脑组</h3>
           <div class="novel-tab ">
                 <ul class="novel-tile novel-ul dx">
-                      <li class="xx" onclick="getData(303002,304001,1)">小学组</li>
-                      <li class="zx" onclick="getData(303002,304002,1)">中学组</li>
-                      <li class="dx" onclick="getData(303002,304003,1)">大学组</li>
+                      <!-- <li class="xx" onclick="getData(303002,304001,1)">小学组</li> -->
+                      <li class="xx" onclick="getData(303002,304002,1)">中学组</li>
+                      <li class="zx" onclick="getData(303002,304003,1)">大学组</li>
                  </ul>
                 <!-- 小学 -->
-                 <div class="content1 xx on ">
+                <!--  <div class="content1 xx on ">
                     <div id="303002-304001"></div>
                  	<input type="hidden" id="303002-304001page"/>
                     <a id="303002-304001a" onclick="loadMore(303002,304001)" href="javascript:;" class="moible-more">更多>></a>
-                 </div>
+                 </div> -->
                  <!-- 中学 -->
-                 <div class="content1  ">
+                 <div class="content1  xx on">
                     <div id="303002-304002"></div>
                  	<input type="hidden" id="303002-304002page"/>
                     <a id="303002-304002a" onclick="loadMore(303002,304002)" href="javascript:;" class="moible-more">更多>></a>

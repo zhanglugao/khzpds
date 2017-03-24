@@ -46,7 +46,7 @@ function getRankingData(){
 				if(obj.competitionType=='301002'){
 					obj.productionName="未来中国";
 				}
-				var html="<tr><td><em>"+(i+1)+"</em></td><td>"+obj.realName+"</td><td>"+obj.productionName+"</td><td><span class='vote-number'>"+obj.voteNum+"</span></td></tr>";
+				var html="<tr><td><em>"+(i+1)+"</em></td><td>"+obj.productionName+"</td><td><span class='vote-number'>"+obj.voteNum+"</span></td></tr>";
 				$("#rankingData").append(html);
 			}
 		}
@@ -439,7 +439,6 @@ function searchNovel(applyGroup1,applyGroup2,applyYearGroup){
             <thead>
                 <tr>
                   <td>排名 </td>
-                  <td>作者</td>
                   <td>作品名称</td>
                   <td>票数</td>
                 </tr>
