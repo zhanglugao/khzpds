@@ -112,7 +112,7 @@
            <if test="obj.vdef1!=null"> AND vdef1 = #{obj.vdef1}</if>
            <if test="obj.vdef2!=null"> AND vdef2 = #{obj.vdef2}</if>
            <if test="obj.vdef3!=null"> AND vdef3 = #{obj.vdef3}</if>
-        	order by vdef2
+        	order by marking_user,vdef2
 	</select>
 	<!--CustomEnd*****-->
 </mapper>

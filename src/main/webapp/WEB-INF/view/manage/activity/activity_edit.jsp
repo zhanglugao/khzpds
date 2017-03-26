@@ -60,6 +60,41 @@
 			});
 		});
 	}
+	var limitIndex;
+	function setItemTakeScoreLimit(itemId,vdef1,vdef2){
+		$("#itemId").val(itemId);
+		$("#vdef1").val(vdef1);
+		$("#vdef2").val(vdef2);
+		limitIndex=layer.open({
+			type: 1,
+			content:$("#takeScoreLimitDiv"),
+			scrollbar: false,
+			shadeClose: true,//开启遮罩关闭
+			title:false,
+			area: ['400px', '200px']
+		});
+	}
+	function saveLimit(){
+		var vdef1=$("#vdef1").val();
+		var vdef2=$("#vdef2").val();
+		if(isNaN(vdef1)||isNaN(vdef2)){
+			layer.msg("请填写数字",{icon:4});
+			return;
+		}
+		$.ajax({
+			url:"/activity/setItemTakeScoreLimit",
+			type:"post",
+			success:function(data){
+				if(data.status=='0'){
+					layer.msg("设置成功",{icon:1});
+					layer.close(limitIndex);
+					window.location.reload();
+				}
+			},
+			dataType:"json",
+			data:$("#limitForm").serialize()
+		});
+	}
 </script>
 </head>
 <body class="skin-blue">
@@ -112,35 +147,35 @@
 											<td><fmt:formatDate value="${item.secondReviewEndtime }" pattern="yyyy-MM-dd"/></td>
 											<c:if test="${item.status=='309002' }">
 												<!-- 已发布 -->
-												<td><button onclick='changeItemStatus("结束报名","${item.id}","0")' type='button' class='btn btn-primary'>结束报名</button></td>
+												<td><button onclick='changeItemStatus("结束报名","${item.id}","0")' type='button' class='btn btn-primary'>结束报名</button>&nbsp;<button onclick='setItemTakeScoreLimit("${item.id}","${item.vdef1 }","${item.vdef2 }")' type='button' class='btn btn-primary'>设置专家打分限制</button></td>
 											</c:if>
 											<c:if test="${item.status=='309007' }">
 												<!-- 报名结束 -->
-												<td><button onclick='changeItemStatus("开始一轮评审","${item.id}","1")' type='button' class='btn btn-primary'>开始一轮评审</button></td>
+												<td><button onclick='changeItemStatus("开始一轮评审","${item.id}","1")' type='button' class='btn btn-primary'>开始一轮评审</button>&nbsp;<button onclick='setItemTakeScoreLimit("${item.id}","${item.vdef1 }","${item.vdef2 }")' type='button' class='btn btn-primary'>设置专家打分限制</button></td>
 											</c:if>
 											<c:if test="${item.status=='309008' }">
 												<!-- 一轮评审中 -->
-												<td><button onclick='changeItemStatus("结束一轮评审","${item.id}","2")' type='button' class='btn btn-primary'>结束一轮评审</button></td>
+												<td><button onclick='changeItemStatus("结束一轮评审","${item.id}","2")' type='button' class='btn btn-primary'>结束一轮评审</button>&nbsp;<button onclick='setItemTakeScoreLimit("${item.id}","${item.vdef1 }","${item.vdef2 }")' type='button' class='btn btn-primary'>设置专家打分限制</button></td>
 											</c:if>
 											<c:if test="${item.status=='309003' }">
 												<!-- 一轮评审结束 -->
-												<td><button onclick='changeItemStatus("结束二轮评审","${item.id}","3")' type='button' class='btn btn-primary'>结束二轮评审</button></td>
+												<td><button onclick='changeItemStatus("结束二轮评审","${item.id}","3")' type='button' class='btn btn-primary'>结束二轮评审</button>&nbsp;<button onclick='setItemTakeScoreLimit("${item.id}","${item.vdef1 }","${item.vdef2 }")' type='button' class='btn btn-primary'>设置专家打分限制</button></td>
 											</c:if>
 											<c:if test="${item.status=='309004' }">
 												<!-- 二轮评审结束 -->
-												<td></td>
+												<td><button onclick='setItemTakeScoreLimit("${item.id}","${item.vdef1 }","${item.vdef2 }")' type='button' class='btn btn-primary'>设置专家打分限制</button></td>
 											</c:if>
 											<c:if test="${item.status=='309001' }">
 												<!-- 未发布 -->
-												<td></td>
+												<td><button onclick='setItemTakeScoreLimit("${item.id}","${item.vdef1 }","${item.vdef2 }")' type='button' class='btn btn-primary'>设置专家打分限制</button></td>
 											</c:if>
 											<c:if test="${item.status=='309005' }">
 												<!-- 已结束 -->
-												<td></td>
+												<td><button onclick='setItemTakeScoreLimit("${item.id}","${item.vdef1 }","${item.vdef2 }")' type='button' class='btn btn-primary'>设置专家打分限制</button></td>
 											</c:if>
 											<c:if test="${item.status=='309006' }">
 												<!-- 已废弃 -->
-												<td></td>
+												<td><button onclick='setItemTakeScoreLimit("${item.id}","${item.vdef1 }","${item.vdef2 }")' type='button' class='btn btn-primary'>设置专家打分限制</button></td>
 											</c:if>
 										</tr>
 									</c:forEach>
@@ -151,6 +186,15 @@
 				</div>
 			</section>
 		</aside>
+	</div>
+	<div id="takeScoreLimitDiv" style="display:none;">
+		<form id="limitForm" style="margin-top:20px;margin-left:20px;">
+			打分专家人数限制：<input id="vdef1" name="vdef1" />	<br/>	<br/>
+			复赛不通过得分阀值：<input id="vdef2" name="vdef2" />
+			<input type="hidden" name="itemId" id="itemId"/> 
+		</form>
+		<br/><br/>
+		<button style="margin-left:50px;" onclick="saveLimit()" type='button' class='btn btn-primary'>保存</button>
 	</div>
 </body>
 </html>

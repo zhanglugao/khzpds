@@ -3,12 +3,15 @@ package com.khzpds.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -88,6 +91,9 @@ public class ExpertTakeScoreController extends BaseController {
 		}
 		UserApplyMarkingResultInfo findInfo=new UserApplyMarkingResultInfo();
 		findInfo.setApplyId(id);
+		if("1".equals(ifCanAdd)){
+			findInfo.setMarkingUser(this.getCurrentSessionInfo(request).getUserId());
+		}
 		List<UserApplyMarkingResultInfo> results=userApplyMarkingResultService.findByParamSort(findInfo);
 		if(results.size()==0){
 			//查询该计划下的打分项
@@ -132,6 +138,9 @@ public class ExpertTakeScoreController extends BaseController {
 		String[] dataArr=datas.split(",");
 		List<UserApplyMarkingResultInfo> results=new ArrayList<UserApplyMarkingResultInfo>();
 		int num=0;
+		double totalScore=0d;
+		String itemId=null;
+		UserCompletionItemApplyInfo applyInfo=null;
 		for(String data:dataArr){
 			num++;
 			String[] arr=data.split("#");
@@ -139,7 +148,9 @@ public class ExpertTakeScoreController extends BaseController {
 			String[] ids=arr[0].split("_");
 			String applyId=ids[0];
 			String setUpId=ids[1];
-			UserCompletionItemApplyInfo applyInfo=userCompetitionItemApplyService.findById(applyId);
+			if(applyInfo==null){
+				applyInfo=userCompetitionItemApplyService.findById(applyId);
+			}
 			UserApplyMarkingResultInfo resultInfo=new UserApplyMarkingResultInfo();
 			resultInfo.setActivityId(applyInfo.getActivityId());
 			resultInfo.setApplyId(applyId);
@@ -151,9 +162,56 @@ public class ExpertTakeScoreController extends BaseController {
 			resultInfo.setMarkingUser(this.getCurrentSessionInfo(request).getUserId());
 			resultInfo.setVdef1(setUpId);
 			resultInfo.setVdef2(num+"");
+			resultInfo.setVdef3(this.getCurrentSessionInfo(request).getUserName());
 			results.add(resultInfo);
+			totalScore+=resultInfo.getGetScore();
+			itemId=applyInfo.getCompetitionItemId();
+		}
+		CompetitionItemInfo item=competitionItemService.findById(itemId);
+		if(item!=null&&StringUtils.isNotBlank(item.getVdef2())){
+			if(totalScore<Integer.parseInt(item.getVdef2())){
+				applyInfo.setVdef5("-1");
+				userCompetitionItemApplyService.update(applyInfo);
+			}
 		}
 		userApplyMarkingResultService.addList(results);
+		result.put("status", "0");
+		this.writeJson(response, result);
+	}
+	
+	/***
+	 * 校验能否打分 标注有2  
+	 * 1：是否达到限制打分人数
+	 * 2：本用户是否已打过分
+	 * @param id
+	 * @param response
+	 */
+	@RequestMapping("/validateTake")
+	public void validateTake(String id,HttpServletResponse response,HttpServletRequest request){
+		Map<String,Object> result=new HashMap<String, Object>();
+		UserCompletionItemApplyInfo apply=userCompetitionItemApplyService.findById(id);
+		CompetitionItemInfo item=competitionItemService.findById(apply.getCompetitionItemId());
+		UserApplyMarkingResultInfo findInfo=new UserApplyMarkingResultInfo();
+		findInfo.setApplyId(apply.getId());
+		List<UserApplyMarkingResultInfo> list=userApplyMarkingResultService.findByParam(findInfo);
+		Set<String> set=new HashSet<String>();
+		for(UserApplyMarkingResultInfo resultInfo:list){
+			set.add(resultInfo.getMarkingUser());
+		}
+		if(StringUtils.isNotBlank(item.getVdef1())){
+			if(Integer.parseInt(item.getVdef1())<=set.size()){
+				result.put("status", "1");
+				result.put("error_desc", "该作品限制打分专家人数为"+item.getVdef1()+"，已不可再打分");
+				this.writeJson(response, result);
+				return;
+			}
+		}
+		if(set.contains(this.getCurrentSessionInfo(request).getUserId())){
+			result.put("status", "1");
+			result.put("error_desc", "您也对该作品打分");
+			this.writeJson(response, result);
+			return;
+		}
 		result.put("status", "0");
 		this.writeJson(response, result);
 	}

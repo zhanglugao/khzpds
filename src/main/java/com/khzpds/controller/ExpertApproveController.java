@@ -1,10 +1,11 @@
 package com.khzpds.controller;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,10 +32,8 @@ import com.khzpds.util.DateUtil;
 import com.khzpds.util.TransHtmlHelper;
 import com.khzpds.vo.ActivityInfoInfo;
 import com.khzpds.vo.CompetitionItemInfo;
-import com.khzpds.vo.RoleInfo;
 import com.khzpds.vo.UserApplyMarkingResultInfo;
 import com.khzpds.vo.UserCompletionItemApplyInfo;
-import com.khzpds.vo.UserInfoInfo;
 import com.khzpds.vo.UserRoleInfo;
 
 /***
@@ -190,6 +189,13 @@ public class ExpertApproveController extends BaseController{
 		if(StringUtils.isNotBlank(realName))searchMap.put("realName", realName);
 		if(StringUtils.isNotBlank(applyStatus))searchMap.put("applyStatus", applyStatus);
 		if(StringUtils.isNotBlank(approveResult))searchMap.put("approveResult", approveResult);
+		if(StringUtils.isNotBlank(ifShowScore)){
+			//过滤复赛打分后状态为不通过的
+			if(!"admin".equals(this.getCurrentSessionInfo(request).getUserName())){
+				//
+				searchMap.put("notVdef5", "-1");
+			}
+		}
 		/*searchMap.put("orderField", " apply");
 		searchMap.put("orderType", " desc");*/
 		page.setOrderField(" apply.create_time");
@@ -215,7 +221,7 @@ public class ExpertApproveController extends BaseController{
 		for(Map<String,String> map:dataMap	){
 			map.put("ideaDesc", TransHtmlHelper.replaceStringToHtml(map.get("ideaDesc")));
 			if(StringUtils.isNotBlank(ifShowScore)){
-				//
+				/*//
 				UserApplyMarkingResultInfo findInfo=new UserApplyMarkingResultInfo();
 				findInfo.setItemId(itemId);
 				findInfo.setApplyId(map.get("id").toString());
@@ -238,7 +244,25 @@ public class ExpertApproveController extends BaseController{
 						}
 					}
 					map.put("totalScore", totalScore.toString());
+				}*/
+				UserApplyMarkingResultInfo findInfo=new UserApplyMarkingResultInfo();
+				findInfo.setItemId(itemId);
+				findInfo.setApplyId(map.get("id").toString());
+				List<UserApplyMarkingResultInfo> results=userApplyMarkingResultService.findByParam(findInfo);
+				double aveScore=0d;
+				double totalScore=0d;
+				Set<String> set=new HashSet<String>();
+				for(UserApplyMarkingResultInfo resultInfo:results){
+					if(resultInfo.getGetScore()!=null){
+						totalScore+=resultInfo.getGetScore();
+					}
+					set.add(resultInfo.getMarkingUser());
+					//aveScore=(double)(aveScore+resultInfo.getGetScore())/2;
 				}
+				if(totalScore!=0&&set.size()>0){
+					aveScore=(double)totalScore/set.size();
+				}
+				map.put("aveScore", aveScore+"");
 			}
 		}
 		result.put("datas",dataMap);

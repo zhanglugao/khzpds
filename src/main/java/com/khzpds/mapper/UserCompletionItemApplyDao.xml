@@ -50,25 +50,28 @@
         <result property="vdef1" column="vdef1" />    
         <result property="vdef2" column="vdef2" />    
         <result property="vdef3" column="vdef3" />    
+        <result property="vdef4" column="vdef4" />    
+        <result property="vdef5" column="vdef5" />    
+        <result property="vdef6" column="vdef6" />    
     </resultMap>
     
     <!--根据主键查询-->
 	<select id="findById" resultMap="UserCompletionItemApplyResultMap">
-		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,review_point,vdef1,vdef2,vdef3 from user_completion_item_apply where id=#{id}
+		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,review_point,vdef1,vdef2,vdef3,vdef4,vdef5,vdef6 from user_completion_item_apply where id=#{id}
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
 	</select>
     
     <!--插入-->
 	 <insert id="insert" parameterType="com.khzpds.vo.UserCompletionItemApplyInfo" >
     	INSERT INTO user_completion_item_apply
-        (id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,review_point,vdef1,vdef2,vdef3) 
-		values(#{id},#{userId},#{userName},#{activityId},#{competitionItemId},#{competitionType},#{createTime},#{applyStatus},#{productionName},#{applyGroup},#{applyYearGroup},#{realName},#{birthday},#{sex},#{schoolName},#{classCompany},#{recommenedCompany},#{cardType},#{cardNumber},#{telephone},#{mobilePhone},#{email},#{postcode},#{address},#{ideaDesc},#{fileName},#{filePath},#{scriptwriter},#{director},#{camerist},#{editor},#{musician},#{artist},#{mainStuff},#{teamDesc},#{approveStatus},#{approveUserId},#{approveUserName},#{approveTime},#{approveType},#{reviewPoint},#{vdef1},#{vdef2},#{vdef3})
+        (id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,review_point,vdef1,vdef2,vdef3,vdef4,vdef5,vdef6) 
+		values(#{id},#{userId},#{userName},#{activityId},#{competitionItemId},#{competitionType},#{createTime},#{applyStatus},#{productionName},#{applyGroup},#{applyYearGroup},#{realName},#{birthday},#{sex},#{schoolName},#{classCompany},#{recommenedCompany},#{cardType},#{cardNumber},#{telephone},#{mobilePhone},#{email},#{postcode},#{address},#{ideaDesc},#{fileName},#{filePath},#{scriptwriter},#{director},#{camerist},#{editor},#{musician},#{artist},#{mainStuff},#{teamDesc},#{approveStatus},#{approveUserId},#{approveUserName},#{approveTime},#{approveType},#{reviewPoint},#{vdef1},#{vdef2},#{vdef3},#{vdef4},#{vdef5},#{vdef6})
     </insert>
 
     
     <!--根据传入的map参数查询 并分页-->
     <select id="findByParamForPage" resultMap="UserCompletionItemApplyResultMap" >
-		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,review_point,vdef1,vdef2,vdef3 from user_completion_item_apply
+		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,review_point,vdef1,vdef2,vdef3,vdef4,vdef5,vdef6 from user_completion_item_apply
 		where 1=1
            <if test="obj.search.id!=null"> AND id = #{obj.search.id}</if>
            <if test="obj.search.userId!=null"> AND user_id = #{obj.search.userId}</if>
@@ -114,6 +117,9 @@
            <if test="obj.search.vdef1!=null"> AND vdef1 = #{obj.search.vdef1}</if>
            <if test="obj.search.vdef2!=null"> AND vdef2 = #{obj.search.vdef2}</if>
            <if test="obj.search.vdef3!=null"> AND vdef3 = #{obj.search.vdef3}</if>
+           <if test="obj.search.vdef4!=null"> AND vdef4 = #{obj.search.vdef4}</if>
+           <if test="obj.search.vdef5!=null"> AND vdef5 = #{obj.search.vdef5}</if>
+           <if test="obj.search.vdef6!=null"> AND vdef6 = #{obj.search.vdef6}</if>
 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
         <if test="obj.orderField!=null and obj.orderType!=null"> order by ${obj.orderField} ${obj.orderType}</if>
@@ -121,7 +127,7 @@
     
      <!--根据传入的实体参数查询-->
     <select id="findByParam" resultMap="UserCompletionItemApplyResultMap" >
-		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,review_point,vdef1,vdef2,vdef3 from user_completion_item_apply
+		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,review_point,vdef1,vdef2,vdef3,vdef4,vdef5,vdef6 from user_completion_item_apply
 		where 1=1
            <if test="obj.id!=null"> AND id = #{obj.id}</if>
            <if test="obj.userId!=null"> AND user_id = #{obj.userId}</if>
@@ -167,6 +173,9 @@
            <if test="obj.vdef1!=null"> AND vdef1 = #{obj.vdef1}</if>
            <if test="obj.vdef2!=null"> AND vdef2 = #{obj.vdef2}</if>
            <if test="obj.vdef3!=null"> AND vdef3 = #{obj.vdef3}</if>
+           <if test="obj.vdef4!=null"> AND vdef4 = #{obj.vdef4}</if>
+           <if test="obj.vdef5!=null"> AND vdef5 = #{obj.vdef5}</if>
+           <if test="obj.vdef6!=null"> AND vdef6 = #{obj.vdef6}</if>
 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
 	</select>
@@ -224,7 +233,7 @@
            <if test="obj.reviewPoint!=null">review_point=#{obj.reviewPoint},</if>
            <if test="obj.vdef1!=null">vdef1=#{obj.vdef1},</if>
            <if test="obj.vdef2!=null">vdef2=#{obj.vdef2},</if>
-           <if test="obj.vdef3!=null">vdef3=#{obj.vdef3},</if>  
+           <if test="obj.vdef3!=null">vdef3=#{obj.vdef3},</if>           <if test="obj.vdef4!=null">vdef4=#{obj.vdef4},</if>           <if test="obj.vdef5!=null">vdef5=#{obj.vdef5},</if>           <if test="obj.vdef6!=null">vdef6=#{obj.vdef6},</if>  
         </trim>
 		where id=#{obj.id} 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
@@ -277,6 +286,9 @@
            <if test="obj.vdef1!=null"> AND vdef1 = #{obj.vdef1}</if>
            <if test="obj.vdef2!=null"> AND vdef2 = #{obj.vdef2}</if>
            <if test="obj.vdef3!=null"> AND vdef3 = #{obj.vdef3}</if>
+           <if test="obj.vdef4!=null"> AND vdef4 = #{obj.vdef4}</if>
+           <if test="obj.vdef5!=null"> AND vdef5 = #{obj.vdef5}</if>
+           <if test="obj.vdef6!=null"> AND vdef6 = #{obj.vdef6}</if>
            
         order by ${sort}
 	</select>
@@ -298,7 +310,8 @@
 			apply.file_path as filePath,
 			apply.approve_type as approveType,
 			apply.idea_desc as ideaDesc,
-			apply.vdef3 as vdef3
+			apply.vdef3 as vdef3,
+			apply.vdef4 as vdef4
 		FROM
 			user_completion_item_apply apply
 		JOIN user_info USER ON apply.user_id = USER.id
@@ -318,6 +331,7 @@
 		<if test="search.applyStatus!=null"> and apply.apply_status=#{search.applyStatus}</if>
 		<if test="search.approveResult!=null"> and apply.approve_status=#{search.approveResult}</if>
 		<if test="search.schoolName!=null"> and apply.school_name like CONCAT("%",#{search.schoolName},"%")</if>
+		<if test="search.notVdef5!=null"> and (apply.vdef5 is null or apply.vdef5='')</if>
 		
 		<if test="orderField!=null and orderType!=null">
 			order by ${orderField} ${orderType}
@@ -341,7 +355,8 @@
 			apply.file_path as filePath,
 			apply.approve_type as approveType,
 			apply.idea_desc as ideaDesc,
-			apply.vdef3 as vdef3
+			apply.vdef3 as vdef3,
+			apply.vdef4 as vdef4
 		FROM
 			user_completion_item_apply apply
 		JOIN user_info USER ON apply.user_id = USER .id
@@ -361,6 +376,7 @@
 		<if test="applyStatus!=null"> and apply.apply_status=#{applyStatus}</if>
 		<if test="approveResult!=null"> and apply.approve_status=#{approveResult}</if>
 		<if test="schoolName!=null"> and apply.school_name=#{schoolName}</if>
+		<if test="notVdef5!=null"> and (apply.vdef5 is null or apply.vdef5='')</if>
 		
 		<if test="orderField!=null and orderType!=null">
 			order by ${orderField} ${orderType}

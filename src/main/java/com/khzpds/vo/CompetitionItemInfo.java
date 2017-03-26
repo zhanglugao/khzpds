@@ -25,8 +25,42 @@ public class CompetitionItemInfo implements Serializable
 	private java.util.Date firstReviewStarttime;   
 	private java.util.Date firstReviewEndtime;   
 	private java.util.Date secondReviewEndtime;   
+    private String vdef1;
+    private String vdef2;
+    private String vdef3;
+	
     
-    public CompetitionItemInfo(){}
+    public String getVdef1() {
+		return vdef1;
+	}
+
+
+	public void setVdef1(String vdef1) {
+		this.vdef1 = vdef1;
+	}
+
+
+	public String getVdef2() {
+		return vdef2;
+	}
+
+
+	public void setVdef2(String vdef2) {
+		this.vdef2 = vdef2;
+	}
+
+
+	public String getVdef3() {
+		return vdef3;
+	}
+
+
+	public void setVdef3(String vdef3) {
+		this.vdef3 = vdef3;
+	}
+
+
+	public CompetitionItemInfo(){}
    
     
     /**

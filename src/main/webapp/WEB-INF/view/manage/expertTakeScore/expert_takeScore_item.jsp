@@ -81,17 +81,17 @@
 						if(typeof(obj.reviewPoint)=='undefined'){
 							obj.reviewPoint="";
 						}
-						if(obj.markingUser==''&&obj.markingTime==''){
+						/* if(obj.markingUser==''&&obj.markingTime==''){ */
 							option+="&nbsp;<button type='button' onclick='takeScoreDis(\""+obj.id+"\")' class='btn btn-primary'>打分</button>";
-						}else{
+						/* }else{ */
 							option+="&nbsp;<button type='button' onclick='takeScoreDis(\""+obj.id+"\",1)' class='btn btn-primary'>打分详情</button>";
-						}
+						/* } */
 						if(typeof(obj.filePath)!='undefined'&&obj.filePath!=''){
 							option+="&nbsp;<button type='button' onclick='viewProInfo(\""+obj.id+"\")' class='btn btn-primary'>查看作品详情</button>";
 						}
 						option+="&nbsp;<button type='button' onclick='viewDesc(\""+obj.id+"\",\""+obj.ideaDesc+"\")' class='btn btn-primary'>说明</button>";
 						var html="<tr class='"+tabId+"class'><td>"+checkHtml+"</td><td>"+obj.userName+"</td><td>"+obj.realName+"</td><td>"+obj.orgName+"</td>"
-							+"<td>"+obj.proName+"</td><td>"+obj.itemStatus+"</td><td>"+obj.applyGroup+"</td><td>"+obj.applyYearGroup+"</td><td>"+obj.markingUser+"</td><td>"+obj.markingTime+"</td><td>"+obj.totalScore+"</td><td>"+option+"</td></tr>";
+							+"<td>"+obj.proName+"</td><td>"+obj.itemStatus+"</td><td>"+obj.applyGroup+"</td><td>"+obj.applyYearGroup+"</td><td>"+obj.aveScore+"</td><td>"+option+"</td></tr>";
 						$("#"+tabId+"t").append(html);
 					}
 					setPageHtml(data.total_count, "pageDiv", "getApplyData", currentPage,pageSize);
@@ -108,14 +108,39 @@
 			ifCanAdd=1;
 		}
 		takeId=id;
-		layer.open({
-			type: 2,
-			content:"/expertTakeScore/getTakeScoreInfo?id="+takeId+"&ifCanAdd="+ifCanAdd,
-			shadeClose: true,//开启遮罩关闭
-			title:false,
-			scrollbar: false,
-			area: ['40%', '70%']
-		});
+		if(ifCanAdd==1){
+			//验证能否添加
+			$.ajax({
+				url:"/expertTakeScore/validateTake",
+				data:{id:id},
+				type:"post",
+				dataType:"json",
+				success:function(data){
+					if(data.status=='0'){
+						//进入打分详情
+						layer.open({
+							type: 2,
+							content:"/expertTakeScore/getTakeScoreInfo?id="+takeId+"&ifCanAdd="+ifCanAdd,
+							shadeClose: true,//开启遮罩关闭
+							title:false,
+							scrollbar: false,
+							area: ['40%', '70%']
+						});
+					}else{
+						layer.alert(data.error_desc);
+					}
+				}
+			});
+		}else{
+			layer.open({
+				type: 2,
+				content:"/expertTakeScore/getTakeScoreInfo?id="+takeId+"&ifCanAdd="+ifCanAdd,
+				shadeClose: true,//开启遮罩关闭
+				title:false,
+				scrollbar: false,
+				area: ['40%', '70%']
+			});
+		}
 	}
 	
 	
@@ -316,9 +341,9 @@
 													<th>报名状态</th>
 													<th>参赛组别</th>
 													<th>参赛年龄组</th>
-													<th>复审人</th>
-													<th>复审时间</th>
-													<th>复审得分</th>
+													<!-- <th>复审人</th>
+													<th>复审时间</th>-->
+													<th>复审平均得分</th> 
 													<th>操作</th>
 												</tr>
 											</table>

@@ -51,6 +51,9 @@
 										<th>打分项名称</th>
 										<th>总分</th>
 										<th>得分</th>
+										<c:if test="${ifCanAdd!=1 }">
+											<th>打分人</th>
+										</c:if>
 									</tr>
 									
 									<c:forEach items="${results }" var="result" varStatus="vs">
@@ -59,6 +62,7 @@
 											<td>${result.setUpName }</td>
 											<td>${result.totalScore }</td>
 											<td><input <c:if test="${ifCanAdd!=1 }"> readonly="readonly" </c:if> data-id='${result.applyId }_${result.setUpId}' value='${result.getScore }' data-score="${result.totalScore}"/></td>
+											<c:if test="${ifCanAdd!=1 }"><td>${result.vdef3 }</td></c:if>
 										</tr>
 									</c:forEach>
 								</table>

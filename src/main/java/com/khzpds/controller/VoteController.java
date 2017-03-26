@@ -163,10 +163,14 @@ public class VoteController extends BaseController{
 		List<UserCompletionItemApplyInfo> list=userCompletionItemService.findByParamForPage(page);
 		for(UserCompletionItemApplyInfo applyInfo:list){
 			//得到票数
-			UserApplyVoteInfo voteFind=new UserApplyVoteInfo();
-			voteFind.setApplyId(applyInfo.getId());
-			int count=userApplyVoteService.findByParamCount(voteFind);
-			applyInfo.setVoteNum(count);
+			if(StringUtils.isBlank(applyInfo.getVdef4())){
+				UserApplyVoteInfo voteFind=new UserApplyVoteInfo();
+				voteFind.setApplyId(applyInfo.getId());
+				int count=userApplyVoteService.findByParamCount(voteFind);
+				applyInfo.setVoteNum(count);
+			}else{
+				applyInfo.setVoteNum(Integer.parseInt(applyInfo.getVdef4()));
+			}
 			if(applyInfo.getFilePath()!=null){
 				applyInfo.setFilePath(applyInfo.getFilePath().replace("\\", "/"));
 			}
@@ -216,7 +220,15 @@ public class VoteController extends BaseController{
 		voteInfo.setVoteTime(new Date());
 		voteInfo.setVdef1(applyInfo.getApplyGroup());
 		voteInfo.setVdef2(applyInfo.getApplyYearGroup());
-		userApplyVoteService.add(voteInfo);
+		if(StringUtils.isBlank(applyInfo.getVdef4())){
+			UserApplyVoteInfo voteFind2=new UserApplyVoteInfo();
+			voteFind2.setApplyId(applyInfo.getId());
+			int count=userApplyVoteService.findByParamCount(voteFind2);
+			applyInfo.setVdef4((count+1)+"");
+		}else{
+			applyInfo.setVdef4((Integer.parseInt(applyInfo.getVdef4())+1)+"");
+		}
+		userApplyVoteService.addVoteInfo(voteInfo,applyInfo);
 		result.put("status", "0");
 		this.writeJson(response, result);
 		

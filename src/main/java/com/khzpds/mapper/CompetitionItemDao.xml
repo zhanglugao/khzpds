@@ -20,25 +20,28 @@
         <result property="firstReviewStarttime" column="first_review_starttime" />    
         <result property="firstReviewEndtime" column="first_review_endtime" />    
         <result property="secondReviewEndtime" column="second_review_endtime" />    
+        <result property="vdef1" column="vdef1" />    
+        <result property="vdef2" column="vdef2" />    
+        <result property="vdef3" column="vdef3" />    
     </resultMap>
     
     <!--根据主键查询-->
 	<select id="findById" resultMap="CompetitionItemResultMap">
-		select id,activity_id,name,type,status,create_user,create_time,update_user,update_time,publish_time,user_apply_endtime,first_review_starttime,first_review_endtime,second_review_endtime from competition_item where id=#{id}
+		select id,activity_id,name,type,status,create_user,create_time,update_user,update_time,publish_time,user_apply_endtime,first_review_starttime,first_review_endtime,second_review_endtime,vdef1,vdef2,vdef3 from competition_item where id=#{id}
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
 	</select>
     
     <!--插入-->
 	 <insert id="insert" parameterType="com.khzpds.vo.CompetitionItemInfo" >
     	INSERT INTO competition_item
-        (id,activity_id,name,type,status,create_user,create_time,update_user,update_time,publish_time,user_apply_endtime,first_review_starttime,first_review_endtime,second_review_endtime) 
-		values(#{id},#{activityId},#{name},#{type},#{status},#{createUser},#{createTime},#{updateUser},#{updateTime},#{publishTime},#{userApplyEndtime},#{firstReviewStarttime},#{firstReviewEndtime},#{secondReviewEndtime})
+        (id,activity_id,name,type,status,create_user,create_time,update_user,update_time,publish_time,user_apply_endtime,first_review_starttime,first_review_endtime,second_review_endtime,vdef1,vdef2,vdef3) 
+		values(#{id},#{activityId},#{name},#{type},#{status},#{createUser},#{createTime},#{updateUser},#{updateTime},#{publishTime},#{userApplyEndtime},#{firstReviewStarttime},#{firstReviewEndtime},#{secondReviewEndtime},#{vdef1},#{vdef2},#{vdef3})
     </insert>
 
     
     <!--根据传入的map参数查询 并分页-->
     <select id="findByParamForPage" resultMap="CompetitionItemResultMap" >
-		select id,activity_id,name,type,status,create_user,create_time,update_user,update_time,publish_time,user_apply_endtime,first_review_starttime,first_review_endtime,second_review_endtime from competition_item
+		select id,activity_id,name,type,status,create_user,create_time,update_user,update_time,publish_time,user_apply_endtime,first_review_starttime,first_review_endtime,second_review_endtime,vdef1,vdef2,vdef3 from competition_item
 		where 1=1
            <if test="obj.search.id!=null"> AND id = #{obj.search.id}</if>
            <if test="obj.search.activityId!=null"> AND activity_id = #{obj.search.activityId}</if>
@@ -54,6 +57,9 @@
            <if test="obj.search.firstReviewStarttime!=null"> AND first_review_starttime = #{obj.search.firstReviewStarttime}</if>
            <if test="obj.search.firstReviewEndtime!=null"> AND first_review_endtime = #{obj.search.firstReviewEndtime}</if>
            <if test="obj.search.secondReviewEndtime!=null"> AND second_review_endtime = #{obj.search.secondReviewEndtime}</if>
+           <if test="obj.search.vdef1!=null"> AND vdef1 = #{obj.search.vdef1}</if>
+           <if test="obj.search.vdef2!=null"> AND vdef2 = #{obj.search.vdef2}</if>
+           <if test="obj.search.vdef3!=null"> AND vdef3 = #{obj.search.vdef3}</if>
 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
         <if test="obj.orderField!=null and obj.orderType!=null"> order by ${obj.orderField} ${obj.orderType}</if>
@@ -61,7 +67,7 @@
     
      <!--根据传入的实体参数查询-->
     <select id="findByParam" resultMap="CompetitionItemResultMap" >
-		select id,activity_id,name,type,status,create_user,create_time,update_user,update_time,publish_time,user_apply_endtime,first_review_starttime,first_review_endtime,second_review_endtime from competition_item
+		select id,activity_id,name,type,status,create_user,create_time,update_user,update_time,publish_time,user_apply_endtime,first_review_starttime,first_review_endtime,second_review_endtime,vdef1,vdef2,vdef3 from competition_item
 		where 1=1
            <if test="obj.id!=null"> AND id = #{obj.id}</if>
            <if test="obj.activityId!=null"> AND activity_id = #{obj.activityId}</if>
@@ -77,6 +83,9 @@
            <if test="obj.firstReviewStarttime!=null"> AND first_review_starttime = #{obj.firstReviewStarttime}</if>
            <if test="obj.firstReviewEndtime!=null"> AND first_review_endtime = #{obj.firstReviewEndtime}</if>
            <if test="obj.secondReviewEndtime!=null"> AND second_review_endtime = #{obj.secondReviewEndtime}</if>
+           <if test="obj.vdef1!=null"> AND vdef1 = #{obj.vdef1}</if>
+           <if test="obj.vdef2!=null"> AND vdef2 = #{obj.vdef2}</if>
+           <if test="obj.vdef3!=null"> AND vdef3 = #{obj.vdef3}</if>
 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
 	</select>
@@ -104,7 +113,7 @@
            <if test="obj.userApplyEndtime!=null">user_apply_endtime=#{obj.userApplyEndtime},</if>
            <if test="obj.firstReviewStarttime!=null">first_review_starttime=#{obj.firstReviewStarttime},</if>
            <if test="obj.firstReviewEndtime!=null">first_review_endtime=#{obj.firstReviewEndtime},</if>
-           <if test="obj.secondReviewEndtime!=null">second_review_endtime=#{obj.secondReviewEndtime},</if>  
+           <if test="obj.secondReviewEndtime!=null">second_review_endtime=#{obj.secondReviewEndtime},</if>           <if test="obj.vdef1!=null">vdef1=#{obj.vdef1},</if>           <if test="obj.vdef2!=null">vdef2=#{obj.vdef2},</if>           <if test="obj.vdef3!=null">vdef3=#{obj.vdef3},</if>  
         </trim>
 		where id=#{obj.id} 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>

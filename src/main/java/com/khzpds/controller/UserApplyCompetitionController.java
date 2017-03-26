@@ -68,6 +68,9 @@ public class UserApplyCompetitionController extends BaseController{
 	@RequestMapping("/showFile")
 	public ModelAndView showFile(String showDown,String id,HttpServletRequest request,HttpServletResponse response) throws IOException{
 		UserCompletionItemApplyInfo apply=userCompetitionItemApplyService.findById(id);
+		if(StringUtils.isBlank(apply.getFilePath())){
+			return null;
+		}
 		apply.setFilePath(apply.getFilePath().replace("\\", "/"));
 		if(!apply.getFilePath().endsWith(".mp4")){
 			return new ModelAndView("redirect:/filePath"+apply.getFilePath());
@@ -89,23 +92,28 @@ public class UserApplyCompetitionController extends BaseController{
         response.setContentType("multipart/form-data");  
         //2.设置文件头：最后一个参数是设置下载文件名(假如我们叫a.pdf)  
         response.setHeader("Content-Disposition", "attachment;fileName="+URLDecoder.decode(fileName)+"."+fileType);  
-        ServletOutputStream out;  
+        ServletOutputStream out=null;  
+        FileInputStream inputStream =null;
         //通过文件路径获得File对象(假如此路径中有一个download.pdf文件)  
         try {  
-            FileInputStream inputStream = new FileInputStream(SystemConfig.getUploadDir()+filePath);  
+        	inputStream=new FileInputStream(SystemConfig.getUploadDir()+filePath);  
             //3.通过response获取ServletOutputStream对象(out)  
             out = response.getOutputStream();  
             byte[] b = new byte[512];
             int len;
             while ((len = inputStream.read(b)) > 0)
             out.write(b, 0, len);
-            inputStream.close();  
-            out.close();  
-            out.flush();  
   
         } catch (IOException e) {  
             e.printStackTrace();  
-        }  
+        } finally{
+        	if(out!=null){
+        		out.close();
+        		out.flush();
+        	}if(inputStream!=null){
+        		inputStream.close();
+        	}
+        }
 	}
 	
 	public byte[] readStream(InputStream inStream) {  
@@ -549,10 +557,11 @@ public class UserApplyCompetitionController extends BaseController{
         response.setContentType("multipart/form-data");  
         //2.设置文件头：最后一个参数是设置下载文件名(假如我们叫a.pdf)  
         response.setHeader("Content-Disposition", "attachment;fileName="+name);  
-        ServletOutputStream out;  
+        ServletOutputStream out=null;  
+        FileInputStream inputStream=null;
         //通过文件路径获得File对象(假如此路径中有一个download.pdf文件)  
         try {  
-            FileInputStream inputStream = new FileInputStream(file);  
+        	inputStream = new FileInputStream(file);  
   
             //3.通过response获取ServletOutputStream对象(out)  
             out = response.getOutputStream();  
@@ -561,13 +570,17 @@ public class UserApplyCompetitionController extends BaseController{
             int len;
             while ((len = inputStream.read(b)) > 0)
             out.write(b, 0, len);
-            inputStream.close();  
-            out.close();  
-            out.flush();  
   
         } catch (IOException e) {  
             e.printStackTrace();  
-        }  
+        } finally{
+        	if(out!=null){
+        		out.close();
+        		out.flush();
+        	}if(inputStream!=null){
+        		inputStream.close();
+        	}
+        }
     } 
 	 
     

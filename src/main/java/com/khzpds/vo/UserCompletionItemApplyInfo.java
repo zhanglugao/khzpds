@@ -59,6 +59,9 @@ public class UserCompletionItemApplyInfo implements Serializable
 	private String vdef1;   
 	private String vdef2;   
 	private String vdef3;   
+	private String vdef4;   
+	private String vdef5;   
+	private String vdef6;   
     
     public UserCompletionItemApplyInfo(){}
    
@@ -677,6 +680,48 @@ public class UserCompletionItemApplyInfo implements Serializable
      */ 	
     public void setVdef3(String vdef3){
         this.vdef3=vdef3;
+    }
+    
+    /**
+     * 
+     */ 	
+	public String getVdef4(){
+        return vdef4;
+    }
+    
+     /**
+     * 
+     */ 	
+    public void setVdef4(String vdef4){
+        this.vdef4=vdef4;
+    }
+    
+    /**
+     * 
+     */ 	
+	public String getVdef5(){
+        return vdef5;
+    }
+    
+     /**
+     * 
+     */ 	
+    public void setVdef5(String vdef5){
+        this.vdef5=vdef5;
+    }
+    
+    /**
+     * 
+     */ 	
+	public String getVdef6(){
+        return vdef6;
+    }
+    
+     /**
+     * 
+     */ 	
+    public void setVdef6(String vdef6){
+        this.vdef6=vdef6;
     }
     
     public String toString() {

@@ -411,4 +411,15 @@ public class ActivityController extends BaseController{
 		result.put("status", "0");
 		this.writeJson(response, result);
 	}
+	
+	@RequestMapping("/setItemTakeScoreLimit")
+	public void setItemTakeScoreLimit(String itemId,String vdef1,String vdef2,HttpServletResponse response){
+		Map<String,Object> result=new HashMap<String, Object>();
+		CompetitionItemInfo item=competitionItemService.findById(itemId);
+		item.setVdef1(vdef1);
+		item.setVdef2(vdef2);
+		competitionItemService.update(item);
+		result.put("status", "0");
+		this.writeJson(response, result);
+	}
 }

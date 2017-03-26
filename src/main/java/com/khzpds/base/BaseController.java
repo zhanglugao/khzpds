@@ -88,12 +88,20 @@ public class BaseController {
 		if(pageSize==null){
 			page.setPageSize(10);
 		}else{
-			page.setPageSize(Integer.parseInt(pageSize));
+			if("NaN".equals(pageSize)){
+				page.setPageSize(10);
+			}else{
+				page.setPageSize(Integer.parseInt(pageSize));
+			}
 		}
 		if(currentPage==null){
 			page.setCurrentPage(1);
 		}else{
-			page.setCurrentPage(Integer.parseInt(currentPage));
+			if("NaN".equals(currentPage)){
+				page.setCurrentPage(1);
+			}else{
+				page.setCurrentPage(Integer.parseInt(currentPage));
+			}
 		}
 		return page;
 	}

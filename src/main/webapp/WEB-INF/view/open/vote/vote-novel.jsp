@@ -123,11 +123,11 @@
           <div class="process-i wt1700 m0">
                 <p class="lc">大赛流程：</p>
                 <ul class="zp">
-                      <li><img src="/images/tip-1.png" width="250" height="285" alt="作品创作" ></li>
-                      <li><img src="/images/tip-2.png" width="250" height="285" alt="作品创作" ></li>
-                      <li><img src="/images/tip-3.png" width="250" height="285" alt="作品创作" ></li>
-                      <li><img src="/images/tip-4.png" width="250" height="285" alt="作品创作" ></li>
-                      <li><img src="/images/tip-5.png" width="250" height="285" alt="作品创作" ></li>
+                      <li><img src="/img/tip1-1.png" width="250" height="285" alt="作品创作" ></li>
+                      <li><img src="/img/tip2-1.png" width="250" height="285" alt="作品创作" ></li>
+                      <li><img src="/img/tip3-1.png" width="250" height="285" alt="作品创作" ></li>
+                      <li><img src="/img/tip4-1.png" width="250" height="285" alt="作品创作" ></li>
+                      <li><img src="/img/tip5-1.png" width="250" height="285" alt="作品创作" ></li>
                    
                 </ul>
           </div>
