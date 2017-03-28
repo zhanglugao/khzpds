@@ -39,9 +39,9 @@
 					if(typeof(obj.approveStatus)=='undefined'||obj.approveStatus=='-1'){
 						obj.approveStatus="未审核";
 					}else if(obj.approveStatus=='0'){
-						obj.approveStatus="审核不通过";
+						obj.approveStatus="初赛不通过";
 					}else if(obj.approveStatus=='1'){
-						obj.approveStatus="审核通过";
+						obj.approveStatus="初赛通过";
 					}
 					if(typeof(obj.vdef1)=='undefined'){
 						obj.vdef1="";
@@ -49,16 +49,19 @@
 					var html="<tr class='datatr'><td>"+obj.productionName+"</td><td>"+obj.artist+"</td><td>"+obj.createTime+"</td><td>"+obj.applyStatus+"</td>"+
 						"<td>"+obj.approveStatus+"</td><td>"+obj.reviewPoint+"</td>";
 					if(obj.applyStatus=='已报名'){
-						html+="<td class='cz1'><button onclick='toedit(\""+obj.id+"\")' class='btn btn-primary'>查看</button>&nbsp;";
+						html+="<td class='cz1'><button type='button' onclick='toedit(\""+obj.id+"\")' class='btn btn-primary'>查看</button>&nbsp;";
 						//暂时设置审核通过了就不能改了 没通过还能改
-						if(obj.approveStatus!='审核通过'){
-							html+="<button onclick='cancelApply(\""+obj.id+"\")'  class='btn btn-primary'>撤销</button>&nbsp;"
+						if(obj.approveStatus!='初赛通过'){
+							html+="<button type='button' onclick='cancelApply(\""+obj.id+"\")'  class='btn btn-primary'>撤销</button>&nbsp;"
 						}
-						html+="<button onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")'  class='btn btn-primary'>下载报名表</button>";
+						if(obj.approveStatus=='初赛通过'){
+							html+="<button onclick='fusai(\""+obj.id+"\")' type='button' class='btn btn-primary'>完善复赛报名表</button>&nbsp;"
+						}
+						html+="<button type='button' onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")'  class='btn btn-primary'>下载报名表</button>";
 					}else if(obj.applyStatus=='已取消'){
-						html+="<td class='cz1'><button onclick='toedit(\""+obj.id+"\")' class='btn btn-primary'>编辑</button>&nbsp;<button onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' class='btn btn-primary'>下载报名表</button>";
+						html+="<td class='cz1'><button type='button' onclick='toedit(\""+obj.id+"\")' class='btn btn-primary'>编辑</button>&nbsp;<button type='button' onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' class='btn btn-primary'>下载报名表</button>";
 					}else if (obj.applyStatus=='新建'){
-						html+="<td class='cz1'><button onclick='toedit(\""+obj.id+"\")' class='btn btn-primary'>编辑</button>&nbsp;<button onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' class='btn btn-primary'>下载报名表</button>";
+						html+="<td class='cz1'><button type='button' onclick='toedit(\""+obj.id+"\")' class='btn btn-primary'>编辑</button>&nbsp;<button type='button' onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' class='btn btn-primary'>下载报名表</button>";
 					}
 					html+="</td></tr>";
 					$("#dataTable").append(html);
@@ -67,6 +70,16 @@
 			},error:function(){
 				layer.alert(errorText);
 			}
+		});
+	}
+	
+	function fusai(id){
+		layer.open({
+			type: 2,
+			content:"/userApply/toFusaiApply?id="+id,
+			shadeClose: true,//开启遮罩关闭
+			title:false,
+			area: ['80%', '80%']
 		});
 	}
 	
