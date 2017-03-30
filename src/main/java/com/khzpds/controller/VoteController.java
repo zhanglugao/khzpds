@@ -125,6 +125,9 @@ public class VoteController extends BaseController{
 		Map<String,Object> result=new HashMap<String, Object>();
 		Integer n=Integer.parseInt(num);
 		List<UserCompletionItemApplyInfo> list=userCompletionItemService.findTopVoteApplyInfo(n);
+		for(UserCompletionItemApplyInfo apply:list){
+			apply.setVoteNum(Integer.parseInt(apply.getVdef4()));
+		}
 		result.put("rows", list);
 		this.writeJson(response, result);
 	}

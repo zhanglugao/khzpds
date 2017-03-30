@@ -408,9 +408,8 @@
 		AND apply_group=#{applyGroup}
 	</select>
 	<select id="findTopVoteApplyInfo" resultMap="UserCompletionItemApplyResultMap" >
-		select apply.*,count(apply.id) as voteNum from user_completion_item_apply apply join user_apply_vote vote on apply.id=vote.apply_id
-		group by apply.id 
-		order by count(apply.id) desc
+		select * from user_completion_item_apply 
+		order by CAST(vdef4 as SIGNED) desc
 		limit 0,${size}
 	</select>
 	<!--CustomEnd*****-->
