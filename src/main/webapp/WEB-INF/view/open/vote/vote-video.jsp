@@ -15,6 +15,11 @@
 <script type="text/javascript" src='/js/cookieOperate.js'></script>
 <script type="text/javascript" src='/js/autoLogin.js'></script>
 <script src="/js/layer/layer.js"></script>
+<style type="text/css">
+  .banner-i{position: relative;}
+  .banner-i p{position: absolute;bottom:20px}
+  .banner-i p span{display:block; width:1348px ;line-height:20px;font-size:20px;color:#fff;text-align: center;margin:10px 0}
+</style>
 <script type="text/javascript">
 var itemId="${itemId}";
 var itemType="${itemType}";
@@ -100,6 +105,11 @@ function vote(applyId,applyYearGroup){
      <div class="banner video">
          <div class="banner-i  w1348 video1  m0">
               <i><img src="/img/vote-banner2.png" width="900" height="707" alt="科幻视频投票"></i>
+              <p>
+		            <span>大赛网络投票将于2017年4月6日结束</span>
+		            <span>本届大赛复赛分在线投票与评委打分两部分，其中在线投票占总分的30%权重，评委打分占总分的70%权重，望选手周知！
+					</span>
+			     </p>
          </div>
      </div>
      <!--大赛简介 -->

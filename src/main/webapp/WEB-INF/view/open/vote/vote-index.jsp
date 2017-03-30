@@ -20,7 +20,11 @@
 <script type="text/javascript" charset="utf-8" src="/js/mousewheel.js"></script>
 <script type="text/javascript" charset="utf-8" src="/js/easyscroll.js"></script>
 <script type="text/javascript">$(function(){$('.div_scroll').scroll_absolute({arrows:true})});</script>
-
+<style type="text/css">
+    .m-width{position:relative;}
+    .m-width p{position: absolute;}
+    .m-width p span{display:block; width:1348px ;line-height:20px;font-size:18px;color:#fff;text-align: center;margin:10px 0}
+</style>
 <script src="/js/layer/layer.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -230,6 +234,10 @@ function searchNovel(applyGroup1,applyGroup2,applyYearGroup){
       <li style="background:url(/images/banner1.png) no-repeat;">
       <div class="m-width">
         <a href="javascript:void(0);"><img src="/images/banner1-1.png" class="m0" style="margin-left: 276px;margin-top:0px"/></a>
+        <p>
+            <span>大赛网络投票将于2017年4月6日结束</span>
+            <span>本届大赛复赛分在线投票与评委打分两部分，其中在线投票占总分的30%权重，评委打分占总分的70%权重，望选手周知！</span>
+        </p>
       </div>
       </li>
 
