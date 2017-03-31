@@ -57,10 +57,22 @@
 			});
 		}
 	}
-	
-	
+	var voteIndex;
 	function vote(applyId,applyGroup,applyYearGroup){
-		$.ajax({
+		reloadVerifyCode();
+		layer.closeAll();
+		voteIndex=layer.open({
+			type: 1,
+			content:$("#yzmdiv"),
+			shadeClose: true,//开启遮罩关闭
+			title:false,
+			area: ['200px', '160px']
+		});
+		$("#applyId").val(applyId);
+		$("#applyGroup").val(applyGroup);
+		$("#applyYearGroup").val(applyYearGroup);
+		$("#verifyCode").val("");
+		/* $.ajax({
 			url:"/vote/vote",
 			data:{applyId:applyId,applyGroup:applyGroup,applyYearGroup:applyYearGroup},
 			dataType:"json",
@@ -74,8 +86,36 @@
 					layer.alert(data.error_desc);
 				}
 			}
+		}); */
+	}
+	function clickvote(){
+		var verifyCode=$("#verifyCode").val();
+		var applyId=$("#applyId").val();
+		var applyGroup=$("#applyGroup").val();
+		var applyYearGroup=$("#applyYearGroup").val();
+		$.ajax({
+			url:"/vote/vote",
+			data:{verifyCode:verifyCode,applyId:applyId,applyGroup:applyGroup,applyYearGroup:applyYearGroup},
+			dataType:"json",
+			type:"post",
+			success:function(data){
+				if(data.status=="0"){
+					layer.close(voteIndex);
+					layer.msg("投票成功",{icon:1});
+					var voteNum=parseInt($("#"+applyId+"voteNum").text());
+					$("#"+applyId+"voteNum").text(voteNum+1);
+				}else{
+					layer.alert(data.error_desc);
+				}
+			}
 		});
 	}
+	var timenow = new Date().getTime();
+	function reloadVerifyCode(){
+		var timenow = new Date().getTime();
+		document.getElementById("safecode").src = "/servlet/Image.Servlet?d="+timenow;
+	}
+	
 </script>
 </head>
 <body>
@@ -178,7 +218,17 @@
             </div>
      </div>
   
-  
+  <div style="display:none" id="yzmdiv">
+     	<div style="margin-left:20px;">请输入验证码:<input type="text" id="verifyCode"/><br/>
+     		<div style="margin-top:10px;">
+     			<a class="yzm" href="javascript:reloadVerifyCode();"><img id="safecode" alt="二维码" style="width:98px;height:34px;"/></a>
+     		</div>
+     	</div>
+     	<input onclick="clickvote()" type="button" value="确认" style="margin-left:20px;margin-top:5px;cursor:pointer;width:70px;height:30px;" class='basebtn'/>
+		<input type="hidden" id="applyId"/>
+		<input type="hidden" id="applyGroup"/>
+		<input type="hidden" id="applyYearGroup"/>
+     </div>
     
 
      <!-- 底部 -->

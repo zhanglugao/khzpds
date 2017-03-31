@@ -67,7 +67,7 @@
 	function vote(applyId,applyGroup,applyYearGroup){
 		$.ajax({
 			url:"/vote/vote",
-			data:{applyId:applyId,applyGroup:applyGroup,applyYearGroup:applyYearGroup},
+			data:{ifMobile:1,applyId:applyId,applyGroup:applyGroup,applyYearGroup:applyYearGroup},
 			dataType:"json",
 			type:"post",
 			success:function(data){

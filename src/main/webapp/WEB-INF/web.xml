@@ -13,6 +13,15 @@
     <param-value>springmvc.root</param-value>
   </context-param>
 
+	<servlet>
+		<servlet-name>ImageServlet</servlet-name>
+		<servlet-class>com.khzpds.controller.ImageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ImageServlet</servlet-name>
+		<url-pattern>/servlet/Image.Servlet</url-pattern>
+	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>/css/*</url-pattern>

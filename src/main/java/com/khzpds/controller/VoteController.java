@@ -183,9 +183,23 @@ public class VoteController extends BaseController{
 	}
 	
 	@RequestMapping("/vote")
-	public void vote(String applyId,String openId,String applyGroup,String applyYearGroup,HttpServletRequest request,HttpServletResponse response){
-		//投票的规则 一个ip或一个openid或一个userId 每一组只能投一票
+	public void vote(String ifMobile,String verifyCode,String applyId,String openId,String applyGroup,String applyYearGroup,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
+		if(StringUtils.isBlank(ifMobile)){
+			boolean ifVerifyCode=false;
+			if(request.getSession().getAttribute("piccode")!=null){
+				if (verifyCode.equalsIgnoreCase(request.getSession().getAttribute("piccode").toString())) {
+					ifVerifyCode=true;//验证码正确
+				}
+			}
+			if(!ifVerifyCode){
+				result.put("status", "1");//验证码错误
+				result.put("error_desc", "验证码错误");//验证码错误
+				this.writeJson(response, result);
+				return;
+			}
+		}
+		//投票的规则 一个ip或一个openid或一个userId 每一组只能投一票
 		String ip=getIpAddr(request);
 		SessionInfo session=getCurrentSessionInfo(request);
 		String userId=null;
