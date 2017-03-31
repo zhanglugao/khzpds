@@ -115,13 +115,13 @@ public class ExpertTakeScoreController extends BaseController {
 				results.add(result);
 			}
 		}else{
-			/*for(UserApplyMarkingResultInfo result:results){
+			for(UserApplyMarkingResultInfo result:results){
 				ActivityMarkingSetupInfo setUp=activityMarkingSetupService.findById(result.getVdef1());
 				result.setSetUpId(setUp.getId());
 				result.setSetUpName(setUp.getName());
 				result.setTotalScore(setUp.getScore());
-			}*/
-			results=new ArrayList<UserApplyMarkingResultInfo>();
+			}
+			//results=new ArrayList<UserApplyMarkingResultInfo>();
 		}
 		if("1".equals(ifCanAdd)){
 			request.setAttribute("ifCanAdd", "1");
