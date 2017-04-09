@@ -191,6 +191,10 @@ function getData(applyGroup,applyYearGroup,itemType,itemId){
 }
 var voteIndex;
 function vote(applyId,applyGroup,applyYearGroup){
+	<c:if test="${empty novelId}">
+		layer.alert("投票已经截止，正在评分中。");
+		return;
+	</c:if>
 	reloadVerifyCode();
 	layer.closeAll();
 	voteIndex=layer.open({

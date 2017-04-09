@@ -54,6 +54,7 @@ public class VoteController extends BaseController{
 		ActivityInfoInfo activityInfo=new  ActivityInfoInfo();
 		activityInfo.setStatus(DictionaryConst.HUO_DONG_ZHUANG_TAI_YI_FA_BU);
 		List<ActivityInfoInfo> list=activityInfoService.findByParam(activityInfo);
+		model.addObject("lookdir", SystemConfig.getLookDir());
 		if(list.size()==0){
 			model.addObject("show", "0");
 			return model;
@@ -76,7 +77,6 @@ public class VoteController extends BaseController{
 				}
 			}
 		}
-		model.addObject("lookdir", SystemConfig.getLookDir());
 		return model;
 	}
 	

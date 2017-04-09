@@ -24,10 +24,6 @@
 	var itemId="${itemId}";
 	var itemType="${itemType}";
 	$(document).ready(function(){
-		<c:if test="${empty itemId}">
-			layer.alert("当前没有可供投票的本类型比赛项目");
-			$("#dataDiv").css("display","none");
-		</c:if>
 		getData(305001,306001);
 		getData(305002,306001);
 	});
@@ -59,6 +55,10 @@
 	}
 	var voteIndex;
 	function vote(applyId,applyGroup,applyYearGroup){
+		<c:if test="${empty itemId}">
+			layer.alert("投票已经截止，正在评分中。");
+			return;
+		</c:if>
 		reloadVerifyCode();
 		layer.closeAll();
 		voteIndex=layer.open({

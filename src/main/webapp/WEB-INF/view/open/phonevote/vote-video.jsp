@@ -63,6 +63,10 @@
 	}
 	
 	function vote(applyId,applyGroup,applyYearGroup){
+		<c:if test="${empty itemId}">
+		layer.alert("投票已经截止，正在评分中。");
+		return;
+	</c:if>
 		$.ajax({
 			url:"/vote/vote",
 			data:{ifMobile:1,applyId:applyId,applyGroup:applyGroup,applyYearGroup:applyYearGroup},
