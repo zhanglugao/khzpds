@@ -292,16 +292,15 @@
 			                                </select>
 			                            </div>
 				                     </div>
-				                     <!-- <div class="form-group">
+				                     <div class="form-group">
 			                           	<div class="col-sm-1">
-			                                <select name="approveResult" id="approveResult" data-live-search="false">
-			                                	<option value=''>初审结果</option>
-			                                	<option value='-1'>未审核</option>
-			                                	<option value='1'>审核通过</option>
-			                                	<option value='0'>审核不通过</option>
+			                                <select name="order" id="order" data-live-search="false">
+			                                	<option value=''>排序方式</option>
+			                                	<option value='desc'>得分倒序</option>
+			                                	<option value='asc'>得分正序</option>
 			                                </select>
 			                            </div>
-				                     </div> -->
+				                     </div>
 				                     <input name="approveResult" value="1" type="hidden"/>
 				                     <input name="ifShowScore" value="1" type="hidden"/>
 								</div>

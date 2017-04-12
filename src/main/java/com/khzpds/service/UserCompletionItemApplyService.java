@@ -52,7 +52,12 @@ public class UserCompletionItemApplyService extends IBaseService<UserCompletionI
 	public List<UserCompletionItemApplyInfo> findTopVoteApplyInfo(Integer n) {
 		return userCompletionItemApplyDao.findTopVoteApplyInfo(n);
 	}
+
+	public List<Map<String, String>> findBySearchMapScorePage(PageParameter page) {
+		return userCompletionItemApplyDao.findBySearchMapScorePage(page);
+	}
 //--CustomEnd*****///
+
 
 	
 

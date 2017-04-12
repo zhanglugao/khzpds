@@ -412,5 +412,52 @@
 		order by CAST(vdef4 as SIGNED) desc
 		limit 0,${size}
 	</select>
+	<select id="findBySearchMapScorePage" resultType="map" parameterType="com.khzpds.base.PageParameter">
+		SELECT
+			apply.id AS id,
+			item. NAME AS itemName,
+			dic. NAME AS itemStatus,
+			USER.user_name AS userName,
+			apply.real_name AS realName,
+			apply.production_name AS proName,
+			org. NAME AS orgName,
+			dic3.name AS applyGroup,
+			dic2.name AS applyYearGroup,
+			apply.approve_status as approveStatus,
+			apply.approve_user_name as approveUserName,
+			date_format(apply.approve_time, '%Y-%m-%d %H:%i:%S') as approveTime,
+			apply.review_point as reviewPoint,
+			apply.file_path as filePath,
+			apply.approve_type as approveType,
+			apply.idea_desc as ideaDesc,
+			apply.vdef3 as vdef3,
+			apply.vdef4 as vdef4,
+			A.score as sc
+		FROM
+			user_completion_item_apply apply
+		JOIN user_info USER ON apply.user_id = USER.id
+		left JOIN content_category org ON apply.recommened_company = org.id
+		JOIN competition_item item ON apply.competition_item_id = item.id
+		JOIN dictionary dic ON apply.apply_status = dic.id
+		left JOIN dictionary dic2 ON apply.apply_year_group =dic2.id
+		left JOIN dictionary dic3 ON apply.apply_group =dic3.id
+		left JOIN (select sum(get_score)/count(id) as score,apply_id from user_apply_marking_result  group by apply_id ) A ON apply.id=A.apply_id
+		WHERE
+			1 = 1
+		<if test="search.itemId!=null"> and apply.competition_item_id=#{search.itemId}</if>
+		<if test="search.applyGroup!=null"> and apply.apply_group=#{search.applyGroup}</if>
+		<if test="search.applyYearGroup!=null"> and apply.apply_year_group=#{search.applyYearGroup}</if>
+		<if test="search.orgId!=null"> and apply.recommened_company in(select id from content_category where path like CONCAT ('%-',#{search.orgId},'-%'))</if>
+		<if test="search.userName!=null"> and user.user_name=#{search.userName}</if>
+		<if test="search.realName!=null"> and apply.real_name=#{search.realName}</if>
+		<if test="search.applyStatus!=null"> and apply.apply_status=#{search.applyStatus}</if>
+		<if test="search.approveResult!=null"> and apply.approve_status=#{search.approveResult}</if>
+		<if test="search.schoolName!=null"> and apply.school_name like CONCAT("%",#{search.schoolName},"%")</if>
+		<if test="search.notVdef5!=null"> and (apply.vdef5 is null or apply.vdef5='')</if>
+		
+		<if test="orderField!=null and orderType!=null">
+			order by ${orderField} ${orderType}
+		</if>
+	</select>
 	<!--CustomEnd*****-->
 </mapper>

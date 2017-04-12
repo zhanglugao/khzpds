@@ -177,7 +177,7 @@ public class ExpertApproveController extends BaseController{
 	 * @param response
 	 */
 	@RequestMapping("/getApplyData")
-	public void getApplyData(String ifShowScore,String applyStatus,String approveResult,String itemId,String applyGroup,String applyYearGroup,String orgId,String userName,String realName,HttpServletRequest request,HttpServletResponse response){
+	public void getApplyData(String order,String ifShowScore,String applyStatus,String approveResult,String itemId,String applyGroup,String applyYearGroup,String orgId,String userName,String realName,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
 		PageParameter page=this.getPageParameter2(request);
 		Map<String,String> searchMap=new HashMap<String, String>();
@@ -198,10 +198,21 @@ public class ExpertApproveController extends BaseController{
 		}
 		/*searchMap.put("orderField", " apply");
 		searchMap.put("orderType", " desc");*/
-		page.setOrderField(" apply.create_time");
-		page.setOrderType(" desc");
+		List<Map<String,String>> dataMap=null;
 		page.setSearch(searchMap);
-		List<Map<String,String>> dataMap=userCompetitionItemApplyService.findBySearchMapPage(page);
+		if(StringUtils.isNotBlank(ifShowScore)&&StringUtils.isNotBlank(order)){
+			page.setOrderField(" sc");
+			if("asc".equals(order)){
+				page.setOrderType(" asc");
+			}else{
+				page.setOrderType(" desc");
+			}
+			dataMap=userCompetitionItemApplyService.findBySearchMapScorePage(page);
+		}else{
+			page.setOrderField(" apply.create_time");
+			page.setOrderType(" desc");
+			dataMap=userCompetitionItemApplyService.findBySearchMapPage(page);
+		}
 		//for(Map<String,String> )
 		//
 		CompetitionItemInfo item=competitionItemService.findById(itemId);
