@@ -26,12 +26,15 @@ import com.khzpds.service.CompetitionItemService;
 import com.khzpds.service.DictionaryService;
 import com.khzpds.service.UserApplyMarkingResultService;
 import com.khzpds.service.UserCompletionItemApplyService;
+import com.khzpds.service.UserInfoService;
+import com.khzpds.util.EmailTool;
 import com.khzpds.util.UUIDUtil;
 import com.khzpds.vo.ActivityInfoInfo;
 import com.khzpds.vo.ActivityMarkingSetupInfo;
 import com.khzpds.vo.CompetitionItemInfo;
 import com.khzpds.vo.UserApplyMarkingResultInfo;
 import com.khzpds.vo.UserCompletionItemApplyInfo;
+import com.khzpds.vo.UserInfoInfo;
 
 /***
  * 专家复赛评分
@@ -54,6 +57,8 @@ public class ExpertTakeScoreController extends BaseController {
 	private UserApplyMarkingResultService userApplyMarkingResultService;
 	@Autowired
 	private ActivityMarkingSetupService activityMarkingSetupService;
+	@Autowired
+	private UserInfoService userInfoService;
 	
 	@RequestMapping("/index")
 	public ModelAndView index(HttpServletRequest request,HttpServletResponse response){
@@ -215,5 +220,21 @@ public class ExpertTakeScoreController extends BaseController {
 		}
 		result.put("status", "0");
 		this.writeJson(response, result);
+	}
+	
+	@RequestMapping("sendMail")
+	public void sendMail(HttpServletResponse response) throws Exception{
+		
+		UserCompletionItemApplyInfo findInfo=new UserCompletionItemApplyInfo();
+		findInfo.setApproveStatus("1");
+		List<UserCompletionItemApplyInfo> list=userCompetitionItemApplyService.findByParam(findInfo);
+		for(UserCompletionItemApplyInfo apply:list){
+			UserInfoInfo user=userInfoService.findById(apply.getUserId());
+			if(StringUtils.isNotBlank(user.getMail())){
+				boolean res= EmailTool.SendEmail(user.getMail(), "科幻创意大赛-复赛信息完善通知", "恭喜您的作品成功进入复赛，请您尽快登录大赛官网(http://khds.actc.com.cn)填写《复赛选手信息表》签字并盖章,填写方法为使用初赛的用户名密码登录后点击完善报名表。如果您已经填写过复赛选手信息表请忽略本邮件。\r\n（这是一封自动发送的邮件，请不要直接回复）");
+				System.out.println(user.getUserName()+"发送结果:"+res);
+			}
+		}
+		this.writeString(response, "success");
 	}
 }
