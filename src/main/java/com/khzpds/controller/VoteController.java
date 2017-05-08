@@ -142,7 +142,7 @@ public class VoteController extends BaseController{
 	 * @param response
 	 */
 	@RequestMapping("/getVoteData")
-	public void getVoteData(String applyGroup,String applyYearGroup,String itemId,String itemType,HttpServletRequest request,HttpServletResponse response){
+	public void getVoteData(String notShowVote,String applyGroup,String applyYearGroup,String itemId,String itemType,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
 		
 		Map<String,String> search=new HashMap<String, String>();
@@ -166,7 +166,7 @@ public class VoteController extends BaseController{
 		List<UserCompletionItemApplyInfo> list=userCompletionItemService.findByParamForPage(page);
 		for(UserCompletionItemApplyInfo applyInfo:list){
 			//得到票数
-			if(StringUtils.isBlank(applyInfo.getVdef4())){
+			if(StringUtils.isBlank(applyInfo.getVdef4())&&StringUtils.isBlank(notShowVote)){
 				UserApplyVoteInfo voteFind=new UserApplyVoteInfo();
 				voteFind.setApplyId(applyInfo.getId());
 				int count=userApplyVoteService.findByParamCount(voteFind);
@@ -249,6 +249,39 @@ public class VoteController extends BaseController{
 		result.put("status", "0");
 		this.writeJson(response, result);
 		
+	}
+	
+	@RequestMapping("/getItemInfo")
+	public void getItemInfo(HttpServletResponse response){
+		Map<String,Object> result=new HashMap<String, Object>();
+		ActivityInfoInfo activityInfo=new  ActivityInfoInfo();
+		activityInfo.setStatus(DictionaryConst.HUO_DONG_ZHUANG_TAI_YI_FA_BU);
+		List<ActivityInfoInfo> list=activityInfoService.findByParam(activityInfo);
+		if(list.size()==0){
+			result.put("status", "1");
+			this.writeJson(response, result);
+		}
+		CompetitionItemInfo itemFind=new CompetitionItemInfo();
+		itemFind.setActivityId(list.get(0).getId());
+		itemFind.setStatus(DictionaryConst.BI_SAI_XIANG_MU_ZHUANG_TAI_ER_LUN_PING_SHEN_JIE_SHU);
+		List<CompetitionItemInfo> items=competitionItemService.findByParam(itemFind);
+		if(items.size()==0){
+			result.put("status", "1");
+			this.writeJson(response, result);
+		}else{
+			for(CompetitionItemInfo item:items){
+				if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_HUA.equals(item.getType())){
+					result.put("paintId", item.getId());
+				}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_XIAO_SHUO.equals(item.getType())){
+					result.put("novelId", item.getId());
+				}else if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(item.getType())){
+					result.put("videoId", item.getId());
+				}
+			}
+		}
+		result.put("lookdir", SystemConfig.getLookDir());
+		result.put("status", "0");
+		this.writeJson(response, result);
 	}
 	
 	public String getIpAddr(HttpServletRequest request) {  

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>科幻作品大赛--公示</title>
+<link rel="stylesheet" href="/css/gszp/style.css"/>
+<link rel="stylesheet" href="/css/gszp/header.css"/>
+<link rel="stylesheet" href="/css/gszp/bj-sd.css"/>
+<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+<script src="/js/layer/layer.js"></script>
+<script type="text/javascript">
+var paintId;
+var novelId;
+var videoId;
+var lookdir;
+function getItemInfo(){
+	$.ajax({
+		url:"/vote/getItemInfo",
+		dataType:"json",
+		type:"post",
+		async:false,
+		success:function(data){
+			if(data.status=='0'){
+				paintId=data.paintId;
+				novelId=data.novelId;
+				videoId=data.videoId;
+				lookdir=data.lookdir;
+				getData(303001,304001,paintId,1);
+				getData(303001,304002,paintId,1);
+				getData(303001,304003,paintId,1);
+				getData(303002,304002,paintId,1);
+				getData(303002,304003,paintId,1);
+				getData(305001,306001,novelId,2);
+				getData(305001,306002,novelId,2);
+				getData(305001,306003,novelId,2);
+				getData(305001,306004,novelId,2);
+				getData(305002,306001,novelId,2);
+				getData(305002,306002,novelId,2);
+				getData(305002,306003,novelId,2);
+				getData(305002,306004,novelId,2);
+				getData("",307001,videoId,3);
+				getData("",307002,videoId,3);
+			}else{
+				layer.alert("当前无数据显示");
+			}
+		}
+	});
+}
+$(document).ready(function(){
+	getItemInfo();
+});
+function getData(applyGroup,applyYearGroup,itemId,type){
+	$.ajax({
+		url:"/vote/getVoteData",
+		data:{page_size:1000,applyGroup:applyGroup,applyYearGroup:applyYearGroup,itemId:itemId},
+		dataType:"json",
+		type:"post",
+		success:function(data){
+			var rows=data.rows;
+			for(var i=0;i<rows.length;i++){
+				var obj=rows[i];
+				if(typeof(obj.applyYearGroup)=='undefined'){
+					obj.applyYearGroup="";
+				}
+				if(typeof(obj.vdef3)=='undefined'){
+					obj.vdef3="";
+				}
+				if(typeof(obj.applyGroup)=='undefined'){
+					obj.applyGroup="";
+				}
+				if(typeof(obj.schoolName)=='undefined'){
+					obj.schoolName="";
+				}
+				if(type==1){
+					var html='<dl><dt><a href="javascript:;"><a href="/userApply/showFile?id='+obj.id+'" target="_blank">'
+						+'<img src="'+lookdir+obj.filePath+'" width="135" height="101"></a>'
+						+'</dt><dd><p><span>姓名：'+obj.realName+'</span><span>指导老师:'+obj.vdef3+'</span><span>学校：'+obj.schoolName+'</span></p></dd></dl>';
+					$("#"+applyGroup+"-"+applyYearGroup).append(html);
+				}if(type==2){
+					var html='<dl><dt><a href="javascript:;"><a href="/userApply/showFile?id='+obj.id+'" target="_blank">'
+						+'<img src="/images/zs-xs.jpg" width="148" height="189"></a>'
+						+'</dt><dd><p><span>姓名：'+obj.realName+'</span><span>指导老师:'+obj.vdef3+'</span><span>学校：'+obj.schoolName+'</span></p></dd></dl>';
+					$("#"+applyGroup+"-"+applyYearGroup).append(html);
+				}if(type==3){
+					var html='<dl><dt><a href="javascript:;"><a href="/userApply/showFile?showDown=0&id='+obj.id+'" target="_blank">'
+						+'<img src="'+lookdir+'/video/2017print/'+obj.id+'.png" width="207" height="156"></a>'
+						+'</dt><dd><p><span>姓名：'+obj.realName+'</span><span>指导老师:'+obj.vdef3+'</span><span>学校：'+obj.schoolName+'</span></p></dd></dl>';
+					$("#"+applyGroup+"-"+applyYearGroup).append(html);
+					/* <dl>
+                    <dt>
+                     <a href="javascript:;"><img src="images/zs-sp.jpg" width="207" height="156"></a>
+                    </dt>
+                     <dd>
+                        <p>
+                          <span>姓名：王某某</span>
+                          <span>指导老师:和某某</span>
+                          <span>学校：北京市和平里第一小学</span>
+                        </p>
+                    </dd>
+              </dl> */
+				}
+			}
+		}
+	});
+}
+</script>
+<!-- 头部 -->
+<div class="head">
+  <div class="head-i m0">
+    <div class="nav fr mt15">
+      <p class="head-login fl">
+        <a href="login.html">登   录</a>
+        <a href="register.html">注  册</a>
+      </p>
+    </div>
+  </div>
+</div>
+<!--内容-->
+<!-- banner  盛典 -->
+<div class="banner fl">
+    <img src="images/bj-gs.jpg" width="100%" height="100%"  alt="颁奖典礼banner">
+</div>
+<!-- 颁奖内容 -->
+<div class="bj-content">
+     <!-- 科幻画 -->
+     <div class="khh-content">
+           <h2>科幻画手绘组</h2>
+           <div class="zs-style">
+                <!-- 小学组 -->
+                <div class="gs" id="303001-304001">
+                      <span class="jx-tm">小学组</span>
+                 </div>
+            </div>  
+            <div class="zs-style">   
+                 <!-- 中学组 -->
+                <div class="gs" id="303001-304002">
+                      <span class="jx-tm">中学组</span>
+                 </div>
+            </div>
+            <div class="zs-style">
+                   <!-- 大学组 -->
+                <div class="gs"id="303001-304003">
+                     <span class="jx-tm">大学组</span>
+                 </div>
+           </div>
+            <h2>科幻画电脑绘画组</h2>
+            
+            <div class="zs-style">   
+                 <!-- 中学组 -->
+                <div class="gs" id="303002-304002">
+                      <span class="jx-tm">中学组</span>
+                 </div>
+            </div>
+            <div class="zs-style">
+                   <!-- 大学组 -->
+                <div class="gs" id="303002-304003">
+                   <span class="jx-tm">大学组</span> 
+                 </div>
+           </div>
+           <!-- 科幻小说展示 -->
+             <h2>科幻微型小说</h2>
+              <!-- 小学组 -->
+              <div class="zs-style zs-style1" style="height:500px;overflow-y:auto">
+                <!-- 小学组 -->
+               <h4 class="mt20">小学组</h4>
+                <div class="gs gs1" id="305001-306001">
+                      
+                 </div>
+            </div>
+            <!-- 中学组 -->
+             <div class="zs-style zs-style1">
+               <h4 class="mt20">中学组</h4>
+                <div class="gs gs1" id="305001-306002">
+                 </div>
+            </div> 
+            <!-- 大学组 -->
+             <div class="zs-style zs-style1">
+               <h4 class="mt20">大学组</h4>
+                <div class="gs gs1" id="305001-306003">
+                     
+                 </div>
+            </div> 
+             <!-- 社会人士组 -->
+             <div class="zs-style zs-style1">
+               <h4 class="mt20">社会人士组</h4>
+                <div class="gs gs1" id="305001-306004">
+                	
+                 </div>
+            </div> 
+            <h2>科幻短篇小说</h2>
+              <!-- 小学组 -->
+              <div class="zs-style zs-style1">
+                <!-- 小学组 -->
+               <h4 class="mt20">小学组</h4>
+                <div class="gs gs1" id="305002-306001">
+                 </div>
+            </div>
+            <!-- 中学组 -->
+             <div class="zs-style zs-style1">
+               <h4 class="mt20">中学组</h4>
+                <div class="gs gs1" id="305002-306002">
+                 </div>
+            </div> 
+            <!-- 大学组 -->
+             <div class="zs-style zs-style1">
+               <h4 class="mt20">大学组</h4>
+                <div class="gs gs1" id="305002-306003">
+                 </div>
+            </div> 
+             <!-- 社会人士组 -->
+             <div class="zs-style zs-style1">
+               <h4 class="mt20">社会人士组</h4>
+                <div class="gs gs1" id="305002-306004">
+                 </div>
+            </div> 
+           <!-- 科幻微视频 -->
+            <h2>科幻微视频</h2>
+              <!-- 大学组 -->
+              <div class="zs-style zs-style1 zs-style2">
+                <!-- 大学组 -->
+               <h4 class="mt20">大学组</h4>
+                <div class="gs gs2" id="-307001">
+                 </div>
+                 <!-- 大学组 -->
+             </div>
+              <div class="zs-style zs-style1 zs-style2">
+                <!-- 社会人士组 -->
+               <h4 class="mt20">社会人士组</h4>
+                <div class="gs gs2" id="-307002">
+                 </div>
+            </div>
+     </div>
+</div>
+
+<div class="footer">
+        <div class="footer-i  m0">
+             <p> 全国青少年优秀原创科幻作品大赛活动组委会 </p> 
+             <p> 联系电话：68511864，68598019  </p> 
+        </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+/*banner*/
+.banner{width: 100%;height: 100%;}
+/**/
+/*.vote{width: 100%;height:172px;}
+.wt1746{width:1746px}
+*/
+/*颁奖内容*/
+.bj-content{width:1642px;margin-left:120px;height: auto;overflow: hidden;background:#1290b4;}
+@media screen and (min-width:1367px) and (max-width: 1919px) {
+	.bj-content{margin-left:50px}
+}
+@media screen and (min-width:1025px) and (max-width: 1367px) {
+	.bj-content{margin-left:0px}
+}
+/*科幻画*/
+.khh-content{padding: 20px;overflow: hidden;height: auto;width: auto;}
+.khh-content h2,.khh-content h3,.khh-content h4{text-align: center;font-weight:bold;color:#fff;margin: 15px 0}
+.khh-content h2{line-height: 48px;font-size: 48px;}
+.khh-content h3{line-height: 42px;font-size: 42px;}
+.khh-content h4{line-height: 30px;font-size:30px;padding-top: 20px}
+.zs-style{background:#580fc8;margin:10px 0;height:289px;overflow-y: auto;}
+.zs-style1{height:520px;overflow-y: auto;}
+.zs-style2{height:476px;overflow-y: auto;}
+.jx-tm{width: 38px;line-height:88px;height:400px;font-size: 30px;color:#fff;font-weight: bold; display: inline-block; float: left;display: table-cell;
+    margin:0 30px;}
+.gs{width: 1580px;overflow: hidden;height: auto;}    
+.gs dl{float: left; margin:20px 15px;width:261px;height: 103px }
+.gs dl dt{float: left;width: 135px;height: 101px;border:2px solid #212028}
+.gs dl dt a{display: inline-block; }
+.gs dl dd{float:left;width:100px;height:105px;margin-left: 10px;}
+.gs dl dd p{display: inline-block;float: left;}
+.gs dl dd p span{display: inline-block;width: 100px;line-height:20px;font-size: 14px; color: #fff;text-align: left}
+
+.gs1{width: 1580px;overflow: hidden;height: auto; background: red}
+.gs1 dl{float: left; margin:20px 44px;margin-bottom: 30px;width:289px;height: 189px}
+.gs1 dl dt{float: left;width: 148px;height: 189px;}
+.gs1 dl dt a{display: inline-block; }
+.gs1 dl dd{float:left;width:120px;height:189px;margin-left: 10px;}
+.gs1 dl dd p{display: inline-block;float: left;}
+.gs1 dl dd p span{display: inline-block;width: 120px;line-height:20px;font-size: 14px; color: #fff;text-align: left}
+
+.gs2{width: 1580px;overflow: hidden;height: auto;background:red}    
+.gs2 dl{float: left; margin:20px 20px;width:347px;height:160px}
+.gs2 dl dt{float: left;width: 207px;height: 156px;border:2px solid #212028}
+.gs2 dl dt a{display: inline-block; }
+.gs2 dl dd{float:left;width:120px;height:156px;margin-left: 10px;}
+.gs2 dl dd p{display: inline-block;float: left;}
+.gs2 dl dd p span{display: inline-block;width: 120px;line-height:20px;font-size: 14px; color: #fff;text-align: left}
