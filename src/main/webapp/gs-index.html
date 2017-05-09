@@ -79,12 +79,12 @@ function getData(applyGroup,applyYearGroup,itemId,type){
 				}if(type==2){
 					var html='<dl><dt><a href="javascript:;"><a href="/userApply/showFile?id='+obj.id+'" target="_blank">'
 						+'<img src="/images/zs-xs.jpg" width="148" height="189"></a>'
-						+'</dt><dd><p><span>姓名：'+obj.realName+'</span><span>指导老师:'+obj.vdef3+'</span><span>学校：'+obj.schoolName+'</span></p></dd></dl>';
+						+'</dt><dd><p><span>作品名称：'+obj.productionName+'</span><span>姓名：'+obj.realName+'</span><span>指导老师:'+obj.vdef3+'</span><span>学校：'+obj.schoolName+'</span></p></dd></dl>';
 					$("#"+applyGroup+"-"+applyYearGroup).append(html);
 				}if(type==3){
 					var html='<dl><dt><a href="javascript:;"><a href="/userApply/showFile?showDown=0&id='+obj.id+'" target="_blank">'
 						+'<img src="'+lookdir+'/video/2017print/'+obj.id+'.png" width="207" height="156"></a>'
-						+'</dt><dd><p><span>姓名：'+obj.realName+'</span><span>指导老师:'+obj.vdef3+'</span><span>学校：'+obj.schoolName+'</span></p></dd></dl>';
+						+'</dt><dd><p><span>作品名称：'+obj.productionName+'</span><span>姓名：'+obj.realName+'</span><span>指导老师:'+obj.vdef3+'</span><span>学校：'+obj.schoolName+'</span></p></dd></dl>';
 					$("#"+applyGroup+"-"+applyYearGroup).append(html);
 					/* <dl>
                     <dt>
