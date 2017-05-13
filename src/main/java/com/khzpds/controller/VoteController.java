@@ -158,6 +158,9 @@ public class VoteController extends BaseController{
 		if(StringUtils.isNotBlank(itemType)){
 			search.put("competitionType", itemType);
 		}
+		if(StringUtils.isBlank(notShowVote)){
+			search.put("vdef6", "1");
+		}
 		search.put("approveStatus", "1");
 		PageParameter page=this.getPageParameter2(request);
 		page.setSearch(search);

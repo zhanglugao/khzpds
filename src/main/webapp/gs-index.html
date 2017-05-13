@@ -100,6 +100,9 @@ function getData(applyGroup,applyYearGroup,itemId,type){
               </dl> */
 				}
 			}
+			if(rows.length==0){
+				$("#"+applyGroup+"-"+applyYearGroup).append("<h1 style='text-align:center;margin-top:85px;font-size:50px;color:white;'>空缺</h1>");
+			}
 		}
 	});
 }

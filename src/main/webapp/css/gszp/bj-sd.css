@@ -24,12 +24,12 @@
 .jx-tm{width: 38px;line-height:88px;height:400px;font-size: 30px;color:#fff;font-weight: bold; display: inline-block; float: left;display: table-cell;
     margin:0 30px;}
 .gs{width: 1580px;overflow: hidden;height: auto;}    
-.gs dl{float: left; margin:20px 15px;width:261px;height: 103px }
+.gs dl{float: left; margin:20px 15px;width:340px;height: 103px }
 .gs dl dt{float: left;width: 135px;height: 101px;border:2px solid #212028}
 .gs dl dt a{display: inline-block; }
 .gs dl dd{float:left;width:100px;height:105px;margin-left: 10px;}
 .gs dl dd p{display: inline-block;float: left;}
-.gs dl dd p span{display: inline-block;width: 100px;line-height:20px;font-size: 14px; color: #fff;text-align: left}
+.gs dl dd p span{display: inline-block;width: 185px;line-height:20px;font-size: 14px; color: #fff;text-align: left}
 
 .gs1{width: 1580px;overflow: hidden;height: auto; background: red}
 .gs1 dl{float: left; margin:20px 44px;margin-bottom: 30px;width:289px;height: 189px}
@@ -37,7 +37,7 @@
 .gs1 dl dt a{display: inline-block; }
 .gs1 dl dd{float:left;width:120px;height:189px;margin-left: 10px;}
 .gs1 dl dd p{display: inline-block;float: left;}
-.gs1 dl dd p span{display: inline-block;width: 120px;line-height:20px;font-size: 14px; color: #fff;text-align: left}
+.gs1 dl dd p span{display: inline-block;width: 150px;line-height:20px;font-size: 14px; color: #fff;text-align: left}
 
 .gs2{width: 1580px;overflow: hidden;height: auto;background:red}    
 .gs2 dl{float: left; margin:20px 20px;width:347px;height:160px}
@@ -45,4 +45,4 @@
 .gs2 dl dt a{display: inline-block; }
 .gs2 dl dd{float:left;width:120px;height:156px;margin-left: 10px;}
 .gs2 dl dd p{display: inline-block;float: left;}
-.gs2 dl dd p span{display: inline-block;width: 120px;line-height:20px;font-size: 14px; color: #fff;text-align: left}
+.gs2 dl dd p span{display: inline-block;width: 165px;line-height:20px;font-size: 14px; color: #fff;text-align: left}
