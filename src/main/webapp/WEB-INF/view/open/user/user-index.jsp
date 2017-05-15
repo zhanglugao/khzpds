@@ -38,7 +38,7 @@
 					}
 					var html="<tr class='trclass'><td class='zp1'>"+obj.productionName+"</td><td class='ss1'>"+obj.artist+"</td><td class='ts1'>"+obj.createTime+
 						"</td><td class='zt1'>"+obj.applyStatus+"</td>";
-					html+="<td class='zt1'>"+obj.approveStatus+"</td><td class='zt1'>"+obj.reviewPoint+"</td>";
+					html+="<td class='zt1'>"+obj.approveStatus+"</td>";
 					if(obj.applyStatus=='已报名'){
 						html+="<td class='cz1'><a onclick='toedit(\""+obj.id+"\")' href='javascript:;'>查看</a>&nbsp;";
 						//暂时设置审核通过了就不能改了 没通过还能改
@@ -182,7 +182,7 @@
                                <th class="ts">提交时间</th>
                                 <th class="zt">报名状态</th>
                                 <th class="zt">初赛</th>
-                                <th class="zt">评分</th>
+                                <!--<th class="zt">评分</th>-->
                                 <th class="cz">操作</th>
                                 </tr>
                           </thead>
