@@ -1,0 +1,41 @@
+/*banner*/
+.banner{width: 100%;height: 100%;}
+/**/
+/*.vote{width: 100%;height:172px;}
+.wt1746{width:1746px}
+*/
+/*颁奖内容*/
+.bj-content{width: 1620px;height: auto;overflow: hidden;background:#1290b4;}
+/*科幻画*/
+.khh-content{padding: 20px 0;overflow: hidden;height: auto;}
+.khh-content h2,.khh-content h3{text-align: center;font-weight:bold;color:#fff;}
+.khh-content h2{line-height: 48px;font-size: 48px;}
+.khh-content h3{line-height: 42px;font-size: 42px;}
+.jx-tm{width: 38px;height:153px;line-height:55px;font-size: 30px;color:#fff;font-weight: bold; display: inline-block; float: left;}
+.jx-tm1{width: 38px;height:101px;line-height:35px;}
+.yd,.erd{background:#590fc8;overflow: hidden;padding:  30px 30px;padding-bottom: 10px}
+.zb{float: left;margin:20px 0;display: inline-block;margin-left: 50px}
+.yd dl{width:auto;overflow:hidden;height: auto;float: left;}
+.yd dl dt{width: 141px;height: 106px}
+.yd dl{float: left; margin:0 50px}
+.yd dl dt{float: left;width: 199px;height: 149px;border:2px solid #212028}
+.yd  dl dt a{display: inline-block; }
+.yd dl dd{float: right;width:130px;height:153px;margin-left: 10px;position: relative;}
+.yd dl dd p{position:absolute;bottom: 0;left:20px}
+.yd dl dd p span{display: inline-block;width: 130px;line-height:20px;font-size: 14px; color: #fff;text-align: left}
+/*二等奖*/
+.erd dl{width:auto;overflow:hidden;height: auto;float: left;width: 286px}
+.erd dl{float: left; margin:0 40px }
+.erd dl dt{float: left;width: 135px;height: 101px;border:2px solid #212028}
+.erd dl dt a{display: inline-block; }
+.erd dl dd{float: right;width:140px;height:105px;margin-left: 10px;position: relative;}
+.erd dl dd p{position:absolute;bottom: 0;left:0;}
+.erd dl dd p span{display: inline-block;width: 140px;line-height:20px;font-size: 14px; color: #fff;text-align: left}
+/*三等奖*/
+
+.sand .zb{margin-left:50px;width: 300px }
+.erd ul{width:auto;overflow:hidden;height: auto;float: left;margin:0 100px}
+.erd ul li{float: left;margin:15px}
+.erd ul li a{padding: 0 10px;display: inline-block;font-size: 14px; color: #fff;}
+.ml100{margin-left: 100px}
+.sand1 .zb{margin-left:150px }

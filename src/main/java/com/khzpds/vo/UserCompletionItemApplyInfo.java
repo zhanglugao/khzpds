@@ -62,6 +62,7 @@ public class UserCompletionItemApplyInfo implements Serializable
 	private String vdef4;   
 	private String vdef5;   
 	private String vdef6;   
+	private String vdef7;   
     
     public UserCompletionItemApplyInfo(){}
    
@@ -724,6 +725,19 @@ public class UserCompletionItemApplyInfo implements Serializable
         this.vdef6=vdef6;
     }
     
+    /**
+     * 
+     */ 	
+	public String getVdef7(){
+        return vdef7;
+    }
+    
+     /**
+     * 
+     */ 	
+    public void setVdef7(String vdef7){
+        this.vdef7=vdef7;
+    }
     public String toString() {
 		return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
            .append("Id",getId())
@@ -770,6 +784,10 @@ public class UserCompletionItemApplyInfo implements Serializable
            .append("Vdef1",getVdef1())
            .append("Vdef2",getVdef2())
            .append("Vdef3",getVdef3())
+           .append("Vdef4",getVdef4())
+           .append("Vdef5",getVdef5())
+           .append("Vdef6",getVdef6())
+           .append("Vdef7",getVdef7())
 
 			.toString();
             

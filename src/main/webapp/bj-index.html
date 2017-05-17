@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>科幻作品大赛--颁奖页</title>
+<link rel="stylesheet" href="/css/hj/style.css"/>
+<link rel="stylesheet" href="/css/hj/header.css"/>
+<link rel="stylesheet" href="/css/hj/bj-sd.css"/>
+
+<!-- <link rel="stylesheet" type="text/css" href="css/bj-sd1.css"  media="screen and (min-width:1367px) and (max-width: 1921px)"> -->
+<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+var paintId;
+var novelId;
+var videoId;
+var lookdir;
+function getItemInfo(){
+	$.ajax({
+		url:"/vote/getItemInfo",
+		dataType:"json",
+		type:"post",
+		async:false,
+		success:function(data){
+			if(data.status=='0'){
+				paintId=data.paintId;
+				novelId=data.novelId;
+				videoId=data.videoId;
+				lookdir=data.lookdir;
+				getData(303001,304001,paintId,1,1);
+				getData(303001,304002,paintId,1,1);
+				getData(303001,304003,paintId,1,1);
+				getData(303001,304001,paintId,1,2);
+				getData(303001,304002,paintId,1,2);
+				getData(303001,304003,paintId,1,2);
+				getData(303001,304001,paintId,1,3);
+				getData(303001,304002,paintId,1,3);
+				getData(303001,304003,paintId,1,3);
+				
+				getData(303002,304002,paintId,1,1);
+				getData(303002,304003,paintId,1,1);
+				getData(303002,304002,paintId,1,2);
+				getData(303002,304003,paintId,1,2);
+				getData(303002,304002,paintId,1,3);
+				getData(303002,304003,paintId,1,3);
+				
+				getData(305001,306001,novelId,2,1);
+				getData(305001,306002,novelId,2,1);
+				getData(305001,306003,novelId,2,1);
+				getData(305001,306004,novelId,2,1);
+				getData(305001,306001,novelId,2,2);
+				getData(305001,306002,novelId,2,2);
+				getData(305001,306003,novelId,2,2);
+				getData(305001,306004,novelId,2,2);
+				getData(305001,306001,novelId,2,3);
+				getData(305001,306002,novelId,2,3);
+				getData(305001,306003,novelId,2,3);
+				getData(305001,306004,novelId,2,3);
+				
+				getData(305002,306001,novelId,2,1);
+				getData(305002,306002,novelId,2,1);
+				getData(305002,306003,novelId,2,1);
+				getData(305002,306004,novelId,2,1);
+				getData(305002,306001,novelId,2,2);
+				getData(305002,306002,novelId,2,2);
+				getData(305002,306003,novelId,2,2);
+				getData(305002,306004,novelId,2,2);
+				getData(305002,306001,novelId,2,3);
+				getData(305002,306002,novelId,2,3);
+				getData(305002,306003,novelId,2,3);
+				getData(305002,306004,novelId,2,3);
+				
+				getData("",307001,videoId,3,1);
+				getData("",307002,videoId,3,1);
+				getData("",307001,videoId,3,2);
+				getData("",307002,videoId,3,2);
+				getData("",307001,videoId,3,3);
+				getData("",307002,videoId,3,3);
+			}else{
+				layer.alert("当前无数据显示");
+			}
+		}
+	});
+}
+$(document).ready(function(){
+	getItemInfo();
+});
+function getData(applyGroup,applyYearGroup,itemId,type,level){
+	$.ajax({
+		url:"/prizeSearch/getData",
+		data:{page_size:1000,applyGroup:applyGroup,applyYearGroup:applyYearGroup,itemId:itemId,level:level},
+		dataType:"json",
+		type:"post",
+		success:function(data){
+			var rows=data.rows;
+			var width=0,height=0;
+			if(type==1&&level==1){
+				width=199;height=149;
+			}
+			if(type==1&&level==2){
+				width=135;height=101;
+			}
+			if(type==2&&level==1){
+				width=149;height=189;
+			}
+			if(type==2&&level==2){
+				width=105;height=134;
+			}
+			if(type==3&&level==1){
+				width=387;height=290;
+			}
+			if(type==3&&level==2){
+				width=212;height=159;
+			}
+			for(var i=0;i<rows.length;i++){
+				var obj=rows[i];
+				if(typeof(obj.applyYearGroup)=='undefined'){
+					obj.applyYearGroup="";
+				}
+				if(typeof(obj.vdef3)=='undefined'){
+					obj.vdef3="";
+				}
+				if(typeof(obj.applyGroup)=='undefined'){
+					obj.applyGroup="";
+				}
+				if(typeof(obj.schoolName)=='undefined'){
+					obj.schoolName="";
+				}
+				var scName="学校";
+				if(applyYearGroup=='306004'||applyYearGroup=='307002'){
+					scName="单位";
+				}
+				if(type==1&&(level==1||level==2)){
+					var html='<dl><dt><a href="javascript:;"><a href="/userApply/showFile?id='+obj.id+'" target="_blank">'
+						+'<img src="'+lookdir+obj.filePath+'" width="'+width+'" height="'+height+'"></a>'
+						+'</dt><dd><p><span>姓名：'+obj.realName+'</span>';
+					if(!(obj.vdef3==''||obj.vdef3=='/'||obj.vdef3=='无')){
+						html+='<span>指导老师:'+obj.vdef3+'</span>';
+					}
+					html+='<span>'+scName+'：'+obj.schoolName+'</span></p></dd></dl>';
+					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append(html);
+				}
+				if((type==1||type==2)&&level==3){
+					var html='<li><a href="/userApply/showFile?id='+obj.id+'" target="_blank" title="作品名称:'+obj.productionName+'，';
+					if(!(obj.vdef3==''||obj.vdef3=='/'||obj.vdef3=='无'||typeof(obj.vdef3)=="undefined")){
+						html+='指导老师：'+obj.vdef3+'，';
+					}
+					html+=scName+'：'+obj.schoolName+'">'+obj.realName+'</a></li>';
+					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append(html);
+				}
+				if(type==2&&(level==1||level==2)){
+					var html='<dl><dt><a href="javascript:;"><a href="/userApply/showFile?id='+obj.id+'" target="_blank">'
+						+'<img src="/images/zs-xs.jpg" width="'+width+'" height="'+height+'"></a>'
+						+'</dt><dd><p><span>姓名：'+obj.realName+'</span>';
+					if(!(obj.vdef3==''||obj.vdef3=='/'||obj.vdef3=='无')){
+						html+='<span>指导老师:'+obj.vdef3+'</span>';
+					}
+					html+='<span>'+scName+'：'+obj.schoolName+'</span></p></dd></dl>';
+					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append(html);
+				}
+				if(type==3&&(level==1||level==2)){
+					var html='<dl><dt><a href="javascript:;"><a href="/userApply/showFile?showDown=0&id='+obj.id+'" target="_blank">'
+						+'<img src="'+lookdir+'/video/2017print/'+obj.id+'.png" width="'+width+'" height="'+height+'"></a>'
+						+'</dt><dd><p><span>作品名称：'+obj.productionName+'</span><span>姓名：'+obj.realName+'</span>';
+						if(!(obj.vdef3==''||obj.vdef3=='/'||obj.vdef3=='无')){
+							html+='<span>指导老师:'+obj.vdef3+'</span>';
+						}
+						html+='<span>'+scName+'：'+obj.schoolName+'</span></p></dd></dl>';
+					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append(html);
+				}
+				if(type==3&&level==3){
+					var html='<li><a href="/userApply/showFile?showDown=0&id='+obj.id+'" target="_blank" title="作品名称:'+obj.productionName+'，';
+					if(!(obj.vdef3==''||obj.vdef3=='/'||obj.vdef3=='无'||typeof(obj.vdef3)=="undefined")){
+						html+='指导老师：'+obj.vdef3+'，';
+					}
+					html+=scName+'：'+obj.schoolName+'">'+obj.realName+'</a></li>';
+					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append(html);
+				}
+			}
+			if(rows.length==0){
+				if(level==1){
+					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append("<dl><h1 style='text-align:center;margin-left:130px;font-size:50px;margin-top:38px;color:white;'>空缺</h1></dl>");
+				}if(level==2&&(type==1||type==2)){
+					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append("<dl><h1 style='text-align:center;margin-left:130px;font-size:50px;margin-top:18px;color:white;'>空缺</h1></dl>");
+				}
+				if(level==2&&type==3){
+					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append("<h1 style='text-align:center;margin-left:330px;font-size:50px;margin-top:18px;color:white;'>空缺</h1>");
+				}
+				if(level==3&&type==2){
+					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append('<li><h1 style="text-align:center;font-size:50px;margin-left:50px;margin-top:-28px;color:white;">空缺</h1></li>');
+				}else if(level==3&&type==1){
+					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append("<li><h1 style='text-align:center;margin-left:130px;font-size:50px;margin-top:-8px;color:white;'>空缺</h1></li>");
+				}else if(level==3&&type==3){
+					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append('<li><h1 style="text-align:center;margin-left:130px;font-size:50px;margin-top:-28px;color:white;">空缺</h1></li>');
+				}
+			}
+		}
+	});
+}
+</script>
+</head>
+<body>
+<!-- 头部 -->
+<div class="head">
+  <div class="head-i m0">
+    <div class="nav fr mt15">
+      <p class="head-login fl">
+        <a href="login.html">登   录</a>
+        <a href="register.html">注  册</a>
+      </p>
+    </div>
+  </div>
+</div>
+<!--内容-->
+<!-- banner  盛典 -->
+<div class="banner fl">
+    <img src="/images/bj-dl.jpg" width="100%" height="100%"  alt="颁奖典礼banner">
+</div>
+<!-- 颁奖内容 -->
+<div class="bj-content">
+     <!-- 科幻画 -->
+         <div class="khh-content">
+           <h2>科幻画手绘组</h2>
+           <div class="yd mt40">
+                <h3 class="mt20">一等奖</h3>
+               <div class="zb" id="303001-304001-1">
+                   <span class="jx-tm">小学组</span>
+                 </div>
+                 <div class="zb" id="303001-304002-1">
+                   <span class="jx-tm">中学组</span>
+                 </div>
+                 <div class="zb" id="303001-304003-1">
+                   <span class="jx-tm">大学组</span>
+                 </div>
+           </div>
+            <div class="erd mt10" >
+                  <h3 >二等奖</h3>
+                   <div class="zb" id="303001-304001-2">
+                     <span class="jx-tm jx-tm1">小学组</span>
+                   </div>
+                   <div class="zb" id="303001-304002-2">
+                     <span class="jx-tm jx-tm1">中学组</span>
+                   </div>
+                   <div class="zb" id="303001-304003-2">
+                     <span class="jx-tm jx-tm1">大学组</span>
+                   </div>
+            </div>
+             <div class="erd  sand mt10">
+                    <h3 class="mb20">三等奖</h3>
+                   <div class="zb">
+                     <span class="jx-tm jx-tm1">小学组</span>
+                     <ul id="303001-304001-3"></ul> 
+                   </div>
+                   <div class="zb">
+                     <span class="jx-tm jx-tm1">中学组</span>
+                     <ul id="303001-304002-3"></ul> 
+                   </div>
+                   <div class="zb">
+                     <span class="jx-tm jx-tm1">大学组</span>
+                     <ul id="303001-304003-3"> </ul> 
+                   </div>
+             </div>
+             <h2>科幻画电脑绘画组</h2>
+             <div class="yd yd1 mt40">
+               <h3 class="mb20">一等奖</h3>
+               
+                 <div class="zb" style="margin-left: 200px" id="303002-304002-1">
+                   <span class="jx-tm">中学组</span>
+                 </div>
+                 <div class="zb ml100" id="303002-304003-1">
+                   <span class="jx-tm">大学组</span>
+                 </div>
+             </div>
+             <div class="erd mt10">
+                      <h3 class="mb20">二等奖</h3>
+                     <div class="zb" id="303002-304002-2">
+                       <span class="jx-tm jx-tm1">中学组</span>
+                      </div>
+                     <div class="zb" id="303002-304003-2">
+                       <span class="jx-tm jx-tm1">大学组</span>
+                     </div>
+             </div>
+             <div class="erd  sand sand1 mt10">
+                    <h3 class="mb20">三等奖</h3>
+                   <div class="zb ml100">
+                     <span class="jx-tm jx-tm1">中学组</span>
+                     <ul id="303002-304002-3"> </ul> 
+                   </div>
+                   <div class="zb ml100">
+                     <span class="jx-tm jx-tm1">大学组</span>
+                     <ul id="303002-304003-3"></ul> 
+                   </div>
+              </div>
+             <h2>科幻小说微型小说组</h2>
+              <div class="yd yd-novel mt40 mb20">
+                    <h3 class="mt20">一等奖</h3>
+                   	<div class="zb" id="305001-306001-1">
+                       <span class="jx-tm">小学组</span>
+                     </div>
+                     <div class="zb"id="305001-306002-1">
+                       <span class="jx-tm">中学组</span>
+                     </div>
+                     <div class="zb"id="305001-306003-1">
+                       <span class="jx-tm">大学组</span>
+                     </div>
+                      <div class="zb"id="305001-306004-1">
+                       <span class="jx-tm" style="line-height: 38px">社会人士组</span>
+                     </div>
+             </div>
+             <div class="cb fl">
+                  <div class="yd yd-novel mt10">
+                           <h3 class="mt20">二等奖</h3>
+                  </div>
+                    <div class="yd yd-novel xs-fz mt10">       
+                       <div class="erd-xs">
+                            <div class="novel-erd">
+                                  <h4>小学组</h4>
+                             <div class="zb" id="305001-306001-2">
+                             </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="yd yd-novel xs-fz  mt10" style="float: right;">       
+                       <div class="erd-xs">
+                            <div class="novel-erd">
+                                  <h4>中学组</h4>
+                              <div class="zb"id="305001-306002-2">
+                             </div>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="yd yd-novel xs-fz mt10">       
+                     <div class="erd-xs">
+                          <div class="novel-erd">
+                             <h4>大学组</h4>
+                             <div class="zb" id="305001-306003-2">
+                           </div>
+                          </div>
+                      </div>
+                    </div>
+                     <div class="yd yd-novel xs-fz  mt10" style="float: right;">       
+                       <div class="erd-xs">
+                            <div class="novel-erd">
+                             <h4>社会人士组</h4>
+                             <div class="zb" id="305001-306004-2">
+                             </div>
+                            </div>
+                        </div>
+                    </div> 
+            </div>
+            
+            <div class="cb fl" style="width: 1646px">
+            			<div class="yd yd-novel mt10">
+                             <h3 class="mt20">三等奖</h3>
+                              <!-- 三等奖 -->
+                           <div class="erd  sand novel-sand mt10">
+                                <!-- 三等奖等奖小学组 -->
+                                 
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">小学组</span>
+                                   <ul id="305001-306001-3"> </ul> 
+
+                                 </div>
+                                  <!-- 三等奖等奖中学组 -->
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">中学组</span>
+                                   <ul id="305001-306002-3"> </ul> 
+                                 </div>
+                                 <!-- 三等奖等奖大学组 -->
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">大学组</span>
+                                   <ul id="305001-306003-3"> </ul> 
+                                 </div>
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">社会人士组</span>
+                                   <ul id="305001-306004-3"> </ul> 
+                                 </div>
+                           </div>
+                    </div>
+              		<h2 style="">科幻小说短篇小说组</h2>
+                <div class="yd yd-novel mt40">
+                      <h3 class="mt20">一等奖</h3>
+                     <div class="zb" id="305002-306001-1">
+                         <span class="jx-tm">小学组</span>
+                       </div>
+                       <div class="zb" id="305002-306002-1">
+                         <span class="jx-tm">中学组</span>
+                       </div>
+                       <div class="zb" id="305002-306003-1">
+                         <span class="jx-tm">大学组</span>
+                       </div>
+                        <div class="zb" id="305002-306004-1">
+                         <span class="jx-tm" style="line-height: 38px">社会人士组</span>
+                       </div>
+               </div>
+               <div class="cb fl">
+                    <div class="yd yd-novel mt10">
+                             <h3 class="mt20">二等奖</h3>
+                    </div>
+                      <!-- 小学组   -->
+                      <div class="yd yd-novel xs-fz mt10">       
+                         <div class="erd-xs">
+                              <!-- 小学组 -->
+                              <div class="novel-erd">
+                                    <h4>小学组</h4>
+                                    <div class="zb"id="305002-306001-2">
+                               </div>
+                              </div>
+                          </div>
+                      </div>
+                       <!-- 中学生     -->
+                       <div class="yd yd-novel xs-fz  mt10" style="float: right;">       
+                         <div class="erd-xs">
+                              <!-- 中学组 -->
+                              <div class="novel-erd">
+                                    <h4>中学组</h4>
+                                    <div class="zb"id="305002-306002-2">
+                               </div>
+                              </div>
+                          </div>
+                      </div> 
+                       <!-- 大学组   -->
+                      <div class="yd yd-novel xs-fz mt10">       
+                       <div class="erd-xs">
+                            <!-- 大学组 -->
+                            <div class="novel-erd">
+                                  <h4>大学组</h4>
+                                  <div class="zb"id="305002-306003-2">
+                             </div>
+                            </div>
+                        </div>
+                      </div>
+                       <!-- 社会组     -->
+                       <div class="yd yd-novel xs-fz  mt10" style="float: right;">       
+                         <div class="erd-xs">
+                              <!-- 社会组 -->
+                              <div class="novel-erd">
+                                    <h4>社会人士组</h4>
+                                    <div class="zb"id="305002-306004-2">
+                               </div>
+                              </div>
+                          </div>
+                      </div> 
+              </div>
+              <div class="cb fl" style="width: 1646px">
+                    <div class="yd yd-novel mt10">
+                             <h3 class="mt20">三等奖</h3>
+                           <div class="erd  sand novel-sand mt10">
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">小学组</span>
+                                   <ul id="305002-306001-3"></ul> 
+                                 </div>
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">中学组</span>
+                                    <ul id="305002-306002-3"></ul> > 
+                                 </div>
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">大学组</span>
+                                    <ul id="305002-306003-3"></ul> 
+                                 </div>
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">社会人士组</span>
+                                    <ul id="305002-306004-3"></ul> 
+                                 </div>
+                           </div>
+                    </div>
+              </div>
+              <h2>科幻微视频组</h2>   
+               <div class="yd yd-novel yd-video mt40">
+                      <h3 class="mt20">一等奖</h3>
+                     <div class="zb" id="-307001-1">
+                         <span class="jx-tm">大学组</span>
+                       </div>
+                       <div class="zb" id="-307002-1">
+                         <span class="jx-tm">社会人士组</span>
+                       </div>
+                      
+               </div> 
+               <div class="cb fl">
+                  <div class="yd yd-novel mt10">
+                     <h3 class="mt20">二等奖</h3>
+                  </div>
+                    <!-- 中学组   -->
+                    <div class="yd yd-novel xs-fz mt10">       
+                       <div class="erd-xs">
+                            <!-- 中学组 -->
+                            <div class="novel-erd  yd-vide">
+                                  <h4>中学组</h4>
+                             <div class="zb" id="-307001-2">
+                             </div>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- 社会人士组 -->
+                     <div class="yd yd-novel xs-fz  mt10 ml5" >       
+                       <div class="erd-xs">
+                            <!-- 社会人士组 -->
+                            <div class="novel-erd video-erd yd-vide">
+                                  <h4>社会人士组</h4>
+                                  <div class="zb" id="-307002-2">
+                             </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                 <div class="cb fl" style="width: 1646px">
+                    <div class="yd yd-novel mt10">
+                             <h3 class="mt20">三等奖</h3>
+                           <div class="erd  sand novel-sand mt10">
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">大学组</span>
+                                   <ul id="-307001-3"></ul> 
+                                 </div>
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">社会人士组</span>
+                                   <ul id="-307002-3"></ul> 
+                                 </div>
+                           </div>
+                    </div>
+              </div>  
+
+
+         </div>
+         <!-- 专家评委 -->
+         <div class="khh-content cb mt20">
+            <div class="pw fl">
+            <div class="pw-title fl">
+              <span class="top-title"><img src="images/ds-pw.png" ></span>
+              
+            </div>
+        <div class="fl">
+            <div class="zj-scrool">
+                <dl>
+                  <dt class="fl"><a href="javascript:;"><img src="images/zj-oy.jpg" width="221" height="248" alt="欧阳奋远"></a></dt>
+                  <dd>
+                        <span>欧阳自远</span>
+                        <p> 中国科学院院士、第三世界科学院院士和国际宇航科学院院士。</p>
+                        <p class="sec-p">从事天体化学、地球化学、月球与行星科学研究。</p>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt class="fl"><a href="javascript:;"><img src="images/zj-jl.jpg" width="221" height="248" alt="金力"></a></dt>
+                  <dd>
+                        <span>金力</span>
+                        <p class="sec-p"> 中科院院士，主要研究方向为进化遗传学、人类群体遗传学和基因组学。发表SCI论文500多篇，被引2万多次。二次获国家自然科学二等奖、何梁何利奖科技进步奖等。</p>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt class="fl"><a href="javascript:;"><img src="images/zj-xy.jpg" width="221" height="248" alt="刘晓群"></a></dt>
+                  <dd>
+                      <span>刘晓群</span>
+                        <p class="sec-p"> 中国科学院月球与深空探测总体部主任，中国科学院天文科普联盟执委会主任，《中国国家天文》总编辑，国家天文台研究员，长期从事科普及其管理工作。</p>
+                  </dd>
+                </dl>
+                 <dl>
+                  <dt class="fl"><a href="javascript:;"><img src="images/zj-yc.jpg" width="221" height="248" alt="郑永春"></a></dt>
+                  <dd>
+                      <span>郑永春</span>
+                        <p class="sec-p">     中国科学院国家天文台科学传播中心主任、博士、研究员。中国科普作家协会副理事长、2016年获美国天文学会卡尔萨根奖。</p>
+                  </dd>
+                </dl>
+                  <dl>
+                  <dt class="fl"><a href="javascript:;"><img src="images/zj-wy.jpg" width="221" height="248" alt="吴岩"></a></dt>
+                  <dd>
+                      <span>吴岩</span>
+                        <p class="sec-p">科幻作家，北师大教授，科幻创意研究中心主任，博士生导师。中国科普作家协会副理事长。</p>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt class="fl"><a href="javascript:;"><img src="images/zj-km.jpg" width="221" height="248" alt="侯克明"></a></dt>
+                  <dd>
+                      <span style="top:10px">侯克明</span>
+                        <p class="sec-p"> 北京电影学院导演系教授、 硕士研究生导师，从事电影导演、表演、管理、技术、理论研究、教育专业。国家广电总局科技委常委、国家电影审查委员委员、第九届中国电影华表奖评委、第十一届中国电影铜牛奖评委、第十六届中国电视金鹰奖评委、北京市"五个一工程"奖评委
+                      </p>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt class="fl"><a href="javascript:;"><img src="images/zj-hx.jpg" width="221" height="248" alt="专家"></a></dt>
+                  <dd>
+                      <span style="top:10px">黄序</span>
+                        <p class="sec-p"> 博士, 北京市“海聚工程”青年项目特聘专家，在中美创业生物科技企业并成功退出，并有丰富的生物医药投融资经验。，科幻作家，曾出版科幻小说《智星》、《一瞬》、《墨镜》。2012年11月出版科幻悬疑小说《沉默基因》，2015年出版沉默科幻系列第二部《沉默细胞》。
+                      </p>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt class="fl"><a href="javascript:;"><img src="images/zj-ns.jpg" width="221" height="248" alt="祖乃甡"></a></dt>
+                  <dd>
+                        <span>祖乃甡</span>
+                        <p class="sec-p"> 博士, 清华大学美术学院视觉传达设计系副教授、硕士生导师</p>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt class="fl"><a href="javascript:;"><img src="images/zj-jd.jpg" width="221" height="248" alt="叶建东"></a></dt>
+                  <dd>
+                      <span>叶建东</span>
+                      <p class="sec-p">
+                                 北京市可持续发展促进会会长，北京科技视频网总编辑，从2013年起持续组织北京科技微视频大赛工作。
+                      </p>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt class="fl"><a href="javascript:;"><img src="images/zj-mn.jpg" width="221" height="248" alt="汪耆年"></a></dt>
+                  <dd>
+                      <span style="bottom:160px">汪耆年</span>
+                       <p class="sec-p">
+                        著名的航空科普教育专家。原首都师范大学科技教育研究中心任研究员，现任北京市青少年科学技术馆航空室特级教师；北京航空航天学会常务理事兼航空科普教育委员会主任
+                      </p>
+                  </dd>
+                </dl>
+             </div>
+         </div>   
+      </div>
+
+         </div>
+       </div>
+
+     </div>
+
+<div class="footer">
+        <div class="footer-i  m0">
+             <p> 全国青少年优秀原创科幻作品大赛活动组委会 </p> 
+             <p> 联系电话：68511864，68598019  </p> 
+        </div>
+  </div>
+
+</body>
+</html>

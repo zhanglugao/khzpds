@@ -64,6 +64,8 @@
 	        <mvc:exclude-mapping path="/userVisitLog/visitLog"/>
 	        <!-- 游客投票 -->
 	        <mvc:exclude-mapping path="/vote/*"/>
+	        <!-- 获奖展示 -->
+	        <mvc:exclude-mapping path="/prizeSearch/*"/>
 	       	<!-- 查看作品详情 -->
 	        <mvc:exclude-mapping path="/userApply/showFile"/>
 	        

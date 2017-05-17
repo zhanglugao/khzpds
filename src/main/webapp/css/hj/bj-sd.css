@@ -1,0 +1,96 @@
+/*banner*/
+.banner{width: 1920px;height: 100%;}
+/**/
+.mb20{margin-bottom: 20px;}
+/*.vote{width: 100%;height:172px;}
+.wt1746{width:1746px}
+*/
+/*颁奖内容*/
+.bj-content{width:1647px;height: auto;overflow: hidden;background:#1290b4;padding: 0 20px;margin: 0 96px}
+
+/*科幻画*/
+.khh-content{padding: 10px 0;overflow: hidden;height: auto;width:1647px; }
+.khh-content h2,.khh-content h3,.khh-content h4{text-align: center;font-weight:bold;color:#fff;margin: 15px 0}
+.khh-content h2{line-height: 48px;font-size: 48px;}
+.khh-content h3{line-height: 42px;font-size: 42px;}
+.khh-content h4{line-height: 36px;font-size: 36px;}
+.jx-tm{width: 38px;height:153px;line-height:55px;font-size: 30px;color:#fff;font-weight: bold; display: inline-block; float: left;}
+.jx-tm1{width: 38px;height:101px;line-height:35px;}
+.yd,.erd{background:#590fc8;overflow: hidden;padding:  0px 60px;padding-bottom: 10px}
+.zb{float: left;margin:20px 0px;display: inline-block;}
+.yd dl{width:auto;overflow:hidden;height: auto;float: left;width:470px;}
+.yd dl dt{width: 141px;height: 106px}
+.yd dl,.yd1 dl{float: left; }
+.yd1 dl{width: 540px;}
+.yd dl dt{float: left;width: 199px;height: 149px;border:2px solid #212028}
+.yd  dl dt a{display: inline-block; }
+.yd dl dd{float:left;width:200px;height:153px;margin-left: 10px;position: relative;}
+.yd dl dd p{position:absolute;bottom: 0}
+.yd dl dd p span{display: inline-block;width: 200px;line-height:20px;font-size: 14px; color: #fff;text-align: left}
+/*二等奖*/
+.erd dl{width:auto;overflow:hidden;height: auto;float: left;width: 286px}
+.erd dl{float: left;}
+.erd dl dt{float: left;width: 135px;height: 101px;border:2px solid #212028}
+.erd dl dt a{display: inline-block; }
+.erd dl dd{float: left;width:100px;height:105px;margin-left: 10px;position: relative;}
+.erd dl dd p{position:absolute;bottom: 0;left:0;}
+.erd dl dd p span{display: inline-block;width: 120px;line-height:20px;font-size: 14px; color: #fff;text-align: left}
+/*三等奖*/
+
+.sand .zb{margin-left:50px }
+.erd ul{width:auto;overflow:hidden;height: auto;float: left;width: 400px}
+.erd ul li{float: left;margin:15px}
+.erd ul li a{padding: 0 10px;display: inline-block;font-size: 14px; color: #fff;}
+.ml100{margin-left: 100px}
+.sand1 .zb{margin-left:200px }
+.sand1 .zb ul{width: 500px}
+/*科幻小说*/
+.yd.yd-novel,.erd.erd-novel{background:#590fc8;overflow: hidden;padding:  30px 40px;padding-bottom: 10px}
+.yd.yd-novel dl{width:auto;overflow:hidden;height: auto;float: left;width: 320px;margin-left: 20px}
+.yd.yd-novel dl dt{width: 149px;height: 189px}
+.yd.yd-novel dl{float: left; }
+.yd.yd-novel dl dt{float: left;width: 149px;height: 185px;border:2px solid #212028}
+.yd.yd-novel  dl dt a{display: inline-block; }
+.yd.yd-novel dl dd{float:left;width:120px;height:189px;margin-left: 10px;position: relative;}
+.yd.yd-novel dl dd p{position:absolute;bottom: 0}
+.yd.yd-novel dl dd p span{display: inline-block;width: 120px;line-height:20px;font-size: 14px; color: #fff;text-align: left}
+.novel-erd{width: 772px;height: 245px;margin: 5px;float: left;}
+.erd-xs{width: 772px;height:auto;height:auto;overflow: hidden;}
+.xs-fz{width: 740px;float: left}
+.yd.yd-novel .novel-erd dl{width:auto;overflow:hidden;height: auto;float: left;width: 226px}
+.yd.yd-novel .novel-erd dl{float: left;}
+.yd.yd-novel .novel-erd dl dt{float: left;width:105px;height: 135px;border:2px solid #212028}
+.yd.yd-novel .novel-erd dl dt a{display: inline-block; }
+.yd.yd-novel .novel-erd dl dd{float: left;width:100px;height:105px;margin-left: 10px;position: relative;}
+.yd.yd-novel .novel-erd dl dd p{position:absolute;bottom: 0;left:0;}
+.yd.yd-novel .novel-erd dl dd p span{display: inline-block;width: 110px;line-height:20px;font-size: 14px; color: #fff;text-align: left}
+.erd.novel-sand ul{width: 460px;margin:50px 20px;}
+.erd.novel-sand .jx-tm{width: 153px;height:153px;line-height:153px;font-size: 30px;color:#fff;font-weight: bold; display: inline-block; float: left;}
+.erd.novel-sand .jx-tm1{width: 153px;height:153px;line-height:153px;}
+/*科幻视频*/
+.yd.yd-novel.yd-video{padding: 0 120px}
+.yd.yd-novel.yd-video dl{width:auto;overflow:hidden;height: auto;float: left;width: 600px;margin: 0 40px}
+.yd.yd-novel.yd-video dl{float: left; }
+.yd.yd-novel.yd-video dl dt{float: left;width:387px;height: 290px;border:2px solid #212028}
+.yd.yd-novel.yd-video  dl dt a{display: inline-block; }
+.yd.yd-novel.yd-video dl dd{float:left;width:120px;height:286px;margin-left: 20px;position: relative;}
+.yd.yd-novel.yd-video dl dd p{position:absolute;bottom: 0}
+.yd.yd-novel.yd-video dl dd p span{display: inline-block;width: 120px;line-height:20px;font-size: 14px; color: #fff;text-align: left}
+.yd.yd-novel.yd-video{width: 1500px}
+
+.yd.yd-novel .novel-erd.yd-vide dl{width:auto;overflow:hidden;height: auto;float: left;width:326px}
+.yd.yd-novel .novel-erd.yd-vide dl{float: left;}
+.yd.yd-novel .novel-erd.yd-vide dl dt{float: left;width:211px;height: 135px;border:2px solid #212028}
+.yd.yd-novel .novel-erd.yd-vide dl dt a{display: inline-block; }
+.yd.yd-novel .novel-erd.yd-vide dl dd{float: left;width:100px;height:105px;margin-left: 10px;position: relative;}
+.yd.yd-novel .novel-erd.yd-vide dl dd p{position:absolute;bottom: 0;left:0;}
+.yd.yd-novel .novel-erd.yd-vide dl dd p span{display: inline-block;width: 100px;line-height:20px;font-size: 14px; color: #fff;text-align: left}
+/*大赛评委*/
+.pw{height:auto;margin-top: 10px;}
+.pw-title{margin-bottom: 20px}
+.pw dl{width:478px;margin-top: 20px;float: left; margin-left: 10px}
+.pw dl dd,.pw dl dt{height: 248px;position: relative;}
+.pw dl dd span{position:absolute;bottom: 130px; left:10px;color:#fff;display: inline-block;font-size:20px;line-height: 34px;}
+.pw dl dd p{position:absolute;bottom:42px;left:10px;font-size:14px;text-indent: 2em;line-height: 20px;color:#fff;}
+.pw dl dd p.sec-p{bottom:0px;}
+.pw dl dd{margin-left: 10px;width: 200px;float: left}
