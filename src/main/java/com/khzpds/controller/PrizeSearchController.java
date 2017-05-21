@@ -44,7 +44,7 @@ public class PrizeSearchController extends BaseController{
 		if(StringUtils.isNotBlank(level)){
 			search.put("vdef7", level);
 		}
-		search.put("vdef6", "1");//获奖
+		search.put("approveStatus", "1");
 		PageParameter page=this.getPageParameter2(request);
 		page.setSearch(search);
 		page.setOrderField(" vdef1");

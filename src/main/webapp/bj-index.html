@@ -35,6 +35,9 @@ function getItemInfo(){
 				getData(303001,304001,paintId,1,3);
 				getData(303001,304002,paintId,1,3);
 				getData(303001,304003,paintId,1,3);
+				getData(303001,304001,paintId,1,4);
+				getData(303001,304002,paintId,1,4);
+				getData(303001,304003,paintId,1,4);
 				
 				getData(303002,304002,paintId,1,1);
 				getData(303002,304003,paintId,1,1);
@@ -42,6 +45,8 @@ function getItemInfo(){
 				getData(303002,304003,paintId,1,2);
 				getData(303002,304002,paintId,1,3);
 				getData(303002,304003,paintId,1,3);
+				getData(303002,304002,paintId,1,4);
+				getData(303002,304003,paintId,1,4);
 				
 				getData(305001,306001,novelId,2,1);
 				getData(305001,306002,novelId,2,1);
@@ -55,6 +60,10 @@ function getItemInfo(){
 				getData(305001,306002,novelId,2,3);
 				getData(305001,306003,novelId,2,3);
 				getData(305001,306004,novelId,2,3);
+				getData(305001,306001,novelId,2,4);
+				getData(305001,306002,novelId,2,4);
+				getData(305001,306003,novelId,2,4);
+				getData(305001,306004,novelId,2,4);
 				
 				getData(305002,306001,novelId,2,1);
 				getData(305002,306002,novelId,2,1);
@@ -68,6 +77,10 @@ function getItemInfo(){
 				getData(305002,306002,novelId,2,3);
 				getData(305002,306003,novelId,2,3);
 				getData(305002,306004,novelId,2,3);
+				getData(305002,306001,novelId,2,4);
+				getData(305002,306002,novelId,2,4);
+				getData(305002,306003,novelId,2,4);
+				getData(305002,306004,novelId,2,4);
 				
 				getData("",307001,videoId,3,1);
 				getData("",307002,videoId,3,1);
@@ -75,6 +88,8 @@ function getItemInfo(){
 				getData("",307002,videoId,3,2);
 				getData("",307001,videoId,3,3);
 				getData("",307002,videoId,3,3);
+				getData("",307001,videoId,3,4);
+				getData("",307002,videoId,3,4);
 			}else{
 				layer.alert("当前无数据显示");
 			}
@@ -139,7 +154,7 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
 					html+='<span>'+scName+'：'+obj.schoolName+'</span></p></dd></dl>';
 					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append(html);
 				}
-				if((type==1||type==2)&&level==3){
+				if((type==1||type==2)&&(level==3||level==4)){
 					var html='<li><a href="/userApply/showFile?id='+obj.id+'" target="_blank" title="作品名称:'+obj.productionName+'，';
 					if(!(obj.vdef3==''||obj.vdef3=='/'||obj.vdef3=='无'||typeof(obj.vdef3)=="undefined")){
 						html+='指导老师：'+obj.vdef3+'，';
@@ -149,7 +164,7 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
 				}
 				if(type==2&&(level==1||level==2)){
 					var html='<dl><dt><a href="javascript:;"><a href="/userApply/showFile?id='+obj.id+'" target="_blank">'
-						+'<img src="/images/zs-xs.jpg" width="'+width+'" height="'+height+'"></a>'
+						+'<img src="'+lookdir+'/novel/fengmian/'+obj.id+'.jpg" width="'+width+'" height="'+height+'"></a>'
 						+'</dt><dd><p><span>姓名：'+obj.realName+'</span>';
 					if(!(obj.vdef3==''||obj.vdef3=='/'||obj.vdef3=='无')){
 						html+='<span>指导老师:'+obj.vdef3+'</span>';
@@ -167,7 +182,7 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
 						html+='<span>'+scName+'：'+obj.schoolName+'</span></p></dd></dl>';
 					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append(html);
 				}
-				if(type==3&&level==3){
+				if(type==3&&(level==3||level==4)){
 					var html='<li><a href="/userApply/showFile?showDown=0&id='+obj.id+'" target="_blank" title="作品名称:'+obj.productionName+'，';
 					if(!(obj.vdef3==''||obj.vdef3=='/'||obj.vdef3=='无'||typeof(obj.vdef3)=="undefined")){
 						html+='指导老师：'+obj.vdef3+'，';
@@ -178,19 +193,19 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
 			}
 			if(rows.length==0){
 				if(level==1){
-					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append("<dl><h1 style='text-align:center;margin-left:130px;font-size:50px;margin-top:38px;color:white;'>空缺</h1></dl>");
+					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append("<dl><h1 style='margin-top:10%;text-align:center;font-size:23px;color:white;'>(空缺)</h1></dl>");
 				}if(level==2&&(type==1||type==2)){
-					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append("<dl><h1 style='text-align:center;margin-left:130px;font-size:50px;margin-top:18px;color:white;'>空缺</h1></dl>");
+					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append("<dl><h1 style='margin-top:10%;text-align:center;font-size:23px;color:white;'>(空缺)</h1></dl>");
 				}
 				if(level==2&&type==3){
-					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append("<h1 style='text-align:center;margin-left:330px;font-size:50px;margin-top:18px;color:white;'>空缺</h1>");
+					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append("<h1 style='margin-top:10%;margin-left:350px;text-align:center;font-size:23px;color:white;'>(空缺)</h1>");
 				}
 				if(level==3&&type==2){
-					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append('<li><h1 style="text-align:center;font-size:50px;margin-left:50px;margin-top:-28px;color:white;">空缺</h1></li>');
+					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append('<li><h1 style="margin-top:10%;text-align:center;font-size:23px;color:white;">(空缺)</h1></li>');
 				}else if(level==3&&type==1){
-					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append("<li><h1 style='text-align:center;margin-left:130px;font-size:50px;margin-top:-8px;color:white;'>空缺</h1></li>");
+					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append("<li><h1 style='margin-top:10%;text-align:center;font-size:23px;color:white;'>(空缺)</h1></li>");
 				}else if(level==3&&type==3){
-					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append('<li><h1 style="text-align:center;margin-left:130px;font-size:50px;margin-top:-28px;color:white;">空缺</h1></li>');
+					$("#"+applyGroup+"-"+applyYearGroup+"-"+level).append('<li><h1 style="margin-top:10%;text-align:center;font-size:23px;color:white;">(空缺)</h1></li>');
 				}
 			}
 		}
@@ -204,8 +219,8 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
   <div class="head-i m0">
     <div class="nav fr mt15">
       <p class="head-login fl">
-        <a href="login.html">登   录</a>
-        <a href="register.html">注  册</a>
+        <a href="/login.html">登   录</a>
+        <a href="/register.html">注  册</a>
       </p>
     </div>
   </div>
@@ -237,10 +252,10 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
                    <div class="zb" id="303001-304001-2">
                      <span class="jx-tm jx-tm1">小学组</span>
                    </div>
-                   <div class="zb" id="303001-304002-2">
+                   <div class="zb" id="303001-304002-2" style="clear:both;">
                      <span class="jx-tm jx-tm1">中学组</span>
                    </div>
-                   <div class="zb" id="303001-304003-2">
+                   <div class="zb" id="303001-304003-2" style="clear:both;">
                      <span class="jx-tm jx-tm1">大学组</span>
                    </div>
             </div>
@@ -259,6 +274,21 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
                      <ul id="303001-304003-3"> </ul> 
                    </div>
              </div>
+             <div class="erd  sand mt10">
+                    <h3 class="mb20">优秀奖</h3>
+                   <div class="zb">
+                     <span class="jx-tm jx-tm1">小学组</span>
+                     <ul id="303001-304001-4" style="width:1400px;"></ul> 
+                   </div>
+                   <div class="zb">
+                     <span class="jx-tm jx-tm1">中学组</span>
+                     <ul id="303001-304002-4" style="width:1400px;"></ul> 
+                   </div>
+                   <div class="zb">
+                     <span class="jx-tm jx-tm1">大学组</span>
+                     <ul id="303001-304003-4" style="width:1400px;"> </ul> 
+                   </div>
+             </div>
              <h2>科幻画电脑绘画组</h2>
              <div class="yd yd1 mt40">
                <h3 class="mb20">一等奖</h3>
@@ -272,12 +302,13 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
              </div>
              <div class="erd mt10">
                       <h3 class="mb20">二等奖</h3>
-                     <div class="zb" id="303002-304002-2">
+                     		<h1 style="font-size:23px;color:white;text-align:center;">(空缺)</h1>
+                     <!-- <div class="zb" id="303002-304002-2">
                        <span class="jx-tm jx-tm1">中学组</span>
                       </div>
-                     <div class="zb" id="303002-304003-2">
+                     <div class="zb" id="303002-304003-2" style="clear:both;">
                        <span class="jx-tm jx-tm1">大学组</span>
-                     </div>
+                     </div> -->
              </div>
              <div class="erd  sand sand1 mt10">
                     <h3 class="mb20">三等奖</h3>
@@ -288,6 +319,17 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
                    <div class="zb ml100">
                      <span class="jx-tm jx-tm1">大学组</span>
                      <ul id="303002-304003-3"></ul> 
+                   </div>
+              </div>
+              <div class="erd  sand sand1 mt10">
+                    <h3 class="mb20">优秀奖</h3>
+                   <div class="zb ml100">
+                     <span class="jx-tm jx-tm1">中学组</span>
+                     <ul id="303002-304002-4" style="width:1200px;"> </ul> 
+                   </div>
+                   <div class="zb ml100">
+                     <span class="jx-tm jx-tm1">大学组</span>
+                     <ul id="303002-304003-4" style="width:1200px;"></ul> 
                    </div>
               </div>
              <h2>科幻小说微型小说组</h2>
@@ -351,21 +393,15 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
             <div class="cb fl" style="width: 1646px">
             			<div class="yd yd-novel mt10">
                              <h3 class="mt20">三等奖</h3>
-                              <!-- 三等奖 -->
                            <div class="erd  sand novel-sand mt10">
-                                <!-- 三等奖等奖小学组 -->
-                                 
                                  <div class="zb">
                                    <span class="jx-tm jx-tm1">小学组</span>
                                    <ul id="305001-306001-3"> </ul> 
-
                                  </div>
-                                  <!-- 三等奖等奖中学组 -->
                                  <div class="zb">
                                    <span class="jx-tm jx-tm1">中学组</span>
                                    <ul id="305001-306002-3"> </ul> 
                                  </div>
-                                 <!-- 三等奖等奖大学组 -->
                                  <div class="zb">
                                    <span class="jx-tm jx-tm1">大学组</span>
                                    <ul id="305001-306003-3"> </ul> 
@@ -376,7 +412,31 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
                                  </div>
                            </div>
                     </div>
-              		<h2 style="">科幻小说短篇小说组</h2>
+               </div>
+               <div class="cb fl" style="width: 1646px">
+            			<div class="yd yd-novel mt10">
+                             <h3 class="mt20">优秀奖</h3>
+                           <div class="erd  sand novel-sand mt10">
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">小学组</span>
+                                   <ul id="305001-306001-4" style="width:1400px;"> </ul> 
+                                 </div>
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">中学组</span>
+                                   <ul id="305001-306002-4" style="width:1400px;"> </ul> 
+                                 </div>
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">大学组</span>
+                                   <ul id="305001-306003-4" style="width:1400px;"> </ul> 
+                                 </div>
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">社会人士组</span>
+                                   <ul id="305001-306004-4" style="width:1400px;"> </ul> 
+                                 </div>
+                           </div>
+                    </div>
+               </div>
+              	<h2 style="">科幻小说短篇小说组</h2>
                 <div class="yd yd-novel mt40">
                       <h3 class="mt20">一等奖</h3>
                      <div class="zb" id="305002-306001-1">
@@ -464,6 +524,29 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
                            </div>
                     </div>
               </div>
+               <div class="cb fl" style="width: 1646px">
+                    <div class="yd yd-novel mt10">
+                             <h3 class="mt20">优秀奖</h3>
+                           <div class="erd  sand novel-sand mt10">
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">小学组</span>
+                                   <ul id="305002-306001-4" style="width:1400px;"></ul> 
+                                 </div>
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">中学组</span>
+                                    <ul id="305002-306002-4" style="width:1400px;"></ul> > 
+                                 </div>
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">大学组</span>
+                                    <ul id="305002-306003-4" style="width:1400px;"></ul> 
+                                 </div>
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">社会人士组</span>
+                                    <ul id="305002-306004-4" style="width:1400px;"></ul> 
+                                 </div>
+                           </div>
+                    </div>
+              </div>
               <h2>科幻微视频组</h2>   
                <div class="yd yd-novel yd-video mt40">
                       <h3 class="mt20">一等奖</h3>
@@ -479,21 +562,17 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
                   <div class="yd yd-novel mt10">
                      <h3 class="mt20">二等奖</h3>
                   </div>
-                    <!-- 中学组   -->
                     <div class="yd yd-novel xs-fz mt10">       
                        <div class="erd-xs">
-                            <!-- 中学组 -->
                             <div class="novel-erd  yd-vide">
-                                  <h4>中学组</h4>
+                                  <h4>大学组</h4>
                              <div class="zb" id="-307001-2">
                              </div>
                             </div>
                         </div>
                     </div>
-                     <!-- 社会人士组 -->
                      <div class="yd yd-novel xs-fz  mt10 ml5" >       
                        <div class="erd-xs">
-                            <!-- 社会人士组 -->
                             <div class="novel-erd video-erd yd-vide">
                                   <h4>社会人士组</h4>
                                   <div class="zb" id="-307002-2">
@@ -517,7 +596,21 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
                            </div>
                     </div>
               </div>  
-
+				<div class="cb fl" style="width: 1646px">
+                    <div class="yd yd-novel mt10">
+                             <h3 class="mt20">优秀奖</h3>
+                           <div class="erd  sand novel-sand mt10">
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">大学组</span>
+                                   <ul id="-307001-4" style="width:1400px;"></ul> 
+                                 </div>
+                                 <div class="zb">
+                                   <span class="jx-tm jx-tm1">社会人士组</span>
+                                   <ul id="-307002-4" style="width:1400px;"></ul> 
+                                 </div>
+                           </div>
+                    </div>
+              </div> 
 
          </div>
          <!-- 专家评委 -->
@@ -613,7 +706,6 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
          </div>
        </div>
 
-     </div>
 
 <div class="footer">
         <div class="footer-i  m0">
