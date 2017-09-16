@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -118,7 +118,7 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
 				width=149;height=189;
 			}
 			if(type==2&&level==2){
-				width=105;height=134;
+				width=105;height=180;
 			}
 			if(type==3&&level==1){
 				width=387;height=290;
@@ -156,6 +156,9 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
 				}
 				if((type==1||type==2)&&(level==3||level==4)){
 					var html='<li><a href="/userApply/showFile?id='+obj.id+'" target="_blank" title="作品名称:'+obj.productionName+'，';
+					if(type==1){
+						html='<li><a href="/userApply/showFile?id='+obj.id+'" target="_blank" title="';
+					}
 					if(!(obj.vdef3==''||obj.vdef3=='/'||obj.vdef3=='无'||typeof(obj.vdef3)=="undefined")){
 						html+='指导老师：'+obj.vdef3+'，';
 					}
@@ -165,7 +168,7 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
 				if(type==2&&(level==1||level==2)){
 					var html='<dl><dt><a href="javascript:;"><a href="/userApply/showFile?id='+obj.id+'" target="_blank">'
 						+'<img src="'+lookdir+'/novel/fengmian/'+obj.id+'.jpg" width="'+width+'" height="'+height+'"></a>'
-						+'</dt><dd><p><span>姓名：'+obj.realName+'</span>';
+						+'</dt><dd><p><span>作品名称：'+obj.productionName+'</span><span>姓名：'+obj.realName+'</span>';
 					if(!(obj.vdef3==''||obj.vdef3=='/'||obj.vdef3=='无')){
 						html+='<span>指导老师:'+obj.vdef3+'</span>';
 					}
@@ -656,6 +659,13 @@ function getData(applyGroup,applyYearGroup,itemId,type,level){
                   <dd>
                       <span>吴岩</span>
                         <p class="sec-p">科幻作家，北师大教授，科幻创意研究中心主任，博士生导师。中国科普作家协会副理事长。</p>
+                  </dd>
+                </dl>
+				<dl>
+                  <dt class="fl"><a href="javascript:;"><img src="images/zj-hj.jpg" width="221" height="248" alt="何洁"></a></dt>
+                  <dd>
+                      <span>何洁</span>
+                        <p class="sec-p">清华大学美术学院教授，中国美术家协会平面设计艺委会主任</p>
                   </dd>
                 </dl>
                 <dl>
