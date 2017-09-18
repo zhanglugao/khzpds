@@ -45,20 +45,28 @@
 						if(obj.approveStatus!='初赛通过'){
 							html+="<a onclick='cancelApply(\""+obj.id+"\")' href='javascript:;'>撤销</a>&nbsp;"
 						}
-						if(obj.approveStatus=='初赛通过'){
+						/*if(obj.approveStatus=='初赛通过'){
 							html+="<a onclick='fusai(\""+obj.id+"\")' href='javascript:;'>完善复赛报名表</a>&nbsp;"
-						}
-						html+="<a onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' href='javascript:;'>下载报名表</a></td></tr>";
+						}*/
+						html+="<a onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' href='javascript:;'>下载报名表</a>";
 					}else if(obj.applyStatus=='已取消'){
-						html+="<td class='cz1'><a onclick='toedit(\""+obj.id+"\")' href='javascript:;'>编辑</a>&nbsp;<a onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' href='javascript:;'>下载报名表</a></td></tr>";
+						html+="<td class='cz1'><a onclick='toedit(\""+obj.id+"\")' href='javascript:;'>编辑</a>&nbsp;<a onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' href='javascript:;'>下载报名表</a>";
 					}else if (obj.applyStatus=='新建'){
-						html+="<td class='cz1'><a onclick='toedit(\""+obj.id+"\")' href='javascript:;'>编辑</a>&nbsp;<a onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' href='javascript:;'>下载报名表</a></td></tr>";
+						html+="<td class='cz1'><a onclick='toedit(\""+obj.id+"\")' href='javascript:;'>编辑</a>&nbsp;<a onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' href='javascript:;'>下载报名表</a>";
 					}
+					if(typeof(obj.filePath)!='undefined'&&obj.competitionType=='301002'){
+                        html+="&nbsp;<a onclick='previewPaint(\""+obj.id+"\",\""+obj.filePath+"\")' href='javascript:;'>预览</a>";
+                    }
+                    html+="</td></tr>";
 					$("#dataDiv").append(html);
 				}
 			}
 		});
 	}
+    function previewPaint(id,path){
+        alert(id);
+        alert(path);
+    }
 	function fusai(id){
 		window.location.href="/userApply/toFusaiApply?id="+id;
 	}
@@ -253,18 +261,9 @@
                </div>
                </div>
       </div>
-       <!-- 导航部分 -->
-      
-     <!-- 底部 -->
-    <!--  <div class="footer">
-        <div class="footer-i w1348 m0">
-              Copyright © 2016-2017 Science  contest
-        </div>
-     </div> -->
-  
+     <div style="display:none" id="paintDiv">
+
+     </div>
 	  <script type="text/javascript" src="/js/index.js"></script>
-    <script type="text/javascript">
-</script>
-	
 </body>
 </html>

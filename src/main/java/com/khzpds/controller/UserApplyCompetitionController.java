@@ -450,9 +450,10 @@ public class UserApplyCompetitionController extends BaseController{
     		map.put("$postcode", applyInfo.getPostcode()==null?"":applyInfo.getPostcode());
     		map.put("$address", applyInfo.getAddress()==null?"":applyInfo.getAddress());
     		map.put("$ideaDesc", applyInfo.getIdeaDesc()==null?"":applyInfo.getIdeaDesc());
-    		if(!DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(type)&&StringUtils.isNotBlank(fusai)){
+    		map.put("vdef3$", applyInfo.getVdef3()==null?"": applyInfo.getVdef3());
+    		/*if(!DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(type)&&StringUtils.isNotBlank(fusai)){
     			map.put("$vdef3",  applyInfo.getVdef3()==null?"":applyInfo.getVdef3());
-    		}
+    		}*/
     		
     		//微视频附加属性
     		if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_WEI_SHI_PIN.equals(type)){

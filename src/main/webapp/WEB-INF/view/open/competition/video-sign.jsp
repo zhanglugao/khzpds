@@ -124,6 +124,10 @@ display:block;
 			$("#birthday").focus();
 			layer.tips('请选择出生年月', '#birthday',{tips:[2,tipsColor]});return;
 		}
+        var vdef3=$("#vdef3").val();
+        if($.trim(vdef3)==''){
+            layer.tips("请填写指导老师，没有填无",'#vdef3',{tips:[2,tipsColor]});return;
+        }
 		var schoolName=$("#schoolName").val();
 		if($.trim(schoolName)==''){
 			$("#schoolName").focus();
@@ -533,6 +537,10 @@ div#roll{width:100px;height:100px; background-color:red; color:#fff; position:ab
                                 <span class="name">性别</span>
                               <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> value="男" name="sex" type="radio" checked="checked"/>男
                                <input <c:if test="${!empty ifReadonly }"> disabled="disabled" </c:if> value="女" name="sex" type="radio" />女
+                            </li>
+                            <li>
+                                <span class="dw">指导老师（没有写无）</span>
+                                <input <c:if test="${!empty ifReadonly}"> readonly='readonly' </c:if> value="${applyInfo.vdef3 }"  name="vdef3" id="vdef3" type="text"  style="width:510px" />
                             </li>
                             <!-- 所在学校  -->
                              <li>

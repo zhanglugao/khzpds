@@ -250,15 +250,15 @@
 		<profile>
 			<id>company-env</id>
 			<properties>
-				<basedir.upload>E:\\khzpds</basedir.upload>
+				<basedir.upload>D:\\data\khzpds\</basedir.upload>
 				<basedir.look>/filePath/</basedir.look>
-				<jdbc.url>jdbc:mysql://172.27.1.101:3306/test?useUnicode=true&amp;amp;characterEncoding=utf8</jdbc.url>
+				<jdbc.url>jdbc:mysql://172.27.1.101:3306/khzpds?useUnicode=true&amp;amp;characterEncoding=utf8</jdbc.url>
 				<jdbc.username>root</jdbc.username>
 				<jdbc.password>MyNewPass4!</jdbc.password>
-				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>	
-				<log4j.filepath>E:\khzpds\log.log</log4j.filepath>
+				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+				<log4j.filepath>D:\\work\logs\logs.log</log4j.filepath>
 				<log4j.level>DEBUG</log4j.level>
-				<log4j.rootLogger>info,Console</log4j.rootLogger>
+				<log4j.rootLogger>DEBUG,Console,Stdout</log4j.rootLogger>
 			</properties>	
 		</profile>
 		<profile>
