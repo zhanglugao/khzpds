@@ -173,6 +173,9 @@ public class UserApplyCompetitionController extends BaseController{
 		for(UserCompletionItemApplyInfo apply:applys){
 			apply.setApplyStatus(statusMap.get(apply.getApplyStatus()));
 			apply.setArtist(typeMap.get(apply.getCompetitionType()));
+			if(apply.getFilePath()!=null){
+				apply.setFilePath(apply.getFilePath().replace("\\", "/"));
+			}
 		}
 		result.put("applyList", applys);
 		this.writeJson(response, result);

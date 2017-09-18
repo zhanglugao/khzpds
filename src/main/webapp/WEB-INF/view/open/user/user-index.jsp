@@ -1,5 +1,6 @@
+<%@ page import="com.khzpds.base.SystemConfig" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,9 +64,27 @@
 			}
 		});
 	}
+
     function previewPaint(id,path){
-        alert(id);
-        alert(path);
+        var img = new Image();
+        // 改变图片的src
+        img.src = "<%=SystemConfig.getLookDir()%>"+path;
+        $("#showImg").attr("src","<%=SystemConfig.getLookDir()%>"+path);
+        var showWidth=img.width;
+        if(showWidth>document.body.clientWidth-500){
+            showWidth=document.body.clientWidth-500;
+        }
+        $("#showImg").attr("width",showWidth+"px");
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: 0,
+            area: showWidth,
+            skin: 'layui-layer-nobg', //没有背景色
+            shadeClose: true,
+            scrollbar: false,
+            content: $('#paintDiv')
+        });
     }
 	function fusai(id){
 		window.location.href="/userApply/toFusaiApply?id="+id;
@@ -261,8 +280,8 @@
                </div>
                </div>
       </div>
-     <div style="display:none" id="paintDiv">
-
+     <div style="display:none;" id="paintDiv">
+        <img src="" id="showImg">
      </div>
 	  <script type="text/javascript" src="/js/index.js"></script>
 </body>
