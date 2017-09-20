@@ -54,9 +54,9 @@
 						if(obj.approveStatus!='初赛通过'){
 							html+="<button type='button' onclick='cancelApply(\""+obj.id+"\")'  class='btn btn-primary'>撤销</button>&nbsp;"
 						}
-						if(obj.approveStatus=='初赛通过'){
+						/*if(obj.approveStatus=='初赛通过'){
 							html+="<button onclick='fusai(\""+obj.id+"\")' type='button' class='btn btn-primary'>完善复赛报名表</button>&nbsp;"
-						}
+						}*/
 						html+="<button type='button' onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")'  class='btn btn-primary'>下载报名表</button>";
 					}else if(obj.applyStatus=='已取消'){
 						html+="<td class='cz1'><button type='button' onclick='toedit(\""+obj.id+"\")' class='btn btn-primary'>编辑</button>&nbsp;<button type='button' onclick='downloadApplyTable(\""+obj.competitionType+"\",\""+obj.id+"\")' class='btn btn-primary'>下载报名表</button>";

@@ -186,6 +186,11 @@
 		    <artifactId>docx4j</artifactId>
 		    <version>3.3.1</version>
 		</dependency>
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>0.4.8</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<resources>

@@ -97,7 +97,6 @@ public class MenuController extends BaseController{
 	@RequestMapping("/delete")
 	public void delete(String id,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
-		
 		MenuInfo menu=menuService.findById(id);
 		if("1".equals(menu.getVdef1())){
 			result.put("status", "1");
