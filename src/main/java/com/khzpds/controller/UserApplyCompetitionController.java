@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;
+import org.apache.taglibs.standard.tag.el.fmt.RequestEncodingTag;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.org.apache.poi.util.StringUtil;
@@ -73,7 +74,9 @@ public class UserApplyCompetitionController extends BaseController{
 		}
 		apply.setFilePath(apply.getFilePath().replace("\\", "/"));
 		if(!apply.getFilePath().endsWith(".mp4")){
-			return new ModelAndView("redirect:/filePath"+apply.getFilePath());
+			request.setAttribute("filePath","/filePath"+apply.getFilePath());
+			return new ModelAndView(getRootPath(request)+"/manage/paint/preview");
+			//return new ModelAndView("redirect:/filePath"+apply.getFilePath());
 		}else{
 			request.setAttribute("filePath", apply.getFilePath());
 			if(org.apache.commons.lang3.StringUtils.isNotBlank(showDown)&&"0".equals(showDown)){

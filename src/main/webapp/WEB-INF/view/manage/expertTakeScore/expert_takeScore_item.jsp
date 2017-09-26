@@ -23,7 +23,6 @@
 			$(this).tab('show');
 		});
 		$($("#myTab a")[0]).click();
-		
 	});
 	function takeScoreSuccess(){
 		layer.closeAll();
@@ -167,9 +166,21 @@
 			});
 		}
 	}
-	
+	var lookIndex;
 	function viewProInfo(id){
-		window.open("/userApply/showFile?id="+id,"_target");
+        layer.open({
+            type: 2,
+            content:"/userApply/showFile?id="+id,
+            scrollbar: false,
+            shadeClose: true,//开启遮罩关闭
+            title:false,
+            area: ['80%', '80%'],
+            success: function(layero, index){
+                $(this).click(function(){
+                    alert(1);
+				});
+            }
+        });
 	}
 	
 	function returnIndex(){
