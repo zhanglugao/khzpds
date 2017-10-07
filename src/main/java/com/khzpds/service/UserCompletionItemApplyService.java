@@ -1,14 +1,21 @@
 package com.khzpds.service;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.khzpds.base.IBaseService;
 import com.khzpds.base.PageParameter;
+import com.khzpds.base.SystemConfig;
 import com.khzpds.dao.UserCompletionItemApplyDao;
+import com.khzpds.util.ChangeSuffixUtil;
+import com.khzpds.util.Ooo32pdf;
+import com.khzpds.util.TestPdf2Swf;
 import com.khzpds.vo.UserCompletionItemApplyInfo;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -56,9 +63,43 @@ public class UserCompletionItemApplyService extends IBaseService<UserCompletionI
 	public List<Map<String, String>> findBySearchMapScorePage(PageParameter page) {
 		return userCompletionItemApplyDao.findBySearchMapScorePage(page);
 	}
+
+    public void convertDocFile(UserCompletionItemApplyInfo applyInfo) {
+    	if(StringUtils.isNotBlank(applyInfo.getFilePath())){
+    		if(applyInfo.getFilePath().endsWith("doc")||applyInfo.getFilePath().endsWith("docx")){
+				String targetPath= ChangeSuffixUtil.change(SystemConfig.getUploadDir()+applyInfo.getFilePath(),"pdf");
+				Ooo32pdf convertPdf=new Ooo32pdf();
+				convertPdf.convert2PDF(SystemConfig.getUploadDir()+applyInfo.getFilePath(),targetPath);
+				//转换成pdf后 需要再转成swf格式 再在前台去展示使用！
+				File pdfFile=new File(targetPath);
+				if(pdfFile.exists()){
+					String targetPath2=ChangeSuffixUtil.change(SystemConfig.getUploadDir()+applyInfo.getFilePath(),"swf");
+					try {
+						TestPdf2Swf.convertPDF2SWF(targetPath,  targetPath2);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}else if(applyInfo.getFilePath().endsWith("pdf")){
+				File pdfFile=new File(SystemConfig.getUploadDir()+applyInfo.getFilePath());
+				if(pdfFile.exists()){
+					String targetPath2=ChangeSuffixUtil.change(SystemConfig.getUploadDir()+applyInfo.getFilePath(),"swf");
+					try {
+						TestPdf2Swf.convertPDF2SWF(SystemConfig.getUploadDir()+applyInfo.getFilePath(),  targetPath2);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+		}
+    }
 //--CustomEnd*****///
 
-
+	public static void main(String[] args) {
+		String filePath="E:\\1.doc";
+		System.out.println(filePath.substring(0,filePath.lastIndexOf(".")));
+	}
 	
 
 }

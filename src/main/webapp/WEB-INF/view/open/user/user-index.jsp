@@ -49,7 +49,7 @@
                             obj.vdef1 = "";
                         }
                         var html = "<tr class='trclass'><td class='zp1'>" + obj.productionName + "</td><td class='ss1'>" + obj.artist + "</td><td class='ts1'>" + obj.createTime +
-                            "</td><td class='zt1'>" + obj.applyStatus + "</td>";
+                            "</td><td class='zt1'>"+obj.year+"</td><td class='zt1'>" + obj.applyStatus + "</td>";
                         html += "<td class='zt1'>" + obj.approveStatus + "</td>";
                         if (obj.applyStatus == '已报名') {
                             html += "<td class='cz1'><a onclick='toedit(\"" + obj.id + "\")' href='javascript:;'>查看</a>&nbsp;";
@@ -69,7 +69,7 @@
                         if (typeof(obj.filePath) != 'undefined' && obj.competitionType == '301002') {
                             var t=new Date().getTime();
                             html += "&nbsp;<a onclick='previewPaint(\"" + obj.id + "\",\"" + obj.filePath + "\","+t+")' href='javascript:;'>预览</a>";
-                            $("#loadPicDiv").append("<img src='<%=SystemConfig.getLookDir()%>" + obj.filePath + "?t="+t+"'/>");
+
                         }
                         html += "</td></tr>";
                         $("#dataDiv").append(html);
@@ -81,7 +81,7 @@
         function previewPaint(id, path,t) {
             var img = new Image();
             // 改变图片的src
-            img.src = "<%=SystemConfig.getLookDir()%>" + path;
+            img.src = "<%=SystemConfig.getLookDir()%>" + path+"?t="+t;
             $("#showImg").attr("src", "<%=SystemConfig.getLookDir()%>" + path+"?t="+t);
             var showWidth = img.width;
             if (showWidth > document.body.clientWidth - 500) {
@@ -89,8 +89,10 @@
             }
             if(showWidth==0){
                 layer.msg("正在加载图片，请稍候");
+                setTimeout("previewPaint('"+id+"','"+path+"','"+t+"')",1000);
                 return;
             }
+            layer.closeAll();
             $("#showImg").attr("width", showWidth + "px");
             $("#hiddenApplyId").val(id);
             layer.open({
@@ -191,19 +193,24 @@
                 }
             });
         }
-        function rotateImage(){
+        function rotateImage(degree){
             var applyId=$("#hiddenApplyId").val();
             layer.closeAll();
             layer.load(1);
             $.ajax({
                url:"/drawHandle/rotateImage?id="+applyId,
                 dataType:'json',
+                data:{degree:degree},
                success:function(data){
                    if(data.status=='0'){
-                       var src=$("#showImg").attr("src").split("?t")[0]+"?t="+new Date().getTime();
+                       /*var src=$("#showImg").attr("src").split("?t")[0]+"?t="+new Date().getTime();
                        $("#showImg").attr("src",src);
                        $("#showWidth").val(src);
-                       setTimeout("showPic();",3000);
+                       setTimeout("showPic();",3000);*/
+                       $("#showImg").attr("src","");
+                       layer.closeAll();
+                       layer.msg("操作成功",{icon:1});
+                       getData();
                    }else{
                        layer.closeAll();
                        layer.alert(data.error_desc);
@@ -276,6 +283,7 @@
                     <th class="zp">作品名称</th>
                     <th class="ss">所属类别</th>
                     <th class="ts">提交时间</th>
+                    <th class="zt">年份</th>
                     <th class="zt">报名状态</th>
                     <th class="zt">初赛</th>
                     <!--<th class="zt">评分</th>-->
@@ -355,9 +363,11 @@
 </div>
 <div style="display:none;padding:20px;" id="paintDiv">
     <img src="" id="showImg">
-    <div style="margin-bottom:20px;margin-right:10px;">
+    <div style="margin-bottom:20px;margin-right:10px;text-align:center">
         <input type="hidden" id="hiddenApplyId"/>
-        <input onclick="rotateImage()" type="button" value="向右旋转" style="width:80px;height:35px;float:right;color:red;"/>
+        <input onclick="rotateImage(-90)" type="button" value="向左旋转" style="width:80px;height:35px;color:red;"/>
+        <input onclick="rotateImage(180)" type="button" value="180度旋转" style="width:80px;height:35px;color:red;"/>
+        <input onclick="rotateImage(90)" type="button" value="向右旋转" style="width:80px;height:35px;color:red;"/>
     </div>
 </div>
 <div style="display:none;" id="loadPicDiv">

@@ -830,7 +830,17 @@ public class UserCompletionItemApplyInfo implements Serializable
 	public void setVoteNum(int voteNum) {
 		this.voteNum = voteNum;
 	}
-	
-	//--CustomEnd*****///
+
+
+	private String year;
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+    //--CustomEnd*****///
 }
 

@@ -31,7 +31,7 @@ public class ImageHelper {
             throw new RuntimeException("源文件不存在");
         }
         BufferedImage src = ImageIO.read(new FileInputStream(f));
-        BufferedImage image=rotate(src,90);
+        BufferedImage image=rotate(src,degree);
         ImageIO.write(image, "jpg", new File(destPath));
     }
 

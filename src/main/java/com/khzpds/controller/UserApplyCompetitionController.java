@@ -17,6 +17,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.khzpds.util.ChangeSuffixUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.apache.taglibs.standard.tag.el.fmt.RequestEncodingTag;
@@ -74,6 +75,13 @@ public class UserApplyCompetitionController extends BaseController{
 		}
 		apply.setFilePath(apply.getFilePath().replace("\\", "/"));
 		if(!apply.getFilePath().endsWith(".mp4")){
+			//判断有没有对应的swf文件
+			File f=new File(ChangeSuffixUtil.change(SystemConfig.getUploadDir()+apply.getFilePath(),"swf"));
+			request.setAttribute("filePath","/filePath"+ChangeSuffixUtil.change(apply.getFilePath(),"swf"));
+			if(f.exists()){
+				//展示swf
+				return new ModelAndView(getRootPath(request)+"/open/swf/previewswf");
+			}
 			request.setAttribute("filePath","/filePath"+apply.getFilePath());
 			return new ModelAndView(getRootPath(request)+"/manage/paint/preview");
 			//return new ModelAndView("redirect:/filePath"+apply.getFilePath());
@@ -179,6 +187,8 @@ public class UserApplyCompetitionController extends BaseController{
 			if(apply.getFilePath()!=null){
 				apply.setFilePath(apply.getFilePath().replace("\\", "/"));
 			}
+			ActivityInfoInfo activityInfoInfo=activityInfoService.findById(apply.getActivityId());
+			apply.setYear(activityInfoInfo.getYear()+"");
 		}
 		result.put("applyList", applys);
 		this.writeJson(response, result);
@@ -388,6 +398,10 @@ public class UserApplyCompetitionController extends BaseController{
 			userCompetitionItemApplyService.add(applyInfo);
 		}else{
 			userCompetitionItemApplyService.update(applyInfo);
+		}
+		if(StringUtils.isBlank(onlySave)){
+			//不是保存需要对上传得文件进行处理
+			userCompetitionItemApplyService.convertDocFile(applyInfo);
 		}
 		result.put("status", "0");
 		result.put("id", applyInfo.getId());

@@ -25,7 +25,7 @@ public class DrawHandleController extends BaseController {
     private UserCompletionItemApplyService userCompletionItemApplyService;
 
     @RequestMapping("/rotateImage")
-    public void rotateImage(String id, HttpServletResponse response) {
+    public void rotateImage(String id,String degree, HttpServletResponse response) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("status", "1");
         UserCompletionItemApplyInfo applyInfo = userCompletionItemApplyService.findById(id);
@@ -36,7 +36,7 @@ public class DrawHandleController extends BaseController {
         }
         String filePath = SystemConfig.getUploadDir() + applyInfo.getFilePath();
         try {
-            ImageHelper.rotateImage(filePath, 90, filePath);
+            ImageHelper.rotateImage(filePath, Integer.parseInt(degree), filePath);
             result.put("status", "0");
             this.writeJson(response, result);
         } catch (IOException e) {
