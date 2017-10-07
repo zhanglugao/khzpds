@@ -356,7 +356,7 @@ public class UserApplyCompetitionController extends BaseController{
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("/userApplyCompetitionItem")
-	public void userApplyCompetitionItem(UserCompletionItemApplyInfo applyInfo,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+	public void userApplyCompetitionItem(final UserCompletionItemApplyInfo applyInfo, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
 		Map<String,Object> result=new HashMap<String, Object>();
 		String onlySave=request.getParameter("onlySave");
 		if(StringUtils.isNotBlank(onlySave)){
@@ -401,7 +401,15 @@ public class UserApplyCompetitionController extends BaseController{
 		}
 		if(StringUtils.isBlank(onlySave)){
 			//不是保存需要对上传得文件进行处理
-			userCompetitionItemApplyService.convertDocFile(applyInfo);
+			if(DictionaryConst.BI_SAI_XIANG_MU_LEI_XING_KE_HUAN_XIAO_SHUO.equals(applyInfo.getCompetitionType())) {
+				Runnable task=new Runnable() {
+					public void run() {
+						userCompetitionItemApplyService.convertDocFile(applyInfo);
+					}
+				};
+				Thread t=new Thread(task);
+				t.start();
+			}
 		}
 		result.put("status", "0");
 		result.put("id", applyInfo.getId());
