@@ -32,7 +32,7 @@
         var xiSwfUrlStr = "/js/playerProductInstall.swf";
         var flashvars = {
             SwfFile: escape("${filePath}"),
-            Scale: 0.6,
+            Scale: 1,
             ZoomTransition: "easeOut",
             ZoomTime: 0.5,
             ZoomInterval: 0.1,
@@ -62,7 +62,7 @@
         var width=window.screen.width;
         swfobject.embedSWF(
             "/js/FlexPaperViewer.swf", "flashContent",
-            width-100,height-100,
+            width*0.7,height*0.68,
             swfVersionStr, xiSwfUrlStr,
             flashvars, params, attributes);
         swfobject.createCSS("#flashContent", "display:block;text-align:center;");

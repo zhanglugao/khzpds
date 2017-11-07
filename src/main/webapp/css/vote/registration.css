@@ -1,7 +1,7 @@
 .banner{width:100%;height: auto;}
-.banner.draw{ background: url(/img/draw-banner.png) no-repeat;}
-.banner.video{ background: url(/images/video-banner.png) no-repeat;}
-.banner.novel{ background: url(/images/novel-banner.png) no-repeat;}
+.banner.draw{ background: url(/images/banner-draw-zlg.png) no-repeat;}
+.banner.video{ background: url(/images/banner-video-zlg.png) no-repeat;}
+.banner.novel{ background: url(/images/banner-novel-zlg.png) no-repeat;}
 .banner .banner-i{height: 707px;position: relative;}
 .banner .banner-i.draw1 i img{position: absolute;left: 389px;top: 200px;}
 .banner .banner-i.video1 i img{position: absolute;left: 228px;top: 0px;}

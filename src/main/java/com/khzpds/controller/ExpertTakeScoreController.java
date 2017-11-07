@@ -61,9 +61,10 @@ public class ExpertTakeScoreController extends BaseController {
 	private UserInfoService userInfoService;
 	
 	@RequestMapping("/index")
-	public ModelAndView index(HttpServletRequest request,HttpServletResponse response){
+	public ModelAndView index(String type,HttpServletRequest request,HttpServletResponse response){
 		Map<String,String> dicMap=dictionaryService.getDicMapByParentId(DictionaryConst.HUO_DONG_ZHUANG_TAI);
 		request.setAttribute("status", JSON.toJSONString(dicMap));
+		request.setAttribute("type",type);
 		return new ModelAndView(getRootPath(request)+"/manage/expertTakeScore/expert_takeScore_list");
 	}
 	
@@ -74,13 +75,14 @@ public class ExpertTakeScoreController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("/toShowItem")
-	public ModelAndView toShowItem(String id,HttpServletRequest request,HttpServletResponse response){
+	public ModelAndView toShowItem(String type,String id,HttpServletRequest request,HttpServletResponse response){
 		ActivityInfoInfo activity=activityInfoService.findById(id);
 		CompetitionItemInfo findInfo=new CompetitionItemInfo();
 		findInfo.setActivityId(id);
 		List<CompetitionItemInfo> items=competitionItemService.findByParam(findInfo);
 		request.setAttribute("activity", activity);
 		request.setAttribute("items", items);
+		request.setAttribute("type",type);
 		return new ModelAndView(getRootPath(request)+"/manage/expertTakeScore/expert_takeScore_item");
 	}
 	
@@ -89,7 +91,7 @@ public class ExpertTakeScoreController extends BaseController {
 	 * @param id
 	 */
 	@RequestMapping("/getTakeScoreInfo")
-	public ModelAndView getTakeScoreInfo(String id,String ifCanAdd,HttpServletRequest request,HttpServletResponse response){
+	public ModelAndView getTakeScoreInfo(String type,String id,String ifCanAdd,HttpServletRequest request,HttpServletResponse response){
 		UserCompletionItemApplyInfo applyInfo=userCompetitionItemApplyService.findById(id);
 		if(applyInfo==null){
 			return null;
@@ -98,6 +100,11 @@ public class ExpertTakeScoreController extends BaseController {
 		findInfo.setApplyId(id);
 		if("1".equals(ifCanAdd)){
 			findInfo.setMarkingUser(this.getCurrentSessionInfo(request).getUserId());
+		}
+		if("fusai".equalsIgnoreCase(type)) {
+			findInfo.setMarkingType("0");
+		}else if("final".equalsIgnoreCase(type)) {
+			findInfo.setMarkingType("1");
 		}
 		List<UserApplyMarkingResultInfo> results=userApplyMarkingResultService.findByParamSort(findInfo);
 		if(results.size()==0){
@@ -132,6 +139,7 @@ public class ExpertTakeScoreController extends BaseController {
 			request.setAttribute("ifCanAdd", "1");
 		}
 		request.setAttribute("results", results);
+		request.setAttribute("type",type);
 		return new ModelAndView(getRootPath(request)+"/manage/expertTakeScore/expert_takeScore_detail");
 	}
 	
@@ -139,7 +147,7 @@ public class ExpertTakeScoreController extends BaseController {
 	 * 打分
 	 */
 	@RequestMapping("/takeScore")
-	public void takeScore(String datas,HttpServletRequest request,HttpServletResponse response){
+	public void takeScore(String type,String datas,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
 		String[] dataArr=datas.split(",");
 		List<UserApplyMarkingResultInfo> results=new ArrayList<UserApplyMarkingResultInfo>();
@@ -165,6 +173,11 @@ public class ExpertTakeScoreController extends BaseController {
 			resultInfo.setItemId(applyInfo.getCompetitionItemId());
 			resultInfo.setItemType(applyInfo.getCompetitionType());
 			resultInfo.setMarkingTime(new Date());
+			if("fusai".equalsIgnoreCase(type)) {
+				resultInfo.setMarkingType("0");
+			}else if("final".equalsIgnoreCase(type)) {
+				resultInfo.setMarkingType("1");
+			}
 			resultInfo.setMarkingUser(this.getCurrentSessionInfo(request).getUserId());
 			resultInfo.setVdef1(setUpId);
 			resultInfo.setVdef2(num+"");
@@ -193,12 +206,17 @@ public class ExpertTakeScoreController extends BaseController {
 	 * @param response
 	 */
 	@RequestMapping("/validateTake")
-	public void validateTake(String id,HttpServletResponse response,HttpServletRequest request){
+	public void validateTake(String type,String id,HttpServletResponse response,HttpServletRequest request){
 		Map<String,Object> result=new HashMap<String, Object>();
 		UserCompletionItemApplyInfo apply=userCompetitionItemApplyService.findById(id);
 		CompetitionItemInfo item=competitionItemService.findById(apply.getCompetitionItemId());
 		UserApplyMarkingResultInfo findInfo=new UserApplyMarkingResultInfo();
 		findInfo.setApplyId(apply.getId());
+		if("fusai".equalsIgnoreCase(type)) {
+			findInfo.setMarkingType("0");
+		}else if("final".equalsIgnoreCase(type)) {
+			findInfo.setMarkingType("1");
+		}
 		List<UserApplyMarkingResultInfo> list=userApplyMarkingResultService.findByParam(findInfo);
 		Set<String> set=new HashSet<String>();
 		for(UserApplyMarkingResultInfo resultInfo:list){

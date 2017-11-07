@@ -480,26 +480,26 @@ display:block;
           </div>
      </div>
      <!--头部banner-->
-       <div class="headbanner">
-          <div class="headbanner-i w1348 m0">
-              <img src="/images/sign-novel.png" width="769" height="45" alt="科幻小说报名">
-          </div>
-       </div> 
-       </c:if>
+         <div style="height: auto;overflow: hidden;background: url(/images/banner-novel-zlg.png) no-repeat;">
+             <div class="headbanner-i w1348 m0">
+                     <%-- <img src="" width="769" height="45" >--%>
+             </div>
+         </div>
+     </c:if>
        <!-- 中间内容 -->
       <div class="main">
           <div class="main-i w1348 m0">
           		<!-- 注意事项 -->
           		<c:if test="${empty NotShowExplain }">
                <div class="notice w1348 fl">
-                  <dl>
-                   <dt>注意事项:</dt>
-                   <dd>1.参赛者须如实填写报名信息，按照报名表各项内容认真填写；</dd>
-                   <dd>2.参赛编号由大赛组委会统一填写；</dd>
-                   <dd>3.每个作品只可选择一个参赛类别，不可重复报名，若提交多个参赛作品，应分别提交报名材料，每张报名表仅限一个参赛作品；</dd>
-                   <dd>4.报名表需提交纸质版、电子版各一份，电子版报名表与作品及作品说明统一在khds.actc.com.cn网站注册并按要求提交作品；</dd>
-                   <dd>5.请将报名表下载打印并签字，邮寄至：北京市西城区三里河路54号601室 邮编：100045   电话：010—68511864；</dd>
-                 </dl>
+                   <dl>
+                       <dt>注意事项:</dt>
+                       <dd>1.参赛者须按照报名表各项内容认真如实填写报名信息，网上报名表须与下载打印报名表内容一致，如出现不一致现象将视为作弊行为；</dd>
+                       <dd>2.参赛编号由大赛组委会统一填写；</dd>
+                       <dd>3.每个作品只可选择一个参赛类别，不可重复报名；若提交多个参赛作品，应分别提交报名材料，每张报名表仅限一个参赛作品；</dd>
+                       <dd>4.报名表需提交纸质版、电子版各一份，电子版报名表与作品及作品说明统一在khds.actc.com.cn网站注册并按要求提交作品；</dd>
+                       <dd>5.纸质版报名表需本人签字盖章后请发至：北京市西城区三里河路54号601室 电话：010—68511864/68598019</dd>
+                   </dl>
                </div>
                </c:if>
                <!-- 报名表左侧 -->
@@ -611,6 +611,12 @@ display:block;
                            	 <a onclick="downloadApplyTable(301001,'${applyInfo.id}')" href="javascript:;" class="dl"><img src="/images/dl-btn.png" alt="下载报名表"></a>
                              <a onclick='openChoose()'  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> id='chooseProduct' href="javascript:;" class="tj"><img src="/images/tj-bm.png"></a>
                              <a id="applya"  <c:if test="${!empty ifReadonly }"> style="display:none" </c:if> onclick="apply()" href="javascript:;"><img src="/images/qr.png"></a></p>
+                        </div>
+                        <div class="cb left-form1" style="text-align:center;font-size:10px;margin-top:40px;margin-bottom:-10px;">
+                            <p>
+                                全国青少年优秀原创科幻作品大赛活动组委会<br/>
+                                联系电话：010—68511864，68598019
+                            </p>
                         </div>
                      <input type='hidden' name="activityId" id="activityId" value="${applyInfo.activityId }"/>
                         <input type='hidden' name="competitionItemId" id="competitionItemId" value="${applyInfo.competitionItemId}"/>

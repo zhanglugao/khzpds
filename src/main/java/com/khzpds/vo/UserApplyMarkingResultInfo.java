@@ -16,7 +16,8 @@ public class UserApplyMarkingResultInfo implements Serializable
 	private String itemType;   
 	private String applyId;   
 	private Double getScore;   
-	private String markingUser;   
+	private String markingUser;
+	private String markingType;
 	private java.util.Date markingTime;   
 	private String vdef1;   
 	private String vdef2;   
@@ -122,7 +123,15 @@ public class UserApplyMarkingResultInfo implements Serializable
     public void setMarkingUser(String markingUser){
         this.markingUser=markingUser;
     }
-    
+
+    public String getMarkingType() {
+        return markingType;
+    }
+
+    public void setMarkingType(String markingType) {
+        this.markingType = markingType;
+    }
+
     /**
      * 
      */ 	

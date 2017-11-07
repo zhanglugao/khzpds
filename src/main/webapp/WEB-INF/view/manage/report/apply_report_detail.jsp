@@ -46,8 +46,7 @@
 									</tr>
 									
 									<tr>
-										<td>微型小说</td>
-										<td>短篇小说</td>
+										<td colspan="2"></td>
 										<td>手绘</td>
 										<td>电脑绘图</td>
 										<td></td>
@@ -55,20 +54,20 @@
 									
 									<tr>
 										<td>小学</td>
-										<td id='301001305001306001'>
+										<%--<td id='301001305001306001'>
 											<c:if test="${empty result.data301001305001306001}">
 												0
 											</c:if>
 											<c:if test="${not empty result.data301001305001306001}">
 												${result.data301001305001306001}
 											</c:if>
-										</td>
-										<td id='301001305002306001'>
-											<c:if test="${empty result.data301001305002306001}">
+										</td>--%>
+										<td id='301001306001' colspan="2">
+											<c:if test="${empty result.data301001306001}">
 												0
 											</c:if>
-											<c:if test="${not empty result.data301001305002306001}">
-												${result.data301001305002306001}
+											<c:if test="${not empty result.data301001306001}">
+												${result.data301001306001}
 											</c:if>
 										</td>
 										<td id='301002303001304001'>
@@ -92,20 +91,20 @@
 									
 									<tr>
 										<td>中学</td>
-										<td id='301001305001306002'>
+										<%--<td id='301001305001306002'>
 											<c:if test="${empty result.data301001305001306002}">
 												0
 											</c:if>
 											<c:if test="${not empty result.data301001305001306002}">
 												${result.data301001305001306002}
 											</c:if>
-										</td>
-										<td id='301001305002306002'>
-											<c:if test="${empty result.data301001305002306002}">
+										</td>--%>
+										<td id='301001306002' colspan="2">
+											<c:if test="${empty result.data301001306002}">
 												0
 											</c:if>
-											<c:if test="${not empty result.data301001305002306002}">
-												${result.data301001305002306002}
+											<c:if test="${not empty result.data301001306002}">
+												${result.data301001306002}
 											</c:if>
 										</td>
 										<td id='301002303001304002'>
@@ -129,20 +128,20 @@
 									
 									<tr>
 										<td>大学</td>
-										<td id='301001305001306003'>
+										<%--<td id='301001305001306003'>
 											<c:if test="${empty result.data301001305001306003}">
 												0
 											</c:if>
 											<c:if test="${not empty result.data301001305001306003}">
 												${result.data301001305001306003}
 											</c:if>
-										</td>
-										<td id='301001305002306003'>
-											<c:if test="${empty result.data301001305002306003}">
+										</td>--%>
+										<td id='301001306003' colspan="2">
+											<c:if test="${empty result.data301001306003}">
 												0
 											</c:if>
-											<c:if test="${not empty result.data301001305002306003}">
-												${result.data301001305002306003}
+											<c:if test="${not empty result.data301001306003}">
+												${result.data301001306003}
 											</c:if>
 										</td>
 										<td id='301002303001304003'>
@@ -173,20 +172,20 @@
 									
 									<tr>
 										<td>社会人士</td>
-										<td id='301001305001306004'>
+										<%--<td id='301001305001306004'>
 											<c:if test="${empty result.data301001305001306004}">
 												0
 											</c:if>
 											<c:if test="${not empty result.data301001305001306004}">
 												${result.data301001305001306004}
 											</c:if>
-										</td>
-										<td id='301001305002306004'>
-											<c:if test="${empty result.data301001305002306004}">
+										</td>--%>
+										<td id='301001306004' colspan="2">
+											<c:if test="${empty result.data301001306004}">
 												0
 											</c:if>
-											<c:if test="${not empty result.data301001305002306004}">
-												${result.data301001305002306004}
+											<c:if test="${not empty result.data301001306004}">
+												${result.data301001306004}
 											</c:if>
 										</td>
 										<td></td>
@@ -203,8 +202,8 @@
 									
 									<tr>
 										<td>合计</td>
-										<td id='total1'></td>
-										<td id='total2'></td>
+										<%--<td id='total1'></td>--%>
+										<td id='total2' colspan="2"></td>
 										<td id='total3'></td>
 										<td id='total4'></td>
 										<td id='total5'></td>
@@ -226,9 +225,9 @@
 	</div>
 </body>
 <script type="text/javascript">
-	$("#total1").text(parseInt($.trim($("#301001305001306001").text()))+parseInt($.trim($("#301001305001306002").text()))+parseInt($.trim($("#301001305001306003").text()))+parseInt($.trim($("#301001305001306004").text())));
+	//$("#total1").text(parseInt($.trim($("#301001305001306001").text()))+parseInt($.trim($("#301001305001306002").text()))+parseInt($.trim($("#301001305001306003").text()))+parseInt($.trim($("#301001305001306004").text())));
 	
-	$("#total2").text(parseInt($.trim($("#301001305002306001").text()))+parseInt($.trim($("#301001305002306002").text()))+parseInt($.trim($("#301001305002306003").text()))+parseInt($.trim($("#301001305002306004").text())));
+	$("#total2").text(parseInt($.trim($("#301001306001").text()))+parseInt($.trim($("#301001306002").text()))+parseInt($.trim($("#301001306003").text()))+parseInt($.trim($("#301001306004").text())));
 	
 	$("#total3").text(parseInt($.trim($("#301002303001304001").text()))+parseInt($.trim($("#301002303001304002").text()))+parseInt($.trim($("#301002303001304003").text())));
 	
@@ -236,6 +235,7 @@
 	
 	$("#total5").text(parseInt($.trim($("#301003307001").text()))+parseInt($.trim($("#301003307002").text())));
 	
-	$("#totalall").text(parseInt($.trim($("#total1").text()))+parseInt($.trim($("#total2").text()))+parseInt($.trim($("#total3").text()))+parseInt($.trim($("#total4").text()))+parseInt($.trim($("#total5").text())));
+	//$("#totalall").text(parseInt($.trim($("#total1").text()))+parseInt($.trim($("#total2").text()))+parseInt($.trim($("#total3").text()))+parseInt($.trim($("#total4").text()))+parseInt($.trim($("#total5").text())));
+	$("#totalall").text(parseInt($.trim($("#total2").text()))+parseInt($.trim($("#total3").text()))+parseInt($.trim($("#total4").text()))+parseInt($.trim($("#total5").text())));
 </script>
 </html>

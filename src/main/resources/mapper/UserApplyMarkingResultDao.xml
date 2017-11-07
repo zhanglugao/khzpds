@@ -13,7 +13,8 @@
         <result property="applyId" column="apply_id" />    
         <result property="getScore" column="get_score" />    
         <result property="markingUser" column="marking_user" />    
-        <result property="markingTime" column="marking_time" />    
+        <result property="markingType" column="marking_type" />
+        <result property="markingTime" column="marking_time" />
         <result property="vdef1" column="vdef1" />    
         <result property="vdef2" column="vdef2" />    
         <result property="vdef3" column="vdef3" />    
@@ -21,21 +22,21 @@
     
     <!--根据主键查询-->
 	<select id="findById" resultMap="UserApplyMarkingResultResultMap">
-		select id,activity_id,item_id,item_type,apply_id,get_score,marking_user,marking_time,vdef1,vdef2,vdef3 from user_apply_marking_result where id=#{id}
+		select id,activity_id,item_id,item_type,apply_id,get_score,marking_user,marking_type,marking_time,vdef1,vdef2,vdef3 from user_apply_marking_result where id=#{id}
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
 	</select>
     
     <!--插入-->
 	 <insert id="insert" parameterType="com.khzpds.vo.UserApplyMarkingResultInfo" >
     	INSERT INTO user_apply_marking_result
-        (id,activity_id,item_id,item_type,apply_id,get_score,marking_user,marking_time,vdef1,vdef2,vdef3) 
-		values(#{id},#{activityId},#{itemId},#{itemType},#{applyId},#{getScore},#{markingUser},#{markingTime},#{vdef1},#{vdef2},#{vdef3})
+        (id,activity_id,item_id,item_type,apply_id,get_score,marking_user,marking_type,marking_time,vdef1,vdef2,vdef3)
+		values(#{id},#{activityId},#{itemId},#{itemType},#{applyId},#{getScore},#{markingUser},#{markingType},#{markingTime},#{vdef1},#{vdef2},#{vdef3})
     </insert>
 
     
     <!--根据传入的map参数查询 并分页-->
     <select id="findByParamForPage" resultMap="UserApplyMarkingResultResultMap" >
-		select id,activity_id,item_id,item_type,apply_id,get_score,marking_user,marking_time,vdef1,vdef2,vdef3 from user_apply_marking_result
+		select id,activity_id,item_id,item_type,apply_id,get_score,marking_user,marking_type,marking_time,vdef1,vdef2,vdef3 from user_apply_marking_result
 		where 1=1
            <if test="obj.search.id!=null"> AND id = #{obj.search.id}</if>
            <if test="obj.search.activityId!=null"> AND activity_id = #{obj.search.activityId}</if>
@@ -44,6 +45,7 @@
            <if test="obj.search.applyId!=null"> AND apply_id = #{obj.search.applyId}</if>
            <if test="obj.search.getScore!=null"> AND get_score = #{obj.search.getScore}</if>
            <if test="obj.search.markingUser!=null"> AND marking_user = #{obj.search.markingUser}</if>
+           <if test="obj.search.markingType!=null"> AND marking_type = #{obj.search.markingType}</if>
            <if test="obj.search.markingTime!=null"> AND marking_time = #{obj.search.markingTime}</if>
            <if test="obj.search.vdef1!=null"> AND vdef1 = #{obj.search.vdef1}</if>
            <if test="obj.search.vdef2!=null"> AND vdef2 = #{obj.search.vdef2}</if>
@@ -55,7 +57,7 @@
     
      <!--根据传入的实体参数查询-->
     <select id="findByParam" resultMap="UserApplyMarkingResultResultMap" >
-		select id,activity_id,item_id,item_type,apply_id,get_score,marking_user,marking_time,vdef1,vdef2,vdef3 from user_apply_marking_result
+		select id,activity_id,item_id,item_type,apply_id,get_score,marking_user,marking_type,marking_time,vdef1,vdef2,vdef3 from user_apply_marking_result
 		where 1=1
            <if test="obj.id!=null"> AND id = #{obj.id}</if>
            <if test="obj.activityId!=null"> AND activity_id = #{obj.activityId}</if>
@@ -64,6 +66,7 @@
            <if test="obj.applyId!=null"> AND apply_id = #{obj.applyId}</if>
            <if test="obj.getScore!=null"> AND get_score = #{obj.getScore}</if>
            <if test="obj.markingUser!=null"> AND marking_user = #{obj.markingUser}</if>
+           <if test="obj.markingType!=null"> AND marking_type = #{obj.markingType}</if>
            <if test="obj.markingTime!=null"> AND marking_time = #{obj.markingTime}</if>
            <if test="obj.vdef1!=null"> AND vdef1 = #{obj.vdef1}</if>
            <if test="obj.vdef2!=null"> AND vdef2 = #{obj.vdef2}</if>
@@ -89,17 +92,19 @@
            <if test="obj.applyId!=null">apply_id=#{obj.applyId},</if>
            <if test="obj.getScore!=null">get_score=#{obj.getScore},</if>
            <if test="obj.markingUser!=null">marking_user=#{obj.markingUser},</if>
+           <if test="obj.markingType!=null">marking_type=#{obj.markingType},</if>
            <if test="obj.markingTime!=null">marking_time=#{obj.markingTime},</if>
            <if test="obj.vdef1!=null">vdef1=#{obj.vdef1},</if>
            <if test="obj.vdef2!=null">vdef2=#{obj.vdef2},</if>
-           <if test="obj.vdef3!=null">vdef3=#{obj.vdef3},</if>  
+           <if test="obj.vdef3!=null">vdef3=#{obj.vdef3},</if>
+  
         </trim>
 		where id=#{obj.id} 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
     </update> 
 	<!--CustomBegin***-->
 	<select id="findByParamSort" resultMap="UserApplyMarkingResultResultMap" >
-		select id,activity_id,item_id,item_type,apply_id,get_score,marking_user,marking_time,vdef1,vdef2,vdef3 from user_apply_marking_result
+		select * from user_apply_marking_result
 		where 1=1
            <if test="obj.id!=null"> AND id = #{obj.id}</if>
            <if test="obj.activityId!=null"> AND activity_id = #{obj.activityId}</if>
@@ -108,6 +113,7 @@
            <if test="obj.applyId!=null"> AND apply_id = #{obj.applyId}</if>
            <if test="obj.getScore!=null"> AND get_score = #{obj.getScore}</if>
            <if test="obj.markingUser!=null"> AND marking_user = #{obj.markingUser}</if>
+           <if test="obj.markingType!=null"> AND marking_type = #{obj.markingType}</if>
            <if test="obj.markingTime!=null"> AND marking_time = #{obj.markingTime}</if>
            <if test="obj.vdef1!=null"> AND vdef1 = #{obj.vdef1}</if>
            <if test="obj.vdef2!=null"> AND vdef2 = #{obj.vdef2}</if>

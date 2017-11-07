@@ -28,8 +28,9 @@
 <script src="/js/layer/layer.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	getData(305001,306001,301001,"${novelId}");
-	getData(305002,306001,301001,"${novelId}");
+	/*getData(305001,306001,301001,"${novelId}");
+	getData(305002,306001,301001,"${novelId}");*/
+    getData("",306001,301001,"${novelId}");
 	getData("",304001,301002,"${paintId}");
 	getData("",307001,301003,"${videoId}");
 	getRankingData();
@@ -255,7 +256,7 @@ function reloadVerifyCode(){
 
 function searchNovel(applyGroup1,applyGroup2,applyYearGroup){
 	getData(applyGroup1,applyYearGroup,301001,"${novelId}");
-	getData(applyGroup2,applyYearGroup,301001,"${novelId}");
+	//getData(applyGroup2,applyYearGroup,301001,"${novelId}");
 }
 </script>
 </head>
@@ -276,18 +277,12 @@ function searchNovel(applyGroup1,applyGroup2,applyYearGroup){
 <div class="banner-box">
   <div class="bd">
     <ul>
-      <li style="background:url(/images/banner1.png) no-repeat;">
-      <div class="m-width">
-        <a href="javascript:void(0);"><img src="/images/banner1-1.png" class="m0" style="margin-left: 276px;margin-top:0px"/></a>
-        <p>
-            <span>大赛网络投票将于2017年4月6日结束</span>
-            <span>本届大赛复赛分在线投票与评委打分两部分，其中在线投票占总分的30%权重，评委打分占总分的70%权重，望选手周知！</span>
-        </p>
-      </div>
+      <li style="background:url(/images/index-index.png) no-repeat;">
+
       </li>
 
     </ul>
-    <div class="share"> 
+    <div class="share">
               
               <div class="b-share fl">
                    <span  class="shareTo fl"> 分享到: </span>
@@ -297,6 +292,12 @@ function searchNovel(applyGroup1,applyGroup2,applyYearGroup){
                </div>
        </div>
      </div>
+    <div style="text-align: center;color:red;">
+            <p>
+                <span>大赛网络投票将于2017年4月6日结束</span>
+                <span>本届大赛复赛分在线投票与评委打分两部分，其中在线投票占总分的30%权重，评委打分占总分的70%权重，望选手周知！</span>
+            </p>
+    </div>
   </div>
 <!--  -->
 <div class="vote">
@@ -320,66 +321,66 @@ function searchNovel(applyGroup1,applyGroup2,applyYearGroup){
           <a href="/vote/votePage?itemType=301001" class="title-more"><img src="/img/title-more.png"></a>
         </p>
         <ul class="novel-ul fl ml40 mt50">
-          <li class="xx"  onclick="searchNovel(305001,305002,306001)">小学组</li>
-          <li class="zx"  onclick="searchNovel(305001,305002,306002)">中学组</li>
-          <li class="dx"  onclick="searchNovel(305001,305002,306003)">大学组</li>
-          <li class="sh"  onclick="searchNovel(305001,305002,306004)">社会人士组</li>
+          <li class="xx"  onclick="searchNovel('','',306001)">小学组</li>
+          <li class="zx"  onclick="searchNovel('','',306002)">中学组</li>
+          <li class="dx"  onclick="searchNovel('','',306003)">大学组</li>
+          <li class="sh"  onclick="searchNovel('','',306004)">社会人士组</li>
         </ul>
         <ol class="tit-novel">
           <li class="wx-title"><span>微型小说</span></li>
-          <li class="dp-title"><span>短篇小说</span></li>
+          <%--<li class="dp-title"><span>短篇小说</span></li>--%>
         </ol>
         <!-- 小学组 -->
         <div class="novel-content xx on fl ml40 ">
           <!-- 微型小说 -->
           <div class="fl mt20 novel-wx">
-          	<div id="305001-306001"></div>
+          	<div id="-306001"></div>
             <a href="/vote/votePage?itemType=301001" class="more-novel">更多......</a>
           </div>
           <!-- 短形小说 -->
-          <div class="fl mt20 novel-wx novel-dx">
+          <%--<div class="fl mt20 novel-wx novel-dx">
           	<div id="305002-306001"></div>
             <a href="/vote/votePage?itemType=301001" class="more-novel">更多......</a>
-          </div>
+          </div>--%>
         </div>
         <!-- 中学组 -->
         <div class="novel-content fl ml40 ">
           <!-- 微型小说 -->
           <div class="fl mt20 novel-wx">
-          	<div id="305001-306002"></div>
+          	<div id="-306002"></div>
             <a href="/vote/votePage?itemType=301001" class="more-novel">更多......</a>
           </div>
           <!-- 短形小说 -->
-          <div class="fl mt20 novel-wx novel-dx">
+          <%--<div class="fl mt20 novel-wx novel-dx">
           	<div id="305002-306002"></div>
             <a href="/vote/votePage?itemType=301001" class="more-novel">更多......</a>
-          </div>
+          </div>--%>
         </div>
         <!-- 大学组 -->
         <div class="novel-content fl ml40 ">
           <!-- 微型小说 -->
           <div class="fl mt20 novel-wx">
-          	<div id="305001-306003"></div>
+          	<div id="-306003"></div>
             <a href="/vote/votePage?itemType=301001" class="more-novel">更多......</a>
           </div>
           <!-- 短形小说 -->
-          <div class="fl mt20 novel-wx novel-dx">
+         <%-- <div class="fl mt20 novel-wx novel-dx">
           	<div id="305002-306003"></div>
             <a href="/vote/votePage?itemType=301001" class="more-novel">更多......</a>
-          </div>
+          </div>--%>
         </div>
         <!-- 社会人士组 -->
         <div class="novel-content fl ml40 ">
           <!-- 微型小说 -->
           <div class="fl mt20 novel-wx">
-          	<div id="305001-306004"></div>
+          	<div id="-306004"></div>
             <a href="/vote/votePage?itemType=301001" class="more-novel">更多......</a>
           </div>
           <!-- 短形小说 -->
-          <div class="fl mt20 novel-wx novel-dx">
+          <%--<div class="fl mt20 novel-wx novel-dx">
           	<div id="305002-306004"></div>
             <a href="/vote/votePage?itemType=301001" class="more-novel">更多......</a>
-          </div>
+          </div>--%>
         </div>
       </div>
       <!-- 科幻画投票 -->

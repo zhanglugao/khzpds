@@ -71,30 +71,30 @@
 						}
 						var checkHtml="";
 						if(typeof(obj.approveStatus)=='undefined'||obj.approveStatus=="-1"){
-							obj.approveStatus='未审核';
+							obj.approveStatus='未查看';
 							obj.approveUserName="";
 							obj.approveTime="";
-							option+="&nbsp;&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>通过审核</button>";
+							option+="&nbsp;&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>初赛通过</button>";
 							option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>";
 							checkHtml="<input type='checkbox' name='"+tabId+"sel' value='"+obj.id+"'/>";
 						}else{
 							if(obj.approveStatus=='0'){
-								obj.approveStatus="审核不通过";
+								obj.approveStatus="初赛不通过";
 								if(obj.approveType!='1'){
-									option+="&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>通过审核</button>&nbsp;<button onclick='cancelApprove(\""+obj.id+"\")' type='button' class='btn btn-primary'>撤销审核</button>";
+									option+="&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>初赛通过</button>&nbsp;<button onclick='cancelApprove(\""+obj.id+"\")' type='button' class='btn btn-primary'>撤销结果</button>";
 									checkHtml="<input type='checkbox' name='"+tabId+"sel' value='"+obj.id+"'/>";
 								}
 							}else if(obj.approveStatus=='1'){
-								obj.approveStatus="审核通过";
+								obj.approveStatus="初赛通过";
 								if(obj.approveType!='1'){
-									option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>&nbsp;<button onclick='cancelApprove(\""+obj.id+"\")' type='button' class='btn btn-primary'>撤销审核</button>";
+									option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>&nbsp;<button onclick='cancelApprove(\""+obj.id+"\")' type='button' class='btn btn-primary'>撤销结果</button>";
 									checkHtml="<input type='checkbox' name='"+tabId+"sel' value='"+obj.id+"'/>";
 								}
 							}else if(obj.approveStatus=='-1'){
-								obj.approveStatus="未审核";
+								obj.approveStatus="未查看";
 								obj.approveUserName="";
 								obj.approveTime="";
-								option+="&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>通过审核</button>";
+								option+="&nbsp;<button onclick='approve1(1,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>初赛通过</button>";
 								option+="&nbsp;<button onclick='approve1(0,0,\""+obj.id+"\")' type='button' class='btn btn-primary'>不通过</button>";
 								checkHtml="<input type='checkbox' name='"+tabId+"sel' value='"+obj.id+"'/>";
 							}
@@ -164,7 +164,19 @@
 	}
 	
 	function viewProInfo(id){
-		window.open("/userApply/showFile?id="+id,"_target");
+		layer.open({
+			type: 2,
+			content:"/userApply/showFile?id="+id,
+			scrollbar: false,
+			shadeClose: true,//开启遮罩关闭
+			title:false,
+			area: ['80%', '80%'],
+			success: function(layero, index){
+				$(this).click(function(){
+					alert(1);
+				});
+			}
+		});
 	}
 	
 	function approveMuti(result){
@@ -277,7 +289,7 @@
 		</div>
 		<aside class="right-side">
 			<section class="content-header">
-				<h1>专家首轮审批管理-查询报名列表</h1>
+				<h1>专家初赛管理-查询报名列表</h1>
 			</section>
 			<section class="content">
 				<div class="form-group mt10" style='margin-top:5px;'>
@@ -328,9 +340,9 @@
 			                           	<div class="col-sm-1">
 			                                <select name="approveResult" id="approveResult" data-live-search="false">
 			                                	<option value=''>初审结果</option>
-			                                	<option value='-1'>未审核</option>
-			                                	<option value='1'>审核通过</option>
-			                                	<option value='0'>审核不通过</option>
+			                                	<option value='-1'>未查看</option>
+			                                	<option value='1'>初赛通过</option>
+			                                	<option value='0'>初赛不通过</option>
 			                                </select>
 			                            </div>
 				                     </div>
@@ -362,8 +374,8 @@
 									<div class="box">
 										<div class="box-body table-responsive" >
 											<div style="margin-bottom:8px;">
-												<button type="button" onclick="approveMuti(1)" class='btn btn-primary'>审核通过</button>
-												<button type="button" onclick='approveMuti(0)'class='btn btn-primary'>审核不通过</button>
+												<button type="button" onclick="approveMuti(1)" class='btn btn-primary'>初赛通过</button>
+												<button type="button" onclick='approveMuti(0)'class='btn btn-primary'>初赛不通过</button>
 											</div>
 											<table class="table table-hover table-bordered" id='${item.id }t'>
 												<tr>

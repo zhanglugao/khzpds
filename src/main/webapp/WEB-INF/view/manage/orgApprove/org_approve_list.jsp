@@ -71,7 +71,7 @@
 		</div>
 		<aside class="right-side">
 			<section class="content-header">
-				<h1>组织机构评审管理</h1>
+				<h1>组织机构初赛管理</h1>
 				<!-- 首页链接 -->
 				<!-- <ol class="breadcrumb">
 					<li><a href="../index.html"><i class="fa fa-dashboard"></i> 首页</a></li>

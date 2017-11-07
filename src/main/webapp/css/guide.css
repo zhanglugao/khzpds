@@ -1,8 +1,8 @@
 /* banner-box */
-.banner-box{min-width:1348px;height:690px;position:relative;overflow:hidden;}
+.banner-box{min-width:1348px;height:750px;position:relative;overflow:hidden;}
 .banner-box .bd{ width:100% !important;}
-.banner-box .bd li .m-width {width:1348px;margin:0 auto;overflow:hidden;}
-.banner-box .bd li{width:100% !important;height:690px;}
+.banner-box .bd li .m-width {margin:0 auto;overflow:hidden;}
+.banner-box .bd li{width:100% !important;height:750px;}
 .banner-box .bd li a{display:block;}
 
 .banner-btn{width:1348px;position:absolute;top:120px;left:50%;margin-left:-674px;}

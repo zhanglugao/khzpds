@@ -100,7 +100,7 @@
 		}
 		$.ajax({
 			url:"/expertTakeScore/takeScore",
-			data:{datas:datas},
+			data:{datas:datas,type:"${type}"},
 			type:"post",
 			dataType:"json",
 			success:function(data){

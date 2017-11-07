@@ -1,11 +1,11 @@
 body{background: #fff;}
 /* banner-box */
-.banner-box{height:690px;position:relative;}
+.banner-box{height:750px;position:relative;}
 .banner-box .bd{ width:100% !important; position: relative;}
 .banner-box .bd li .m-width {width:1348px;margin:0 auto;}
 .banner-box .bd li{width:100% !important;height:690px;}
 .banner-box .bd li a{display:block;}
-.share{position:absolute;bottom:0;left: 0;*+bottom:4px;width: 100%;}
+.share{position:absolute;bottom:0;left: 0;width: 100%;}
 .b-share{background:#fff;padding:5px;height:20px}
 .b-share span{height:20px;line-height: 20px;font-size:14px;color:#000;display: inline-block;}
 .bshare{width:auto;}
@@ -31,7 +31,7 @@ body{background: #fff;}
 .vote-tm span{display: inline-block;}
 .title-more{position:absolute;right: 60px; top:50px}
 .title-line{position:absolute;left: 0px; top:117px}
-.title-line1{position:absolute;left:0px; top:140px}*/
+.title-line1{position:absolute;left:0px; top:140px}
 .mt70{margin-top: 70px}
 .vote-fr{width: 478px;margin-right: 20px}
 .top-title{margin-top: 50px;margin-left: 50px;display: inline-block;}
@@ -62,7 +62,7 @@ body{background: #fff;}
 .novel-ul  li.sh,.novel-content.sh,.novel-content1.sh,.novel-content2.sh{background: #c8a50f;}
 
 .novel-content,.novel-content1,.novel-content2{display:none;height:939px;width:1090px;}
-.novel-content{height:788px}
+.novel-content{height:438px}
 .novel-content.on,.novel-content1.on,.novel-content2.on{display:block;}
 .novel-content dl,.novel-content1 dl{float: left;margin-top: 30px; width: 207px}
 .novel-content dl dt,.novel-content1 dl dt{float: left;margin-top: 5px}
@@ -185,4 +185,5 @@ body{background: #fff;}
       
       /* IE SPECIFIC HACKED STYLES */
       * html .osX .jScrollPaneDragBottom {
-        bottom: -1px;
+          bottom: -1px;
+      }

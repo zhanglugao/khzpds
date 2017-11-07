@@ -24,8 +24,9 @@
 	var itemId="${itemId}";
 	var itemType="${itemType}";
 	$(document).ready(function(){
-		getData(305001,306001);
-		getData(305002,306001);
+		/*getData(305001,306001);
+		getData(305002,306001);*/
+        getData("",306001);
 	});
 	function getData(applyGroup,applyYearGroup){
 		if($("#"+applyGroup+"-"+applyYearGroup).text()==''){
@@ -184,7 +185,7 @@
      </div>
      <div class="wx-novel"  id="dataDiv">
               <div class="wt1700 m0">
-                  <h2 class="title mb60">微型小说</h2>
+                  <%--<h2 class="title mb60">微型小说</h2>
                   <!-- 小学  中学 大学  社会人士 -->
                     <ul class="novel-tile wx">
                         <li class="xx" onclick="getData(305001,306001)">小学</li>
@@ -199,22 +200,22 @@
                     <!--微型小说  大学 -->
                     <div class="content xx " id="305001-306003"></div>
                     <!-- 微型小说  社会 -->
-                    <div class="content xx " id="305001-306004"></div>
-                 <h2 class="title mt20">中篇小说</h2>
+                    <div class="content xx " id="305001-306004"></div>--%>
+                 <h2 class="title mt20">科幻小说</h2>
                  <ul class="novel-tile dx">
-                        <li class="xx" onclick="getData(305002,306001)">小学</li>
-                        <li class="zx" onclick="getData(305002,306002)">中学</li>
-                        <li class="dx" onclick="getData(305002,306003)">大学</li>
-                        <li class="sh" onclick="getData(305002,306004)">社会人士</li>
+                        <li class="xx" onclick="getData('',306001)">小学</li>
+                        <li class="zx" onclick="getData('',306002)">中学</li>
+                        <li class="dx" onclick="getData('',306003)">大学</li>
+                        <li class="sh" onclick="getData('',306004)">社会人士</li>
                     </ul>
                   <!-- 短型小说  小学 -->
-                    <div class="content1 xx on " id="305002-306001"></div>
+                    <div class="content1 xx on " id="-306001"></div>
                     <!-- 短型小说  中学 -->
-                    <div class="content1 xx " id="305002-306002"></div>
+                    <div class="content1 xx " id="-306002"></div>
                     <!--短型小说  大学 -->
-                    <div class="content1 xx " id="305002-306003"></div>
+                    <div class="content1 xx " id="-306003"></div>
                     <!-- 短型小说  社会 -->
-                    <div class="content1 xx " id="305002-306004"></div>
+                    <div class="content1 xx " id="-306004"></div>
             </div>
      </div>
   

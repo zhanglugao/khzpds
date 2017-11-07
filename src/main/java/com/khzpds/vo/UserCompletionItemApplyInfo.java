@@ -55,8 +55,10 @@ public class UserCompletionItemApplyInfo implements Serializable
 	private String approveUserName;   
 	private java.util.Date approveTime;   
 	private String approveType;   
-	private Double reviewPoint;   
-	private String vdef1;   
+	private Double finalPoint;
+	private String finalStatus;
+	private Double reviewPoint;
+	private String vdef1;
 	private String vdef2;   
 	private String vdef3;   
 	private String vdef4;   
@@ -626,7 +628,23 @@ public class UserCompletionItemApplyInfo implements Serializable
     public void setApproveType(String approveType){
         this.approveType=approveType;
     }
-    
+
+    public Double getFinalPoint() {
+        return finalPoint;
+    }
+
+    public void setFinalPoint(Double finalPoint) {
+        this.finalPoint = finalPoint;
+    }
+
+    public String getFinalStatus() {
+        return finalStatus;
+    }
+
+    public void setFinalStatus(String finalStatus) {
+        this.finalStatus = finalStatus;
+    }
+
     /**
      * 专家复赛评分
      */ 	

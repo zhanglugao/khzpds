@@ -37,7 +37,7 @@
 		}
 		if($("#"+tabId+"t tr").length<=1||ifSearch){
 			$.ajax({
-				url:"/expertApprove/getApplyData?itemId="+tabId,
+				url:"/expertApprove/getApplyData?itemId="+tabId+"&type=${type}",
 				data:$("#"+tabId+"form").serialize(),
 				dataType:"json",
 				type:"post",
@@ -111,7 +111,7 @@
 			//验证能否添加
 			$.ajax({
 				url:"/expertTakeScore/validateTake",
-				data:{id:id},
+				data:{id:id,type:'${type}'},
 				type:"post",
 				dataType:"json",
 				success:function(data){
@@ -119,7 +119,7 @@
 						//进入打分详情
 						layer.open({
 							type: 2,
-							content:"/expertTakeScore/getTakeScoreInfo?id="+takeId+"&ifCanAdd="+ifCanAdd,
+							content:"/expertTakeScore/getTakeScoreInfo?id="+takeId+"&ifCanAdd="+ifCanAdd+"&type=${type}",
 							shadeClose: true,//开启遮罩关闭
 							title:false,
 							scrollbar: false,
@@ -133,7 +133,7 @@
 		}else{
 			layer.open({
 				type: 2,
-				content:"/expertTakeScore/getTakeScoreInfo?id="+takeId+"&ifCanAdd="+ifCanAdd,
+				content:"/expertTakeScore/getTakeScoreInfo?id="+takeId+"&ifCanAdd="+ifCanAdd+"&type=${type}",
 				shadeClose: true,//开启遮罩关闭
 				title:false,
 				scrollbar: false,
@@ -184,7 +184,7 @@
 	}
 	
 	function returnIndex(){
-		window.location.href="/expertTakeScore/index";
+		window.location.href="/expertTakeScore/index?type=${type}";
 	}
 	function loadCategoryTree(){
 		if($("#tree").html()==''){
@@ -256,7 +256,8 @@
 		</div>
 		<aside class="right-side">
 			<section class="content-header">
-				<h1>复审评分管理-查询报名列表</h1>
+				<c:if test="${type=='fusai'}"><h1>专家复赛管理-查询报名列表</h1></c:if>
+				<c:if test="${type=='final'}"><h1>专家决赛管理-查询报名列表</h1></c:if>
 			</section>
 			<section class="content">
 				<div class="form-group mt10" style='margin-top:5px;'>
@@ -353,7 +354,7 @@
 													<th>参赛年龄组</th>
 													<!-- <th>复审人</th>
 													<th>复审时间</th>-->
-													<th>复审平均得分</th> 
+													<th>平均得分</th>
 													<th>操作</th>
 												</tr>
 											</table>

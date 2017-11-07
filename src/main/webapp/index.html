@@ -47,14 +47,19 @@ _position:absolute;_bottom:auto;_top:expression(eval(document.documentElement.sc
     <div class="banner-box">
   <div class="bd">
         <ul>                
-            <li style="background:url(images/banner1.png) no-repeat;">
+           <!-- <li style="background:url(images/banner1.png) no-repeat;">
                 <div class="m-width">
                 <a href="javascript:void(0);"><img src="images/banner1-1.png" class="m0" style="margin-left: 276px;margin-top: 0px" /></a>
                 </div>
-            </li>
-            <li style="background:#eb85f6">
+            </li>-->
+            <!--<li style="background:#eb85f6">
                 <div class="m-width">
                 <a href="javascript:void(0);"><img src="images/banner-2.png" style="margin-top: 48px" /></a>
+                </div>
+            </li>-->
+            <li>
+                <div class="m-width">
+                    <a href="javascript:void(0);"><img src="/images/index-index.png" /></a>
                 </div>
             </li>
             <!--  <li style="background:url(images/banner1.png) no-repeat;">
@@ -92,8 +97,10 @@ _position:absolute;_bottom:auto;_top:expression(eval(document.documentElement.sc
                           <a href="video.html" class="video" ></a>
                           <span><img src="/images/g4.png" width="120" height="30" alt="科幻视频报名"></span>
                       </dd>
-
-                  </dl> 
+                  </dl>
+                  <div style="text-align: center;float:right;width:100%;">
+                        <img src="/images/index-weixin.png" />
+                  </div>
                   <p> 全国青少年优秀原创科幻作品大赛活动组委会 </p> 
                   <p> 联系电话：68511864，68598019  </p> 
               </div>
@@ -106,19 +113,17 @@ _position:absolute;_bottom:auto;_top:expression(eval(document.documentElement.sc
         </div>
      </div> -->
      
-    <div id="roll">
+   <!-- <div id="roll">
         <a href="/file/notice.pdf" target="_blank"><img src="/images/index.png" alt="大赛通知"></a>
         <a href="javascript:;" id="close_float_ad" style="position: absolute;right: 0;top:0;"><img src="/images/close.png" alt="" width="20" height="20"></a>
-    </div>
+    </div>-->
 	
 	    <!-- 二维码悬浮 -->
-    <div id="code"></div>
-	<div id="code_img"></div>
+    <!--<div id="code"></div>
+	<div id="code_img"></div>-->
 	<a id="gotop" href="javascript:void(0)"></a>
-	
 	<script type="text/javascript">
 $(document).ready(function(){
-
   $(".prev,.next").hover(function(){
     $(this).stop(true,false).fadeTo("show",0.9);
   },function(){
@@ -176,10 +181,11 @@ var ggRoll = {
 	        if(this.y < 0) {this.statusY = 0}  
 	        if(this.y > this.winH) {this.statusY = 1}  
 	    }  
-	}  
-var interval = setInterval("ggRoll.Go()", ggRoll.speed);  
+	}
+	//悬浮注释
+/*var interval = setInterval("ggRoll.Go()", ggRoll.speed);
 ggRoll.roll.onmouseover = function(){clearInterval(interval)};  
-ggRoll.roll.onmouseout = function(){interval = setInterval("ggRoll.Go()", ggRoll.speed)};  
+ggRoll.roll.onmouseout = function(){interval = setInterval("ggRoll.Go()", ggRoll.speed)};  */
 // 点击关闭
   $('#close_float_ad').on('click',function(){
       $('#roll').hide();

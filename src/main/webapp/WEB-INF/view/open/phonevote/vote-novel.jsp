@@ -20,8 +20,9 @@
 			layer.alert("当前没有可供投票的本类型比赛项目");
 			$("#dataDiv").css("display","none");
 		</c:if>
-		getData(305001,306001,1);
-		getData(305002,306001,1);
+		/*getData(305001,306001,1);
+		getData(305002,306001,1);*/
+		getData("",306001,1);
 	});
 	function getData(applyGroup,applyYearGroup,currentPage){
 		if(($("#"+applyGroup+"-"+applyYearGroup).text()==''&&currentPage==1)||currentPage!=1){
@@ -95,46 +96,46 @@
       </div>
       <!-- 科幻小说  类别    小学  中学   大学 社会组 -->
       <div class="vote-main novel-main" id="dataDiv">
-          <h3>微型小说</h3>
+          <%--<h3>微型小说</h3>--%>
           <div class="novel-tab ">
                 <ul class="novel-tile novel-ul wx">
-                      <li class="xx" onclick="getData(305001,306001,1)">小学</li>
-                      <li class="zx" onclick="getData(305001,306002,1)">中学</li>
-                      <li class="dx" onclick="getData(305001,306003,1)">大学</li>
-                      <li class="sh" onclick="getData(305001,306004,1)">社会人士</li>
+                      <li class="xx" onclick="getData('',306001,1)">小学</li>
+                      <li class="zx" onclick="getData('',306002,1)">中学</li>
+                      <li class="dx" onclick="getData('',306003,1)">大学</li>
+                      <li class="sh" onclick="getData('',306004,1)">社会人士</li>
                  </ul>
                  <!-- 小学 -->
                  <div class="content xx on ">
-                 	<div id="305001-306001"></div>
-                 	<input type="hidden" id="305001-306001page"/>
-                    <a id="305001-306001a" onclick="loadMore(305001,306001)" href="javascript:;" class="moible-more">更多>></a>
+                 	<div id="-306001"></div>
+                 	<input type="hidden" id="-306001page"/>
+                    <a id="-306001a" onclick="loadMore('',306001)" href="javascript:;" class="moible-more">更多>></a>
                  </div>
                  <!-- 中学 -->
                  <div class="content  ">
-                   <div id="305001-306002"></div>
-                   	<input type="hidden" id="305001-306002page"/>
-                    <a id="305001-306002a" onclick="loadMore(305001,306002)" href="javascript:;" class="moible-more">更多>></a>
+                   <div id="-306002"></div>
+                   	<input type="hidden" id="-306002page"/>
+                    <a id="-306002a" onclick="loadMore('',306002)" href="javascript:;" class="moible-more">更多>></a>
                  </div>
                  <!-- 大学 -->
                  <div class="content  ">
-                  	<div id="305001-306003"></div>
-                    <input type="hidden" id="305001-306003page"/>
-                    <a id="305001-306003a" onclick="loadMore(305001,306003)" href="javascript:;" class="moible-more">更多>></a>
+                  	<div id="-306003"></div>
+                    <input type="hidden" id="-306003page"/>
+                    <a id="-306003a" onclick="loadMore('',306003)" href="javascript:;" class="moible-more">更多>></a>
                  </div>
                  <!-- 社会人士 -->
                  <div class="content  ">
-                   	<div id="305001-306004"></div>
-                    <input type="hidden" id="305001-306004page"/>
-                    <a id="305001-306004a" onclick="loadMore(305001,306004)" href="javascript:;" class="moible-more">更多>></a>
+                   	<div id="-306004"></div>
+                    <input type="hidden" id="-306004page"/>
+                    <a id="-306004a" onclick="loadMore('',306004)" href="javascript:;" class="moible-more">更多>></a>
                  </div>
           </div>
-          <h3>短篇小说</h3>
+          <%--<h3>短篇小说</h3>
           <div class="novel-tab ">
                 <ul class="novel-tile novel-ul dp">
-                      <li class="xx"onclick="getData(305002,306001,1)">小学</li>
-                      <li class="zx"onclick="getData(305002,306002,1)">中学</li>
-                      <li class="dx"onclick="getData(305002,306003,1)">大学</li>
-                      <li class="sh"onclick="getData(305002,306004,1)">社会人士</li>
+                      <li class="xx"onclick="getData('',306001,1)">小学</li>
+                      <li class="zx"onclick="getData('',306002,1)">中学</li>
+                      <li class="dx"onclick="getData('',306003,1)">大学</li>
+                      <li class="sh"onclick="getData('',306004,1)">社会人士</li>
                  </ul>
                 <!-- 小学 -->
                  <div class="content1 xx on ">
@@ -164,7 +165,7 @@
                <div class="btn-float-wrapper">
               		<a class="btn-float top" id="scrollTop" style=" z-index: 99;"></a>
               </div>  
-          </div>
+          </div>--%>
       </div>
         
 		<script type="text/javascript">

@@ -46,8 +46,10 @@
         <result property="approveUserName" column="approve_user_name" />    
         <result property="approveTime" column="approve_time" />    
         <result property="approveType" column="approve_type" />    
-        <result property="reviewPoint" column="review_point" />    
-        <result property="vdef1" column="vdef1" />    
+        <result property="finalPoint" column="final_point" />
+        <result property="finalStatus" column="final_status" />
+        <result property="reviewPoint" column="review_point" />
+        <result property="vdef1" column="vdef1" />
         <result property="vdef2" column="vdef2" />    
         <result property="vdef3" column="vdef3" />    
         <result property="vdef4" column="vdef4" />    
@@ -58,21 +60,21 @@
     
     <!--根据主键查询-->
 	<select id="findById" resultMap="UserCompletionItemApplyResultMap">
-		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,review_point,vdef1,vdef2,vdef3,vdef4,vdef5,vdef6,vdef7 from user_completion_item_apply where id=#{id}
+		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,final_point,final_status,review_point,vdef1,vdef2,vdef3,vdef4,vdef5,vdef6,vdef7 from user_completion_item_apply where id=#{id}
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
 	</select>
     
     <!--插入-->
 	 <insert id="insert" parameterType="com.khzpds.vo.UserCompletionItemApplyInfo" >
     	INSERT INTO user_completion_item_apply
-        (id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,review_point,vdef1,vdef2,vdef3,vdef4,vdef5,vdef6,vdef7) 
-		values(#{id},#{userId},#{userName},#{activityId},#{competitionItemId},#{competitionType},#{createTime},#{applyStatus},#{productionName},#{applyGroup},#{applyYearGroup},#{realName},#{birthday},#{sex},#{schoolName},#{classCompany},#{recommenedCompany},#{cardType},#{cardNumber},#{telephone},#{mobilePhone},#{email},#{postcode},#{address},#{ideaDesc},#{fileName},#{filePath},#{scriptwriter},#{director},#{camerist},#{editor},#{musician},#{artist},#{mainStuff},#{teamDesc},#{approveStatus},#{approveUserId},#{approveUserName},#{approveTime},#{approveType},#{reviewPoint},#{vdef1},#{vdef2},#{vdef3},#{vdef4},#{vdef5},#{vdef6},#{vdef7})
+        (id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,final_point,final_status,review_point,vdef1,vdef2,vdef3,vdef4,vdef5,vdef6,vdef7)
+		values(#{id},#{userId},#{userName},#{activityId},#{competitionItemId},#{competitionType},#{createTime},#{applyStatus},#{productionName},#{applyGroup},#{applyYearGroup},#{realName},#{birthday},#{sex},#{schoolName},#{classCompany},#{recommenedCompany},#{cardType},#{cardNumber},#{telephone},#{mobilePhone},#{email},#{postcode},#{address},#{ideaDesc},#{fileName},#{filePath},#{scriptwriter},#{director},#{camerist},#{editor},#{musician},#{artist},#{mainStuff},#{teamDesc},#{approveStatus},#{approveUserId},#{approveUserName},#{approveTime},#{approveType},#{finalPoint},#{finalStatus},#{reviewPoint},#{vdef1},#{vdef2},#{vdef3},#{vdef4},#{vdef5},#{vdef6},#{vdef7})
     </insert>
 
     
     <!--根据传入的map参数查询 并分页-->
     <select id="findByParamForPage" resultMap="UserCompletionItemApplyResultMap" >
-		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,review_point,vdef1,vdef2,vdef3,vdef4,vdef5,vdef6,vdef7 from user_completion_item_apply
+		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,final_point,final_status,review_point,vdef1,vdef2,vdef3,vdef4,vdef5,vdef6,vdef7 from user_completion_item_apply
 		where 1=1
            <if test="obj.search.id!=null"> AND id = #{obj.search.id}</if>
            <if test="obj.search.userId!=null"> AND user_id = #{obj.search.userId}</if>
@@ -114,6 +116,8 @@
            <if test="obj.search.approveUserName!=null"> AND approve_user_name = #{obj.search.approveUserName}</if>
            <if test="obj.search.approveTime!=null"> AND approve_time = #{obj.search.approveTime}</if>
            <if test="obj.search.approveType!=null"> AND approve_type = #{obj.search.approveType}</if>
+           <if test="obj.search.finalPoint!=null"> AND final_point = #{obj.search.finalPoint}</if>
+           <if test="obj.search.finalStatus!=null"> AND final_status = #{obj.search.finalStatus}</if>
            <if test="obj.search.reviewPoint!=null"> AND review_point = #{obj.search.reviewPoint}</if>
            <if test="obj.search.vdef1!=null"> AND vdef1 = #{obj.search.vdef1}</if>
            <if test="obj.search.vdef2!=null"> AND vdef2 = #{obj.search.vdef2}</if>
@@ -129,7 +133,7 @@
     
      <!--根据传入的实体参数查询-->
     <select id="findByParam" resultMap="UserCompletionItemApplyResultMap" >
-		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,review_point,vdef1,vdef2,vdef3,vdef4,vdef5,vdef6,vdef7 from user_completion_item_apply
+		select id,user_id,user_name,activity_id,competition_item_id,competition_type,create_time,apply_status,production_name,apply_group,apply_year_group,real_name,birthday,sex,school_name,class_company,recommened_company,card_type,card_number,telephone,mobile_phone,email,postcode,address,idea_desc,file_name,file_path,scriptwriter,director,camerist,editor,musician,artist,main_stuff,team_desc,approve_status,approve_user_id,approve_user_name,approve_time,approve_type,final_point,final_status,review_point,vdef1,vdef2,vdef3,vdef4,vdef5,vdef6,vdef7 from user_completion_item_apply
 		where 1=1
            <if test="obj.id!=null"> AND id = #{obj.id}</if>
            <if test="obj.userId!=null"> AND user_id = #{obj.userId}</if>
@@ -171,6 +175,8 @@
            <if test="obj.approveUserName!=null"> AND approve_user_name = #{obj.approveUserName}</if>
            <if test="obj.approveTime!=null"> AND approve_time = #{obj.approveTime}</if>
            <if test="obj.approveType!=null"> AND approve_type = #{obj.approveType}</if>
+           <if test="obj.finalPoint!=null"> AND final_point = #{obj.finalPoint}</if>
+           <if test="obj.finalStatus!=null"> AND final_status = #{obj.finalStatus}</if>
            <if test="obj.reviewPoint!=null"> AND review_point = #{obj.reviewPoint}</if>
            <if test="obj.vdef1!=null"> AND vdef1 = #{obj.vdef1}</if>
            <if test="obj.vdef2!=null"> AND vdef2 = #{obj.vdef2}</if>
@@ -233,67 +239,80 @@
            <if test="obj.approveUserName!=null">approve_user_name=#{obj.approveUserName},</if>
            <if test="obj.approveTime!=null">approve_time=#{obj.approveTime},</if>
            <if test="obj.approveType!=null">approve_type=#{obj.approveType},</if>
+           <if test="obj.finalPoint!=null">final_point=#{obj.finalPoint},</if>
+           <if test="obj.finalStatus!=null">final_status=#{obj.finalStatus},</if>
            <if test="obj.reviewPoint!=null">review_point=#{obj.reviewPoint},</if>
            <if test="obj.vdef1!=null">vdef1=#{obj.vdef1},</if>
            <if test="obj.vdef2!=null">vdef2=#{obj.vdef2},</if>
-           <if test="obj.vdef3!=null">vdef3=#{obj.vdef3},</if>           <if test="obj.vdef4!=null">vdef4=#{obj.vdef4},</if>           <if test="obj.vdef5!=null">vdef5=#{obj.vdef5},</if>           <if test="obj.vdef6!=null">vdef6=#{obj.vdef6},</if>           <if test="obj.vdef7!=null">vdef6=#{obj.vdef7},</if>  
+           <if test="obj.vdef3!=null">vdef3=#{obj.vdef3},</if>
+           <if test="obj.vdef4!=null">vdef4=#{obj.vdef4},</if>
+           <if test="obj.vdef5!=null">vdef5=#{obj.vdef5},</if>
+           <if test="obj.vdef6!=null">vdef6=#{obj.vdef6},</if>
+           <if test="obj.vdef7!=null">vdef6=#{obj.vdef7},</if>
+  
         </trim>
 		where id=#{obj.id} 
         <if test="platformId!=null"> AND platform_id = #{platformId}</if>
     </update> 
 	<!--CustomBegin***-->
 	<select id='findByParamSort' resultMap="UserCompletionItemApplyResultMap" >
-		select * from user_completion_item_apply
+		select ucia.* from user_completion_item_apply ucia
+        left join activity_info a
+        on ucia.activity_id=a.id
 		where 1=1
-           <if test="obj.id!=null"> AND id = #{obj.id}</if>
-           <if test="obj.userId!=null"> AND user_id = #{obj.userId}</if>
-           <if test="obj.userName!=null"> AND user_name = #{obj.userName}</if>
-           <if test="obj.activityId!=null"> AND activity_id = #{obj.activityId}</if>
-           <if test="obj.competitionItemId!=null"> AND competition_item_id = #{obj.competitionItemId}</if>
-           <if test="obj.competitionType!=null"> AND competition_type = #{obj.competitionType}</if>
-           <if test="obj.createTime!=null"> AND create_time = #{obj.createTime}</if>
-           <if test="obj.applyStatus!=null"> AND apply_status = #{obj.applyStatus}</if>
-           <if test="obj.productionName!=null"> AND production_name = #{obj.productionName}</if>
-           <if test="obj.applyGroup!=null"> AND apply_group = #{obj.applyGroup}</if>
-           <if test="obj.applyYearGroup!=null"> AND apply_year_group = #{obj.applyYearGroup}</if>
-           <if test="obj.realName!=null"> AND real_name = #{obj.realName}</if>
-           <if test="obj.birthday!=null"> AND birthday = #{obj.birthday}</if>
-           <if test="obj.sex!=null"> AND sex = #{obj.sex}</if>
-           <if test="obj.schoolName!=null"> AND school_name = #{obj.schoolName}</if>
-           <if test="obj.classCompany!=null"> AND class_company = #{obj.classCompany}</if>
-           <if test="obj.recommenedCompany!=null"> AND recommened_company = #{obj.recommenedCompany}</if>
-           <if test="obj.cardType!=null"> AND card_type = #{obj.cardType}</if>
-           <if test="obj.cardNumber!=null"> AND card_number = #{obj.cardNumber}</if>
-           <if test="obj.telephone!=null"> AND telephone = #{obj.telephone}</if>
-           <if test="obj.mobilePhone!=null"> AND mobile_phone = #{obj.mobilePhone}</if>
-           <if test="obj.email!=null"> AND email = #{obj.email}</if>
-           <if test="obj.postcode!=null"> AND postcode = #{obj.postcode}</if>
-           <if test="obj.address!=null"> AND address = #{obj.address}</if>
-           <if test="obj.ideaDesc!=null"> AND idea_desc = #{obj.ideaDesc}</if>
-           <if test="obj.fileName!=null"> AND file_name = #{obj.fileName}</if>
-           <if test="obj.filePath!=null"> AND file_path = #{obj.filePath}</if>
-           <if test="obj.scriptwriter!=null"> AND scriptwriter = #{obj.scriptwriter}</if>
-           <if test="obj.director!=null"> AND director = #{obj.director}</if>
-           <if test="obj.camerist!=null"> AND camerist = #{obj.camerist}</if>
-           <if test="obj.editor!=null"> AND editor = #{obj.editor}</if>
-           <if test="obj.musician!=null"> AND musician = #{obj.musician}</if>
-           <if test="obj.artist!=null"> AND artist = #{obj.artist}</if>
-           <if test="obj.mainStuff!=null"> AND main_stuff = #{obj.mainStuff}</if>
-           <if test="obj.teamDesc!=null"> AND team_desc = #{obj.teamDesc}</if>
-           <if test="obj.approveStatus!=null"> AND approve_status = #{obj.approveStatus}</if>
-           <if test="obj.approveUserId!=null"> AND approve_user_id = #{obj.approveUserId}</if>
-           <if test="obj.approveUserName!=null"> AND approve_user_name = #{obj.approveUserName}</if>
-           <if test="obj.approveTime!=null"> AND approve_time = #{obj.approveTime}</if>
-           <if test="obj.approveType!=null"> AND approve_type = #{obj.approveType}</if>
-           <if test="obj.reviewPoint!=null"> AND review_point = #{obj.reviewPoint}</if>
-           <if test="obj.vdef1!=null"> AND vdef1 = #{obj.vdef1}</if>
-           <if test="obj.vdef2!=null"> AND vdef2 = #{obj.vdef2}</if>
-           <if test="obj.vdef3!=null"> AND vdef3 = #{obj.vdef3}</if>
-           <if test="obj.vdef4!=null"> AND vdef4 = #{obj.vdef4}</if>
-           <if test="obj.vdef5!=null"> AND vdef5 = #{obj.vdef5}</if>
-           <if test="obj.vdef6!=null"> AND vdef6 = #{obj.vdef6}</if>
-           <if test="obj.vdef7!=null"> AND vdef7 = #{obj.vdef7}</if>
-           
+           <if test="obj.id!=null"> AND ucia.id = #{obj.id}</if>
+           <if test="obj.userId!=null"> AND  ucia.user_id = #{obj.userId}</if>
+           <if test="obj.userName!=null"> AND  ucia.user_name = #{obj.userName}</if>
+           <if test="obj.activityId!=null"> AND  ucia.activity_id = #{obj.activityId}</if>
+           <if test="obj.competitionItemId!=null"> AND  ucia.competition_item_id = #{obj.competitionItemId}</if>
+           <if test="obj.competitionType!=null"> AND  ucia.competition_type = #{obj.competitionType}</if>
+           <if test="obj.createTime!=null"> AND  ucia.create_time = #{obj.createTime}</if>
+           <if test="obj.applyStatus!=null"> AND  ucia.apply_status = #{obj.applyStatus}</if>
+           <if test="obj.productionName!=null"> AND  ucia.production_name = #{obj.productionName}</if>
+           <if test="obj.applyGroup!=null"> AND  ucia.apply_group = #{obj.applyGroup}</if>
+           <if test="obj.applyYearGroup!=null"> AND  ucia.apply_year_group = #{obj.applyYearGroup}</if>
+           <if test="obj.realName!=null"> AND  ucia.real_name = #{obj.realName}</if>
+           <if test="obj.birthday!=null"> AND  ucia.birthday = #{obj.birthday}</if>
+           <if test="obj.sex!=null"> AND  ucia.sex = #{obj.sex}</if>
+           <if test="obj.schoolName!=null"> AND  ucia.school_name = #{obj.schoolName}</if>
+           <if test="obj.classCompany!=null"> AND  ucia.class_company = #{obj.classCompany}</if>
+           <if test="obj.recommenedCompany!=null"> AND  ucia.recommened_company = #{obj.recommenedCompany}</if>
+           <if test="obj.cardType!=null"> AND  ucia.card_type = #{obj.cardType}</if>
+           <if test="obj.cardNumber!=null"> AND  ucia.card_number = #{obj.cardNumber}</if>
+           <if test="obj.telephone!=null"> AND  ucia.telephone = #{obj.telephone}</if>
+           <if test="obj.mobilePhone!=null"> AND  ucia.mobile_phone = #{obj.mobilePhone}</if>
+           <if test="obj.email!=null"> AND  ucia.email = #{obj.email}</if>
+           <if test="obj.postcode!=null"> AND  ucia.postcode = #{obj.postcode}</if>
+           <if test="obj.address!=null"> AND  ucia.address = #{obj.address}</if>
+           <if test="obj.ideaDesc!=null"> AND  ucia.idea_desc = #{obj.ideaDesc}</if>
+           <if test="obj.fileName!=null"> AND  ucia.file_name = #{obj.fileName}</if>
+           <if test="obj.filePath!=null"> AND  ucia.file_path = #{obj.filePath}</if>
+           <if test="obj.scriptwriter!=null"> AND  ucia.scriptwriter = #{obj.scriptwriter}</if>
+           <if test="obj.director!=null"> AND  ucia.director = #{obj.director}</if>
+           <if test="obj.camerist!=null"> AND  ucia.camerist = #{obj.camerist}</if>
+           <if test="obj.editor!=null"> AND  ucia.editor = #{obj.editor}</if>
+           <if test="obj.musician!=null"> AND  ucia.musician = #{obj.musician}</if>
+           <if test="obj.artist!=null"> AND  ucia.artist = #{obj.artist}</if>
+           <if test="obj.mainStuff!=null"> AND  ucia.main_stuff = #{obj.mainStuff}</if>
+           <if test="obj.teamDesc!=null"> AND  ucia.team_desc = #{obj.teamDesc}</if>
+           <if test="obj.approveStatus!=null"> AND  ucia.approve_status = #{obj.approveStatus}</if>
+           <if test="obj.approveUserId!=null"> AND  ucia.approve_user_id = #{obj.approveUserId}</if>
+           <if test="obj.approveUserName!=null"> AND  ucia.approve_user_name = #{obj.approveUserName}</if>
+           <if test="obj.approveTime!=null"> AND  ucia.approve_time = #{obj.approveTime}</if>
+           <if test="obj.approveType!=null"> AND  ucia.approve_type = #{obj.approveType}</if>
+           <if test="obj.finalPoint!=null"> AND  ucia.final_point = #{obj.finalPoint}</if>
+           <if test="obj.finalStatus!=null"> AND  ucia.final_status = #{obj.finalStatus}</if>
+           <if test="obj.reviewPoint!=null"> AND  ucia.review_point = #{obj.reviewPoint}</if>
+           <if test="obj.vdef1!=null"> AND  ucia.vdef1 = #{obj.vdef1}</if>
+           <if test="obj.vdef2!=null"> AND  ucia.vdef2 = #{obj.vdef2}</if>
+           <if test="obj.vdef3!=null"> AND  ucia.vdef3 = #{obj.vdef3}</if>
+           <if test="obj.vdef4!=null"> AND  ucia.vdef4 = #{obj.vdef4}</if>
+           <if test="obj.vdef5!=null"> AND  ucia.vdef5 = #{obj.vdef5}</if>
+           <if test="obj.vdef6!=null"> AND  ucia.vdef6 = #{obj.vdef6}</if>
+           <if test="obj.vdef7!=null"> AND  ucia.vdef7 = #{obj.vdef7}</if>
+
+
+        <if test="obj.year!=null"> AND a.year = #{obj.year}</if>
         order by ${sort}
 	</select>
 	<select id="findBySearchMapPage" resultType="map" parameterType="com.khzpds.base.PageParameter">
@@ -336,7 +355,8 @@
 		<if test="search.approveResult!=null"> and apply.approve_status=#{search.approveResult}</if>
 		<if test="search.schoolName!=null"> and apply.school_name like CONCAT("%",#{search.schoolName},"%")</if>
 		<if test="search.notVdef5!=null"> and (apply.vdef5 is null or apply.vdef5='')</if>
-		
+		<if test="search.vdef5!=null"> and apply.vdef5 =#{search.vdef5}</if>
+
 		<if test="orderField!=null and orderType!=null">
 			order by ${orderField} ${orderType}
 		</if>
@@ -381,7 +401,8 @@
 		<if test="approveResult!=null"> and apply.approve_status=#{approveResult}</if>
 		<if test="schoolName!=null"> and apply.school_name=#{schoolName}</if>
 		<if test="notVdef5!=null"> and (apply.vdef5 is null or apply.vdef5='')</if>
-		
+        <if test="vdef5!=null"> and apply.vdef5 =#{vdef5}</if>
+
 		<if test="orderField!=null and orderType!=null">
 			order by ${orderField} ${orderType}
 		</if>
@@ -458,7 +479,8 @@
 		<if test="search.approveResult!=null"> and apply.approve_status=#{search.approveResult}</if>
 		<if test="search.schoolName!=null"> and apply.school_name like CONCAT("%",#{search.schoolName},"%")</if>
 		<if test="search.notVdef5!=null"> and (apply.vdef5 is null or apply.vdef5='')</if>
-		
+		<if test="search.vdef5!=null"> and (apply.vdef5 =#{search.vdef5})</if>
+
 		<if test="orderField!=null and orderType!=null">
 			order by ${orderField} ${orderType}
 		</if>

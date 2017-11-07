@@ -77,34 +77,48 @@
                 }
             });
         }
-
+        var previewPath;
         function previewPaint(id, path,t) {
             var img = new Image();
             // 改变图片的src
             img.src = "<%=SystemConfig.getLookDir()%>" + path+"?t="+t;
             $("#showImg").attr("src", "<%=SystemConfig.getLookDir()%>" + path+"?t="+t);
             var showWidth = img.width;
-            if (showWidth > document.body.clientWidth - 500) {
-                showWidth = document.body.clientWidth - 500;
-            }
             if(showWidth==0){
                 layer.msg("正在加载图片，请稍候");
                 setTimeout("previewPaint('"+id+"','"+path+"','"+t+"')",1000);
                 return;
             }
+            var rate1=1;
+            var rate2=1;
+            if (showWidth > document.body.clientWidth - 500) {
+                //showWidth = document.body.clientWidth - 500;
+                rate1=(document.body.clientWidth - 500)/showWidth;
+            }
+            var showHeight=img.height;
+            if(showHeight>document.body.clientHeight-100){
+                rate2=(document.body.clientHeight-100)/showHeight;
+            }
+            var rate=rate2;
+            if(rate1<rate2){
+                rate=rate1;
+            }
+            $("#showImg").attr("width",rate*showWidth);
+            $("#showImg").attr("height",rate*showHeight);
             layer.closeAll();
-            $("#showImg").attr("width", showWidth + "px");
+            //$("#showImg").attr("width", showWidth + "px");
             $("#hiddenApplyId").val(id);
             layer.open({
                 type: 1,
                 title: false,
                 closeBtn: 0,
-                area: showWidth,
+                area: rate*showWidth,
                 skin: 'layui-layer-nobg', //没有背景色
                 shadeClose: true,
                 scrollbar: false,
                 content: $('#paintDiv')
             });
+            previewPath=path;
         }
 
         function fusai(id) {
@@ -193,6 +207,7 @@
                 }
             });
         }
+        var previewId;
         function rotateImage(degree){
             var applyId=$("#hiddenApplyId").val();
             layer.closeAll();
@@ -208,9 +223,12 @@
                        $("#showWidth").val(src);
                        setTimeout("showPic();",3000);*/
                        $("#showImg").attr("src","");
-                       layer.closeAll();
-                       layer.msg("操作成功",{icon:1});
+                       layer.msg("操作成功,请稍作等待。",{icon:1,time:5000});
                        getData();
+                       previewId=applyId;
+                       $("#showImg").attr("src","");
+                       //layer.closeAll();
+                       setTimeout("layer.closeAll();previewPaint(previewId,previewPath,new Date().getTime());",5000);
                    }else{
                        layer.closeAll();
                        layer.alert(data.error_desc);
@@ -236,7 +254,7 @@
                 area: showWidth,
                 skin: 'layui-layer-nobg', //没有背景色
                 shadeClose: true,
-                scrollbar: false,
+                scrollbar: true,
                 content: $('#paintDiv')
             });
         }
@@ -247,7 +265,7 @@
 <div style="position:absolute;right:50px;top:25px;z-index:2;"><span>${sessionScope.User_session_key.userName }</span>|<a
         href="/user/logout">退出</a>|<a href="/user/openIndex">个人中心</a></div>
 <div class="head">
-    <img src="/images/sj-top1.png" class="sj-top">
+    <img src="/images/sj-top.png" class="sj-top">
     <div class="head-i w1348 m0">
 
         <div class="nav fr mt15">

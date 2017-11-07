@@ -177,7 +177,7 @@ public class ExpertApproveController extends BaseController{
 	 * @param response
 	 */
 	@RequestMapping("/getApplyData")
-	public void getApplyData(String order,String ifShowScore,String applyStatus,String approveResult,String itemId,String applyGroup,String applyYearGroup,String orgId,String userName,String realName,HttpServletRequest request,HttpServletResponse response){
+	public void getApplyData(String type,String order,String ifShowScore,String applyStatus,String approveResult,String itemId,String applyGroup,String applyYearGroup,String orgId,String userName,String realName,HttpServletRequest request,HttpServletResponse response){
 		Map<String,Object> result=new HashMap<String, Object>();
 		PageParameter page=this.getPageParameter2(request);
 		Map<String,String> searchMap=new HashMap<String, String>();
@@ -189,6 +189,11 @@ public class ExpertApproveController extends BaseController{
 		if(StringUtils.isNotBlank(realName))searchMap.put("realName", realName);
 		if(StringUtils.isNotBlank(applyStatus))searchMap.put("applyStatus", applyStatus);
 		if(StringUtils.isNotBlank(approveResult))searchMap.put("approveResult", approveResult);
+		if(StringUtils.isNotBlank(type)){
+			if("final".equalsIgnoreCase(type)){
+				searchMap.put("vdef5", "1");
+			}
+		}
 		if(StringUtils.isNotBlank(ifShowScore)){
 			//过滤复赛打分后状态为不通过的
 			if(!"admin".equals(this.getCurrentSessionInfo(request).getUserName())){
@@ -258,6 +263,11 @@ public class ExpertApproveController extends BaseController{
 				}*/
 				UserApplyMarkingResultInfo findInfo=new UserApplyMarkingResultInfo();
 				findInfo.setItemId(itemId);
+				if("fusai".equalsIgnoreCase(type)){
+					findInfo.setMarkingType("0");
+				}else{
+					findInfo.setMarkingType("1");
+				}
 				findInfo.setApplyId(map.get("id").toString());
 				List<UserApplyMarkingResultInfo> results=userApplyMarkingResultService.findByParam(findInfo);
 				double aveScore=0d;

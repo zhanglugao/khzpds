@@ -49,10 +49,10 @@ $(function(){ $('input, textarea').placeholder(); });
                <div class="form fl">
                   
                    <form id='form'>
-                       <h2>▎个人注册</h2>
+                       <h2>▎团体注册</h2>
                        <div class="input">
-                           <label><em>*</em> 会员名称</label>
-                           <input id='userName' name='userName' type="text" placeholder="会员名称" >
+                           <label><em>*</em> 单位名称</label>
+                           <input id='userName' name='userName' type="text" placeholder="单位名称" >
                        </div>
                        <div class="input">
                            <label><em>*</em> 创建密码</label>
@@ -62,10 +62,10 @@ $(function(){ $('input, textarea').placeholder(); });
                            <label><em>*</em> 确认密码</label>
                            <input id='password2' name='password2' type="password" placeholder="确认密码" >
                        </div>
-                       <div class="input">
+                       <!--<div class="input">
                            <label><em>*</em> 真实姓名</label>
                            <input id='realName' name='realName' type="text" placeholder="真实姓名" >
-                       </div>
+                       </div>-->
                        <div class="input">
                            <label><em>*</em> 电子邮箱</label>
                            <input id='mail' name='mail' type="text" placeholder="电子邮箱" >
@@ -154,12 +154,13 @@ $(function(){ $('input, textarea').placeholder(); });
 	}
 	var tipsColor="#ff0000";
 	function register(){
+	    layer.msg("暂时无法注册");return;
 		var userName=$("#userName").val();
 		if(trim(userName)==''){
-			layer.tips('请填写会员名称', '#userName',{tips:[2,tipsColor]});return;
+			layer.tips('请填写团体名称', '#userName',{tips:[2,tipsColor]});return;
 		}
 		if(userName.length<3||userName.length>10){
-			layer.tips('会员名称长度必须介于3~15位之间', '#userName',{tips:[2,tipsColor]});return;
+			layer.tips('团体名称长度必须介于3~15位之间', '#userName',{tips:[2,tipsColor]});return;
 		}
 		var password=$("#password").val();
 		if(trim(password)==''){
@@ -172,10 +173,10 @@ $(function(){ $('input, textarea').placeholder(); });
 		if(password2!=password){
 			layer.tips('两次填写密码必须一致', '#password2',{tips:[2,tipsColor]});return;
 		}
-		var realName=$("#realName").val();
+		/*var realName=$("#realName").val();
 		if(password2!=password){
 			layer.tips('请填写真实姓名', '#realName',{tips:[2,tipsColor]});return;
-		}
+		}*/
 		var mail=$("#mail").val();
 		if(trim(mail)==''){
 			layer.tips('请填写邮箱', '#mail',{tips:[2,tipsColor]});return;
