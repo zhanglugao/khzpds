@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.khzpds.base.SystemConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -99,6 +100,7 @@ public class ExpertApproveController extends BaseController{
 			}
 		}*/
 		request.setAttribute("ifAdmin", ifAdmin);
+		request.setAttribute("lookdir", SystemConfig.getLookDir());
 		return new ModelAndView(getRootPath(request)+"/manage/expertApprove/expert_approve_item");
 	}
 	

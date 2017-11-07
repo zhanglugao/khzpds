@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.khzpds.base.SystemConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -83,6 +84,7 @@ public class ExpertTakeScoreController extends BaseController {
 		request.setAttribute("activity", activity);
 		request.setAttribute("items", items);
 		request.setAttribute("type",type);
+		request.setAttribute("lookdir", SystemConfig.getLookDir());
 		return new ModelAndView(getRootPath(request)+"/manage/expertTakeScore/expert_takeScore_item");
 	}
 	

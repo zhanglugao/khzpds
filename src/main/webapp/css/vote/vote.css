@@ -78,7 +78,7 @@ body{background: #fff;}
 .tit-novel  li span{display: inline-block;margin:117px auto;font-weight:bold;}
 .novel-wx .more-novel{position: absolute; bottom: 20px;right: 20px;font-size: 16px;line-height: 24px;color:#fff;display: inline-block;letter-spacing: 2px;}
 .multipleColumn{ overflow:hidden; position:relative; width:1090px;height:968px   }
-.multipleColumn .hd{  height:30px; background:#f4f4f4; padding:0 10px;  }
+.multipleColumn .hd{  height:30px; background:#f4f4f4; padding:0 10px;  }width:454px; height:343px; display:block;border:3px solid #000000; }
 .multipleColumn .hd ul{ float:right; overflow:hidden; zoom:1; margin-top:10px; zoom:1; }
 .multipleColumn .hd ul li{ float:left;  width:9px; height:9px; overflow:hidden; margin-right:5px; text-indent:-999px; cursor:pointer; background:url("/img/icoCircle.gif") 0 -9px no-repeat; }
 .multipleColumn .hd ul li.on{ background-position:0 0; }
@@ -86,7 +86,7 @@ body{background: #fff;}
 .multipleColumn .bd ul{ overflow:hidden; zoom:1; width:1090px;  float:left; _display:inline;}
 .multipleColumn .bd ul li{ float:left; _display:inline; overflow:hidden; text-align:center;margin-bottom: 30px;width: 460px;height: 429px;}
 .multipleColumn .bd ul li .pic{ text-align:center; }
-.multipleColumn .bd ul li .pic img{ width:454px; height:343px; display:block;border:3px solid #000000; }
+.multipleColumn .bd ul li .pic img{
 .multipleColumn .bd ul li .title{width:454px;height: auto; }
 .multipleColumn .bd ul li .title span{display: inline-block;float:left;font-size: 24px;color:#fff;line-height: 24px;height: 30px;}
 .pic-one,.pic-three{margin-left: 20px}

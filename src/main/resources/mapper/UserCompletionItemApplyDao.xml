@@ -334,7 +334,8 @@
 			apply.approve_type as approveType,
 			apply.idea_desc as ideaDesc,
 			apply.vdef3 as vdef3,
-			apply.vdef4 as vdef4
+			apply.vdef4 as vdef4,
+          apply.competition_type as competitionType
 		FROM
 			user_completion_item_apply apply
 		JOIN user_info USER ON apply.user_id = USER.id
@@ -457,7 +458,8 @@
 			apply.idea_desc as ideaDesc,
 			apply.vdef3 as vdef3,
 			apply.vdef4 as vdef4,
-			A.score as sc
+			A.score as sc,
+            apply.competition_type as competitionType
 		FROM
 			user_completion_item_apply apply
 		JOIN user_info USER ON apply.user_id = USER.id
